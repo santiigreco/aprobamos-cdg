@@ -2,279 +2,352 @@
   {
     "id": 1,
     "type": "multiple_choice",
-    "question": "¿Cuál es la diferencia entre un presupuesto económico y un financiero?",
+    "question": "¿Cuál es la principal diferencia entre un presupuesto económico y uno financiero?",
     "options": [
-      "El económico se arma por lo devengado y el financiero por lo percibido",
-      "El económico es de corto plazo y el financiero de largo plazo",
-      "Ambos se arman por lo percibido, pero el económico incluye bienes de uso",
-      "No hay diferencia, son sinónimos"
+      "El económico proyecta la liquidez (percibido), mientras que el financiero la rentabilidad (devengado).",
+      "El económico se arma por el criterio de lo devengado y el financiero por el de lo percibido.",
+      "Ambos se arman por el criterio de lo percibido, pero el financiero incluye amortizaciones.",
+      "El económico abarca el largo plazo (estratégico) y el financiero el corto plazo (operativo)."
     ],
-    "correctAnswer": 0,
-    "explanation": "El presupuesto económico (Estado de Resultados proyectado) se basa en el principio del devengado, registrando ganancias y pérdidas cuando se generan. El financiero (Flujo de Caja) se basa en el percibido, registrando ingresos y egresos reales de dinero."
+    "correctAnswer": 1,
+    "explanation": "El presupuesto económico (Estado de Resultados) se basa en lo devengado, reflejando ganancias/pérdidas al ocurrir el hecho económico. El financiero (Flujo de Efectivo) se basa en lo percibido, registrando ingresos/egresos reales de dinero."
   },
   {
     "id": 2,
     "type": "multiple_choice",
-    "question": "En el Leasing Operativo, el tomador tiene la opción de comprar el bien al finalizar el contrato.",
+    "question": "En relación al Leasing, seleccione la afirmación correcta:",
     "options": [
-      "Verdadero",
-      "Falso"
+      "En el leasing operativo, el tomador siempre mantiene la opción de compra final.",
+      "En el leasing financiero, el arrendador asume los riesgos y el mantenimiento del bien.",
+      "El leasing operativo no tiene opción de compra y es ideal para bienes de rápida obsolescencia.",
+      "El canon del leasing financiero nunca es deducible del Impuesto a las Ganancias."
     ],
-    "correctAnswer": 1,
-    "explanation": "Falso. En el leasing operativo NO hay opción de compra, el bien se devuelve al arrendador. El que sí tiene opción de compra es el Leasing Financiero."
+    "correctAnswer": 2,
+    "explanation": "El leasing operativo es un alquiler puro sin opción de compra al final. El locador asume el mantenimiento, siendo ideal para bienes como computadoras. En el financiero, sí hay opción de compra y la vocación es que el bien pase al patrimonio del locatario."
   },
   {
     "id": 3,
     "type": "multiple_choice",
-    "question": "¿Cómo se define la 'Cuota' de los Costos Indirectos de Fabricación (GIF)?",
+    "question": "¿Para qué sirve el cálculo de la 'Cuota' de los Gastos Indirectos de Fabricación (GIF)?",
     "options": [
-      "Es el costo total de los materiales directos",
-      "Es la alícuota utilizada para asignar la parte de los GIF que recae sobre cada producto",
-      "Es la ganancia esperada por unidad vendida",
-      "Es el porcentaje de depreciación de la maquinaria"
+      "Para costear el 100% de la materia prima que ingresa a los departamentos.",
+      "Para determinar la alícuota que distribuirá los costos directos de mano de obra.",
+      "Para calcular el Resultado por Tenencia (RxT) de la mercadería inmovilizada.",
+      "Para aplicar a cada producto la parte proporcional de los costos que no se le pueden asignar directamente."
     ],
-    "correctAnswer": 1,
-    "explanation": "Los GIF son costos indirectos y no se pueden asignar directamente a un producto específico. Por eso se calcula una 'Cuota' (alícuota o porcentaje) que permite distribuir esos gastos a cada unidad producida (por ejemplo, dividiendo los gastos de luz por las horas de máquina)."
+    "correctAnswer": 3,
+    "explanation": "Los GIF son costos indirectos (como luz o alquiler de planta). La 'cuota' es la tasa (ej. por horas máquina o m²) que permite 'prorratear' o distribuir equitativamente estos gastos ocultos a cada unidad producida."
   },
   {
     "id": 4,
     "type": "multiple_choice",
-    "question": "En el Ajuste por Inflación, los activos 'Monetarios' (como la caja en pesos) generan...",
+    "question": "En Ajuste por Inflación (AxI), un 'Activo Monetario' (ej: saldo en Cuenta Corriente en pesos):",
     "options": [
-      "Resultado por tenencia positivo",
-      "Resultado por exposición a la inflación (REI) negativo (pérdida de poder adquisitivo)",
-      "Un aumento en el patrimonio neto directo",
-      "Un crédito fiscal a favor de la empresa"
+      "No sufre pérdida de poder adquisitivo porque está respaldado por el banco.",
+      "Genera un Resultado por Exposición a la Inflación (REI) negativo o pérdida.",
+      "Debe reexpresarse por el coeficiente de inflación para reflejar su valor real.",
+      "Genera un Resultado por Tenencia positivo al finalizar el ejercicio."
     ],
     "correctAnswer": 1,
-    "explanation": "Los activos monetarios mantienen su valor nominal (100 pesos hoy son 100 pesos mañana), pero ante la inflación pierden poder adquisitivo real. Por eso generan una pérdida conocida como RECPAM (Resultado por Exposición a los Cambios en el Poder Adquisitivo de la Moneda) o REI."
+    "explanation": "Los activos monetarios (dinero en efectivo, créditos en pesos sin ajuste) mantienen su valor nominal (su número no cambia), pero frente a la inflación pierden poder de compra, generando un REI negativo (pérdida)."
   },
   {
     "id": 5,
     "type": "multiple_choice",
-    "question": "Según la Teoría de la Fuente (aplica a personas físicas), ¿cuáles son las 3 condiciones para que la ganancia esté gravada?",
+    "question": "La 'Teoría de la Fuente' (aplicable al Impuesto a las Ganancias para Personas Físicas) exige:",
     "options": [
-      "Legalidad, Permanencia, Territorialidad",
-      "Periodicidad, Permanencia y Habilitación de la fuente",
-      "Devengado, Percibido y Ganancia",
-      "Volumen, Frecuencia y Rentabilidad"
+      "Unilateralidad, Permanencia y Territorialidad argentina.",
+      "Periodicidad en el ingreso, Permanencia de la fuente y Habilitación de la misma.",
+      "Devengamiento contable, Percibimiento financiero y Lucro cesante.",
+      "Que los beneficios provengan exclusivamente de rentas del trabajo personal (4ta categoría)."
     ],
     "correctAnswer": 1,
-    "explanation": "Para que una persona humana tribute Ganancias por esta teoría, el beneficio debe ser Periódico (frecuencia real o potencial), la fuente debe tener Permanencia (sobrevivir a la producción de la ganancia) y debe haber Habilitación (la fuente debe estar en condiciones de generar rentas)."
+    "explanation": "Para que una persona física tribute, la ganancia debe cumplir 3 requisitos simultáneos: ser Periódica, la fuente que la genera debe Permanecer luego de dar el fruto, y debe estar Habilitada para tal fin."
   },
   {
     "id": 6,
     "type": "multiple_choice",
-    "question": "En un Presupuesto de Efectivo (Flujo de Caja), ¿se deben incluir las amortizaciones de bienes de uso?",
+    "question": "En la confección del Presupuesto Financiero (Flujo de Efectivo), el tratamiento de las amortizaciones es:",
     "options": [
-      "Sí, porque son un gasto del período",
-      "No, porque no representan una erogación real de fondos (criterio percibido)",
-      "Solo si la empresa tuvo ganancias",
-      "Sí, pero solo el 50% de su valor"
+      "Se incluyen sumando al final para ajustar la base imponible del impuesto.",
+      "Se excluyen totalmente, ya que no representan una erogación (salida real) de fondos.",
+      "Se incluyen en el mes de diciembre, al cierre del ejercicio contable.",
+      "Se restan de los ingresos operativos, igual que en el Estado de Resultados."
     ],
     "correctAnswer": 1,
-    "explanation": "Las amortizaciones y depreciaciones son un desgaste contable que se registra en el Estado de Resultados (económico). NO implican salida de billetes reales de la caja de la empresa, por ende, nunca van en el presupuesto financiero."
+    "explanation": "Las amortizaciones son 'gastos contables' por el desgaste de los bienes, pero no implican emitir un cheque o transferir dinero real. Por ende, bajo el criterio de lo Percibido (financiero), nunca se registran."
   },
   {
     "id": 7,
     "type": "multiple_choice",
-    "question": "¿Qué implica un 'Presupuesto Base Cero'?",
+    "question": "La principal característica del 'Presupuesto Base Cero' es que:",
     "options": [
-      "Que la empresa no tiene fondos para el próximo año",
-      "Que se toma el presupuesto del año anterior y se le suma 0% de inflación",
-      "Revisar y justificar todos los gastos desde cero cada año, sin importar el histórico",
-      "Que el presupuesto económico y financiero da un resultado nulo"
+      "El resultado final proyectado (Utilidad Neta) debe dar exactamente cero.",
+      "Asume que la empresa no posee saldos iniciales de Caja ni de Bancos.",
+      "Implica revisar y justificar cada programa y gasto desde cero anualmente, ignorando presupuestos históricos.",
+      "Se elabora sin contemplar aumentos inflacionarios (0% inflación)."
     ],
     "correctAnswer": 2,
-    "explanation": "El Presupuesto Base Cero rompe con la idea de tomar los gastos del año pasado y ajustarlos. Obliga a todos los gerentes a justificar desde cero por qué necesitan fondos para cada actividad en el año entrante, priorizando la eficiencia costo-beneficio."
+    "explanation": "En el Base Cero, ningún departamento tiene su presupuesto asegurado por el simple hecho de haberlo tenido el año anterior. Cada peso debe ser re-justificado mediante un análisis de costo-beneficio."
   },
   {
     "id": 8,
     "type": "multiple_choice",
-    "question": "El impuesto a los Bienes Personales es de carácter provincial y recae sobre los bienes al 31 de diciembre.",
+    "question": "El Impuesto a los Bienes Personales se caracteriza por:",
     "options": [
-      "Verdadero",
-      "Falso (es un impuesto Nacional)"
+      "Ser un gravamen provincial que recae sobre bienes situados en una única jurisdicción.",
+      "Ser nacional, recayendo sobre bienes al 31/12 situados tanto en el país como en el exterior.",
+      "Estar gravado por el método de 'fuente argentina' exclusivamente.",
+      "Afectar únicamente a personas jurídicas (sociedades) con patrimonio neto positivo."
     ],
     "correctAnswer": 1,
-    "explanation": "Falso. Los Bienes Personales son un impuesto NACIONAL que recae sobre la tenencia patrimonial de una persona física al 31 de diciembre de cada año, ya sea de bienes ubicados en el país o en el exterior."
+    "explanation": "Es un impuesto de alcance Nacional aplicable a Personas Físicas y Sucesiones Indivisas por el patrimonio global que posean al 31 de diciembre de cada año."
   },
   {
     "id": 9,
     "type": "multiple_choice",
-    "question": "¿Qué establece el Convenio Multilateral?",
+    "question": "El régimen del 'Convenio Multilateral' busca solucionar:",
     "options": [
-      "Un acuerdo entre proveedores para fijar precios",
-      "Distribuye el pago de Ingresos Brutos cuando se ejerce actividad en más de una provincia",
-      "Una alianza estratégica de ventas internacionales",
-      "Un trato especial para empresas multinacionales"
+      "La evasión del Impuesto a las Ganancias en empresas multinacionales.",
+      "La doble o múltiple tributación del impuesto a los Ingresos Brutos al operar en diferentes provincias.",
+      "La distribución del Impuesto al Valor Agregado (IVA) entre mayoristas y minoristas.",
+      "Los conflictos de tarifas por importaciones y aduana."
     ],
     "correctAnswer": 1,
-    "explanation": "El Convenio Multilateral es un acuerdo que existe para evitar la doble tributación de Ingresos Brutos. Si una empresa vende y tiene actividades en CABA y en Buenos Aires, el convenio estipula cómo repartir la base imponible para pagarle un porcentaje justo a cada jurisdicción."
+    "explanation": "Si una empresa vende en Córdoba y tiene su fábrica en Buenos Aires, ambas provincias querrán cobrar Ingresos Brutos. El Convenio Multilateral fija reglas matemáticas para repartir esa base imponible sin que la empresa pague el doble."
   },
   {
     "id": 10,
     "type": "multiple_choice",
-    "question": "Factoring SIN recurso significa que...",
+    "question": "Un contrato de Factoring 'Con Recurso' implica que:",
     "options": [
-      "La empresa asume el riesgo si el cliente no paga la factura",
-      "El banco no cobra comisiones",
-      "La entidad financiera asume el riesgo de impago del cliente",
-      "No se pueden ceder facturas al exterior"
+      "La entidad financiera (factor) asume el 100% del riesgo de incobrabilidad.",
+      "Si el cliente final no paga la factura, la empresa cedente debe hacerse cargo y devolver el dinero al factor.",
+      "Se otorgan recursos estatales subsidiados a la empresa.",
+      "Solo pueden cederse facturas que cuenten con un recurso de amparo judicial."
     ],
-    "correctAnswer": 2,
-    "explanation": "En el Factoring (cesión de créditos a un tercero a cambio de liquidez inmediata), 'Sin recurso' significa que si el cliente finalmente nunca paga la factura, el banco (o entidad financiera) asume la pérdida. Por esto, suelen cobrar mayores tasas/comisiones."
+    "correctAnswer": 1,
+    "explanation": "En Factoring Con Recurso, el banco te adelanta la plata de tus cuentas por cobrar, pero si llegado el vencimiento tu cliente no le paga al banco, el banco te exige a ti la devolución del dinero. En el 'Sin Recurso', el banco absorbe el riesgo."
   },
   {
     "id": 11,
     "type": "multiple_choice",
-    "question": "¿Qué es un Presupuesto de Capital?",
+    "question": "Se decide comprar maquinaria productiva pagando en efectivo. ¿En qué estado proyectado NO impactará esta operación de inmediato?",
     "options": [
-      "El presupuesto mensual de caja",
-      "El proceso de planificación de inversiones a largo plazo en activos fijos",
-      "El presupuesto de sueldos de los directivos",
-      "El dinero que tienen los dueños de la empresa"
+      "Estado de Flujo de Efectivo (baja la caja).",
+      "Estado de Resultados (vía compra directa).",
+      "Balance General Proyectado (aumento de Bienes de Uso).",
+      "Presupuesto Financiero (egreso de fondos)."
     ],
     "correctAnswer": 1,
-    "explanation": "El presupuesto de capital (Capital Budgeting) es la herramienta para evaluar y planificar inversiones de alto costo y largo plazo, como comprar maquinaria, edificios o empresas. Se apoya en métricas como VAN, TIR y Payback."
+    "explanation": "La compra de un activo fijo no es un 'gasto' instantáneo en el Estado de Resultados. Lo que irá al Cuadro de Resultados mes a mes será su depreciación/amortización, pero el desembolso inicial afecta al Flujo de Caja y al Balance (Activo)."
   },
   {
     "id": 12,
     "type": "multiple_choice",
-    "question": "¿Cuál es la diferencia entre un Presupuesto Flexible y uno Estático?",
+    "question": "Analizando los desvíos presupuestarios, el Componente Físico y el Componente Monetario representan:",
     "options": [
-      "El flexible se puede cambiar en cualquier momento, el estático es ilegal",
-      "El flexible ajusta los costos y gastos en función del nivel real de actividad; el estático no se ajusta",
-      "El estático es para pymes y el flexible para multinacionales",
-      "No hay diferencias reales, ambos son proyecciones"
+      "Físico = diferencia en cantidades; Monetario = diferencia en precios o tarifas.",
+      "Físico = bienes de uso; Monetario = dinero en cuenta corriente.",
+      "Físico = materia prima importada; Monetario = impuestos nacionales.",
+      "Físico = mermas de producción inevitables; Monetario = inflación mensual."
     ],
-    "correctAnswer": 1,
-    "explanation": "El presupuesto flexible permite recalcular los costos indirectos variables si la empresa termina produciendo más o menos de lo estimado, permitiendo comparaciones reales y precisas. El estático se hace para un único nivel de actividad y queda rígido."
+    "correctAnswer": 0,
+    "explanation": "Si gastaste más de lo previsto, debes analizar por qué: si fue porque usaste más kilos de material (desvío físico/eficiencia) o porque pagaste más caro cada kilo (desvío monetario/precio)."
   },
   {
     "id": 13,
     "type": "multiple_choice",
-    "question": "¿Cuál es el componente del desvío que se relaciona con 'volúmenes o unidades físicas'?",
+    "question": "Para calcular el Presupuesto de Producción (en unidades), la fórmula correcta es:",
     "options": [
-      "Componente Monetario",
-      "Componente Físico",
-      "Componente Financiero",
-      "Componente Productivo"
+      "Ventas Presupuestadas + Inventario Inicial - Inventario Final Deseado.",
+      "Ventas Presupuestadas + Compras de Materia Prima.",
+      "Ventas Presupuestadas + Inventario Final Deseado - Inventario Inicial.",
+      "Inventario Inicial + Inventario Final Deseado - Ventas Presupuestadas."
     ],
-    "correctAnswer": 1,
-    "explanation": "Al analizar desviaciones entre lo presupuestado y lo real, el 'Componente Físico' es la diferencia causada por haber usado más/menos cantidades (ej. usé 5kg más de harina de lo previsto). El 'Monetario' es la diferencia de precios (ej. la harina me costó $5 más cara el kilo)."
+    "correctAnswer": 2,
+    "explanation": "Debes fabricar lo que vas a vender, más lo que quieres que te sobre al final del mes por seguridad, restándole lo que ya tenías fabricado en el almacén al arrancar."
   },
   {
     "id": 14,
     "type": "multiple_choice",
-    "question": "Un impuesto regresivo es aquel donde paga más el que más capacidad contributiva tiene.",
+    "question": "¿Cómo se define un Impuesto Progresivo?",
     "options": [
-      "Verdadero",
-      "Falso (pagan lo mismo sin importar la capacidad, ej. IVA)"
+      "Aquel que recauda cada mes más que el mes anterior por efecto de la inflación.",
+      "Aquel en el que la tasa de imposición disminuye a medida que aumenta la base imponible.",
+      "Aquel en el que la alícuota aumenta a medida que aumenta la capacidad contributiva del sujeto.",
+      "Aquel que pagan todos por igual, como el Impuesto al Valor Agregado (IVA)."
     ],
-    "correctAnswer": 1,
-    "explanation": "Falso. Esa definición es de impuesto PROGRESIVO (como Ganancias). El impuesto REGRESIVO es aquel que representa un mayor peso para los que menos tienen, ya que todos pagan exactamente lo mismo, como es el caso del IVA (21%) al comprar un producto."
+    "correctAnswer": 2,
+    "explanation": "Un impuesto progresivo (ej. Ganancias) cobra un porcentaje mayor a quienes tienen mayores ingresos (el que tiene poco paga 5%, el que tiene mucho paga 35%). El IVA, donde todos pagan el 21% sin importar su riqueza, es un impuesto Regresivo."
   },
   {
     "id": 15,
     "type": "multiple_choice",
-    "question": "¿Cuáles son los 3 componentes de la cuota del Monotributo?",
+    "question": "Para las Sociedades, el Impuesto a las Ganancias se rige por la Teoría del Balance, lo cual significa que:",
     "options": [
-      "Ingresos Brutos, IVA y Ganancias",
-      "Impuesto, Obra Social y Jubilación",
-      "Aportes Patronales, Sindicato y Ganancias",
-      "Caja, Bancos e Inversiones"
+      "Tributan únicamente si logran cuadrar el Activo y el Pasivo al centavo.",
+      "Solo tributan por ganancias extraordinarias no periódicas.",
+      "Todo incremento patrimonial es considerado ganancia gravable, cumpla o no los requisitos de fuente.",
+      "Tributan en función de lo percibido en el Flujo de Caja libre."
     ],
-    "correctAnswer": 1,
-    "explanation": "El monotributo es un régimen simplificado que unifica en una sola cuota mensual el componente Impositivo (que reemplaza IVA y Ganancias) y los componentes Previsionales (Aportes de Obra Social y Jubilación/SIPA)."
+    "correctAnswer": 2,
+    "explanation": "A diferencia de las personas físicas, las sociedades no necesitan que un ingreso sea 'habitual' o 'periódico'. Si venden una maquinaria vieja o encuentran plata tirada y su patrimonio crece, se considera ganancia gravada automáticamente."
   },
   {
     "id": 16,
     "type": "multiple_choice",
-    "question": "La Teoría del Balance aplica a...",
+    "question": "¿Qué es la 'Alimentación Adelantada' en el control presupuestario?",
     "options": [
-      "Personas Físicas",
-      "Personas Humanas en relación de dependencia",
-      "Sociedades (considera ganancia todo enriquecimiento)",
-      "Monotributistas exclusivamente"
+      "Comprar materia prima con 6 meses de anticipación para ganarle a la inflación.",
+      "Información preventiva que busca anticiparse a la demanda operativa para tomar decisiones eficientes antes de que ocurran los hechos.",
+      "El pago por adelantado de los aguinaldos para deducir ganancias.",
+      "Retroalimentación mensual donde se ajustan los presupuestos pasados."
     ],
-    "correctAnswer": 2,
-    "explanation": "A diferencia de las personas físicas (que usan Teoría de la Fuente), para las Sociedades Comerciales rige la Teoría del Balance: toda renta, incremento patrimonial o enriquecimiento que perciba la sociedad paga Ganancias, sin importar su frecuencia."
+    "correctAnswer": 1,
+    "explanation": "El Feed-Forward (alimentación adelantada) es información predictiva; proyectar escenarios futuros y dar lineamientos antes de accionar, a diferencia de la Retroalimentación (Feedback), que evalúa eventos que ya ocurrieron."
   },
   {
     "id": 17,
     "type": "multiple_choice",
-    "question": "¿Qué significa que el IVA es un impuesto al consumo?",
+    "question": "En la clasificación de los Estados Financieros, el Estado de Flujo de Efectivo por Método Indirecto:",
     "options": [
-      "Que solo lo pagan las fábricas",
-      "Que el impuesto recae finalmente sobre el usuario o consumidor final del bien/servicio",
-      "Que grava los bienes exportados",
-      "Que es deducible en el Impuesto a las Ganancias"
+      "Deriva los flujos aplicando políticas de cobro a las ventas y pagos a compras directamente.",
+      "Se usa solo a corto plazo y detalla cheque por cheque.",
+      "Parte de la Utilidad Neta (Estado de Resultados) y le suma/resta partidas que no implican movimiento real de fondos (ej: amortizaciones).",
+      "Está prohibido por las normas contables para grandes empresas."
     ],
-    "correctAnswer": 1,
-    "explanation": "Aunque la cadena productiva va pagando el IVA en distintas etapas (IVA Crédito e IVA Débito), el impuesto siempre se traslada al precio. Por ende, quien soporta y paga el 100% de la carga tributaria final es el consumidor que adquiere el producto para uso propio."
+    "correctAnswer": 2,
+    "explanation": "El método indirecto concilia la rentabilidad con la liquidez. Toma la ganancia contable devengada y 'reversa' los asientos que no movieron efectivo (sumando amortizaciones) y ajustando cambios en capital de trabajo."
   },
   {
     "id": 18,
     "type": "multiple_choice",
-    "question": "En la teoría de control presupuestario, ¿cuál es el objetivo del Informe de Desempeño?",
+    "question": "Si una empresa abona comisiones bancarias por mantener una cuenta, ¿en qué categoría del Impuesto a las Ganancias debería imputarse ese gasto deducible?",
     "options": [
-      "Fijar el precio de venta de los productos",
-      "Comparar los ingresos y gastos esperados vs los reales para analizar desvíos",
-      "Despedir empleados improductivos",
-      "Cumplir con un requisito de AFIP"
+      "Primera Categoría (Renta del suelo).",
+      "Segunda Categoría (Renta de capitales).",
+      "Tercera Categoría (Renta de sociedades).",
+      "Cuarta Categoría (Trabajo personal)."
     ],
     "correctAnswer": 1,
-    "explanation": "El informe de gestión o desempeño es clave para la etapa de Control. Sirve para poner lado a lado lo que se presupuestó versus lo que realmente sucedió en un periodo, identificar los desvíos y tomar medidas correctivas a tiempo."
+    "explanation": "La Segunda Categoría (renta de capitales) agrupa dividendos, bonos, préstamos y movimientos financieros puros, donde las comisiones bancarias son un gasto necesario para mantener esa fuente gravada."
   },
   {
     "id": 19,
     "type": "multiple_choice",
-    "question": "Diferencia de tiempos: El Plan Estratégico suele tener un horizonte de...",
+    "question": "El Patrimonio Neto (Capital Social) es considerado una partida:",
     "options": [
-      "1 a 3 meses",
-      "1 año",
-      "3 a 5 años",
-      "10 a 20 años"
+      "Monetaria, porque los aportes se hicieron en moneda de curso legal.",
+      "No Monetaria, porque representa el aporte de los socios y se ajusta por inflación para no perder representatividad.",
+      "Financiera, porque se compone exclusivamente de acciones cotizables.",
+      "Corriente, porque debe liquidarse en menos de 1 año."
     ],
-    "correctAnswer": 2,
-    "explanation": "El planeamiento táctico u operativo (el Presupuesto Anual, por ejemplo) es de corto plazo (1 año). El Plan Estratégico, en cambio, define el rumbo general y visión de la empresa a largo plazo, típicamente de 3 a 5 años."
+    "correctAnswer": 1,
+    "explanation": "Aunque el capital social diga '$1.000.000', es la contrapartida de bienes o derechos. En entornos inflacionarios es considerado No Monetario y su saldo debe reexpresarse, generando pérdida para equilibrar el activo."
   },
   {
     "id": 20,
     "type": "multiple_choice",
-    "question": "El hecho imponible de los Ingresos Brutos grava el ejercicio habitual y a título oneroso del comercio, industria, profesión, etc.",
+    "question": "¿Cuál de los siguientes tributos tiene carácter MUNICIPAL o Comunal?",
     "options": [
-      "Verdadero",
-      "Falso"
+      "Ingresos Brutos.",
+      "Impuesto a los Bienes Personales.",
+      "Tasa de Seguridad e Higiene / ABL.",
+      "Impuesto al Valor Agregado (IVA)."
     ],
-    "correctAnswer": 0,
-    "explanation": "Verdadero. Ingresos Brutos (que es un impuesto provincial) grava cualquier actividad realizada a título oneroso (lucro) y de forma habitual dentro del límite geográfico de la provincia que recauda."
+    "correctAnswer": 2,
+    "explanation": "Las Tasas de Seguridad e Higiene, y el ABL (Alumbrado, Barrido y Limpieza) son cobrados directamente por el Municipio a cambio de una prestación potencial de servicios locales."
   },
   {
     "id": 21,
     "type": "multiple_choice",
-    "question": "¿Qué ocurre con el flujo de caja proyectado si compro maquinaria con fondos propios?",
+    "question": "En el marco de un proceso de presupuesto, ¿qué es el 'Costo de Materia Prima a Consumir' vs el 'Presupuesto de Compras'?",
     "options": [
-      "Aumenta el saldo de caja",
-      "Disminuye el saldo final por la salida de dinero de la compra",
-      "No afecta la caja, solo el cuadro de resultados",
-      "Aumenta la ganancia del ejercicio"
+      "Son exactamente lo mismo en valor y cantidad, siempre.",
+      "El costo a consumir es lo que entra a la fábrica; las compras dependen del stock que quiero dejar en almacén.",
+      "El de compras incluye la Mano de Obra, el de consumo no.",
+      "El consumo es a largo plazo, la compra a corto plazo."
     ],
     "correctAnswer": 1,
-    "explanation": "Al usar fondos propios, hay una salida de efectivo inmediata, por lo que el Flujo de Caja (Financiero) disminuye. En el balance general aumenta Bienes de Uso, y en el Cuadro de Resultados solo impactará la amortización devengada anualmente."
+    "explanation": "El consumo es lo que estrictamente requiere la línea de ensamblaje (Producción Requerida * Consumo Unitario). Las Compras pueden ser mucho mayores si además decido inflar el inventario de seguridad en mi almacén (Consumo + Inv. Final - Inv. Inicial)."
   },
   {
     "id": 22,
     "type": "multiple_choice",
-    "question": "La 4ta categoría de imputación de Ganancias corresponde a:",
+    "question": "El 'Valor Intrínseco' vs el 'Valor Facial' de una moneda:",
     "options": [
-      "Renta del suelo (inmuebles)",
-      "Renta de capitales (inversiones)",
-      "Renta de sociedades de capital",
-      "Renta del trabajo personal (relación de dependencia, profesiones)"
+      "El intrínseco es su poder de compra externo (en dólares), el facial en el mercado local.",
+      "El intrínseco es lo que cuesta fabricarla físicamente (metal/papel), el facial es el número que lleva impreso.",
+      "Son sinónimos en economía monetaria.",
+      "El facial es fijado por el mercado negro, el intrínseco por el BCRA."
+    ],
+    "correctAnswer": 1,
+    "explanation": "Con la inflación extrema, suele suceder que fabricar una moneda de 1 peso (valor intrínseco de sus recursos metálicos) cuesta mucho más caro que el $1 de poder de compra que indica su sello (valor facial)."
+  },
+  {
+    "id": 23,
+    "type": "multiple_choice",
+    "question": "¿Cuál es la diferencia técnica entre 'Impuesto', 'Tasa' y 'Contribución Especial'?",
+    "options": [
+      "El impuesto lo cobra la Nación, la tasa la Provincia y la contribución el Municipio.",
+      "El impuesto no tiene contraprestación directa; la tasa exige un servicio estatal (efectivo o potencial); la contribución se da por un beneficio grupal (ej. obra pública).",
+      "Todos son impuestos, pero se diferencian por los recargos por mora.",
+      "La tasa grava bienes, el impuesto ganancias y la contribución el IVA."
+    ],
+    "correctAnswer": 1,
+    "explanation": "El Impuesto se exige por poder de imperio (solidaridad). La Tasa (ej. barrido) está atada a un servicio público. La Contribución (ej. asfalto en tu calle) se cobra porque tu propiedad se valorizó gracias a una obra estatal."
+  },
+  {
+    "id": 24,
+    "type": "multiple_choice",
+    "question": "En el Cuadro de Cobranzas de un Presupuesto Financiero, si mi política es '30% al contado, 70% a 30 días':",
+    "options": [
+      "Cobraré el 100% de las ventas en el mes en curso para no generar inflación.",
+      "En el mes actual ingresa el 30% de las ventas actuales, y el 70% de las ventas del mes anterior.",
+      "Solo registro el 30% como venta y el 70% como pérdida.",
+      "Registraré el total de la venta en el Estado de Resultados y no afectaré la Caja."
+    ],
+    "correctAnswer": 1,
+    "explanation": "El flujo de fondos cruza los meses. En, por ejemplo, Mayo, percibirás la porción al contado (30%) de las ventas de Mayo, pero además ingresarás a la caja el saldo adeudado a 30 días (70%) de las ventas que realizaste en Abril."
+  },
+  {
+    "id": 25,
+    "type": "multiple_choice",
+    "question": "¿Cuál es la etapa del Presupuesto que asegura que todas las piezas (producción, ventas, marketing) encajen antes de ejecutar?",
+    "options": [
+      "Control.",
+      "Ejecución.",
+      "Preiniciación.",
+      "Elaboración / Consolidación."
     ],
     "correctAnswer": 3,
-    "explanation": "El impuesto a las Ganancias clasifica las rentas en: 1° (Inmuebles y suelo), 2° (Rentas de capital como bonos), 3° (Sociedades comerciales) y 4° (Trabajo en relación de dependencia y ejercicio de profesiones libres)."
+    "explanation": "La 'Consolidación' (dentro de la Elaboración) es el momento donde todos los presupuestos divisionales se unen para asegurar que la capacidad de producción, el marketing y las ventas no se contradigan y generen la dimensión monetaria final."
+  },
+  {
+    "id": 26,
+    "type": "multiple_choice",
+    "question": "En el Impuesto a las Ganancias, ¿cuál de los siguientes es un gasto deducible común a todas las categorías?",
+    "options": [
+      "Los gastos vacacionales en el exterior.",
+      "La compra de bienes de lujo o suntuarios.",
+      "Primas de seguros de vida, donaciones o servicio médico.",
+      "Las infracciones o multas de tránsito de los directores."
+    ],
+    "correctAnswer": 2,
+    "explanation": "La ley permite restar de la base imponible ciertos gastos personales vitales para aliviar la carga tributaria, como seguros de vida, obras sociales, donaciones avaladas e intereses de préstamos hipotecarios."
+  },
+  {
+    "id": 27,
+    "type": "multiple_choice",
+    "question": "El principio del Devengado (usado en el Estado de Resultados) indica que:",
+    "options": [
+      "Las ganancias se registran sólo cuando el cliente transfiere el dinero.",
+      "Se anotan operaciones y gastos en el período en el que ocurren, independientemente de cuándo se paguen o cobren.",
+      "Todo gasto no pagado es una pérdida que debe restarse al patrimonio neto inmediatamente.",
+      "Solo se cuentan los ingresos, excluyendo depreciaciones."
+    ],
+    "correctAnswer": 1,
+    "explanation": "El Devengado hace nacer el derecho o la obligación. Si la factura de luz corresponde a consumo de mayo, se considera un gasto de mayo, más allá de que la termines pagando efectivamente a mediados de junio."
   }
 ]

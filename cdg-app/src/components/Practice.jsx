@@ -5,6 +5,7 @@ import { Trophy, Check, X, LogIn, ArrowRight, Info, Timer } from 'lucide-react';
 
 export default function Practice({ onExit }) {
   const [questions, setQuestions] = useState([]);
+  const [quizLength, setQuizLength] = useState(null);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [score, setScore] = useState(0);
   const [selectedOption, setSelectedOption] = useState(null);
@@ -12,13 +13,10 @@ export default function Practice({ onExit }) {
   const [gameOver, setGameOver] = useState(false);
   const [userName, setUserName] = useState('');
   const [elapsedTime, setElapsedTime] = useState(0);
-  const [isTimerActive, setIsTimerActive] = useState(true);
+  const [isTimerActive, setIsTimerActive] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
 
-  useEffect(() => {
-    // Shuffle and use all available questions
-    const shuffled = [...questionsData].sort(() => Math.random() - 0.5);
-    setQuestions(shuffled);
-  }, []);
+  const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyZaBt9tnYibFXmndm0iR5C_M3f6_9CoIgNBOViNUXTMMdTLf2YUp2n235DvxBWzR22jQ/exec';
 
   useEffect(() => {
     let interval = null;
@@ -31,6 +29,14 @@ export default function Practice({ onExit }) {
     }
     return () => clearInterval(interval);
   }, [isTimerActive, gameOver]);
+
+  const handleStartQuiz = (length) => {
+    const shuffled = [...questionsData].sort(() => Math.random() - 0.5);
+    const selectedQuestions = length === 'all' ? shuffled : shuffled.slice(0, length);
+    setQuestions(selectedQuestions);
+    setQuizLength(length);
+    setIsTimerActive(true);
+  };
 
   const handleOptionSelect = (index) => {
     if (showResult) return;
@@ -70,9 +76,6 @@ export default function Practice({ onExit }) {
     return `${m}:${s}`;
   };
 
-  const [isSaving, setIsSaving] = useState(false);
-  const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyZaBt9tnYibFXmndm0iR5C_M3f6_9CoIgNBOViNUXTMMdTLf2YUp2n235DvxBWzR22jQ/exec';
-
   const handleSaveScore = (e) => {
     e.preventDefault();
     if (!userName.trim()) return;
@@ -102,7 +105,32 @@ export default function Practice({ onExit }) {
     });
   };
 
-  if (questions.length === 0) return <div>Cargando...</div>;
+  if (!quizLength) {
+    return (
+      <div className="animate-fade-in flex" style={{ flexDirection: 'column', alignItems: 'center' }}>
+        <div className="glass-panel text-center" style={{ maxWidth: '500px', width: '100%' }}>
+          <h2 className="title" style={{ fontSize: '2rem', marginBottom: '1rem' }}>Configurar Práctica</h2>
+          <p className="subtitle" style={{ marginBottom: '2rem' }}>¿Cuántas preguntas quieres responder en esta sesión?</p>
+          
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+            <button className="btn btn-outline" onClick={() => handleStartQuiz(10)} style={{ justifyContent: 'center', fontSize: '1.1rem', padding: '1rem' }}>
+              10 Preguntas (Ronda Rápida)
+            </button>
+            <button className="btn btn-outline" onClick={() => handleStartQuiz(20)} style={{ justifyContent: 'center', fontSize: '1.1rem', padding: '1rem' }}>
+              20 Preguntas (Modo Examen)
+            </button>
+            <button className="btn btn-accent" onClick={() => handleStartQuiz('all')} style={{ justifyContent: 'center', fontSize: '1.1rem', padding: '1rem' }}>
+              Todas las Preguntas (Modo Maratón)
+            </button>
+          </div>
+          
+          <button className="btn" onClick={onExit} style={{ marginTop: '2rem', color: 'var(--text-secondary)' }}>
+            Cancelar y Volver
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   if (gameOver) {
     return (
@@ -116,7 +144,7 @@ export default function Practice({ onExit }) {
           </div>
           
           <form onSubmit={handleSaveScore} style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-            <p style={{ color: 'var(--text-secondary)' }}>Ingresa tu nombre para el Leaderboard:</p>
+            <p style={{ color: 'var(--text-secondary)' }}>Ingresa tu nombre para el Leaderboard Global:</p>
             <input
               type="text"
               className="input-field"
