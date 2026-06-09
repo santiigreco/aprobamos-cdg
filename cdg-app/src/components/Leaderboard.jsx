@@ -6,6 +6,11 @@ export default function Leaderboard({ currentUser }) {
 
   useEffect(() => {
     const data = JSON.parse(localStorage.getItem('cdg_leaderboard') || '[]');
+    data.sort((a, b) => {
+      if (b.score !== a.score) return b.score - a.score;
+      if (a.time !== undefined && b.time !== undefined) return a.time - b.time;
+      return 0;
+    });
     setLeaders(data);
   }, []);
 
@@ -41,8 +46,15 @@ export default function Leaderboard({ currentUser }) {
                     {entry.name} {entry.name === currentUser && '(Tú)'}
                   </span>
                 </div>
-                <div className="user-score" style={{ background: 'rgba(16, 185, 129, 0.1)', color: '#10b981' }}>
-                  {entry.score} pts
+                <div className="flex gap-4">
+                  {entry.time !== undefined && (
+                    <div className="user-score" style={{ background: 'rgba(245, 158, 11, 0.1)', color: '#f59e0b', fontSize: '0.9rem' }}>
+                      {Math.floor(entry.time / 60).toString().padStart(2, '0')}:{(entry.time % 60).toString().padStart(2, '0')}
+                    </div>
+                  )}
+                  <div className="user-score" style={{ background: 'rgba(16, 185, 129, 0.1)', color: '#10b981' }}>
+                    {entry.score} pts
+                  </div>
                 </div>
               </li>
             ))}

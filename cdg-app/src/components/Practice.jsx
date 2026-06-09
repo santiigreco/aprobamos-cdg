@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import confetti from 'canvas-confetti';
 import questionsData from '../data/questions.json';
-import { Trophy, Check, X, LogIn, ArrowRight, Info } from 'lucide-react';
+import { Trophy, Check, X, LogIn, ArrowRight, Info, Timer } from 'lucide-react';
 
 export default function Practice({ onExit }) {
   const [questions, setQuestions] = useState([]);
@@ -11,6 +11,8 @@ export default function Practice({ onExit }) {
   const [showResult, setShowResult] = useState(false);
   const [gameOver, setGameOver] = useState(false);
   const [userName, setUserName] = useState('');
+  const [elapsedTime, setElapsedTime] = useState(0);
+  const [isTimerActive, setIsTimerActive] = useState(true);
 
   useEffect(() => {
     // Shuffle and use all available questions
@@ -18,11 +20,24 @@ export default function Practice({ onExit }) {
     setQuestions(shuffled);
   }, []);
 
+  useEffect(() => {
+    let interval = null;
+    if (isTimerActive && !gameOver) {
+      interval = setInterval(() => {
+        setElapsedTime((prev) => prev + 1);
+      }, 1000);
+    } else {
+      clearInterval(interval);
+    }
+    return () => clearInterval(interval);
+  }, [isTimerActive, gameOver]);
+
   const handleOptionSelect = (index) => {
     if (showResult) return;
     
     setSelectedOption(index);
     setShowResult(true);
+    setIsTimerActive(false);
     
     const isCorrect = index === questions[currentIndex].correctAnswer;
     
@@ -42,9 +57,17 @@ export default function Practice({ onExit }) {
       setCurrentIndex(prev => prev + 1);
       setSelectedOption(null);
       setShowResult(false);
+      setIsTimerActive(true);
     } else {
       setGameOver(true);
+      setIsTimerActive(false);
     }
+  };
+
+  const formatTime = (seconds) => {
+    const m = Math.floor(seconds / 60).toString().padStart(2, '0');
+    const s = (seconds % 60).toString().padStart(2, '0');
+    return `${m}:${s}`;
   };
 
   const handleSaveScore = (e) => {
@@ -52,8 +75,12 @@ export default function Practice({ onExit }) {
     if (!userName.trim()) return;
 
     const leaderboard = JSON.parse(localStorage.getItem('cdg_leaderboard') || '[]');
-    leaderboard.push({ name: userName.trim(), score });
-    leaderboard.sort((a, b) => b.score - a.score);
+    leaderboard.push({ name: userName.trim(), score, time: elapsedTime });
+    leaderboard.sort((a, b) => {
+      if (b.score !== a.score) return b.score - a.score;
+      if (a.time !== undefined && b.time !== undefined) return a.time - b.time;
+      return 0;
+    });
     localStorage.setItem('cdg_leaderboard', JSON.stringify(leaderboard));
     
     onExit(); // Go back to dashboard
@@ -67,7 +94,10 @@ export default function Practice({ onExit }) {
         <div className="glass-panel text-center" style={{ maxWidth: '400px', width: '100%' }}>
           <Trophy size={64} color="#f59e0b" style={{ margin: '0 auto 1rem auto' }} />
           <h2 className="title" style={{ fontSize: '2.5rem' }}>¡Práctica Finalizada!</h2>
-          <p className="subtitle" style={{ fontSize: '1.25rem', marginBottom: '2rem' }}>Puntuación: <strong>{score} pts</strong></p>
+          <div style={{ display: 'flex', justifyContent: 'center', gap: '1rem', marginBottom: '2rem' }}>
+            <p className="subtitle" style={{ fontSize: '1.25rem', margin: 0 }}>Puntos: <strong>{score}</strong></p>
+            <p className="subtitle" style={{ fontSize: '1.25rem', margin: 0 }}>Tiempo: <strong>{formatTime(elapsedTime)}</strong></p>
+          </div>
           
           <form onSubmit={handleSaveScore} style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
             <p style={{ color: 'var(--text-secondary)' }}>Ingresa tu nombre para el Leaderboard:</p>
@@ -98,9 +128,15 @@ export default function Practice({ onExit }) {
     <div className="animate-fade-in flex" style={{ flexDirection: 'column', alignItems: 'center', maxWidth: '800px', margin: '0 auto', paddingBottom: '4rem' }}>
       <div className="flex w-100" style={{ justifyContent: 'space-between', width: '100%', marginBottom: '2rem' }}>
         <p className="subtitle" style={{ margin: 0 }}>Pregunta {currentIndex + 1} de {questions.length}</p>
-        <div className="user-score" style={{ margin: 0 }}>
-          <Trophy size={18} />
-          <span>{score} pts</span>
+        <div className="flex gap-2">
+          <div className="user-score" style={{ margin: 0, background: 'rgba(245, 158, 11, 0.1)', color: '#f59e0b' }}>
+            <Timer size={18} />
+            <span style={{ width: '45px', textAlign: 'center' }}>{formatTime(elapsedTime)}</span>
+          </div>
+          <div className="user-score" style={{ margin: 0 }}>
+            <Trophy size={18} />
+            <span>{score} pts</span>
+          </div>
         </div>
       </div>
 
