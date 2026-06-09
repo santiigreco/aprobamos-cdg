@@ -70,20 +70,36 @@ export default function Practice({ onExit }) {
     return `${m}:${s}`;
   };
 
+  const [isSaving, setIsSaving] = useState(false);
+  const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyZaBt9tnYibFXmndm0iR5C_M3f6_9CoIgNBOViNUXTMMdTLf2YUp2n235DvxBWzR22jQ/exec';
+
   const handleSaveScore = (e) => {
     e.preventDefault();
     if (!userName.trim()) return;
 
-    const leaderboard = JSON.parse(localStorage.getItem('cdg_leaderboard') || '[]');
-    leaderboard.push({ name: userName.trim(), score, time: elapsedTime });
-    leaderboard.sort((a, b) => {
-      if (b.score !== a.score) return b.score - a.score;
-      if (a.time !== undefined && b.time !== undefined) return a.time - b.time;
-      return 0;
+    setIsSaving(true);
+
+    fetch(SCRIPT_URL, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: {
+        'Content-Type': 'text/plain',
+      },
+      body: JSON.stringify({
+        name: userName.trim(),
+        score: score,
+        time: elapsedTime
+      })
+    })
+    .then(() => {
+      setIsSaving(false);
+      onExit(); // Go back to dashboard
+    })
+    .catch((err) => {
+      console.error('Error saving score:', err);
+      setIsSaving(false);
+      onExit(); 
     });
-    localStorage.setItem('cdg_leaderboard', JSON.stringify(leaderboard));
-    
-    onExit(); // Go back to dashboard
   };
 
   if (questions.length === 0) return <div>Cargando...</div>;
@@ -110,8 +126,8 @@ export default function Practice({ onExit }) {
               required
               maxLength={20}
             />
-            <button type="submit" className="btn btn-accent" style={{ justifyContent: 'center' }}>
-              <LogIn size={20} /> Guardar y Salir
+            <button type="submit" className="btn btn-accent" style={{ justifyContent: 'center' }} disabled={isSaving}>
+              {isSaving ? 'Guardando...' : <><LogIn size={20} /> Guardar y Salir</>}
             </button>
             <button type="button" className="btn btn-outline" onClick={onExit} style={{ justifyContent: 'center' }}>
               Salir sin guardar

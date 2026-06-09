@@ -3,15 +3,25 @@ import { Trophy, Medal, Award } from 'lucide-react';
 
 export default function Leaderboard({ currentUser }) {
   const [leaders, setLeaders] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyZaBt9tnYibFXmndm0iR5C_M3f6_9CoIgNBOViNUXTMMdTLf2YUp2n235DvxBWzR22jQ/exec';
 
   useEffect(() => {
-    const data = JSON.parse(localStorage.getItem('cdg_leaderboard') || '[]');
-    data.sort((a, b) => {
-      if (b.score !== a.score) return b.score - a.score;
-      if (a.time !== undefined && b.time !== undefined) return a.time - b.time;
-      return 0;
-    });
-    setLeaders(data);
+    fetch(SCRIPT_URL)
+      .then(res => res.json())
+      .then(data => {
+        data.sort((a, b) => {
+          if (b.score !== a.score) return b.score - a.score;
+          if (a.time !== undefined && b.time !== undefined) return a.time - b.time;
+          return 0;
+        });
+        setLeaders(data);
+        setLoading(false);
+      })
+      .catch(err => {
+        console.error('Error fetching leaderboard:', err);
+        setLoading(false);
+      });
   }, []);
 
   return (
@@ -22,7 +32,11 @@ export default function Leaderboard({ currentUser }) {
       </div>
 
       <div className="glass-panel" style={{ width: '100%', maxWidth: '600px', padding: '1rem 2rem 2rem 2rem' }}>
-        {leaders.length === 0 ? (
+        {loading ? (
+          <div className="text-center" style={{ color: 'var(--text-secondary)', padding: '2rem' }}>
+            <p>Cargando puntajes globales...</p>
+          </div>
+        ) : leaders.length === 0 ? (
           <div className="text-center" style={{ color: 'var(--text-secondary)', padding: '2rem' }}>
             <p>Todavía no hay puntuaciones.</p>
             <p>¡Ve a la sección de Práctica para ser el primero!</p>
