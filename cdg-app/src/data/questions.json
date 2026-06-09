@@ -1,77 +1,118 @@
 [
   {
     "id": 1,
+    "type": "multiple_choice",
     "question": "¿Cuál es la diferencia entre un presupuesto económico y un financiero?",
-    "answer": "El económico se arma por lo devengado (estado de resultados) y el financiero por lo percibido (flujo de caja)."
+    "options": [
+      "El económico se arma por lo devengado y el financiero por lo percibido",
+      "El económico es de corto plazo y el financiero de largo plazo",
+      "Ambos se arman por lo percibido, pero el económico incluye bienes de uso",
+      "No hay diferencia, son sinónimos"
+    ],
+    "correctAnswer": 0
   },
   {
     "id": 2,
-    "question": "Definir control presupuestario, ¿cuál es su función?",
-    "answer": "Mecanismos orientados a mantener la actividad dentro del presupuesto, analizando desvíos para tomar medidas correctivas."
+    "type": "multiple_choice",
+    "question": "En el Leasing Operativo, el tomador tiene la opción de comprar el bien al finalizar el contrato.",
+    "options": [
+      "Verdadero",
+      "Falso"
+    ],
+    "correctAnswer": 1
   },
   {
     "id": 3,
-    "question": "Diferencia fundamental entre Leasing operativo y financiero",
-    "answer": "El leasing financiero tiene opción de compra al finalizar el período pactado. El operativo no tiene esa opción."
+    "type": "multiple_choice",
+    "question": "¿Cómo se define la 'Cuota' de los Costos Indirectos de Fabricación (GIF)?",
+    "options": [
+      "Es el costo total de los materiales directos",
+      "Es la alícuota utilizada para asignar la parte de los GIF que recae sobre cada producto",
+      "Es la ganancia esperada por unidad vendida",
+      "Es el porcentaje de depreciación de la maquinaria"
+    ],
+    "correctAnswer": 1
   },
   {
     "id": 4,
-    "question": "Definición de GIF y Cuota",
-    "answer": "GIF: Costos Indirectos de Fabricación. Cuota: Alícuota utilizada para asignar la parte de los costos indirectos que recae sobre cada producto."
+    "type": "multiple_choice",
+    "question": "En el Ajuste por Inflación, los activos 'Monetarios' (como la caja en pesos) generan...",
+    "options": [
+      "Resultado por tenencia positivo",
+      "Resultado por exposición a la inflación (REI) negativo (pérdida de poder adquisitivo)",
+      "Un aumento en el patrimonio neto directo",
+      "Un crédito fiscal a favor de la empresa"
+    ],
+    "correctAnswer": 1
   },
   {
     "id": 5,
-    "question": "Hecho imponible de Bienes Personales",
-    "answer": "Recae sobre los bienes personales existentes al 31 de diciembre de cada año, situados en el país y en el exterior."
+    "type": "multiple_choice",
+    "question": "Según la Teoría de la Fuente (aplica a personas físicas), ¿cuáles son las 3 condiciones para que la ganancia esté gravada?",
+    "options": [
+      "Legalidad, Permanencia, Territorialidad",
+      "Periodicidad, Permanencia y Habilitación de la fuente",
+      "Devengado, Percibido y Ganancia",
+      "Volumen, Frecuencia y Rentabilidad"
+    ],
+    "correctAnswer": 1
   },
   {
     "id": 6,
-    "question": "Convenio Multilateral: concepto",
-    "answer": "Distribuye el pago de Ingresos Brutos proporcionalmente cuando los sujetos ejercen actividad en más de una provincia."
+    "type": "multiple_choice",
+    "question": "En un Presupuesto de Efectivo (Flujo de Caja), ¿se deben incluir las amortizaciones de bienes de uso?",
+    "options": [
+      "Sí, porque son un gasto del período",
+      "No, porque no representan una erogación real de fondos (criterio percibido)",
+      "Solo si la empresa tuvo ganancias",
+      "Sí, pero solo el 50% de su valor"
+    ],
+    "correctAnswer": 1
   },
   {
     "id": 7,
-    "question": "Diferencias entre planeamiento estratégico y táctico",
-    "answer": "Estratégico: largo plazo (3-5 años), toda la empresa. Táctico u Operativo: corto plazo (1 año), detallado y organiza recursos."
+    "type": "multiple_choice",
+    "question": "¿Qué implica un 'Presupuesto Base Cero'?",
+    "options": [
+      "Que la empresa no tiene fondos para el próximo año",
+      "Que se toma el presupuesto del año anterior y se le suma 0% de inflación",
+      "Revisar y justificar todos los gastos desde cero cada año, sin importar el histórico",
+      "Que el presupuesto económico y financiero da un resultado nulo"
+    ],
+    "correctAnswer": 2
   },
   {
     "id": 8,
-    "question": "Criterio de imputación de las ganancias (4 categorías)",
-    "answer": "1ra: Renta del suelo. 2da: Renta de capitales. 3ra: Renta de sociedades. 4ta: Renta del trabajo personal."
+    "type": "multiple_choice",
+    "question": "El impuesto a los Bienes Personales es de carácter provincial y recae sobre los bienes al 31 de diciembre.",
+    "options": [
+      "Verdadero",
+      "Falso (es un impuesto Nacional)"
+    ],
+    "correctAnswer": 1
   },
   {
     "id": 9,
-    "question": "Factoring: sin recurso vs con recurso",
-    "answer": "Sin recurso: el riesgo de impago lo asume la entidad financiera. Con recurso: la empresa asume el riesgo de impago."
+    "type": "multiple_choice",
+    "question": "¿Qué establece el Convenio Multilateral?",
+    "options": [
+      "Un acuerdo entre proveedores para fijar precios",
+      "Distribuye el pago de Ingresos Brutos cuando se ejerce actividad en más de una provincia",
+      "Una alianza estratégica de ventas internacionales",
+      "Un trato especial para empresas multinacionales"
+    ],
+    "correctAnswer": 1
   },
   {
     "id": 10,
-    "question": "Componentes de la cuota de Monotributo",
-    "answer": "Impuesto, Obra social y Jubilación."
-  },
-  {
-    "id": 11,
-    "question": "Teoría de la Fuente (3 condiciones)",
-    "answer": "Periodicidad, Permanencia y Habilitación. Aplica para personas físicas."
-  },
-  {
-    "id": 12,
-    "question": "Teoría del Balance",
-    "answer": "Aplica a sociedades. Considera ganancia a todas las obtenidas por la sociedad, cumplan o no las condiciones de la teoría de la fuente."
-  },
-  {
-    "id": 13,
-    "question": "Presupuesto Base Cero",
-    "answer": "Implica revisar y justificar todos los gastos desde cero cada año, sin partir de presupuestos históricos."
-  },
-  {
-    "id": 14,
-    "question": "Impuesto progresivo vs regresivo",
-    "answer": "Progresivo: paga más el que más capacidad contributiva tiene. Regresivo: todos pagan lo mismo (ej: IVA), sin importar capacidad."
-  },
-  {
-    "id": 15,
-    "question": "¿Qué es un presupuesto de capital?",
-    "answer": "Proceso de planificación de inversiones a largo plazo en activos fijos. Se evalúa con VAN, TIR y Payback."
+    "type": "multiple_choice",
+    "question": "Factoring SIN recurso significa que...",
+    "options": [
+      "La empresa asume el riesgo si el cliente no paga la factura",
+      "El banco no cobra comisiones",
+      "La entidad financiera asume el riesgo de impago del cliente",
+      "No se pueden ceder facturas al exterior"
+    ],
+    "correctAnswer": 2
   }
 ]
