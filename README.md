@@ -43,7 +43,7 @@ Para correr el proyecto en tu máquina local, sigue estos pasos:
 
 4. **Abrir en el navegador**:
    El servidor normalmente se iniciará en `http://localhost:5173`. ¡Abre ese enlace y comienza a estudiar!
-
+ 
 ## 📁 Estructura del Proyecto
 
 - `cdg-app/src/components/`: Contiene todas las vistas principales (`Dashboard`, `Notes`, `Practice`, `Leaderboard`).
