@@ -9,7 +9,8 @@
       "Ambos se arman por lo percibido, pero el económico incluye bienes de uso",
       "No hay diferencia, son sinónimos"
     ],
-    "correctAnswer": 0
+    "correctAnswer": 0,
+    "explanation": "El presupuesto económico (Estado de Resultados proyectado) se basa en el principio del devengado, registrando ganancias y pérdidas cuando se generan. El financiero (Flujo de Caja) se basa en el percibido, registrando ingresos y egresos reales de dinero."
   },
   {
     "id": 2,
@@ -19,7 +20,8 @@
       "Verdadero",
       "Falso"
     ],
-    "correctAnswer": 1
+    "correctAnswer": 1,
+    "explanation": "Falso. En el leasing operativo NO hay opción de compra, el bien se devuelve al arrendador. El que sí tiene opción de compra es el Leasing Financiero."
   },
   {
     "id": 3,
@@ -31,7 +33,8 @@
       "Es la ganancia esperada por unidad vendida",
       "Es el porcentaje de depreciación de la maquinaria"
     ],
-    "correctAnswer": 1
+    "correctAnswer": 1,
+    "explanation": "Los GIF son costos indirectos y no se pueden asignar directamente a un producto específico. Por eso se calcula una 'Cuota' (alícuota o porcentaje) que permite distribuir esos gastos a cada unidad producida (por ejemplo, dividiendo los gastos de luz por las horas de máquina)."
   },
   {
     "id": 4,
@@ -43,7 +46,8 @@
       "Un aumento en el patrimonio neto directo",
       "Un crédito fiscal a favor de la empresa"
     ],
-    "correctAnswer": 1
+    "correctAnswer": 1,
+    "explanation": "Los activos monetarios mantienen su valor nominal (100 pesos hoy son 100 pesos mañana), pero ante la inflación pierden poder adquisitivo real. Por eso generan una pérdida conocida como RECPAM (Resultado por Exposición a los Cambios en el Poder Adquisitivo de la Moneda) o REI."
   },
   {
     "id": 5,
@@ -55,7 +59,8 @@
       "Devengado, Percibido y Ganancia",
       "Volumen, Frecuencia y Rentabilidad"
     ],
-    "correctAnswer": 1
+    "correctAnswer": 1,
+    "explanation": "Para que una persona humana tribute Ganancias por esta teoría, el beneficio debe ser Periódico (frecuencia real o potencial), la fuente debe tener Permanencia (sobrevivir a la producción de la ganancia) y debe haber Habilitación (la fuente debe estar en condiciones de generar rentas)."
   },
   {
     "id": 6,
@@ -67,7 +72,8 @@
       "Solo si la empresa tuvo ganancias",
       "Sí, pero solo el 50% de su valor"
     ],
-    "correctAnswer": 1
+    "correctAnswer": 1,
+    "explanation": "Las amortizaciones y depreciaciones son un desgaste contable que se registra en el Estado de Resultados (económico). NO implican salida de billetes reales de la caja de la empresa, por ende, nunca van en el presupuesto financiero."
   },
   {
     "id": 7,
@@ -79,7 +85,8 @@
       "Revisar y justificar todos los gastos desde cero cada año, sin importar el histórico",
       "Que el presupuesto económico y financiero da un resultado nulo"
     ],
-    "correctAnswer": 2
+    "correctAnswer": 2,
+    "explanation": "El Presupuesto Base Cero rompe con la idea de tomar los gastos del año pasado y ajustarlos. Obliga a todos los gerentes a justificar desde cero por qué necesitan fondos para cada actividad en el año entrante, priorizando la eficiencia costo-beneficio."
   },
   {
     "id": 8,
@@ -89,7 +96,8 @@
       "Verdadero",
       "Falso (es un impuesto Nacional)"
     ],
-    "correctAnswer": 1
+    "correctAnswer": 1,
+    "explanation": "Falso. Los Bienes Personales son un impuesto NACIONAL que recae sobre la tenencia patrimonial de una persona física al 31 de diciembre de cada año, ya sea de bienes ubicados en el país o en el exterior."
   },
   {
     "id": 9,
@@ -101,7 +109,8 @@
       "Una alianza estratégica de ventas internacionales",
       "Un trato especial para empresas multinacionales"
     ],
-    "correctAnswer": 1
+    "correctAnswer": 1,
+    "explanation": "El Convenio Multilateral es un acuerdo que existe para evitar la doble tributación de Ingresos Brutos. Si una empresa vende y tiene actividades en CABA y en Buenos Aires, el convenio estipula cómo repartir la base imponible para pagarle un porcentaje justo a cada jurisdicción."
   },
   {
     "id": 10,
@@ -113,6 +122,159 @@
       "La entidad financiera asume el riesgo de impago del cliente",
       "No se pueden ceder facturas al exterior"
     ],
-    "correctAnswer": 2
+    "correctAnswer": 2,
+    "explanation": "En el Factoring (cesión de créditos a un tercero a cambio de liquidez inmediata), 'Sin recurso' significa que si el cliente finalmente nunca paga la factura, el banco (o entidad financiera) asume la pérdida. Por esto, suelen cobrar mayores tasas/comisiones."
+  },
+  {
+    "id": 11,
+    "type": "multiple_choice",
+    "question": "¿Qué es un Presupuesto de Capital?",
+    "options": [
+      "El presupuesto mensual de caja",
+      "El proceso de planificación de inversiones a largo plazo en activos fijos",
+      "El presupuesto de sueldos de los directivos",
+      "El dinero que tienen los dueños de la empresa"
+    ],
+    "correctAnswer": 1,
+    "explanation": "El presupuesto de capital (Capital Budgeting) es la herramienta para evaluar y planificar inversiones de alto costo y largo plazo, como comprar maquinaria, edificios o empresas. Se apoya en métricas como VAN, TIR y Payback."
+  },
+  {
+    "id": 12,
+    "type": "multiple_choice",
+    "question": "¿Cuál es la diferencia entre un Presupuesto Flexible y uno Estático?",
+    "options": [
+      "El flexible se puede cambiar en cualquier momento, el estático es ilegal",
+      "El flexible ajusta los costos y gastos en función del nivel real de actividad; el estático no se ajusta",
+      "El estático es para pymes y el flexible para multinacionales",
+      "No hay diferencias reales, ambos son proyecciones"
+    ],
+    "correctAnswer": 1,
+    "explanation": "El presupuesto flexible permite recalcular los costos indirectos variables si la empresa termina produciendo más o menos de lo estimado, permitiendo comparaciones reales y precisas. El estático se hace para un único nivel de actividad y queda rígido."
+  },
+  {
+    "id": 13,
+    "type": "multiple_choice",
+    "question": "¿Cuál es el componente del desvío que se relaciona con 'volúmenes o unidades físicas'?",
+    "options": [
+      "Componente Monetario",
+      "Componente Físico",
+      "Componente Financiero",
+      "Componente Productivo"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Al analizar desviaciones entre lo presupuestado y lo real, el 'Componente Físico' es la diferencia causada por haber usado más/menos cantidades (ej. usé 5kg más de harina de lo previsto). El 'Monetario' es la diferencia de precios (ej. la harina me costó $5 más cara el kilo)."
+  },
+  {
+    "id": 14,
+    "type": "multiple_choice",
+    "question": "Un impuesto regresivo es aquel donde paga más el que más capacidad contributiva tiene.",
+    "options": [
+      "Verdadero",
+      "Falso (pagan lo mismo sin importar la capacidad, ej. IVA)"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Falso. Esa definición es de impuesto PROGRESIVO (como Ganancias). El impuesto REGRESIVO es aquel que representa un mayor peso para los que menos tienen, ya que todos pagan exactamente lo mismo, como es el caso del IVA (21%) al comprar un producto."
+  },
+  {
+    "id": 15,
+    "type": "multiple_choice",
+    "question": "¿Cuáles son los 3 componentes de la cuota del Monotributo?",
+    "options": [
+      "Ingresos Brutos, IVA y Ganancias",
+      "Impuesto, Obra Social y Jubilación",
+      "Aportes Patronales, Sindicato y Ganancias",
+      "Caja, Bancos e Inversiones"
+    ],
+    "correctAnswer": 1,
+    "explanation": "El monotributo es un régimen simplificado que unifica en una sola cuota mensual el componente Impositivo (que reemplaza IVA y Ganancias) y los componentes Previsionales (Aportes de Obra Social y Jubilación/SIPA)."
+  },
+  {
+    "id": 16,
+    "type": "multiple_choice",
+    "question": "La Teoría del Balance aplica a...",
+    "options": [
+      "Personas Físicas",
+      "Personas Humanas en relación de dependencia",
+      "Sociedades (considera ganancia todo enriquecimiento)",
+      "Monotributistas exclusivamente"
+    ],
+    "correctAnswer": 2,
+    "explanation": "A diferencia de las personas físicas (que usan Teoría de la Fuente), para las Sociedades Comerciales rige la Teoría del Balance: toda renta, incremento patrimonial o enriquecimiento que perciba la sociedad paga Ganancias, sin importar su frecuencia."
+  },
+  {
+    "id": 17,
+    "type": "multiple_choice",
+    "question": "¿Qué significa que el IVA es un impuesto al consumo?",
+    "options": [
+      "Que solo lo pagan las fábricas",
+      "Que el impuesto recae finalmente sobre el usuario o consumidor final del bien/servicio",
+      "Que grava los bienes exportados",
+      "Que es deducible en el Impuesto a las Ganancias"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Aunque la cadena productiva va pagando el IVA en distintas etapas (IVA Crédito e IVA Débito), el impuesto siempre se traslada al precio. Por ende, quien soporta y paga el 100% de la carga tributaria final es el consumidor que adquiere el producto para uso propio."
+  },
+  {
+    "id": 18,
+    "type": "multiple_choice",
+    "question": "En la teoría de control presupuestario, ¿cuál es el objetivo del Informe de Desempeño?",
+    "options": [
+      "Fijar el precio de venta de los productos",
+      "Comparar los ingresos y gastos esperados vs los reales para analizar desvíos",
+      "Despedir empleados improductivos",
+      "Cumplir con un requisito de AFIP"
+    ],
+    "correctAnswer": 1,
+    "explanation": "El informe de gestión o desempeño es clave para la etapa de Control. Sirve para poner lado a lado lo que se presupuestó versus lo que realmente sucedió en un periodo, identificar los desvíos y tomar medidas correctivas a tiempo."
+  },
+  {
+    "id": 19,
+    "type": "multiple_choice",
+    "question": "Diferencia de tiempos: El Plan Estratégico suele tener un horizonte de...",
+    "options": [
+      "1 a 3 meses",
+      "1 año",
+      "3 a 5 años",
+      "10 a 20 años"
+    ],
+    "correctAnswer": 2,
+    "explanation": "El planeamiento táctico u operativo (el Presupuesto Anual, por ejemplo) es de corto plazo (1 año). El Plan Estratégico, en cambio, define el rumbo general y visión de la empresa a largo plazo, típicamente de 3 a 5 años."
+  },
+  {
+    "id": 20,
+    "type": "multiple_choice",
+    "question": "El hecho imponible de los Ingresos Brutos grava el ejercicio habitual y a título oneroso del comercio, industria, profesión, etc.",
+    "options": [
+      "Verdadero",
+      "Falso"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Verdadero. Ingresos Brutos (que es un impuesto provincial) grava cualquier actividad realizada a título oneroso (lucro) y de forma habitual dentro del límite geográfico de la provincia que recauda."
+  },
+  {
+    "id": 21,
+    "type": "multiple_choice",
+    "question": "¿Qué ocurre con el flujo de caja proyectado si compro maquinaria con fondos propios?",
+    "options": [
+      "Aumenta el saldo de caja",
+      "Disminuye el saldo final por la salida de dinero de la compra",
+      "No afecta la caja, solo el cuadro de resultados",
+      "Aumenta la ganancia del ejercicio"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Al usar fondos propios, hay una salida de efectivo inmediata, por lo que el Flujo de Caja (Financiero) disminuye. En el balance general aumenta Bienes de Uso, y en el Cuadro de Resultados solo impactará la amortización devengada anualmente."
+  },
+  {
+    "id": 22,
+    "type": "multiple_choice",
+    "question": "La 4ta categoría de imputación de Ganancias corresponde a:",
+    "options": [
+      "Renta del suelo (inmuebles)",
+      "Renta de capitales (inversiones)",
+      "Renta de sociedades de capital",
+      "Renta del trabajo personal (relación de dependencia, profesiones)"
+    ],
+    "correctAnswer": 3,
+    "explanation": "El impuesto a las Ganancias clasifica las rentas en: 1° (Inmuebles y suelo), 2° (Rentas de capital como bonos), 3° (Sociedades comerciales) y 4° (Trabajo en relación de dependencia y ejercicio de profesiones libres)."
   }
 ]
