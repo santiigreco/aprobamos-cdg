@@ -1,5 +1,5 @@
 import React from 'react';
-import { BookOpen, Brain, Trophy } from 'lucide-react';
+import { BookOpen, Brain, Trophy, Globe } from 'lucide-react';
 
 export default function Dashboard({ setView }) {
   return (
@@ -26,6 +26,13 @@ export default function Dashboard({ setView }) {
           <Trophy size={48} color="#f59e0b" />
           <h2 style={{ fontSize: '1.5rem', margin: '0.5rem 0' }}>Leaderboard</h2>
           <p style={{ color: 'var(--text-secondary)' }}>Mira tu clasificación y compite por el mejor puntaje.</p>
+        </div>
+
+        <div className="glass-panel pdf-card" onClick={() => setView('comercio-exterior')}
+          style={{ borderColor: 'rgba(16, 185, 129, 0.3)', background: 'rgba(16, 185, 129, 0.04)' }}>
+          <Globe size={48} color="#10b981" />
+          <h2 style={{ fontSize: '1.5rem', margin: '0.5rem 0' }}>Comercio Exterior</h2>
+          <p style={{ color: 'var(--text-secondary)' }}>Guía completa del 1er parcial: INCOTERMS, territorio aduanero, logística y más.</p>
         </div>
       </div>
     </div>
