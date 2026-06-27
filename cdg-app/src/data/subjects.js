@@ -1,0 +1,64 @@
+/**
+ * subjects.js — Configuración central de materias
+ *
+ * Para agregar una materia nueva:
+ * 1. Crear carpeta src/data/<id>/
+ * 2. Agregar questions.json y notes.json en esa carpeta
+ * 3. Copiar PDFs a public/apuntes/ (o public/apuntes/<id>/)
+ * 4. Agregar un objeto a este array con la estructura de abajo
+ */
+
+export const SUBJECTS = [
+  {
+    id: 'control-gestion',
+    name: 'Control de Gestión',
+    shortName: 'CDG',
+    description: '1er Parcial — Presupuestos, Ajuste por Inflación, Leasing y más.',
+    color: '#3b82f6',
+    accentColor: '#8b5cf6',
+    icon: 'BookOpen',
+    getQuestions: () => import('./cdg/questions.json').then(m => m.default),
+    getNotes: () => import('./cdg/notes.json').then(m => m.default),
+    // Sin guía especial — es una materia estándar
+    guideView: null,
+  },
+
+  {
+    id: 'comercio-exterior',
+    name: 'Comercio Exterior',
+    shortName: 'CE',
+    description: 'Guía del 1er Parcial — INCOTERMS, territorio aduanero, logística y más.',
+    color: '#10b981',
+    accentColor: '#06b6d4',
+    icon: 'Globe',
+    // Esta materia no tiene quiz ni apuntes propios: va directo a la guía HTML
+    directView: 'comercio-exterior',
+    getQuestions: null,
+    getNotes: null,
+    guideView: null,
+  },
+
+  // ── Ejemplo: Mantenimiento ───────────────────────────────────────────────
+  // {
+  //   id: 'mantenimiento',
+  //   name: 'Mantenimiento Industrial',
+  //   shortName: 'Mant.',
+  //   description: '1er Parcial — Tipos de mantenimiento, FMEA, indicadores.',
+  //   color: '#f59e0b',
+  //   accentColor: '#ef4444',
+  //   icon: 'Wrench',
+  //   getQuestions: () => import('./mantenimiento/questions.json').then(m => m.default),
+  //   getNotes: () => import('./mantenimiento/notes.json').then(m => m.default),
+  //   guideView: null,
+  //   directView: null,
+  // },
+];
+
+/**
+ * Devuelve una materia por su ID.
+ * @param {string} id
+ * @returns {object|undefined}
+ */
+export function getSubjectById(id) {
+  return SUBJECTS.find(s => s.id === id);
+}
