@@ -38,20 +38,20 @@ export const SUBJECTS = [
     guideView: null,
   },
 
-  // ── Ejemplo: Mantenimiento ───────────────────────────────────────────────
-  // {
-  //   id: 'mantenimiento',
-  //   name: 'Mantenimiento Industrial',
-  //   shortName: 'Mant.',
-  //   description: '1er Parcial — Tipos de mantenimiento, FMEA, indicadores.',
-  //   color: '#f59e0b',
-  //   accentColor: '#ef4444',
-  //   icon: 'Wrench',
-  //   getQuestions: () => import('./mantenimiento/questions.json').then(m => m.default),
-  //   getNotes: () => import('./mantenimiento/notes.json').then(m => m.default),
-  //   guideView: null,
-  //   directView: null,
-  // },
+  {
+    id: 'mantenimiento',
+    name: 'Mantenimiento Industrial',
+    shortName: 'Mant.',
+    description: 'Guía del 1er Parcial — Mantenimiento',
+    color: '#f59e0b',
+    accentColor: '#ef4444',
+    icon: 'Wrench',
+    directView: 'html-guide',
+    htmlFile: '/mantenimiento.html',
+    getQuestions: null,
+    getNotes: null,
+    guideView: null,
+  },
 ];
 
 /**

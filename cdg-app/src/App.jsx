@@ -5,11 +5,13 @@ import SubjectHub from './components/SubjectHub';
 import Practice from './components/Practice';
 import Notes from './components/Notes';
 import ComercioExterior from './components/ComercioExterior';
+import HtmlGuide from './components/HtmlGuide';
 import { ArrowLeft } from 'lucide-react';
 
 // Mapa de componentes de vista directa (materias sin hub propio)
 const DIRECT_VIEW_COMPONENTS = {
   'comercio-exterior': ComercioExterior,
+  'html-guide': HtmlGuide,
 };
 
 function App() {
@@ -115,7 +117,7 @@ function App() {
               >
                 <ArrowLeft size={16} /> Volver a materias
               </button>
-              <DirectViewComponent />
+              <DirectViewComponent subject={currentSubject} />
             </>
           )}
         </>

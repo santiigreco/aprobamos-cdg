@@ -1,0 +1,1113 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Guía 1er Parcial – Mantenimiento UTN</title>
+  <meta name="description" content="Guía completa para el primer parcial de Mantenimiento UTN. Teoría, Práctica y Simulador." />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg-primary:    #0a0e1a;
+      --bg-secondary:  #111827;
+      --bg-card:       #161d2e;
+      --bg-card-hover: #1c2540;
+      --accent-1:      #6366f1;
+      --accent-2:      #8b5cf6;
+      --accent-3:      #06b6d4;
+      --accent-4:      #10b981;
+      --accent-warn:   #f59e0b;
+      --accent-danger: #ef4444;
+      --text-primary:  #f1f5f9;
+      --text-secondary:#94a3b8;
+      --text-muted:    #64748b;
+      --border:        rgba(99,102,241,0.18);
+      --border-glow:   rgba(99,102,241,0.4);
+      --shadow-lg:     0 20px 60px rgba(0,0,0,0.5);
+      --radius:        12px;
+      --radius-sm:     8px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      line-height: 1.7;
+      overflow-x: hidden;
+      font-size: 16px;
+    }
+
+    /* ── BACKGROUND ANIMATED BLOBS ── */
+    body::before, body::after {
+      content: '';
+      position: fixed;
+      border-radius: 50%;
+      filter: blur(120px);
+      opacity: 0.12;
+      pointer-events: none;
+      z-index: 0;
+      animation: blobFloat 12s ease-in-out infinite alternate;
+    }
+    body::before {
+      width: 600px; height: 600px;
+      background: var(--accent-1);
+      top: -200px; left: -200px;
+    }
+    body::after {
+      width: 500px; height: 500px;
+      background: var(--accent-2);
+      bottom: -200px; right: -200px;
+      animation-delay: -6s;
+    }
+    @keyframes blobFloat {
+      from { transform: translate(0,0) scale(1); }
+      to   { transform: translate(40px,30px) scale(1.08); }
+    }
+
+    /* ── HEADER ── */
+    header {
+      position: relative;
+      z-index: 10;
+      text-align: center;
+      padding: 70px 24px 50px;
+      background: linear-gradient(180deg, rgba(99,102,241,0.08) 0%, transparent 100%);
+      border-bottom: 1px solid var(--border);
+    }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(99,102,241,0.15);
+      border: 1px solid var(--border-glow);
+      color: var(--accent-1);
+      padding: 5px 14px;
+      border-radius: 999px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      margin-bottom: 20px;
+    }
+    .badge-dot {
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: var(--accent-1);
+      animation: pulse 2s ease-in-out infinite;
+    }
+    @keyframes pulse {
+      0%,100% { opacity: 1; transform: scale(1); }
+      50%      { opacity: 0.5; transform: scale(1.4); }
+    }
+    h1 {
+      font-size: clamp(2.2rem, 5vw, 3.8rem);
+      font-weight: 800;
+      background: linear-gradient(135deg, #f1f5f9 0%, var(--accent-1) 50%, var(--accent-3) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      line-height: 1.15;
+      margin-bottom: 16px;
+    }
+    .subtitle {
+      color: var(--text-secondary);
+      font-size: 1.05rem;
+      max-width: 580px;
+      margin: 0 auto 28px;
+    }
+
+    /* ── PRIORITY PILLS ── */
+    .priority-strip {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 10px;
+    }
+    .p-pill {
+      padding: 5px 16px;
+      border-radius: 999px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      border: 1px solid;
+    }
+    .p-pill.crit  { background: rgba(239,68,68,0.12); border-color: rgba(239,68,68,0.35); color: #fca5a5; }
+    .p-pill.high  { background: rgba(245,158,11,0.12); border-color: rgba(245,158,11,0.35); color: #fcd34d; }
+    .p-pill.med   { background: rgba(16,185,129,0.12); border-color: rgba(16,185,129,0.35); color: #6ee7b7; }
+
+    /* ── NAV ── */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(10,14,26,0.92);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 24px;
+    }
+    .nav-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      gap: 3px;
+      overflow-x: auto;
+      scrollbar-width: none;
+      padding: 8px 0;
+      align-items: center;
+    }
+    .nav-inner::-webkit-scrollbar { display: none; }
+    .nav-btn {
+      white-space: nowrap;
+      padding: 0;
+      border: 1px solid transparent;
+      background: transparent;
+      color: var(--text-secondary);
+      font-family: 'Inter', sans-serif;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      transition: all 0.22s;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2px;
+      padding: 6px 12px;
+      line-height: 1;
+    }
+    .nav-btn .nav-unit {
+      font-size: 0.58rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 1px 6px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.06);
+      color: var(--text-muted);
+      transition: all 0.22s;
+    }
+    .nav-btn .nav-label {
+      font-size: 0.8rem;
+      font-weight: 500;
+    }
+    .nav-btn:hover {
+      background: rgba(99,102,241,0.12);
+      border-color: rgba(99,102,241,0.2);
+      color: var(--accent-1);
+    }
+    .nav-btn:hover .nav-unit {
+      background: rgba(99,102,241,0.2);
+      color: var(--accent-1);
+    }
+    .nav-btn.active {
+      background: rgba(99,102,241,0.18);
+      border-color: rgba(99,102,241,0.35);
+      color: var(--accent-1);
+    }
+    .nav-btn.active .nav-unit {
+      background: rgba(99,102,241,0.3);
+      color: #c7d2fe;
+    }
+    .nav-sep {
+      width: 1px;
+      height: 28px;
+      background: var(--border);
+      flex-shrink: 0;
+      margin: 0 4px;
+    }
+
+    /* ── MAIN ── */
+    main {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 40px 24px 80px;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ── SECTION TITLES ── */
+    .section-title {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin: 56px 0 24px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid var(--border);
+    }
+    .section-icon {
+      width: 42px; height: 42px;
+      border-radius: var(--radius-sm);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.2rem;
+      flex-shrink: 0;
+    }
+    .section-title h2 {
+      font-size: 1.55rem;
+      font-weight: 700;
+      color: var(--text-primary);
+    }
+    .section-title .sec-sub {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    /* ICON COLORS */
+    .ic-red    { background: rgba(239,68,68,0.15); }
+    .ic-amber  { background: rgba(245,158,11,0.15); }
+    .ic-violet { background: rgba(99,102,241,0.15); }
+    .ic-cyan   { background: rgba(6,182,212,0.15); }
+    .ic-green  { background: rgba(16,185,129,0.15); }
+    .ic-pink   { background: rgba(236,72,153,0.15); }
+
+    /* ── CARD ── */
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 24px 26px;
+      margin-bottom: 18px;
+      transition: transform 0.25s, border-color 0.25s, box-shadow 0.25s;
+      position: relative;
+      overflow: hidden;
+    }
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      height: 3px; width: 100%;
+      border-radius: var(--radius) var(--radius) 0 0;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    .card:hover {
+      transform: translateY(-3px);
+      border-color: var(--border-glow);
+      box-shadow: var(--shadow-lg);
+      background: var(--bg-card-hover);
+    }
+    .card:hover::before { opacity: 1; }
+
+    .card.crit::before  { background: linear-gradient(90deg, var(--accent-danger), transparent); }
+    .card.high::before  { background: linear-gradient(90deg, var(--accent-warn), transparent); }
+    .card.med::before   { background: linear-gradient(90deg, var(--accent-4), transparent); }
+    .card.info::before  { background: linear-gradient(90deg, var(--accent-1), transparent); }
+    .card.cyan::before  { background: linear-gradient(90deg, var(--accent-3), transparent); }
+
+    .card-header {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+    .card-tag {
+      flex-shrink: 0;
+      padding: 3px 10px;
+      border-radius: 999px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      margin-top: 3px;
+    }
+    .tag-crit   { background: rgba(239,68,68,0.15); color: #fca5a5; border: 1px solid rgba(239,68,68,0.3); }
+    .tag-high   { background: rgba(245,158,11,0.15); color: #fcd34d; border: 1px solid rgba(245,158,11,0.3); }
+    .tag-med    { background: rgba(16,185,129,0.15); color: #6ee7b7; border: 1px solid rgba(16,185,129,0.3); }
+    .tag-info   { background: rgba(99,102,241,0.15); color: #a5b4fc; border: 1px solid rgba(99,102,241,0.3); }
+    .tag-exam   { background: rgba(236,72,153,0.15); color: #f9a8d4; border: 1px solid rgba(236,72,153,0.3); }
+
+    .card h3 {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 0;
+    }
+    .card p, .card li {
+      color: var(--text-secondary);
+      font-size: 0.93rem;
+      line-height: 1.7;
+    }
+    .card ul { padding-left: 20px; }
+    .card li { margin-bottom: 6px; }
+    .card li::marker { color: var(--accent-1); }
+
+    /* ── HIGHLIGHT BOX ── */
+    .highlight {
+      background: rgba(99,102,241,0.08);
+      border-left: 3px solid var(--accent-1);
+      border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+      padding: 14px 18px;
+      margin: 12px 0;
+      font-size: 0.91rem;
+      color: var(--text-secondary);
+    }
+    .highlight strong { color: var(--accent-1); }
+
+    .warn-box {
+      background: rgba(245,158,11,0.08);
+      border-left: 3px solid var(--accent-warn);
+      border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+      padding: 14px 18px;
+      margin: 12px 0;
+      font-size: 0.91rem;
+      color: var(--text-secondary);
+    }
+    .warn-box strong { color: var(--accent-warn); }
+
+    .danger-box {
+      background: rgba(239,68,68,0.08);
+      border-left: 3px solid var(--accent-danger);
+      border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+      padding: 14px 18px;
+      margin: 12px 0;
+      font-size: 0.91rem;
+      color: var(--text-secondary);
+    }
+    .danger-box strong { color: var(--accent-danger); }
+
+    /* ── GRID ── */
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+    .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+    @media (max-width: 768px) {
+      .grid-2, .grid-3 { grid-template-columns: 1fr; }
+    }
+
+    /* ── FAQ ── */
+    .faq-item {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      margin-bottom: 12px;
+      overflow: hidden;
+      transition: border-color 0.25s;
+    }
+    .faq-item:hover { border-color: var(--border-glow); }
+    .faq-q {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 18px 22px;
+      cursor: pointer;
+      gap: 16px;
+    }
+    .faq-q h4 {
+      font-size: 0.97rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+    }
+    .faq-q h4 .q-icon {
+      flex-shrink: 0;
+      width: 22px; height: 22px;
+      border-radius: 50%;
+      background: rgba(99,102,241,0.2);
+      color: var(--accent-1);
+      font-size: 0.8rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      margin-top: 2px;
+    }
+    .faq-arrow {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      transition: transform 0.3s;
+      flex-shrink: 0;
+    }
+    .faq-item.open .faq-arrow { transform: rotate(180deg); }
+    .faq-a {
+      display: none;
+      padding: 0 22px 18px;
+    }
+    .faq-a p, .faq-a li {
+      color: var(--text-secondary);
+      font-size: 0.91rem;
+      line-height: 1.7;
+    }
+    .faq-a ul { padding-left: 20px; }
+    .faq-a li { margin-bottom: 4px; }
+    .faq-item.open .faq-a { display: block; }
+
+    /* ── PROGRESS CHECKLIST ── */
+    .checklist {
+      list-style: none;
+      padding: 0;
+    }
+    .checklist li {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 10px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+      color: var(--text-secondary);
+      font-size: 0.93rem;
+    }
+    .checklist li:last-child { border-bottom: none; }
+    .check-box {
+      width: 20px; height: 20px;
+      border-radius: 5px;
+      border: 2px solid var(--accent-1);
+      flex-shrink: 0;
+      margin-top: 2px;
+      cursor: pointer;
+      transition: all 0.2s;
+      position: relative;
+    }
+    .check-box.done {
+      background: var(--accent-1);
+    }
+    .check-box.done::after {
+      content: '✓';
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%,-50%);
+      color: white;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    /* ── CODE SPAN ── */
+    code {
+      font-family: 'JetBrains Mono', monospace;
+      background: rgba(99,102,241,0.12);
+      color: var(--accent-1);
+      padding: 2px 7px;
+      border-radius: 5px;
+      font-size: 0.85em;
+    }
+
+    /* ── MINI TABLE ── */
+    table.t {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.88rem;
+      margin-top: 14px;
+    }
+    table.t th {
+      background: rgba(99,102,241,0.12);
+      color: var(--accent-1);
+      font-weight: 700;
+      padding: 10px 14px;
+      text-align: left;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    table.t td {
+      padding: 9px 14px;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      color: var(--text-secondary);
+      vertical-align: top;
+    }
+    table.t tr:last-child td { border-bottom: none; }
+    table.t tr:hover td { background: rgba(255,255,255,0.02); }
+    table.t td:first-child {
+      color: var(--text-primary);
+      font-weight: 600;
+    }
+    .table-wrap { overflow-x: auto; }
+
+    /* ── FORMULA BLOCK ── */
+    .formula-block {
+      font-family: 'JetBrains Mono', monospace;
+      background: var(--bg-secondary);
+      border: 1px solid rgba(255,255,255,0.05);
+      color: #e2b8ff;
+      padding: 16px;
+      border-radius: var(--radius-sm);
+      margin: 10px 0;
+      white-space: pre-wrap;
+      font-size: 0.9rem;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      text-align: center;
+      padding: 30px;
+      color: var(--text-muted);
+      font-size: 0.82rem;
+      border-top: 1px solid var(--border);
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ── SCROLL PROGRESS ── */
+    #scroll-bar {
+      position: fixed;
+      top: 0; left: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--accent-1), var(--accent-3));
+      z-index: 9999;
+      width: 0%;
+      transition: width 0.1s linear;
+    }
+  </style>
+</head>
+<body>
+
+<div id="scroll-bar"></div>
+
+<header>
+  <div class="badge"><span class="badge-dot"></span> UTN · Mantenimiento · 2026</div>
+  <h1>Guía 1er Parcial<br/>Mantenimiento</h1>
+  <p class="subtitle">Desarrollo profundo de las Unidades 1, 2 y 3. Basado 100% en los criterios y correcciones de parciales recientes del Prof. Aprigliano.</p>
+  <div class="priority-strip">
+    <span class="p-pill crit">🔴 Crítico – entra seguro</span>
+    <span class="p-pill high">🟡 Alta prioridad</span>
+    <span class="p-pill med">🟢 Importante conocer</span>
+  </div>
+</header>
+
+<nav>
+  <div class="nav-inner">
+    <button class="nav-btn active" onclick="navScroll(this,'prioridades')">
+      <span class="nav-unit">Resumen</span>
+      <span class="nav-label">📊 Prioridades</span>
+    </button>
+    <div class="nav-sep"></div>
+    <button class="nav-btn" onclick="navScroll(this,'bases')">
+      <span class="nav-unit">Unidad 1</span>
+      <span class="nav-label">📖 Conceptos</span>
+    </button>
+    <div class="nav-sep"></div>
+    <button class="nav-btn" onclick="navScroll(this,'presupuesto')">
+      <span class="nav-unit">Unidad 2</span>
+      <span class="nav-label">💰 Presupuesto</span>
+    </button>
+    <button class="nav-btn" onclick="navScroll(this,'dotacion')">
+      <span class="nav-unit">Unidad 2</span>
+      <span class="nav-label">👷 Dotación</span>
+    </button>
+    <button class="nav-btn" onclick="navScroll(this,'stock')">
+      <span class="nav-unit">Unidad 2</span>
+      <span class="nav-label">📦 Stock</span>
+    </button>
+    <div class="nav-sep"></div>
+    <button class="nav-btn" onclick="navScroll(this,'confiabilidad')">
+      <span class="nav-unit">Unidad 3</span>
+      <span class="nav-label">🔬 Confiabilidad</span>
+    </button>
+    <div class="nav-sep"></div>
+    <button class="nav-btn" onclick="navScroll(this,'faq')">
+      <span class="nav-unit">Examen</span>
+      <span class="nav-label">❓ Simulador</span>
+    </button>
+  </div>
+</nav>
+
+<main>
+
+  <!-- ══════════════════════════════════════
+       MAPA DE PRIORIDADES
+  ══════════════════════════════════════ -->
+  <section id="prioridades">
+    <div class="section-title">
+      <div class="section-icon ic-red">📊</div>
+      <div>
+        <h2>Mapa de Prioridades</h2>
+        <div class="sec-sub">Qué estudiar primero según frecuencia en exámenes recientes</div>
+      </div>
+    </div>
+
+    <div class="grid-3">
+      <div class="card crit">
+        <div class="card-header">
+          <span class="card-tag tag-crit">🔴 Crítico</span>
+          <h3>Presupuesto y Llaves</h3>
+        </div>
+        <p>Armado del presupuesto. Justificación de Imprevistos. Llaves de transferencia (HH con/sin materiales) y <strong>su justificación conceptual</strong>. Cálculo de reparación.</p>
+      </div>
+
+      <div class="card crit">
+        <div class="card-header">
+          <span class="card-tag tag-crit">🔴 Crítico</span>
+          <h3>Cálculo de Dotación</h3>
+        </div>
+        <p>Descuentos para hallar horas netas (vacaciones, feriados, descanso, ausentismo). División, <strong>redondeo siempre HACIA ABAJO y justificación</strong>.</p>
+      </div>
+
+      <div class="card crit">
+        <div class="card-header">
+          <span class="card-tag tag-crit">🔴 Crítico</span>
+          <h3>Administración de Stock</h3>
+        </div>
+        <p>Cálculo de Lote Óptimo, Costo de almacenamiento y Stock de Seguridad. Pregunta teórica: ¿Qué pasa si aumentás el lote óptimo arbitrariamente?</p>
+      </div>
+
+      <div class="card crit">
+        <div class="card-header">
+          <span class="card-tag tag-crit">🔴 Crítico</span>
+          <h3>Correctivo vs Preventivo</h3>
+        </div>
+        <p>Justificación de trabajar a la falla. Ventajas y desventajas del Correctivo y del Preventivo. Mortalidad infantil.</p>
+      </div>
+      
+      <div class="card high">
+        <div class="card-header">
+          <span class="card-tag tag-high">🟡 Alta</span>
+          <h3>Predictivo e Indicadores</h3>
+        </div>
+        <p>Diferencias claras entre Preventivo y Predictivo (Cuadro). Relación Mantenibilidad - MTTR. Uso de MTBF y MTTF.</p>
+      </div>
+
+      <div class="card med">
+        <div class="card-header">
+          <span class="card-tag tag-med">🟢 Importante</span>
+          <h3>Documentación (SIM)</h3>
+        </div>
+        <p>Interacción del Almacén con la empresa (documentos). Árbol de equipos vs ID físico. Orden de Trabajo e Historial de Equipo.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════
+       UNIDAD 1: CONCEPTOS BÁSICOS
+  ══════════════════════════════════════ -->
+  <section id="bases">
+    <div class="section-title">
+      <div class="section-icon ic-violet">📖</div>
+      <div>
+        <h2>Conceptos Fundamentales</h2>
+        <div class="sec-sub">Unidad 1 – Tipos de mantenimiento y planificación</div>
+      </div>
+    </div>
+
+    <div class="card info">
+      <div class="card-header">
+        <span class="card-tag tag-info">Definiciones Base</span>
+        <h3>Mantenimiento Global y Proactivo</h3>
+      </div>
+      <p><strong>Mantenimiento (Definición Oficial):</strong> Proceso de gestión que debe asegurar la disponibilidad, confiabilidad y eficiencia de los equipos, en el nivel previamente establecido para las funciones de los activos, en un <strong>contexto operacional dinámico dado</strong>.</p>
+      <p style="margin-top:10px;"><strong>Mantenimiento Proactivo:</strong> Es la filosofía de actuar <em>antes</em> de la falla. "En muchos casos (no en todos) las acciones tomadas como consecuencia de aplicar una tarea proactiva, permiten revertir una situación antes de llegar a la falla funcional".</p>
+    </div>
+
+    <!-- PREVENTIVO Y CORRECTIVO: TEORÍA DE EXAMEN -->
+    <div class="grid-2">
+      <div class="card crit">
+        <div class="card-header">
+          <span class="card-tag tag-exam">Tema 4 - Tomado</span>
+          <h3>Trabajo a la Falla (Correctivo)</h3>
+        </div>
+        <p><strong>¿Qué es?</strong> Reparación o sustitución de un elemento una vez que ha presentado una falla funcional evidente.</p>
+        <ul style="margin-top:8px;">
+          <li><strong>¿Cómo se justifica la decisión?</strong> Se trabaja a la falla cuando el costo de la reparación o sustitución, sumado al lucro cesante, es <strong>MENOR</strong> que el costo de aplicar preventivo/predictivo en el tiempo, siempre y cuando NO afecte la seguridad, el medio ambiente, ni la calidad.</li>
+          <li><strong>Principal Ventaja:</strong> Aprovechamiento al <strong>100%</strong> de la vida útil del elemento. No hay gastos de monitoreo ni desarme preventivo.</li>
+          <li><strong>Desventajas:</strong> Paradas imprevistas de producción, posibilidad de daños secundarios a otras piezas, requiere alto stock de repuestos inmovilizado, genera estrés en el personal.</li>
+        </ul>
+      </div>
+
+      <div class="card crit">
+        <div class="card-header">
+          <span class="card-tag tag-exam">Tema 4 & 5 - Tomado</span>
+          <h3>Mantenimiento Preventivo</h3>
+        </div>
+        <p><strong>¿Qué es?</strong> Intervenciones sistemáticas programadas por tiempo o uso (estadística) antes de que ocurra la falla.</p>
+        <ul style="margin-top:8px;">
+          <li><strong>Planificación (Gráfico de Curvas):</strong> Se deben cruzar la <em>Curva de Costos Preventivos</em> (crece con más intervenciones) y la <em>Curva de Costo por Falla/Correctivo</em> (baja a mayor prevención). El <strong>Punto Óptimo</strong> se halla donde la suma de ambas (Costo Total) es mínima.</li>
+          <li><strong>Principal Desventaja:</strong> El desarme periódico innecesario que puede inducir fallas humanas (<strong>mortalidad infantil</strong>) o ingreso de suciedad, sumado a que <strong>NO se aprovecha el 100%</strong> de la vida útil de la pieza.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="card cyan">
+      <div class="card-header">
+        <span class="card-tag tag-exam">Tema 8 - Tomado</span>
+        <h3>Diferencias: Preventivo vs Predictivo</h3>
+      </div>
+      <p><em>Ejemplo de Predictivo: El <strong>Análisis de Vibraciones</strong> es una técnica de Mantenimiento Predictivo (o a condición / proactivo) porque monitorea la salud del equipo en marcha buscando síntomas, sin desarmar.</em></p>
+      <div class="table-wrap">
+        <table class="t" style="margin-top:10px;">
+          <tr><th>Aspecto</th><th>Mantenimiento Preventivo</th><th>Mantenimiento Predictivo</th></tr>
+          <tr><td><strong>Estado de máquina</strong></td><td>Normalmente requiere <strong>máquina parada</strong> (desarme).</td><td>Se realiza con <strong>máquina en marcha</strong>.</td></tr>
+          <tr><td><strong>Criterio de Cambio</strong></td><td>Se interviene por tiempo/uso (estadística de manual).</td><td>Se interviene solo a condición (síntoma de falla).</td></tr>
+          <tr><td><strong>Vida Útil</strong></td><td>No se aprovecha al 100% (reemplazo prematuro).</td><td>Se aprovecha casi al 100% del elemento.</td></tr>
+          <tr><td><strong>Recursos</strong></td><td>Intensivo en Horas-Hombre (fuerza de trabajo).</td><td>Intensivo en Tecnología e Instrumentos.</td></tr>
+          <tr><td><strong>Mortalidad Infantil</strong></td><td>Alta probabilidad (inducida por desarmes frecuentes).</td><td>Baja probabilidad (evita desarme innecesario).</td></tr>
+        </table>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ══════════════════════════════════════
+       UNIDAD 2: PRESUPUESTO
+  ══════════════════════════════════════ -->
+  <section id="presupuesto">
+    <div class="section-title">
+      <div class="section-icon ic-amber">💰</div>
+      <div>
+        <h2>Presupuesto de Mantenimiento</h2>
+        <div class="sec-sub">Unidad 2 – SIM y Costos</div>
+      </div>
+    </div>
+
+    <div class="card crit">
+      <div class="card-header">
+        <span class="card-tag tag-crit">🔴 Práctico</span>
+        <h3>Armado del Presupuesto (4 Sectores)</h3>
+      </div>
+      <p>Para armar el Subtotal, se suman los gastos anuales de estos 4 sectores:</p>
+      <ul style="margin-top:10px;">
+        <li><strong>Jefatura:</strong> Sueldos, gastos oficina, amortización mobiliario, energía.</li>
+        <li><strong>Planificación y Control:</strong> Sueldos, oficina, energía.</li>
+        <li><strong>Almacén:</strong> Sueldos + Repuestos por obsolescencia + Alquiler local + <strong>Interés sobre el stock</strong>.</li>
+        <li><strong>Operaciones (M.O.D):</strong> Sueldos operarios, amortizaciones + Consumibles + Diferencias inventario + Servicios de terceros.</li>
+      </ul>
+      <div class="warn-box" style="margin-top:12px;">
+        <strong>Interés sobre el stock:</strong> Se calcula multiplicando el (Stock Promedio Anual + Stock de Seguridad si hubiera) por la Tasa de Interés del ejercicio.
+      </div>
+      
+      <div class="formula-block">Subtotal = Σ (Jefatura + Planif + Almacén + Operaciones)
++ Imprevistos (Ej: 10% del Subtotal) -> ¡Siempre justificar!
+-----------------------------------------------------------
+= Presupuesto Total Sin Materiales (P.S.M)
++ Repuestos y Consumos Anuales
+-----------------------------------------------------------
+= Presupuesto Total (Con Materiales) (P.C.M)</div>
+
+      <div class="danger-box" style="margin-top:12px;">
+        <strong>⚠️ Justificación de Imprevistos (CRÍTICO):</strong><br>
+        Si elegís <strong>8% a 10%</strong> → "Justifico un porcentaje bajo porque la planta posee un plan de mantenimiento altamente predictivo/preventivo con bajo correctivo".<br>
+        Si elegís <strong>15%</strong> → "Justifico un porcentaje alto porque la planta se encuentra en un régimen netamente correctivo / trabajo a la falla".
+      </div>
+    </div>
+
+    <div class="card crit">
+      <div class="card-header">
+        <span class="card-tag tag-exam">Temas 4 y 6 - Tomado</span>
+        <h3>Llaves de Transferencia (Tarifa HH)</h3>
+      </div>
+      <p>Son los valores monetarios de la Hora-Hombre. Sirven para costear económicamente las OTs.</p>
+      <div class="table-wrap">
+        <table class="t">
+          <tr>
+            <th>Tipo</th>
+            <th>Fórmula (Se divide por las Hs Totales de Operaciones)</th>
+            <th>Justificación Teórica Oficial</th>
+          </tr>
+          <tr>
+            <td><strong>HH Sin Mat.</strong></td>
+            <td><code>Presupuesto Sin Materiales / (Dotación x Hs Netas)</code></td>
+            <td><strong>Control Calendarizado.</strong> Permite costear económicamente el mantenimiento de un equipo en forma individual a lo largo del año. Sirve para tomar decisiones de <strong>reemplazo tecnológico</strong> o aplicar <strong>make-or-buy</strong> (hacer o tercerizar).</td>
+          </tr>
+          <tr>
+            <td><strong>HH Con Mat.</strong></td>
+            <td><code>Presupuesto TOTAL / (Dotación x Hs Netas)</code></td>
+            <td><strong>Control Global.</strong> Se utiliza exclusivamente a fin de año (31/12) para realizar el cierre presupuestario total del sector. <em>NO sirve para individualizar costos por máquina.</em></td>
+          </tr>
+        </table>
+      </div>
+      <div class="highlight" style="margin-top:12px;">
+        <strong>Cálculo de una Reparación de 8 horas:</strong> Para costear una reparación específica, SIEMPRE se usa la llave <strong>Sin Materiales</strong> (Ej: 8 hs * $HH_Sin_Mat + Costo repuestos usados).
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════
+       UNIDAD 2: DOTACIÓN
+  ══════════════════════════════════════ -->
+  <section id="dotacion">
+    <div class="section-title">
+      <div class="section-icon ic-cyan">👷</div>
+      <div>
+        <h2>Cálculo de Dotación</h2>
+        <div class="sec-sub">Unidad 2 – Práctico asegurado</div>
+      </div>
+    </div>
+
+    <div class="grid-2">
+      <div class="card crit">
+        <div class="card-header">
+          <span class="card-tag tag-crit">Paso 1</span>
+          <h3>Horas Netas por Operario</h3>
+        </div>
+        <p>Se restan los descuentos a las horas brutas anuales:</p>
+        <div class="formula-block">Horas Brutas Anuales (Ej: 8.5 hs x 6 días x 52 sem = 2652 hs)
+- Vacaciones (Ej: 3 semanas = 18 días x 8.5 hs = 153 hs)
+- Feriados (Ej: 15 días x 8.5 hs = 127.5 hs)
+- Descanso diario (Ej: 1 hs x Días Laborables = X hs)
+- Ausentismo (Aplicar 2% a 5% sobre el REMANENTE)
+---------------------------------------------
+= Horas Netas Anuales Reales</div>
+        <p style="font-size: 0.85rem; margin-top:8px;">*Ojo si el ejercicio dice "feriados laborables" no se descuentan.</p>
+      </div>
+
+      <div class="card crit">
+        <div class="card-header">
+          <span class="card-tag tag-exam">Tema 4 y 6</span>
+          <h3>Paso 2: División y Redondeo</h3>
+        </div>
+        <p>Se divide la suma de las horas demandadas (preventivas + eventuales anuales) por las horas netas obtenidas.</p>
+        <div class="formula-block">Dotación = Hs Totales Demandadas / Hs Netas Operario
+Ej: 10.920 hs / 1.938 hs = 5,63 operarios</div>
+        <div class="danger-box">
+          <strong>Regla ESTRICTA:</strong> Se redondea <strong>SIEMPRE HACIA ABAJO</strong> (Trunco). Ej: 5,63 da 5 operarios directos.
+        </div>
+        <p><strong>Justificación (Escribir tal cual):</strong> "Se redondea hacia abajo para no asumir costos fijos estructurales innecesarios (incorporar 1 empleado para fracción de tarea). La fracción restante se absorbe mediante: 1) Reasignación de tareas, 2) Horas extras, o 3) Tercerización eventual."</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════
+       UNIDAD 2: STOCK E INVENTARIOS
+  ══════════════════════════════════════ -->
+  <section id="stock">
+    <div class="section-title">
+      <div class="section-icon ic-green">📦</div>
+      <div>
+        <h2>Administración de Stock</h2>
+        <div class="sec-sub">Unidad 2 – Subsistema Almacén</div>
+      </div>
+    </div>
+
+    <div class="card info">
+      <div class="card-header">
+        <span class="card-tag tag-exam">Tema 5</span>
+        <h3>Clasificación e Interacción del Almacén</h3>
+      </div>
+      <p><strong>Interacción del Almacén (Documentos):</strong></p>
+      <ul style="margin-top:8px;">
+        <li>Con Mantenimiento/Operaciones: Se entrega repuestos mediante <strong>Vale de Retiro</strong> de materiales.</li>
+        <li>Con Compras: Se solicita reposición al llegar al punto de pedido mediante <strong>Solicitud de Compra</strong> o Pedido de Materiales.</li>
+        <li>Con Proveedores (Recepción): Se ingresa físicamente la mercadería controlando el <strong>Remito de Recepción</strong>.</li>
+      </ul>
+      <p style="margin-top:10px;"><strong>Objetivo de la Función Materiales:</strong> Asegurar la disponibilidad de repuestos en la cantidad, calidad, tiempo y lugar adecuados, asumiendo el <strong>menor costo de inmovilización financiera posible</strong>.</p>
+    </div>
+
+    <div class="grid-2">
+      <div class="card high">
+        <div class="card-header">
+          <span class="card-tag tag-exam">Tema 4</span>
+          <h3>Tipos de Repuestos / Inventarios</h3>
+        </div>
+        <ul style="margin-top:8px;">
+          <li><strong>Consumibles (Alta rotación):</strong> Uso constante y demanda previsible (ej: lubricantes, correas, filtros). Llevan cálculo de Lote Óptimo.</li>
+          <li><strong>Repuestos Críticos (Seguro):</strong> Baja o nula rotación, pero su falta <strong>paraliza la producción</strong>. Son caros y de lead-time largo. Se tienen "por si acaso". NO llevan lote óptimo (se compra 1 o 2 unidades).</li>
+          <li><strong>Específicos / Estratégicos:</strong> Dedicados a una sola máquina clave.</li>
+        </ul>
+      </div>
+
+      <div class="card crit">
+        <div class="card-header">
+          <span class="card-tag tag-exam">Temas 4 y 6</span>
+          <h3>Lote Óptimo de Compra (Wilson)</h3>
+        </div>
+        <p><strong>¿Sobre qué repuestos se calcula?</strong> EXCLUSIVAMENTE sobre repuestos de demanda regular, constante y previsible (Alta rotación).</p>
+        <p style="margin-top:10px;"><strong>¿Qué análisis previo debe hacerse antes del cálculo matemático?</strong><br>
+        Se debe analizar si el repuesto es crítico, la estabilidad de su demanda, y fundamentalmente si <strong>existe capacidad física real en el almacén</strong> para alojar el volumen arrojado por el Lote Óptimo.</p>
+      </div>
+    </div>
+
+    <div class="card crit" style="margin-top:18px;">
+      <div class="card-header">
+        <span class="card-tag tag-crit">Práctico y Conceptual</span>
+        <h3>Cálculos de Stock y Costos</h3>
+      </div>
+      <div class="formula-block">1) Lote Óptimo (Q) = Raíz Cuadrada de [ (2 * Demanda * Costo_Emisión_OC) / (Precio_Unitario * Tasa_Almacenaje) ]
+2) Costo de Almacenamiento = (Q / 2) * Precio_Unitario * Tasa_Almacenaje
+3) Costo Stock Seguridad = Stock_Seguridad * Precio_Unitario * Tasa_Almacenaje</div>
+      <div class="danger-box" style="margin-top:12px;">
+        <strong>Pregunta Trampa de Examen (Tema 6):</strong> Analice qué pasa con el Costo de Almacenaje y el Costo Total si se <strong>aumenta arbitrariamente</strong> el Lote Óptimo.<br><br>
+        <strong>Respuesta Oficial:</strong> Al aumentar arbitrariamente la cantidad a comprar por encima del óptimo, <strong>el Costo de Almacenaje AUMENTA</strong> directamente, ya que se inmoviliza más capital y requiere más espacio/cuidados por más tiempo. Como consecuencia directa, <strong>el Costo Total también AUMENTA</strong>, alejándose del punto de equilibrio (derivada cero) donde los costos estaban minimizados y optimizados.
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════
+       UNIDAD 3: CONFIABILIDAD Y KPI
+  ══════════════════════════════════════ -->
+  <section id="confiabilidad">
+    <div class="section-title">
+      <div class="section-icon ic-pink">🔬</div>
+      <div>
+        <h2>Confiabilidad y KPIs</h2>
+        <div class="sec-sub">Unidad 3 – Disponibilidad de equipos</div>
+      </div>
+    </div>
+    
+    <div class="card med">
+      <h3>Disponibilidad (D0) = Confiabilidad + Mantenibilidad</h3>
+      <ul style="margin-top:10px;">
+        <li><strong>Confiabilidad (MTBF):</strong> Probabilidad de operar sin fallas (diseño sólido robusto).</li>
+        <li><strong>Mantenibilidad (MTTR):</strong> Probabilidad de reparar de forma ágil y rápida.</li>
+      </ul>
+    </div>
+
+    <div class="card crit">
+      <div class="card-header">
+        <span class="card-tag tag-exam">Tema 5 - Tomado literal</span>
+        <h3>Mantenibilidad: Definición y Mejora</h3>
+      </div>
+      <div class="formula-block">"Es un parámetro ESTADÍSTICO que se define como la probabilidad que tiene un ítem, en estado de falla, de ser DIAGNOSTICADO y REPARADO con éxito en un TIEMPO t y en el CONTEXTO de operación previamente establecido".</div>
+      <p style="margin-top:10px;"><strong>¿Cómo lograr un incremento de la Mantenibilidad? (Bajar el MTTR):</strong></p>
+      <ul>
+        <li>Implementar diseño Poka-Yoke (a prueba de errores de ensamble inverso).</li>
+        <li>Estandarización de componentes e intercambiabilidad de repuestos.</li>
+        <li>Mejora en la accesibilidad física al equipo (facilidad de desarme).</li>
+        <li>Capacitación continua del personal técnico.</li>
+        <li>Disponibilidad inmediata de manuales claros, planos y herramientas especiales.</li>
+      </ul>
+    </div>
+
+    <div class="card high">
+      <div class="card-header">
+        <span class="card-tag tag-high">🟡 Alta</span>
+        <h3>Indicadores (KPIs)</h3>
+      </div>
+      <div class="table-wrap">
+        <table class="t">
+          <tr>
+            <th>KPI</th>
+            <th>Significado</th>
+            <th>Uso</th>
+          </tr>
+          <tr>
+            <td><strong>MTBF</strong></td>
+            <td>Tiempo Medio Entre Fallas</td>
+            <td>Aplica a equipos <strong>reparables</strong>. Se busca maximizarlo (↑ Confiabilidad).</td>
+          </tr>
+          <tr>
+            <td><strong>MTTR</strong></td>
+            <td>Tiempo Medio de Reparación</td>
+            <td>Aplica a equipos reparables. Se busca minimizarlo (↑ Mantenibilidad).</td>
+          </tr>
+          <tr>
+            <td><strong>MTTF</strong></td>
+            <td>Tiempo Medio Para la Falla</td>
+            <td>Aplica a elementos <strong>descartables</strong> (que no se reparan, ej: tubo fluorescente o fusible).</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════
+       SIMULADOR DE PARCIAL (FAQ)
+  ══════════════════════════════════════ -->
+  <section id="faq">
+    <div class="section-title">
+      <div class="section-icon ic-amber">❓</div>
+      <div>
+        <h2>Simulador de Parcial</h2>
+        <div class="sec-sub">Preguntas trampa textuales tomadas en exámenes</div>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">
+        <h4><span class="q-icon">?</span> "Las acciones de mantenimiento preventivo pueden dar lugar a la realización de acciones reactivas de mantenimiento"</h4>
+        <span class="faq-arrow">▼</span>
+      </div>
+      <div class="faq-a">
+        <span class="repeat-badge" style="background: rgba(16,185,129,0.15); color: #6ee7b7; border-color: rgba(16,185,129,0.3);">VERDADERO (TEMA 4)</span>
+        <p style="margin-top:10px;"><strong>Justificación:</strong> Durante una inspección sistemática o desarme preventivo, el técnico puede detectar una falla oculta o un daño incipiente grave. Esto obliga a suspender la rutina preventiva y lanzar inmediatamente una acción correctiva o de reacondicionamiento no planeada originalmente. Además, el desarme preventivo puede inducir una falla humana o ingreso de suciedad, provocando una falla inmediata (mortalidad infantil) que requerirá acción reactiva.</p>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">
+        <h4><span class="q-icon">?</span> "En las inspecciones de mantenimiento preventivo se utilizan solo los sentidos"</h4>
+        <span class="faq-arrow">▼</span>
+      </div>
+      <div class="faq-a">
+        <span class="repeat-badge" style="background: rgba(239,68,68,0.15); color: #fca5a5; border-color: rgba(239,68,68,0.3);">FALSO</span>
+        <p style="margin-top:10px;">Además de los sentidos, la inspección va guiada estrictamente por la <strong>hoja de ruta / checklist</strong> (qué y dónde inspeccionar, valores de tolerancia) y respaldada por el <strong>historial de la máquina</strong> en el SIM.</p>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">
+        <h4><span class="q-icon">?</span> "El estado real de un equipo está dado por los parámetros del fabricante en los manuales"</h4>
+        <span class="faq-arrow">▼</span>
+      </div>
+      <div class="faq-a">
+        <span class="repeat-badge" style="background: rgba(239,68,68,0.15); color: #fca5a5; border-color: rgba(239,68,68,0.3);">FALSO</span>
+        <p style="margin-top:10px;">Ese es el estado <strong>teórico</strong> u original. El estado real son los valores de condición que se miden y cuantifican dinámicamente en planta (el equipo sometido al estrés productivo y al ambiente real), los cuales siempre serán inferiores al teórico.</p>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">
+        <h4><span class="q-icon">?</span> "En Árbol de Equipos, la posición es lógica y el ID refiere a algo físico"</h4>
+        <span class="faq-arrow">▼</span>
+      </div>
+      <div class="faq-a">
+        <span class="repeat-badge" style="background: rgba(16,185,129,0.15); color: #6ee7b7; border-color: rgba(16,185,129,0.3);">VERDADERO</span>
+        <p style="margin-top:10px;">El árbol de fallas/equipos marca la ubicación (ej: "Bomba Sistema Enfriamiento Línea 1"), que es una posición lógica/abstracta. El ID (ej: Chapa "B-405") corresponde al activo físico específico que hoy está instalado y prestando servicio en esa posición lógica.</p>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">
+        <h4><span class="q-icon">?</span> "¿Cómo se compone el vínculo entre Mantenimiento y Producción?"</h4>
+        <span class="faq-arrow">▼</span>
+      </div>
+      <div class="faq-a">
+        <span class="repeat-badge" style="background: rgba(99,102,241,0.15); color: #a5b4fc; border-color: rgba(99,102,241,0.3);">DESARROLLO</span>
+        <p style="margin-top:10px;">Se realiza de forma documental mediante la <strong>Orden de Trabajo (OT)</strong> y el Pedido de Intervención (PI). La OT ejecutada genera información valiosa (tiempos, repuestos, fallas) que se vuelca obligatoriamente al <strong>Historial de Equipos</strong> del SIM, cerrando el ciclo.</p>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <p>Creado para Mantenimiento · Cátedra Aprigliano · UTN FRBA 2026</p>
+</footer>
+
+<script>
+  // ── SCROLL BAR ──
+  window.addEventListener('scroll', () => {
+    const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+    const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+    const scrolled = (winScroll / height) * 100;
+    document.getElementById('scroll-bar').style.width = scrolled + '%';
+  });
+
+  // ── SCROLL SPY (NAV) ──
+  const sections = document.querySelectorAll('section');
+  const navBtns = document.querySelectorAll('.nav-btn');
+  window.addEventListener('scroll', () => {
+    let current = '';
+    sections.forEach(sec => {
+      const secTop = sec.offsetTop;
+      if (pageYOffset >= secTop - 200) current = sec.getAttribute('id');
+    });
+    navBtns.forEach(btn => {
+      btn.classList.remove('active');
+      if (btn.getAttribute('onclick').includes(current)) {
+        btn.classList.add('active');
+        btn.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+      }
+    });
+  });
+
+  // ── SMOOTH SCROLL NAV CLICKS ──
+  function navScroll(btn, targetId) {
+    document.getElementById(targetId).scrollIntoView({ behavior: 'smooth' });
+  }
+
+  // ── FAQ ACCORDION ──
+  function toggleFaq(el) {
+    const parent = el.parentElement;
+    parent.classList.toggle('open');
+  }
+
+  // ── FADE IN ANIMATION ──
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.05, rootMargin: '0px 0px -50px 0px' });
+
+  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>
