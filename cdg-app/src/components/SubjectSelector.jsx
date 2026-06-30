@@ -1,5 +1,5 @@
 import React from 'react';
-import { BookOpen, Brain, Globe, Wrench, FlaskConical, Cpu, BarChart3 } from 'lucide-react';
+import { BookOpen, Brain, Globe, Wrench, FlaskConical, Cpu, BarChart3, Package } from 'lucide-react';
 
 // Mapa de íconos disponibles para materias
 const ICON_MAP = {
@@ -10,6 +10,7 @@ const ICON_MAP = {
   FlaskConical,
   Cpu,
   BarChart3,
+  Package,
 };
 
 export default function SubjectSelector({ subjects, onSelect }) {

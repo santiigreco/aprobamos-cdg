@@ -52,6 +52,21 @@ export const SUBJECTS = [
     getNotes: null,
     guideView: null,
   },
+
+  {
+    id: 'manejo-materiales',
+    name: 'Manejo de Materiales',
+    shortName: 'Man. Mat.',
+    description: 'Guía del 1er Parcial — Manejo de Materiales',
+    color: '#8b5cf6',
+    accentColor: '#d946ef',
+    icon: 'Package',
+    directView: 'html-guide',
+    htmlFile: './manejo-materiales.html',
+    getQuestions: null,
+    getNotes: null,
+    guideView: null,
+  },
 ];
 
 /**

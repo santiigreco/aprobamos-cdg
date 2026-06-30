@@ -1,8 +1,8 @@
 import React from 'react';
-import { BookOpen, Brain, Globe, Wrench, FlaskConical, Cpu, BarChart3 } from 'lucide-react';
+import { BookOpen, Brain, Globe, Wrench, FlaskConical, Cpu, BarChart3, Package } from 'lucide-react';
 
 const ICON_MAP = {
-  BookOpen, Brain, Globe, Wrench, FlaskConical, Cpu, BarChart3,
+  BookOpen, Brain, Globe, Wrench, FlaskConical, Cpu, BarChart3, Package,
 };
 
 const CARD_PALETTE = [
