@@ -47,7 +47,7 @@ export const SUBJECTS = [
     accentColor: '#ef4444',
     icon: 'Wrench',
     directView: 'html-guide',
-    htmlFile: '/mantenimiento.html',
+    htmlFile: './mantenimiento.html',
     getQuestions: null,
     getNotes: null,
     guideView: null,

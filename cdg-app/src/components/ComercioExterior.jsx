@@ -12,7 +12,7 @@ export default function ComercioExterior() {
       background: '#0a0e1a',
     }}>
       <iframe
-        src="/comercio-exterior.html"
+        src="./comercio-exterior.html"
         title="Guía 1er Parcial – Comercio Exterior UTN"
         style={{
           width: '100%',
