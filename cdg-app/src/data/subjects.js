@@ -1,11 +1,9 @@
 /**
  * subjects.js — Configuración central de materias
  *
- * Para agregar una materia nueva:
- * 1. Crear carpeta src/data/<id>/
- * 2. Agregar questions.json y notes.json en esa carpeta
- * 3. Copiar PDFs a public/apuntes/ (o public/apuntes/<id>/)
- * 4. Agregar un objeto a este array con la estructura de abajo
+ * Para agregar una materia nueva o una guía nueva:
+ * 1. Agregar un objeto a este array con la estructura de abajo
+ * 2. Agregar un objeto dentro de 'guides' con el título y el HTML a mostrar.
  */
 
 export const SUBJECTS = [
@@ -13,60 +11,105 @@ export const SUBJECTS = [
     id: 'control-gestion',
     name: 'Control de Gestión',
     shortName: 'CDG',
-    description: 'Guía del 1er Parcial — Presupuestos, Ajuste por Inflación, Leasing y más.',
+    description: 'Guías de estudio interactivo.',
     color: '#3b82f6',
     accentColor: '#8b5cf6',
     icon: 'BookOpen',
-    directView: 'html-guide',
-    htmlFile: './guia-cdg.html',
-    getQuestions: null,
-    getNotes: null,
-    guideView: null,
+    guides: [
+      {
+        title: '1er Parcial',
+        description: 'Presupuestos, Ajuste por Inflación, Leasing y más.',
+        htmlFile: './guia-cdg.html'
+      },
+      {
+        title: '2do Parcial',
+        description: 'Próximamente se habilitará el contenido.',
+        htmlFile: null
+      }
+    ]
   },
 
   {
     id: 'comercio-exterior',
     name: 'Comercio Exterior',
     shortName: 'CE',
-    description: 'Guía del 1er Parcial — INCOTERMS, territorio aduanero, logística y más.',
+    description: 'Guías de estudio interactivo.',
     color: '#10b981',
     accentColor: '#06b6d4',
     icon: 'Globe',
-    // Esta materia no tiene quiz ni apuntes propios: va directo a la guía HTML
-    directView: 'comercio-exterior',
-    getQuestions: null,
-    getNotes: null,
-    guideView: null,
+    guides: [
+      {
+        title: '1er Parcial',
+        description: 'INCOTERMS, territorio aduanero, logística y más.',
+        htmlFile: './comercio-exterior.html'
+      },
+      {
+        title: '2do Parcial',
+        description: 'Próximamente se habilitará el contenido.',
+        htmlFile: null
+      }
+    ]
   },
 
   {
     id: 'mantenimiento',
     name: 'Mantenimiento Industrial',
     shortName: 'Mant.',
-    description: 'Guía del 1er Parcial — Mantenimiento',
+    description: 'Guías de estudio interactivo.',
     color: '#f59e0b',
     accentColor: '#ef4444',
     icon: 'Wrench',
-    directView: 'html-guide',
-    htmlFile: './mantenimiento.html',
-    getQuestions: null,
-    getNotes: null,
-    guideView: null,
+    guides: [
+      {
+        title: '1er Parcial',
+        description: 'Teoría general de Mantenimiento.',
+        htmlFile: './mantenimiento.html'
+      },
+      {
+        title: '2do Parcial',
+        description: 'Próximamente se habilitará el contenido.',
+        htmlFile: null
+      }
+    ]
   },
 
   {
     id: 'manejo-materiales',
     name: 'Manejo de Materiales',
     shortName: 'Man. Mat.',
-    description: 'Guía del 1er Parcial — Manejo de Materiales',
+    description: 'Guías de estudio interactivo.',
     color: '#8b5cf6',
     accentColor: '#d946ef',
     icon: 'Package',
-    directView: 'html-guide',
-    htmlFile: './manejo-materiales.html',
-    getQuestions: null,
-    getNotes: null,
-    guideView: null,
+    guides: [
+      {
+        title: '1er Parcial',
+        description: 'Manejo de Materiales y equipos.',
+        htmlFile: './manejo-materiales.html'
+      },
+      {
+        title: '2do Parcial',
+        description: 'Próximamente se habilitará el contenido.',
+        htmlFile: null
+      }
+    ]
+  },
+
+  {
+    id: 'analisis-numerico',
+    name: 'Análisis Numérico',
+    shortName: 'AN',
+    description: 'Guías de estudio interactivo.',
+    color: '#0ea5e9',
+    accentColor: '#0284c7',
+    icon: 'Brain',
+    guides: [
+      {
+        title: 'Guía Final',
+        description: 'Análisis Numérico',
+        htmlFile: './guia-final-an.html'
+      }
+    ]
   },
 ];
 
