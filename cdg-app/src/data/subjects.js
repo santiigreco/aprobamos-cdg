@@ -13,13 +13,14 @@ export const SUBJECTS = [
     id: 'control-gestion',
     name: 'Control de Gestión',
     shortName: 'CDG',
-    description: '1er Parcial — Presupuestos, Ajuste por Inflación, Leasing y más.',
+    description: 'Guía del 1er Parcial — Presupuestos, Ajuste por Inflación, Leasing y más.',
     color: '#3b82f6',
     accentColor: '#8b5cf6',
     icon: 'BookOpen',
-    getQuestions: () => import('./cdg/questions.json').then(m => m.default),
-    getNotes: () => import('./cdg/notes.json').then(m => m.default),
-    // Sin guía especial — es una materia estándar
+    directView: 'html-guide',
+    htmlFile: './guia-cdg.html',
+    getQuestions: null,
+    getNotes: null,
     guideView: null,
   },
 
