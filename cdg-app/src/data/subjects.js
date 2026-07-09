@@ -53,7 +53,7 @@ export const SUBJECTS = [
 
   {
     id: 'mantenimiento',
-    name: 'Mantenimiento Industrial',
+    name: 'Mantenimiento',
     shortName: 'Mant.',
     description: 'Guías de estudio interactivo.',
     color: '#f59e0b',
@@ -75,7 +75,7 @@ export const SUBJECTS = [
 
   {
     id: 'manejo-materiales',
-    name: 'Manejo de Materiales',
+    name: 'Manejo de Materiales y Distribución en Planta',
     shortName: 'Man. Mat.',
     description: 'Guías de estudio interactivo.',
     color: '#8b5cf6',
@@ -97,7 +97,7 @@ export const SUBJECTS = [
 
   {
     id: 'analisis-numerico',
-    name: 'Análisis Numérico',
+    name: 'Análisis Numérico y Cálculo Avanzado',
     shortName: 'AN',
     description: 'Guías de estudio interactivo.',
     color: '#0ea5e9',
