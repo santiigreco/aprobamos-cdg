@@ -710,7 +710,7 @@
       <div><div class="graph-title">Visualización interactiva — Bisección sobre \(f(x) = x^2 - 9\)</div>
       <div class="graph-sub">Observá cómo el intervalo [a, b] se reduce a la mitad en cada iteración hasta atrapar la raíz x* = 3</div></div>
     </div>
-    <div class="canvas-wrap"><canvas id="chartBisec" height="320"></canvas></div>
+    <div class="canvas-wrap"><canvas id="chartBisec" height="220"></canvas></div>
     <div class="iter-controls">
       <button class="iter-btn" onclick="bisecPrev()">◀ Anterior</button>
       <button class="iter-btn" onclick="bisecNext()">Siguiente ▶</button>
@@ -780,7 +780,7 @@
       <div><div class="graph-title">Visualización interactiva — Newton-Raphson sobre \(f(x) = x^2 - 4x + 1\)</div>
       <div class="graph-sub">Cada iteración traza la tangente a la curva en xₙ. La raíz es donde esa tangente toca el eje x → xₙ₊₁</div></div>
     </div>
-    <div class="canvas-wrap"><canvas id="chartNewton" height="320"></canvas></div>
+    <div class="canvas-wrap"><canvas id="chartNewton" height="220"></canvas></div>
     <div class="iter-controls">
       <button class="iter-btn" onclick="newtonPrev()">◀ Anterior</button>
       <button class="iter-btn" onclick="newtonNext()">Siguiente ▶</button>
@@ -842,7 +842,7 @@
       <div><div class="graph-title">Diagrama de Telaraña — Punto Fijo con \(g(x) = \sqrt{x+12}\), raíz de \(f(x) = x^2 - x - 12\)</div>
       <div class="graph-sub">La iteración converge cuando la "telaraña" se enrolla hacia la intersección de y=g(x) e y=x</div></div>
     </div>
-    <div class="canvas-wrap"><canvas id="chartPFijo" height="320"></canvas></div>
+    <div class="canvas-wrap"><canvas id="chartPFijo" height="220"></canvas></div>
     <div class="iter-controls">
       <button class="iter-btn" onclick="pfijoReset()">↺ Reiniciar</button>
       <button class="iter-btn" onclick="pfijoNext()">Siguiente ▶</button>
@@ -902,7 +902,7 @@
       <div><div class="graph-title">Visualización — Cuadrados Mínimos: datos con ruido y modelos de ajuste</div>
       <div class="graph-sub">Los residuos (líneas verticales) muestran la distancia de cada punto a la curva. El objetivo es minimizar la suma de sus cuadrados.</div></div>
     </div>
-    <div class="canvas-wrap"><canvas id="chartAjuste" height="320"></canvas></div>
+    <div class="canvas-wrap"><canvas id="chartAjuste" height="220"></canvas></div>
     <div class="graph-legend">
       <div class="leg-item"><div class="leg-dot" style="background:#6366f1;"></div> Datos observados (con ruido)</div>
       <div class="leg-item"><div class="leg-line" style="background:#10b981;"></div> Recta de regresión \(y = a_0 + a_1 x\)</div>
@@ -959,7 +959,7 @@
       <div><div class="graph-title">Visualización — Lagrange: polinomio que pasa por todos los puntos</div>
       <div class="graph-sub">A diferencia del ajuste, el polinomio interpolador pasa exactamente por cada punto de la tabla</div></div>
     </div>
-    <div class="canvas-wrap"><canvas id="chartLagrange" height="320"></canvas></div>
+    <div class="canvas-wrap"><canvas id="chartLagrange" height="220"></canvas></div>
     <div class="graph-legend">
       <div class="leg-item"><div class="leg-dot" style="background:#6366f1;width:12px;height:12px;"></div> Puntos de la tabla (datos exactos)</div>
       <div class="leg-item"><div class="leg-line" style="background:#a5b4fc;"></div> Polinomio interpolador de Lagrange (grado n−1)</div>
@@ -1020,7 +1020,7 @@
       <div><div class="graph-title">Visualización — Newton DD: cómo agregar un punto actualiza el polinomio</div>
       <div class="graph-sub">Con 3 puntos → polinomio cuadrático. Al agregar el 4° punto, solo se suma un término más.</div></div>
     </div>
-    <div class="canvas-wrap"><canvas id="chartNewtonDD" height="320"></canvas></div>
+    <div class="canvas-wrap"><canvas id="chartNewtonDD" height="220"></canvas></div>
     <div class="iter-controls">
       <button class="iter-btn" onclick="ddToggle()">Agregar/quitar 4° punto</button>
       <span class="iter-info" id="ddInfo" style="color:#c4b5fd;">Mostrando con 3 puntos (polinomio cuadrático)</span>
@@ -1081,7 +1081,7 @@
       <div><div class="graph-title">Visualización — Splines vs Polinomio global: Fenómeno de Runge</div>
       <div class="graph-sub">El spline cúbico evita las oscilaciones salvajes del polinomio de alto grado en los extremos del intervalo</div></div>
     </div>
-    <div class="canvas-wrap"><canvas id="chartSpline" height="320"></canvas></div>
+    <div class="canvas-wrap"><canvas id="chartSpline" height="220"></canvas></div>
     <div class="graph-legend">
       <div class="leg-item"><div class="leg-dot" style="background:#ec4899;width:12px;height:12px;"></div> Puntos de datos</div>
       <div class="leg-item"><div class="leg-line" style="background:#f9a8d4;"></div> Spline cúbico natural (suave)</div>
