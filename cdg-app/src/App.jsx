@@ -47,7 +47,11 @@ function App() {
               </button>
             )}
             <h2 className="title" style={{ fontSize: '1.5rem', marginBottom: 0 }}>
-              {currentSubject ? `${currentSubject.shortName} — Aprobamos 🎯` : 'Aprobamos 🎯'}
+              {currentSubject ? (
+                <>{currentSubject.shortName} — Aprobamos <span className="emoji">🎯</span></>
+              ) : (
+                <>Aprobamos <span className="emoji">🎯</span></>
+              )}
             </h2>
           </div>
         </nav>
