@@ -67,8 +67,8 @@ export const SUBJECTS = [
       },
       {
         title: '2do Parcial',
-        description: 'Próximamente se habilitará el contenido.',
-        htmlFile: null
+        description: 'Mantenimiento Predictivo y sus herramientas.',
+        htmlFile: './mantenimiento-2do-parcial.html'
       }
     ]
   },
