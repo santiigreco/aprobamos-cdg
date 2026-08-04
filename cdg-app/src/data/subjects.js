@@ -89,8 +89,8 @@ export const SUBJECTS = [
       },
       {
         title: '2do Parcial',
-        description: 'Próximamente se habilitará el contenido.',
-        htmlFile: null
+        description: 'Distribución en Planta y Layout.',
+        htmlFile: './manejo-materiales-2do-parcial.html'
       }
     ]
   },
