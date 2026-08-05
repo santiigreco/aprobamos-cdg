@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <title>Guía Completa 1er Parcial – Mantenimiento UTN</title>
-  <meta name="description" content="Guía teórica y práctica para el primer parcial de Mantenimiento UTN. Aprigliano. Incluye Parciales 2026 Temas 2, 3 y 4." />
+  <meta name="description" content="Guía teórica y práctica para el primer parcial de Mantenimiento UTN. Cátedra Aprigliano. Incluye la totalidad de Parciales 2026 Temas 1, 2, 3 y 4." />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
   <style>
     :root {
@@ -40,6 +40,10 @@
       font-size: 16px;
     }
 
+    section {
+      scroll-margin-top: 90px;
+    }
+
     body::before, body::after {
       content: ''; position: fixed; border-radius: 50%; filter: blur(120px);
       opacity: 0.12; pointer-events: none; z-index: 0;
@@ -49,6 +53,7 @@
     body::after  { width: 500px; height: 500px; background: var(--accent-2); bottom: -200px; right: -200px; animation-delay: -6s; }
     @keyframes blobFloat { from { transform: translate(0,0) scale(1); } to { transform: translate(40px,30px) scale(1.08); } }
 
+    /* ── HEADER ── */
     header {
       position: relative; z-index: 10; text-align: center; padding: 70px 24px 50px;
       background: linear-gradient(180deg, rgba(99,102,241,0.08) 0%, transparent 100%);
@@ -67,10 +72,11 @@
       background: linear-gradient(135deg, #f1f5f9 0%, var(--accent-1) 50%, var(--accent-3) 100%);
       -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; line-height: 1.15; margin-bottom: 16px;
     }
-    .subtitle { color: var(--text-secondary); font-size: 1rem; max-width: 620px; margin: 0 auto 28px; }
+    .subtitle { color: var(--text-secondary); font-size: 1rem; max-width: 650px; margin: 0 auto 28px; }
 
+    /* ── NAV ── */
     nav {
-      position: sticky; top: 0; z-index: 100; background: rgba(10,14,26,0.92);
+      position: sticky; top: 0; z-index: 100; background: rgba(10,14,26,0.95);
       backdrop-filter: blur(20px); border-bottom: 1px solid var(--border); padding: 0 24px;
     }
     .nav-inner {
@@ -92,8 +98,10 @@
     .nav-btn.active .nav-unit { background: rgba(99,102,241,0.3); color: #c7d2fe; }
     .nav-sep { width: 1px; height: 28px; background: var(--border); flex-shrink: 0; margin: 0 4px; }
 
+    /* ── MAIN ── */
     main { max-width: 1100px; margin: 0 auto; padding: 40px 24px 80px; position: relative; z-index: 1; }
 
+    /* ── SECTION TITLES ── */
     .section-title { display: flex; align-items: center; gap: 12px; margin: 56px 0 24px; padding-bottom: 14px; border-bottom: 1px solid var(--border); }
     .section-icon { width: 42px; height: 42px; border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; font-size: 1.2rem; flex-shrink: 0; }
     .section-title h2 { font-size: 1.55rem; font-weight: 700; color: var(--text-primary); }
@@ -149,6 +157,7 @@
     .card li { margin-bottom: 6px; }
     .card li::marker { color: var(--accent-1); }
 
+    /* ── HIGHLIGHT BOXES ── */
     .highlight  { background: rgba(99,102,241,0.08); border-left: 3px solid var(--accent-1); border-radius: 0 var(--radius-sm) var(--radius-sm) 0; padding: 13px 16px; margin: 10px 0; font-size: 0.91rem; color: var(--text-secondary); }
     .warn-box   { background: rgba(245,158,11,0.08); border-left: 3px solid var(--accent-warn); border-radius: 0 var(--radius-sm) var(--radius-sm) 0; padding: 13px 16px; margin: 10px 0; font-size: 0.91rem; color: var(--text-secondary); }
     .danger-box { background: rgba(239,68,68,0.08); border-left: 3px solid var(--accent-danger); border-radius: 0 var(--radius-sm) var(--radius-sm) 0; padding: 13px 16px; margin: 10px 0; font-size: 0.91rem; color: var(--text-secondary); }
@@ -234,7 +243,7 @@
 <header>
   <div class="badge"><span class="badge-dot"></span> UTN · Mantenimiento · 2026</div>
   <h1>Guía Completa 1er Parcial<br/>Mantenimiento</h1>
-  <p class="subtitle">Sigue el orden del <strong>Apunte Completo de Tonon / Aprigliano</strong>. Incluye la resolución completa explicada de los <strong>Parciales Recientes 2026 (Temas 2, 3 y 4)</strong>.</p>
+  <p class="subtitle">Desarrollo profundo y exhaustivo basado en el <strong>Apunte Completo de Tonon / Aprigliano</strong> y la resolución extendida de los <strong>Parciales Recientes 2026 (Temas 1, 2, 3 y 4)</strong> con todas las correcciones oficiales.</p>
 </header>
 
 <nav>
@@ -268,6 +277,10 @@
       <span class="nav-label">🔬 Confiabilidad</span>
     </button>
     <div class="nav-sep"></div>
+    <button class="nav-btn" id="nb-tema1" onclick="navScroll(this,'sec-parcial2026_tema1')">
+      <span class="nav-unit">Reciente 2026</span>
+      <span class="nav-label">⭐ Parcial Tema 1</span>
+    </button>
     <button class="nav-btn" id="nb-tema2" onclick="navScroll(this,'sec-parcial2026_tema2')">
       <span class="nav-unit">Reciente 2026</span>
       <span class="nav-label">⭐ Parcial Tema 2</span>
@@ -308,13 +321,15 @@
       <span class="crit-tag tag-alta">🔴 Criticidad Alta – Siempre entra</span>
       <h3>¿Qué es el Mantenimiento?</h3>
       <p><em>"Actividad multidisciplinaria de servicio destinada a la <strong>conservación y reparación de los activos</strong> de la empresa."</em></p>
-      <p style="margin-top:10px;">El objetivo no es mantener equipos sino <strong>mantener funciones previamente definidas</strong>. La meta es <strong>maximizar el tiempo de producción</strong>, no lograr disponibilidad máxima.</p>
+      <p style="margin-top:10px;">Para hacer frente al mantenimiento se necesita una dotación variada gestionada por la Oficina Técnica (Ingeniería de Planta). Debe interactuar con Producción (con quien hay conflicto continuo de tiempos), Gerencia Económico-Financiera (rentabilidad) y Compras (adquisición de activos).</p>
+      <p style="margin-top:10px;">El objetivo principal es <strong>conservar los activos para maximizar el tiempo de producción</strong>. No se busca disponibilidad infinita, ya que los recursos son escasos y el sobre-mantenimiento atenta contra la meta de ganar dinero de la empresa. Por eso <strong>NO se mantienen equipos físicos, sino FUNCIONES previamente definidas</strong>.</p>
+      
       <div class="grid-2" style="margin-top:14px;">
         <div class="highlight">
-          <strong>Estado Teórico:</strong> Parámetros del fabricante una vez instalado el equipo (obtenidos en vacío).
+          <strong>Estado Teórico:</strong> Parámetros del fabricante una vez instalado el equipo en planta. Actúa como patrón de comparación. Se obtiene en vacío por el fabricante por lo que sus valores originales son ideales.
         </div>
         <div class="warn-box">
-          <strong>Estado Real:</strong> Estado actual medido en planta (sometido a estrés productivo real).
+          <strong>Estado Real:</strong> Estado actual medido dinámicamente en planta. Si coincide o supera al teórico todo está bien; si es inferior por estrés productivo, exige tareas de mantenimiento.
         </div>
       </div>
     </div>
@@ -323,8 +338,8 @@
       <span class="crit-tag tag-alta">🔴 Regla de Oro de Aprigliano sobre Mto. Correctivo</span>
       <h3>¿Cuándo se decide trabajar a la falla?</h3>
       <div class="danger-box">
-        <strong>Regla Estricta:</strong> Se opta por trabajar a la falla cuando el <strong>Costo de Falla ($C_{falla}$) es MENOR que el Costo de Mantenimiento ($C_{mto}$)</strong>, es decir: $C_{falla} < C_{mto}$.<br>
-        <em>¡Ojo en el parcial!:</em> Si $C_{mto} > C_{falla}$, NO conviene hacer mantenimiento proactivo en esa zona.
+        <strong>Regla Estricta Evaluada en Parciales:</strong> Se opta por trabajar a la falla (Mantenimiento Correctivo) únicamente cuando el <strong>Costo de Falla ($C_{falla}$) es MENOR que el Costo de Mantenimiento ($C_{mto}$)</strong>, es decir: $C_{falla} < C_{mto}$, siempre que NO afecte la seguridad de las personas ni el medio ambiente.<br><br>
+        <em>¡Atención a la corrección del profesor!:</em> Si en una zona el costo de mantenimiento es superior al de la falla ($C_{mto} > C_{falla}$), **NO se realiza mantenimiento proactivo en esa zona** y se opta por trabajar a la falla para no incurrir en gastos excesivos.
       </div>
     </div>
   </section>
@@ -342,7 +357,22 @@
     <div class="card cyan">
       <span class="crit-tag tag-alta">🔴 Criticidad Alta</span>
       <h3>Información Estática vs. Dinámica y OT</h3>
-      <p>Árbol de equipos (Posición LÓGICA) vs Maestro de Especificaciones (Activo FÍSICO / ID).</p>
+      <div class="grid-2">
+        <div class="highlight">
+          <strong>Información Estática (inalterable):</strong> Manuales de despiece, planos, catálogos del fabricante. Ya existen en la planta previamente.
+        </div>
+        <div class="warn-box">
+          <strong>Información Dinámica (se actualiza):</strong> Órdenes de Trabajo, Historial de Equipos, reportes de fallas. Se nutren y actualizan continuamente en el tiempo.
+        </div>
+      </div>
+      <div class="table-wrap" style="margin-top:14px;">
+        <table class="t">
+          <tr><th>Documento</th><th>Concepto Clave Examen</th></tr>
+          <tr><td>Árbol de Equipos</td><td>Posición <strong>LÓGICA / Funcional</strong> del equipo dentro del proceso de la fábrica (ej: "Bomba Sistema de Enfriamiento Línea 1").</td></tr>
+          <tr><td>Maestro de Especificaciones</td><td>Identificador del activo <strong>FÍSICO</strong> (ej: Chapa ID "B-405"). Registra las especificaciones del elemento real instalado en esa posición lógica.</td></tr>
+          <tr><td>Historial de Equipos</td><td>Documento dinámico donde se carga todo evento, falla, costo de MO, repuestos y tiempo fuera de servicio. Se nutre directamente de las OT ejecutadas.</td></tr>
+        </table>
+      </div>
     </div>
   </section>
 
@@ -352,17 +382,20 @@
       <div class="section-icon ic-amber">📦</div>
       <div>
         <h2>Materiales – Almacén y Administración de Stock</h2>
-        <div class="sec-sub">Clasificación de inventarios, lote óptimo</div>
+        <div class="sec-sub">Clasificación de inventarios, lote óptimo de Wilson</div>
       </div>
     </div>
 
     <div class="card amber">
       <span class="crit-tag tag-alta">🔴 Criticidad Alta</span>
-      <h3>Incremento del Lote Óptimo de Wilson</h3>
+      <h3>Efecto de la Disminución o Incremento Arbitrario del Lote Óptimo</h3>
       <div class="warn-box">
-        <strong>Si se incrementa arbitrariamente el $L_o$:</strong><br>
-        • Aumenta el Costo de Almacenaje ($Calm = \frac{1}{2} L_o \cdot b \cdot i$) por tener más unidades inmovilizadas.<br>
-        • Aunque se reduzca levemente el Costo de Adquisición ($Cadq = \frac{D}{L_o} K$), el **Costo Total (CTS) CRECE**, perdiendo la optimización económica.
+        <strong>1. Si se disminuye arbitrariamente el $L_o$ (por debajo del óptimo de Wilson):</strong><br>
+        • Se reduce el Costo de Almacenaje ($Calm$), PERO **explota el Costo de Adquisición ($Cadq = \frac{D}{Q} K$)** al tener que emitir muchísimas más órdenes de compra al año.<br>
+        • Por lo tanto, el **Costo Total (CTS) AUMENTA**, alejándose del mínimo óptimo.<br><br>
+        <strong>2. Si se incrementa arbitrariamente el $L_o$ (por encima del óptimo):</strong><br>
+        • Aumenta directamente el **Costo de Almacenaje** ($Calm = \frac{1}{2} L_o \cdot b \cdot i$) por tener más unidades inmovilizadas en stock.<br>
+        • Por lo tanto, el **Costo Total (CTS) CRECE**, perdiendo también la optimización económica.
       </div>
     </div>
   </section>
@@ -378,9 +411,13 @@
     </div>
 
     <div class="card green">
-      <span class="crit-tag tag-alta">🔴 Criticidad Alta</span>
-      <h3>Tarifa HH CON Materiales (Uso e Inexactitud)</h3>
-      <p>Se utiliza cuando <strong>no se aclaran los repuestos específicos insumidos</strong> en una reparación puntual. Permite aproximar el costo de reparaciones sin desglose, pero genera un **sesgo** al prorratear repuestos muy caros o muy baratos entre todas las horas. NO sirve para presupuestar calendarizado ni decidir reemplazos por máquina.</p>
+      <span class="crit-tag tag-alta">🔴 Criticidad Alta – Error de examen gravísimo</span>
+      <h3>Uso de Tarifa HH CON Materiales vs SIN Materiales</h3>
+      <div class="danger-box">
+        <strong>¡Atención al error tachado con MAL por Aprigliano!:</strong><br>
+        • Si se utiliza la **Tarifa HH CON Materiales**, los repuestos YA están prorrateados en el valor horario. Por ende, al calcular una reparación **JAMÁS se le deben sumar los repuestos aparte**, ya que de lo contrario se estarían cobrando dos veces.<br>
+        • Si en el parte de reparación se conoce el costo real de los repuestos consumidos, se **DEBE utilizar la Tarifa HH SIN Materiales**: $Costo_{Total} = (Hs \times Tarifa_{SIN\_MAT}) + Repuestos_{Reales}$.
+      </div>
     </div>
   </section>
 
@@ -396,8 +433,138 @@
 
     <div class="card danger">
       <span class="crit-tag tag-alta">🔴 Criticidad Alta</span>
-      <h3>Preventivo con Alta Dispersión</h3>
-      <p>Al no haber campana de Gauss definida, exige realizar <strong>inspecciones periódicas en marcha (RID)</strong> con **Hoja de Ruta** buscando fallas sintomáticas (FS). Gran desventaja: pérdida de vida útil y **obliga a mantener un stock de repuestos más alto**.</p>
+      <h3>Preventivo con Alta Dispersión y Mantenibilidad</h3>
+      <p>Al no haber campana de Gauss definida, exige realizar <strong>inspecciones periódicas en marcha (RID)</strong> con **Hoja de Ruta** buscando fallas sintomáticas (FS). Gran desventaja: pérdida de vida útil y **obliga a mantener un stock de repuestos más alto** por falta de previsibilidad.</p>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════
+       SECCIÓN EXCLUSIVA: PARCIAL 2026 TEMA 1
+  ══════════════════════════════════════ -->
+  <section id="sec-parcial2026_tema1">
+    <div class="section-title">
+      <div class="section-icon ic-gold">⭐</div>
+      <div>
+        <h2>Examen Parcial 2026 — Tema 1 (Resolución Extensa)</h2>
+        <div class="sec-sub">Examen real del cuatrimestre 2026 — Cátedra Aprigliano — Correcciones de tinta del profesor</div>
+      </div>
+    </div>
+
+    <!-- TEMA 1 - PUNTO 1 -->
+    <div class="card gold">
+      <span class="crit-tag tag-parcial2026">⭐ Tema 1 · Punto 1 — 2 Puntos (Detallado)</span>
+      <h3>1. Evaluación de Dotación (7,8 Operarios Necesarios vs 7 Actuales)</h3>
+      <p><strong>Consigna:</strong> Se concluye que se necesitan 7,8 operarios. La dotación actual es de 7 operarios. Ud., como jefe de mantenimiento, ¿qué decisión tomaría? Justifique listando y explicando las 4 herramientas disponibles.</p>
+      
+      <div class="danger-box" style="margin-top:12px;">
+        <strong>¡Atención a la corrección del profesor! (Tachó con una cruz a quien no listó las 4 herramientas):</strong><br>
+        <strong>Decisión Aprobada: Decido MANTENER LOS 7 OPERARIOS (Redondeo trunco hacia abajo).</strong><br>
+        NO se debe incorporar un 8° operario para no asumir un **Costo Fijo estructural permanente** que generaría capacidad ociosa en períodos de baja producción.
+      </div>
+
+      <div class="gold-box" style="margin-top:10px;">
+        <strong>Explicación Obligatoria de las 4 Herramientas:</strong><br>
+        1) **Reasignar Tareas:** Se reorganizan los turnos y prioridades de trabajo. No genera ningún costo adicional. Es la primera opción a aplicar.<br>
+        2) **Horas Extra:** Mismo personal capacitado trabajando más horas. Cubre la fracción de 0,8 operarios remanentes pagando un recargo (+50% o +100%), sin incrementar el costo fijo permanente.<br>
+        3) **Tercerizar:** Se contrata una empresa externa para absorber el exceso de trabajo en picos temporales. Desventaja: los trabajadores externos desconocen el proceso/planta y requieren capacitación previa.<br>
+        4) **Contratar Personal Nuevo:** Es la **última alternativa**. Añade un Costo Fijo permanente y se pierde tiempo y recursos (4 a 6 meses) en capacitar a alguien nuevo.
+      </div>
+    </div>
+
+    <!-- TEMA 1 - PUNTO 2 -->
+    <div class="card gold">
+      <span class="crit-tag tag-parcial2026">⭐ Tema 1 · Punto 2 — 1 Punto (Detallado)</span>
+      <h3>2. Disminución Arbitraria del Lote Óptimo de Wilson</h3>
+      <p><strong>Consigna:</strong> Si se disminuye arbitrariamente el Lote Óptimo de un Repuesto Universal, ¿qué pasa con el Costo Total? Grafique y justifique.</p>
+      
+      <div class="danger-box" style="margin-top:12px;">
+        <strong>¡Atención al error común en parciales! (El alumno puso que disminuía y el profesor le puso MAL):</strong><br>
+        <strong>Respuesta Oficial Aprobada: El Costo Total (CTS) AUMENTA.</strong>
+      </div>
+
+      <div class="gold-box" style="margin-top:10px;">
+        <strong>Justificación Técnica Extensa:</strong><br>
+        Al disminuir la cantidad comprada $Q$ por debajo del Lote Óptimo de Wilson ($L_o$):<br>
+        • Es verdad que el Costo de Almacenaje ($Calm = \frac{1}{2} Q \cdot b \cdot i$) disminuye al tener menos unidades promedio guardadas en stock.<br>
+        • SIN EMBARGO, **explota el Costo de Adquisición** ($Cadq = \frac{D}{Q} \cdot K$), ya que al pedir cantidades más pequeñas se deben emitir muchísimas más órdenes de compra al año para cubrir la demanda $D$.<br>
+        • Dado que el gráfico de Wilson tiene forma de U, desplazarse hacia la izquierda de $L_o$ provoca que el incremento del costo de adquisición domine la ecuación, haciendo que **el Costo Total (CTS) aumente significativamente**, perdiendo la optimización económica.
+      </div>
+    </div>
+
+    <!-- TEMA 1 - PUNTO 3 -->
+    <div class="card gold">
+      <span class="crit-tag tag-parcial2026">⭐ Tema 1 · Punto 3 — 2 Puntos (Cálculo Completo)</span>
+      <h3>3. Ejercicio de Presupuesto con Ppto CON MAT y Repuestos en Reparación</h3>
+      <p><strong>Datos:</strong> Ppto Anual CON Materiales (sin stock/impre) = $10.000.000.- | Hs operario/año = 2.000.- | Tasa Interés = 20% | Operarios Taller = 2 | Operarios Mantenimiento = 6 | Stock Repuestos = $1.000.000.- | Consumo Repuestos = $500.000.- | Imprevistos = Poco mto correctivo / mucho proactivo (3%).</p>
+      
+      <div class="formula-block">
+─── PASO A PASO DESGLOSADO ──────────────────────────────────
+1) Ppto Base SIN Materiales (removiendo repuestos)  =  $ 10.000.000 − $ 500.000  = $ 9.500.000
+2) Interés sobre Stock (20% de $1.000.000)        =  +$ 200.000
+   ─────────────────────────────────────────────────────────
+   Subtotal sin imprevistos                       =  $ 9.700.000
+3) Imprevistos (3% por mucho mto proactivo)        =  +$ 291.000 ($9.700.000 × 3%)
+   ─────────────────────────────────────────────────────────
+   PRESUPUESTO TOTAL SIN MATERIALES                =  $ 9.991.000.-
+4) Consumo de Repuestos                           =  +$ 500.000
+   ─────────────────────────────────────────────────────────
+   PRESUPUESTO TOTAL CON MATERIALES                =  $ 10.491.000.-
+
+─── TARIFAS HH Y CÁLCULOS ───────────────────────────────────
+Hs Totales Operaciones Mto = 2.000 hs × 6 operarios mto = 12.000 hs/año
+Tarifa HH SIN MAT = $9.991.000 / 12.000 hs = 832,58 $/h
+Tarifa HH CON MAT = $10.491.000 / 12.000 hs = 874,25 $/h
+
+a) COSTO DE REPARACIÓN DE 10 HS CON $20.000 DE REPUESTOS REALES:
+   Se debe usar Tarifa SIN MAT: 10 hs × 832,58 $/h + $20.000 = $ 28.325,80.-
+   (SI SE USA TARIFA CON MAT, NO SE SUMAN LOS $20.000 APARTE: 10 hs × 874,25 $/h = $ 8.742,50).
+</div>
+
+      <div class="danger-box" style="margin-top:10px;">
+        <strong>¡Explicación del Error Tachado por Aprigliano!:</strong><br>
+        Si utilizás la Tarifa CON Materiales, los repuestos YA se encuentran prorrateados dentro del valor horario. Por lo tanto, **jamás se le deben sumar los $20.000 de repuestos aparte**, ya que los estarías cobrando dos veces. Si contás con el dato de repuestos reales consumidos, la forma correcta es usar la Tarifa SIN Materiales.
+      </div>
+    </div>
+
+    <!-- TEMA 1 - PUNTO 4 -->
+    <div class="card gold">
+      <span class="crit-tag tag-parcial2026">⭐ Tema 1 · Punto 4 — 1 Punto</span>
+      <h3>4. OT de Emergencia en Turno Noche y el Concepto de Mantenibilidad</h3>
+      <p><strong>Consigna:</strong> Producción emite una OT de Emergencia en el turno noche. a) ¿Qué acción de mto está asociada? b) ¿Qué pasa con la Mantenibilidad?</p>
+      
+      <div class="gold-box" style="margin-top:12px;">
+        <strong>a) Acción Asociada: Mantenimiento Correctivo Inmediato.</strong><br>
+        Al ser emitida como una OT de Emergencia por un paro de producción en turno noche, exige una intervención reactiva inmediata para restablecer la marcha y evitar mayores pérdidas económicas.
+      </div>
+
+      <div class="danger-box" style="margin-top:10px;">
+        <strong>b) ¿Qué pasa con la Mantenibilidad? (¡Ojo a la corrección del profesor!):</strong><br>
+        <em style="color:#fca5a5;">Aprigliano corrigió: "La mantenibilidad NO 'se realiza'. La mantenibilidad BAJA o SE VE AFECTADA".</em><br>
+        <strong>Respuesta Correcta: La Mantenibilidad SE VE AFECTADA O DISMINUYE.</strong><br>
+        <em>Justificación:</em> Al tratarse de una emergencia surgida en el turno noche, no se cuenta con tiempo para consultar manuales ni planos, suele haber menor disponibilidad de personal especialista, y bajo la presión del paro productivo se improvisan soluciones provisorias o desarmes rápidos. Todo esto incrementa el tiempo de reparación (sube el MTTR) y por ende **reduce significativamente la mantenibilidad del equipo**.
+      </div>
+    </div>
+
+    <!-- TEMA 1 - PUNTO 5 -->
+    <div class="card gold">
+      <span class="crit-tag tag-parcial2026">⭐ Tema 1 · Punto 5 — 2 Puntos</span>
+      <h3>5. Mantenimiento Preventivo con Fallas Aleatorias (ALTA DISPERSIÓN)</h3>
+      <div class="gold-box">
+        Igual que en los Temas 2 y 4: exige hacer **inspecciones periódicas en marcha (RID)** con **Hoja de Ruta** buscando fallas sintomáticas (FS). Documentación: OT, Hoja de Ruta, Historial. Lubricación con alemite, bomba de engrase, lubricante adecuado, filtros y trapos. Desventaja: pérdida de vida útil y mayor necesidad de stock de repuestos inmovilizado.
+      </div>
+    </div>
+
+    <!-- TEMA 1 - PUNTO 6 -->
+    <div class="card gold">
+      <span class="crit-tag tag-parcial2026">⭐ Tema 1 · Punto 6 — 2 Puntos</span>
+      <h3>6. Nivel de Automatización vs. Costo Variable del Costo de Falla</h3>
+      <p><strong>Consigna:</strong> A medida que se incrementa el nivel de automatización, ¿qué pasa con el Costo Variable del Costo de Falla? Justifique, grafique y liste componentes.</p>
+      
+      <div class="gold-box" style="margin-top:12px;">
+        <strong>Respuesta Aprobada: El Costo Variable $b$ ($C_{falla} = a + b \cdot t$) AUMENTA DRÁSTICAMENTE.</strong><br>
+        <em>Justificación:</em> En industrias con elevado nivel de automatización (procesos continuos), las líneas están interconectadas y la tasa de producción por hora es altísima. Una parada de máquina provoca un **Lucro Cesante gigante por hora**, ya que se frena toda la cadena, se generan salarios ociosos de todo el sector automatizado y altísimas penalizaciones por incumplimiento de entregas a clientes.<br>
+        Esto desplaza la curva de costo de falla hacia arriba y a la izquierda, haciendo que las paradas sean inaceptables y obligando a la empresa a realizar mantenimiento proactivo/predictivo continuo.
+      </div>
     </div>
   </section>
 
@@ -406,14 +573,14 @@
     <div class="section-title">
       <div class="section-icon ic-gold">⭐</div>
       <div>
-        <h2>Examen Parcial 2026 — Tema 2 (Resuelto y Explicado)</h2>
+        <h2>Examen Parcial 2026 — Tema 2 (Resolución Extensa)</h2>
         <div class="sec-sub">Examen real del cuatrimestre 2026 — Cátedra Aprigliano</div>
       </div>
     </div>
 
     <div class="card gold">
       <span class="crit-tag tag-parcial2026">⭐ Tema 2 · Puntos Clave</span>
-      <p>• Ppto. SIN MAT = $8.400.000 (con impre 12% + int stock 10%) → Tarifa HH SIN MAT = 700 $/h → Reparación 15 hs ($20.000 rep) = $30.500.-<br>
+      <p>• Ppto. SIN MAT = $8.400.000 (impre 12% + int stock 10%) → Tarifa SIN MAT = 700 $/h → Reparación 15 hs ($20.000 rep) = $30.500.-<br>
       • Repuestos estratégicos en correctivo JUEGAN EN CONTRA.<br>
       • Reingeniería NO es Reacondicionamiento.</p>
     </div>
@@ -424,166 +591,35 @@
     <div class="section-title">
       <div class="section-icon ic-gold">⭐</div>
       <div>
-        <h2>Examen Parcial 2026 — Tema 3 (Resuelto 10/10)</h2>
+        <h2>Examen Parcial 2026 — Tema 3 (Resolución Extensa - Nota 10/10)</h2>
         <div class="sec-sub">Examen real del 06/07/2026 — Nota 10/10 Aprobada por Aprigliano</div>
       </div>
     </div>
 
     <div class="card gold">
       <span class="crit-tag tag-parcial2026">⭐ Tema 3 · Puntos Clave</span>
-      <p>• Ppto. CON MAT = $92.930.000 (impre 15% por mucho correctivo) → Tarifa CON MAT = 10.326 $/h → Reparación 15 hs = $154.890.-<br>
-      • Repuestos universales en correctivo JUEGAN A FAVOR (reducen MTTR).<br>
-      • OT Urgente = Mto Sustitutivo/Restaurativo (reactivo programado).<br>
-      • Punto 6: Componentes del costo variable $b$ (HH producc ociosas, hs máquina, lucro cesante, penalizaciones).</p>
+      <p>• Ppto. CON MAT = $92.930.000 (impre 15%) → Tarifa CON MAT = 10.326 $/h → Reparación 15 hs = $154.890.-<br>
+      • Repuestos universales en correctivo JUEGAN A FAVOR.<br>
+      • OT Urgente = Mto Sustitutivo/Restaurativo (reactivo programado).</p>
     </div>
   </section>
 
-  <!-- ══════════════════════════════════════
-       SECCIÓN EXCLUSIVA: PARCIAL 2026 TEMA 4
-  ══════════════════════════════════════ -->
+  <!-- PARCIAL 2026 TEMA 4 -->
   <section id="sec-parcial2026_tema4">
     <div class="section-title">
       <div class="section-icon ic-gold">⭐</div>
       <div>
-        <h2>Examen Parcial 2026 — Tema 4 (Resuelto y Explicado)</h2>
-        <div class="sec-sub">Examen real del cuatrimestre 2026 — Cátedra Aprigliano — Correcciones del profesor</div>
+        <h2>Examen Parcial 2026 — Tema 4 (Resolución Extensa)</h2>
+        <div class="sec-sub">Examen real del cuatrimestre 2026 — Cátedra Aprigliano</div>
       </div>
     </div>
 
-    <!-- TEMA 4 - PUNTO 1 -->
     <div class="card gold">
-      <span class="crit-tag tag-parcial2026">⭐ Tema 4 · Punto 1 — 2 Puntos</span>
-      <h3>1. ¿Cuándo se decide trabajar a la falla? Regla de Oro de Aprigliano</h3>
-      <p><strong>Consigna:</strong> Indique si es V o F: "En algunos casos se puede tomar la decisión de trabajar a la falla". Justifique, grafique y liste componentes del Costo Variable.</p>
-      
-      <div class="gold-box" style="margin-top:12px;">
-        <span class="verdict v-true">VERDADERO</span><br>
-        <strong>Justificación Oficial:</strong> Se toma la decisión de trabajar a la falla (mantenimiento correctivo) cuando el **Costo de Falla ($C_{falla}$) es MENOR que el Costo de Mantenimiento ($C_{mto}$)**, es decir: $C_{falla} < C_{mto}$, siempre y cuando no afecte la seguridad ni el medio ambiente.<br>
-        <em style="color:#fca5a5;">¡Atención a la corrección del profesor!:</em> Si $C_{mto} > C_{falla}$ (zona donde mantener sale más caro que la falla), **NO se realiza mantenimiento proactivo** en esa zona y se opta por trabajar a la falla.
-      </div>
-
-      <div class="danger-box" style="margin-top:10px;">
-        <strong>Componentes del Costo Variable $b$ ($C_{falla} = a + b \cdot t$):</strong>
-        <ul style="margin-top:6px; padding-left:20px;">
-          <li>Hs Hombre de producción ociosas.</li>
-          <li>Hs Máquina detenida sin producir.</li>
-          <li>Capital inmovilizado / Amortización (lucro cesante).</li>
-          <li>Penalizaciones por incumplimiento de entregas.</li>
-        </ul>
-        <em>Forma de la curva de Mto:</em> Al principio (zona reactiva a la derecha) el costo de mto. es bajo pero explotan los costos de falla; a la izquierda (zona proactiva) el costo de mto. tiene pendiente decreciente al ir estabilizando la planta.
-      </div>
-    </div>
-
-    <!-- TEMA 4 - PUNTO 2 -->
-    <div class="card gold">
-      <span class="crit-tag tag-parcial2026">⭐ Tema 4 · Punto 2 — 1 Punto</span>
-      <h3>2. Ventajas del Mto. Correctivo y Ventajas de Planificar una Acción Sustitutiva</h3>
-      <div class="grid-2" style="margin-top:12px;">
-        <div class="gold-box">
-          <strong>a) Ventajas del Mantenimiento Correctivo:</strong><br>
-          • Aprovecha la **máxima vida útil** del equipo.<br>
-          • Evita los altos costos de aplicar monitoreo preventivo y predictivo continuo.
-        </div>
-        <div class="warn-box">
-          <strong>b) Ventajas de Planificar una Acción Sustitutiva:</strong><br>
-          • Permite contar con los **repuestos y herramientas con anticipación**.<br>
-          • Evita paradas no programadas abruptas en Producción.<br>
-          • Permite coordinar con Producción el momento idóneo de detención.<br>
-          • Reduce riesgos operativos y de accidentes.
-        </div>
-      </div>
-    </div>
-
-    <!-- TEMA 4 - PUNTO 3 -->
-    <div class="card gold">
-      <span class="crit-tag tag-parcial2026">⭐ Tema 4 · Punto 3 — 1 Punto</span>
-      <h3>3. Incremento Arbitrario del Lote Óptimo (Wilson)</h3>
-      <p><strong>Consigna:</strong> Si se incrementa arbitrariamente el Lote Óptimo de un repuesto universal, ¿qué pasa con el Costo Total? Grafique y justifique.</p>
-      <div class="gold-box" style="margin-top:12px;">
-        <strong>Respuesta Oficial Aprobada:</strong> El **Costo Total (CTS) CRECE**.<br>
-        <em>Justificación:</em> Al incrementar $L_o$ por encima del óptimo: <br>
-        $\implies$ Aumenta el Costo de Almacenaje ($Calm = \frac{1}{2} L_o \cdot b \cdot i$) al tener más unidades inmovilizadas en stock. <br>
-        Aunque se compense mínimamente con una reducción en el Costo de Adquisición ($Cadq$), la tasa de crecimiento del almacenaje domina y provoca que el **Costo Total crezca**, alejándose del mínimo óptimo de la curva en U.
-      </div>
-    </div>
-
-    <!-- TEMA 4 - PUNTO 4 -->
-    <div class="card gold">
-      <span class="crit-tag tag-parcial2026">⭐ Tema 4 · Punto 4 — 2 Puntos</span>
-      <h3>4. Mantenimiento Preventivo con Fallas Aleatorias (ALTA DISPERSIÓN)</h3>
-      <p><strong>Consigna:</strong> El elemento X1 de una máquina falla de manera aleatoria, impidiendo determinar su MTBF. a) Pasos para planificar. b) Ejemplo de lubricación. c) Gran desventaja.</p>
-      
-      <div class="gold-box" style="margin-top:12px;">
-        <strong>a) Planificación en Alta Dispersión (sin MTBF definido):</strong><br>
-        • Se realizan **inspecciones periódicas en marcha (RID)** en busca de fallas potenciales (FS).<br>
-        • Al detectar la FS se emite una **OT normal**, llevada a cabo con una **Hoja de Ruta**.<br>
-        • Objetivo: alimentar la documentación dinámica (*Historial de Equipos*) para generar datos estadísticos que logren bajar la dispersión futura.<br>
-        • Relación de Estados: $Estado Fabricante (vacío) > Estado Teórico (Planta) > Estado Real (Inspección)$.
-      </div>
-
-      <div class="warn-box" style="margin-top:10px;">
-        <strong>b) Ejemplo de Lubricación en PRV:</strong><br>
-        Se utiliza un **alemite** (lubricador), con el equipo parado y haciendo uso de los sentidos (tacto/vista) y experiencia del operario. Herramientas: bomba de engrase, lubricante adecuado con especificación, filtros y trapos de limpieza.
-      </div>
-
-      <div class="danger-box" style="margin-top:10px;">
-        <strong>c) Gran Desventaja de Alta Dispersión:</strong><br>
-        Al no tener previsibilidad exacta, se deben tomar acciones de mantenimiento **antes de alcanzar el máximo de vida útil**, perdiendo VU útil del equipo por el riesgo inminente a que falle. Además obliga a mantener un nivel de stock de repuestos más alto.
-      </div>
-    </div>
-
-    <!-- TEMA 4 - PUNTO 5 -->
-    <div class="card gold">
-      <span class="crit-tag tag-parcial2026">⭐ Tema 4 · Punto 5 — 2 Puntos (Cálculo Completo)</span>
-      <h3>5. Presupuesto con Tarifa CON Materiales y Reparación de 10 hs</h3>
-      <p><strong>Datos:</strong> Ppto SIN Materiales/Stock/Impre = $10.000.000.- | Hs operario/año = 2.000.- | Tasa Interés = 30% | Op Mto = 8 (Taller = 2) | Stock Repuestos = $1.000.000.- | Consumo Repuestos = $500.000.- | Imprevistos = Elevadas acciones proactivas (8%).</p>
-      
-      <div class="formula-block">
-─── RESOLUCIÓN PASO A PASO ─────────────────────────────────
-1) Ppto Base SIN Materiales                    =  $ 10.000.000
-2) Interés sobre Stock (30% de $1.000.000)     =  +$    300.000
-   ─────────────────────────────────────────────────────────
-   Subtotal sin imprevistos                    =  $ 10.300.000
-3) Imprevistos (8% por mucho proactivo)        =  +$    824.000 ($10.300.000 × 8%)
-   ─────────────────────────────────────────────────────────
-   Presupuesto Total SIN Materiales             =  $ 11.124.000
-4) Consumo Anual de Repuestos                  =  +$    500.000
-   ─────────────────────────────────────────────────────────
-   PRESUPUESTO TOTAL CON MATERIALES             =  $ 11.624.000.-
-
-─── TARIFA HH CON MATERIALES ────────────────────────────────
-Hs Totales Operaciones Mto = 2.000 hs × 8 operarios mto = 16.000 hs/año
-Tarifa HH CON MAT = $11.624.000 / 16.000 hs = 726,5 $/h
-
-a) COSTO DE REPARACIÓN DE 10 HS (Usando Tarifa CON MAT):
-   Costo Reparación = 10 hs × 726,5 $/h = $ 7.265.-
-</div>
-
-      <div class="gold-box" style="margin-top:10px;">
-        <strong>b) Justificación de usar Tarifa CON MAT y Desventajas:</strong><br>
-        Permite una **aproximación más acertada cuando no se tienen los repuestos insumidos en esa reparación**. <br>
-        <em>Desventaja:</em> Trae un **sesgo**, ya que pueden haber reparaciones muy rápidas con repuestos muy caros (o viceversa) y el costo se prorratea equitativamente entre todas las horas.
-      </div>
-
-      <div class="danger-box" style="margin-top:10px;">
-        <strong>c) Decisiones que NO se pueden tomar:</strong><br>
-        NO se puede hacer un presupuesto calendarizado ni tomar la decisión de reemplazar, restaurar o aplicar make-or-buy sobre un equipo individual.
-      </div>
-    </div>
-
-    <!-- TEMA 4 - PUNTO 6 -->
-    <div class="card gold">
-      <span class="crit-tag tag-parcial2026">⭐ Tema 4 · Punto 6 — 2 Puntos</span>
-      <h3>6. Dotación de 7,2 Operarios (Decisión Final)</h3>
-      <p><strong>Consigna:</strong> Se concluye que se necesitan 7,2 operarios. La dotación actual es de 7. ¿Qué decisión tomaría?</p>
-      <div class="gold-box">
-        <strong>Decisión Aprobada: Decido MANTENER LOS 7 OPERARIOS (Redondeo trunco).</strong><br>
-        <em>Justificación y Herramientas:</em><br>
-        1) **Redistribución de tareas:** Reorganizo los turnos y priorizo equipos sin asumir costos adicionales.<br>
-        2) **Horas extra:** Con el mismo personal pago horas extra para cubrir el 0,2 de exceso, evitando asumir costo fijo permanente.<br>
-        3) **Tercerizar:** Contrato personal externo para picos temporales.<br>
-        4) **Contratar (Última opción):** Se descarta por añadir un Costo Fijo permanente, generar capacidad ociosa en baja producción y demorar de 4 a 6 meses en capacitar a alguien nuevo.
-      </div>
+      <span class="crit-tag tag-parcial2026">⭐ Tema 4 · Puntos Clave</span>
+      <p>• Regla $C_{falla} < C_{mto}$ para trabajar a la falla.<br>
+      • Incremento arbitrario de Lote Óptimo Wilson → Calm sube → Costo Total CRECE.<br>
+      • Ppto. CON MAT ($11.624.000), Tarifa ($726,5/h), Reparación 10 hs ($7.265).<br>
+      • Dotación 7,2 operarios → Decisión mantener 7 operarios.</p>
     </div>
   </section>
 
@@ -599,12 +635,23 @@ a) COSTO DE REPARACIÓN DE 10 HS (Usando Tarifa CON MAT):
 
     <div class="faq-item">
       <div class="faq-q" onclick="toggleFaq(this)">
-        <h4><span class="q-icon">?</span> "¿Cuándo se opta por trabajar a la falla según Aprigliano?"</h4>
+        <h4><span class="q-icon">?</span> "¿Qué pasa si se disminuye arbitrariamente el Lote Óptimo de Wilson?"</h4>
         <span class="faq-arrow">▼</span>
       </div>
       <div class="faq-a">
-        <span class="verdict v-dev">DESARROLLO (PARCIAL 2026 TEMA 4)</span>
-        <p style="margin-top:8px;">Se opta por trabajar a la falla cuando el **Costo de Falla ($C_{falla}$) es MENOR que el Costo de Mantenimiento ($C_{mto}$)** ($C_{falla} < C_{mto}$), siempre que no afecte la seguridad ni el medio ambiente. Si $C_{mto} > C_{falla}$, NO conviene hacer mantenimiento proactivo.</p>
+        <span class="verdict v-false">EL COSTO TOTAL AUMENTA (PARCIAL 2026 TEMA 1)</span>
+        <p style="margin-top:8px;">Al achicar $L_o$, disminuye el costo de almacenaje pero explota el Costo de Adquisición ($Cadq = \frac{D}{Q} K$) por emitir muchísimas órdenes de compra al año. Esto hace que el Costo Total (CTS) CREZCA alejándose del mínimo de Wilson.</p>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">
+        <h4><span class="q-icon">?</span> "¿Qué le pasa a la Mantenibilidad en una OT de Emergencia en turno noche?"</h4>
+        <span class="faq-arrow">▼</span>
+      </div>
+      <div class="faq-a">
+        <span class="verdict v-dev">LA MANTENIBILIDAD BAJA (PARCIAL 2026 TEMA 1)</span>
+        <p style="margin-top:8px;">La mantenibilidad NO "se realiza". En una emergencia nocturna, la mantenibilidad SE VE AFECTADA O DISMINUYE porque se trabaja bajo presión de parada, se improvisan soluciones provisorias, no hay tiempo de consultar manuales y puede no estar el personal especialista idóneo, subiendo el MTTR.</p>
       </div>
     </div>
   </section>
@@ -626,15 +673,20 @@ a) COSTO DE REPARACIÓN DE 10 HS (Usando Tarifa CON MAT):
       <div class="progress-label" id="progress-label">0 / 0 conceptos dominados</div>
 
       <ul class="checklist" id="checklist-items">
-        <p class="checklist-group-title">⭐ Bloque Parciales 2026 (Temas 2, 3 y 4)</p>
-        <li id="ci-40"><span class="check-box" onclick="toggleCheck('ci-40')"></span>Tema 2: Componentes del costo variable b (salarios ociosos, hs máquina, lucro cesante, penalizaciones)</li>
+        <p class="checklist-group-title">⭐ Bloque Parciales 2026 (Temas 1, 2, 3 y 4)</p>
+        <li id="ci-35"><span class="check-box" onclick="toggleCheck('ci-35')"></span>Tema 1: Dotación 7,8 operarios → mantener 7 (redondeo trunco) + 4 herramientas explícitas</li>
+        <li id="ci-36"><span class="check-box" onclick="toggleCheck('ci-36')"></span>Tema 1: Disminución arbitraria de Lote Óptimo Wilson → Cadq explota → Costo Total AUMENTA</li>
+        <li id="ci-37"><span class="check-box" onclick="toggleCheck('ci-37')"></span>Tema 1: Tarifa CON MAT → JAMÁS sumar repuestos aparte (error conceptual tachado por Aprigliano)</li>
+        <li id="ci-38"><span class="check-box" onclick="toggleCheck('ci-38')"></span>Tema 1: OT Emergencia turno noche → la Mantenibilidad DISMINUYE / SE VE AFECTADA (sube MTTR)</li>
+        <li id="ci-39"><span class="check-box" onclick="toggleCheck('ci-39')"></span>Tema 1: Automatización alta → Costo Variable b del costo de falla AUMENTA DRÁSTICAMENTE (lucro cesante masivo)</li>
+        <li id="ci-40"><span class="check-box" onclick="toggleCheck('ci-40')"></span>Tema 2: Componentes del costo variable b (salarios ociosos producc, hs máquina, lucro cesante, penalizaciones)</li>
         <li id="ci-41"><span class="check-box" onclick="toggleCheck('ci-41')"></span>Tema 2: Reingeniería (rediseño) NO es Reacondicionamiento (solo bancada)</li>
         <li id="ci-42"><span class="check-box" onclick="toggleCheck('ci-42')"></span>Tema 2: Ejercicio Ppto CON MAT dado → Ppto SIN MAT ($8.400.000), Tarifa ($700/h), Reparación ($30.500)</li>
         <li id="ci-43"><span class="check-box" onclick="toggleCheck('ci-43')"></span>Tema 3: Ejercicio Ppto 15% Imprevistos → Tarifa CON MAT ($10.326/h), Reparación ($154.890)</li>
         <li id="ci-44"><span class="check-box" onclick="toggleCheck('ci-44')"></span>Tema 4: Regla $C_{falla} < C_{mto}$ para trabajar a la falla</li>
         <li id="ci-45"><span class="check-box" onclick="toggleCheck('ci-45')"></span>Tema 4: Incremento arbitrario de Lote Óptimo Wilson → Calm sube → Costo Total CRECE</li>
         <li id="ci-46"><span class="check-box" onclick="toggleCheck('ci-46')"></span>Tema 4: Ejercicio Ppto CON MAT → Ppto CON MAT ($11.624.000), Tarifa ($726,5/h), Reparación 10 hs ($7.265)</li>
-        <li id="ci-47"><span class="check-box" onclick="toggleCheck('ci-47')"></span>Tema 4: Dotación 7,2 operarios → Decisión mantener 7 operarios (redondeo trunco) + reasignación / hs extra</li>
+        <li id="ci-47"><span class="check-box" onclick="toggleCheck('ci-47')"></span>Tema 4: Dotación 7,2 operarios → Decisión mantener 7 operarios (redondeo trunco)</li>
       </ul>
     </div>
   </section>
@@ -669,14 +721,17 @@ a) COSTO DE REPARACIÓN DE 10 HS (Usando Tarifa CON MAT):
   });
 
   function navScroll(btn, targetId) {
-    document.getElementById(targetId).scrollIntoView({ behavior: 'smooth' });
+    const target = document.getElementById(targetId);
+    if (target) {
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
   }
 
   function toggleFaq(el) {
     el.parentElement.classList.toggle('open');
   }
 
-  const STORAGE_KEY = 'mto_checklist_v5';
+  const STORAGE_KEY = 'mto_checklist_v7';
 
   function getState() {
     try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}'); } catch { return {}; }
