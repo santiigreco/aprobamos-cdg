@@ -69,6 +69,11 @@ export const SUBJECTS = [
         title: '2do Parcial',
         description: 'Mantenimiento Predictivo y sus herramientas.',
         htmlFile: './mantenimiento-2do-parcial.html'
+      },
+      {
+        title: 'Recuperatorio',
+        description: 'Guía del Recuperatorio reconstruida del examen real 2026 (Temas 1 a 4).',
+        htmlFile: './mantenimiento-recuperatorio.html'
       }
     ]
   },
