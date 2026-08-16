@@ -88,6 +88,11 @@ export const SUBJECTS = [
     icon: 'Package',
     guides: [
       {
+        title: 'Guía Maestra',
+        description: 'Guía de estudio exhaustiva de parciales ordenada por frecuencia.',
+        htmlFile: './guia-maestra-manejo-materiales.html'
+      },
+      {
         title: '1er Parcial',
         description: 'Manejo de Materiales y equipos.',
         htmlFile: './manejo-materiales.html'
