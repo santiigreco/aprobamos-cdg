@@ -1,0 +1,3141 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Estrategia & Dominio 2do Parcial — Comercio Exterior UTN</title>
+  <meta name="description" content="Guía Estratégica Interactiva de Comercio Exterior UTN FRBA (Módulos 5, 6 y 7). Matriz 80/20, Práctica de Costos FOB, Banco de Preguntas Reales y Simulador." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:ital,wght@0,400;0,500;0,700;1,400&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg-primary: #0a0e1a;
+      --bg-secondary: #111827;
+      --bg-card: #161f38;
+      --bg-card-hover: #1e294b;
+      --bg-card-alt: #131b2e;
+      --accent-1: #6366f1;
+      --accent-2: #8b5cf6;
+      --accent-3: #06b6d4;
+      --accent-emerald: #10b981;
+      --accent-warn: #f59e0b;
+      --accent-danger: #ef4444;
+      --accent-glow: rgba(99, 102, 241, 0.25);
+      --text-primary: #f8fafc;
+      --text-secondary: #94a3b8;
+      --text-muted: #64748b;
+      --border: rgba(99, 102, 241, 0.2);
+      --border-focus: rgba(99, 102, 241, 0.55);
+      --border-danger: rgba(239, 68, 68, 0.4);
+      --border-emerald: rgba(16, 185, 129, 0.4);
+      --radius-sm: 8px;
+      --radius: 12px;
+      --radius-lg: 18px;
+      --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.3);
+      --shadow-lg: 0 20px 45px rgba(0, 0, 0, 0.5);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      line-height: 1.65;
+      overflow-x: hidden;
+    }
+
+    /* Ambient Glow Blobs */
+    body::before, body::after {
+      content: '';
+      position: fixed;
+      border-radius: 50%;
+      filter: blur(140px);
+      opacity: 0.12;
+      pointer-events: none;
+      z-index: 0;
+      animation: floatBlobs 16s ease-in-out infinite alternate;
+    }
+    body::before {
+      width: 650px; height: 650px;
+      background: var(--accent-1);
+      top: -200px; left: -200px;
+    }
+    body::after {
+      width: 550px; height: 550px;
+      background: var(--accent-2);
+      bottom: -200px; right: -200px;
+      animation-delay: -8s;
+    }
+    @keyframes floatBlobs {
+      from { transform: translate(0,0) scale(1); }
+      to   { transform: translate(50px, 40px) scale(1.1); }
+    }
+
+    /* Reading Progress Bar */
+    #progress-container {
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 3px;
+      background: transparent;
+      z-index: 1000;
+    }
+    #progress-bar {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--accent-3), var(--accent-1), var(--accent-2));
+      transition: width 0.1s ease;
+    }
+
+    /* Top Sticky Navigation */
+    nav.top-nav {
+      position: sticky;
+      top: 0;
+      z-index: 900;
+      background: rgba(10, 14, 26, 0.88);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+      padding: 12px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+    .nav-brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 700;
+      font-size: 0.95rem;
+      letter-spacing: -0.01em;
+      color: var(--text-primary);
+      text-decoration: none;
+      white-space: nowrap;
+    }
+    .nav-brand .brand-badge {
+      background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+      color: #fff;
+      padding: 3px 8px;
+      border-radius: 6px;
+      font-size: 0.72rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 700;
+    }
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+    .nav-links::-webkit-scrollbar { display: none; }
+    .nav-link {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 0.8rem;
+      font-weight: 500;
+      padding: 6px 12px;
+      border-radius: var(--radius-sm);
+      white-space: nowrap;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .nav-link:hover, .nav-link.active {
+      background: rgba(99, 102, 241, 0.15);
+      color: var(--text-primary);
+      border: 1px solid var(--border);
+    }
+    .nav-search-wrap {
+      display: flex;
+      align-items: center;
+      position: relative;
+      min-width: 220px;
+    }
+    .nav-search-input {
+      width: 100%;
+      background: rgba(22, 31, 56, 0.8);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      color: var(--text-primary);
+      font-size: 0.82rem;
+      padding: 7px 12px 7px 32px;
+      outline: none;
+      transition: all 0.2s ease;
+    }
+    .nav-search-input:focus {
+      border-color: var(--accent-1);
+      box-shadow: 0 0 0 3px var(--accent-glow);
+    }
+    .search-icon {
+      position: absolute;
+      left: 10px;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      pointer-events: none;
+    }
+
+    /* Main Container */
+    .container {
+      max-width: 1240px;
+      margin: 0 auto;
+      padding: 0 24px 80px;
+      position: relative;
+      z-index: 10;
+    }
+
+    /* Hero Section */
+    .hero {
+      text-align: center;
+      padding: 60px 20px 40px;
+      position: relative;
+    }
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(99, 102, 241, 0.12);
+      border: 1px solid var(--border);
+      color: #a5b4fc;
+      padding: 6px 16px;
+      border-radius: 999px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      margin-bottom: 24px;
+    }
+    .hero-badge .dot {
+      width: 8px; height: 8px;
+      background: var(--accent-3);
+      border-radius: 50%;
+      box-shadow: 0 0 10px var(--accent-3);
+      animation: pulseDot 2s infinite;
+    }
+    @keyframes pulseDot {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(0.85); }
+    }
+    .hero h1 {
+      font-size: clamp(2rem, 4.5vw, 3.2rem);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      line-height: 1.15;
+      margin-bottom: 16px;
+      background: linear-gradient(135deg, #ffffff 40%, #c7d2fe 70%, #818cf8 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .hero p {
+      max-width: 780px;
+      margin: 0 auto 30px;
+      color: var(--text-secondary);
+      font-size: 1.05rem;
+      line-height: 1.6;
+    }
+    .hero-metrics {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+      margin-top: 36px;
+    }
+    .metric-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px 16px;
+      text-align: center;
+      transition: all 0.25s ease;
+    }
+    .metric-card:hover {
+      transform: translateY(-3px);
+      border-color: var(--accent-1);
+      box-shadow: var(--shadow-sm);
+    }
+    .metric-num {
+      font-size: 2rem;
+      font-weight: 800;
+      font-family: 'JetBrains Mono', monospace;
+      color: #fff;
+      line-height: 1.1;
+      margin-bottom: 6px;
+    }
+    .metric-label {
+      font-size: 0.78rem;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      font-weight: 600;
+    }
+
+    /* Section Headers */
+    .section-wrap {
+      margin-top: 70px;
+      scroll-margin-top: 90px;
+    }
+    .section-header {
+      margin-bottom: 28px;
+    }
+    .section-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.75rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--accent-3);
+      background: rgba(6, 182, 212, 0.1);
+      border: 1px solid rgba(6, 182, 212, 0.25);
+      padding: 4px 10px;
+      border-radius: 6px;
+      margin-bottom: 10px;
+    }
+    .section-title {
+      font-size: 1.85rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .section-desc {
+      color: var(--text-secondary);
+      font-size: 0.95rem;
+      margin-top: 6px;
+      max-width: 820px;
+    }
+
+    /* Cards & Layout */
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+      gap: 20px;
+    }
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+    }
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 24px;
+      position: relative;
+      transition: all 0.25s ease;
+    }
+    .card:hover {
+      border-color: var(--border-focus);
+      box-shadow: var(--shadow-sm);
+    }
+    .card-title {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    /* Priority Badges */
+    .badge-critical {
+      background: rgba(239, 68, 68, 0.15);
+      color: #fca5a5;
+      border: 1px solid var(--border-danger);
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border-radius: 999px;
+      letter-spacing: 0.05em;
+    }
+    .badge-medium {
+      background: rgba(245, 158, 11, 0.15);
+      color: #fcd34d;
+      border: 1px solid rgba(245, 158, 11, 0.4);
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border-radius: 999px;
+      letter-spacing: 0.05em;
+    }
+    .badge-low {
+      background: rgba(16, 185, 129, 0.15);
+      color: #6ee7b7;
+      border: 1px solid var(--border-emerald);
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border-radius: 999px;
+      letter-spacing: 0.05em;
+    }
+
+    /* Callouts & Alert Boxes */
+    .callout {
+      border-radius: var(--radius-sm);
+      padding: 16px 18px;
+      margin: 16px 0;
+      font-size: 0.9rem;
+      line-height: 1.6;
+      border-left: 4px solid;
+    }
+    .callout-info {
+      background: rgba(99, 102, 241, 0.08);
+      border-color: var(--accent-1);
+      color: #c7d2fe;
+    }
+    .callout-warn {
+      background: rgba(245, 158, 11, 0.08);
+      border-color: var(--accent-warn);
+      color: #fde68a;
+    }
+    .callout-danger {
+      background: rgba(239, 68, 68, 0.08);
+      border-color: var(--accent-danger);
+      color: #fecaca;
+    }
+    .callout-success {
+      background: rgba(16, 185, 129, 0.08);
+      border-color: var(--accent-emerald);
+      color: #a7f3d0;
+    }
+    .callout-title {
+      font-weight: 700;
+      font-size: 0.95rem;
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* Custom Tables */
+    .table-wrap {
+      overflow-x: auto;
+      margin: 18px 0;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border);
+      background: var(--bg-card-alt);
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.88rem;
+      text-align: left;
+    }
+    th {
+      background: rgba(22, 31, 56, 0.9);
+      color: #e2e8f0;
+      font-weight: 600;
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--border);
+      white-space: nowrap;
+    }
+    td {
+      padding: 12px 16px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      color: var(--text-secondary);
+      vertical-align: top;
+    }
+    tr:last-child td { border-bottom: none; }
+    tr:hover td {
+      background: rgba(99, 102, 241, 0.04);
+      color: var(--text-primary);
+    }
+    td strong { color: #f1f5f9; }
+
+    /* Code & Formulas */
+    code, pre {
+      font-family: 'JetBrains Mono', monospace;
+    }
+    .formula-box {
+      background: #0f1629;
+      border: 1px solid rgba(99, 102, 241, 0.35);
+      border-radius: var(--radius-sm);
+      padding: 18px 22px;
+      margin: 18px 0;
+      color: #e0e7ff;
+      font-size: 0.92rem;
+      overflow-x: auto;
+      box-shadow: inset 0 2px 6px rgba(0,0,0,0.4);
+    }
+    .formula-box .formula-title {
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--accent-3);
+      margin-bottom: 8px;
+    }
+
+    /* Accordions / Details */
+    details.qa-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      margin-bottom: 14px;
+      overflow: hidden;
+      transition: all 0.25s ease;
+    }
+    details.qa-card[open] {
+      border-color: var(--border-focus);
+      background: var(--bg-card-hover);
+    }
+    details.qa-card summary {
+      padding: 18px 22px;
+      font-weight: 600;
+      font-size: 0.98rem;
+      color: #fff;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      list-style: none;
+      user-select: none;
+    }
+    details.qa-card summary::-webkit-details-marker { display: none; }
+    details.qa-card summary::after {
+      content: '▾';
+      font-size: 1.2rem;
+      color: var(--accent-1);
+      transition: transform 0.2s ease;
+    }
+    details.qa-card[open] summary::after {
+      transform: rotate(180deg);
+    }
+    .qa-content {
+      padding: 0 22px 22px;
+      border-top: 1px solid rgba(99, 102, 241, 0.15);
+      padding-top: 18px;
+      font-size: 0.92rem;
+    }
+    .ideal-ans {
+      background: rgba(16, 185, 129, 0.06);
+      border-left: 3px solid var(--accent-emerald);
+      padding: 14px 18px;
+      border-radius: 4px;
+      margin: 12px 0;
+    }
+    .ideal-ans-title {
+      font-weight: 700;
+      color: #34d399;
+      font-size: 0.82rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 6px;
+    }
+    .trap-ans {
+      background: rgba(239, 68, 68, 0.06);
+      border-left: 3px solid var(--accent-danger);
+      padding: 14px 18px;
+      border-radius: 4px;
+      margin: 12px 0;
+    }
+    .trap-ans-title {
+      font-weight: 700;
+      color: #f87171;
+      font-size: 0.82rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 6px;
+    }
+
+    /* Calculator Styles */
+    .calc-box {
+      background: var(--bg-card-alt);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 24px;
+      margin: 24px 0;
+    }
+    .calc-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+    .calc-field label {
+      display: block;
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--text-secondary);
+      margin-bottom: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .calc-field input {
+      width: 100%;
+      background: #0d1222;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      color: #fff;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.95rem;
+      padding: 8px 12px;
+      outline: none;
+      transition: all 0.2s ease;
+    }
+    .calc-field input:focus {
+      border-color: var(--accent-3);
+      box-shadow: 0 0 0 2px rgba(6, 182, 212, 0.25);
+    }
+    .calc-results {
+      background: #090d18;
+      border: 1px solid rgba(99, 102, 241, 0.3);
+      border-radius: var(--radius-sm);
+      padding: 18px 22px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 16px;
+      text-align: center;
+    }
+    .calc-res-item .res-val {
+      font-size: 1.45rem;
+      font-weight: 800;
+      font-family: 'JetBrains Mono', monospace;
+      color: #38bdf8;
+      line-height: 1.1;
+      margin-top: 4px;
+    }
+    .calc-res-item .res-label {
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      font-weight: 600;
+      color: var(--text-muted);
+      letter-spacing: 0.05em;
+    }
+
+    /* Checklist Styles */
+    .checklist-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 22px;
+      margin-bottom: 18px;
+    }
+    .checklist-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 10px 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+      cursor: pointer;
+      user-select: none;
+    }
+    .checklist-item:last-child { border-bottom: none; }
+    .checklist-item input[type="checkbox"] {
+      appearance: none;
+      -webkit-appearance: none;
+      width: 18px; height: 18px;
+      border: 2px solid var(--text-muted);
+      border-radius: 4px;
+      background: transparent;
+      cursor: pointer;
+      position: relative;
+      margin-top: 2px;
+      flex-shrink: 0;
+      transition: all 0.2s ease;
+    }
+    .checklist-item input[type="checkbox"]:checked {
+      background: var(--accent-emerald);
+      border-color: var(--accent-emerald);
+    }
+    .checklist-item input[type="checkbox"]:checked::after {
+      content: '✓';
+      position: absolute;
+      top: -2px; left: 3px;
+      color: #000;
+      font-weight: 800;
+      font-size: 0.85rem;
+    }
+    .checklist-text {
+      font-size: 0.92rem;
+      color: #cbd5e1;
+      transition: color 0.2s ease;
+    }
+    .checklist-item input[type="checkbox"]:checked ~ .checklist-text {
+      text-decoration: line-through;
+      color: var(--text-muted);
+    }
+
+    /* Highlight Filter */
+    .search-hidden { display: none !important; }
+    mark.highlight {
+      background: rgba(245, 158, 11, 0.35);
+      color: #fff;
+      padding: 2px 4px;
+      border-radius: 3px;
+    }
+
+    /* Footer */
+    footer {
+      text-align: center;
+      padding: 40px 20px;
+      border-top: 1px solid var(--border);
+      color: var(--text-muted);
+      font-size: 0.82rem;
+      margin-top: 80px;
+    }
+
+    @media (max-width: 768px) {
+      nav.top-nav { flex-wrap: wrap; padding: 10px 16px; }
+      .nav-links { order: 3; width: 100%; padding-top: 6px; }
+      .nav-search-wrap { order: 2; min-width: 160px; }
+      .hero { padding: 40px 10px 30px; }
+      .hero h1 { font-size: 1.85rem; }
+      .grid-2, .grid-3 { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Reading Progress Bar -->
+  <div id="progress-container"><div id="progress-bar"></div></div>
+
+  <!-- Top Sticky Navigation -->
+  <nav class="top-nav">
+    <a href="#" class="nav-brand">
+      <span class="brand-badge">UTN FRBA</span>
+      <span>Comercio Exterior · 2P</span>
+    </a>
+    <div class="nav-links">
+      <a href="#matriz-8020" class="nav-link">⚡ Matriz 80/20</a>
+      <a href="#modulo-5" class="nav-link">📦 Módulo 5: Expo</a>
+      <a href="#modulo-6-estrategia" class="nav-link">🤝 Contratos & Docs</a>
+      <a href="#modulo-6-finanzas" class="nav-link">💳 Medios de Pago</a>
+      <a href="#practica-costos" class="nav-link">🧮 Costeo & FOB</a>
+      <a href="#modulo-7" class="nav-link">🌐 Módulo 7: REI</a>
+      <a href="#banco-preguntas" class="nav-link">🎯 Preguntas Reales</a>
+      <a href="#simulador" class="nav-link">📝 Simulador</a>
+    </div>
+    <div class="nav-search-wrap">
+      <span class="search-icon">🔍</span>
+      <input type="text" id="live-search" class="nav-search-input" placeholder="Buscar concepto, fórmula o pregunta..." />
+    </div>
+  </nav>
+
+  <div class="container">
+
+    <!-- Hero Section -->
+    <header class="hero">
+      <div class="hero-badge">
+        <span class="dot"></span>
+        Cátedra Comercio Exterior · Ciclo Lectivo 2026
+      </div>
+      <h1>Guía Estratégica & Descodificador para el Segundo Parcial</h1>
+      <p>
+        Diseñada bajo la perspectiva del profesor titular y estratega universitario. Cruce exhaustivo entre los apuntes teóricos oficiales (Módulos V, VI y VII), los exámenes reales 2023–2025 y las planillas de práctica de cotización aduanera.
+      </p>
+
+      <div class="hero-metrics">
+        <div class="metric-card">
+          <div class="metric-num">35+</div>
+          <div class="metric-label">Preguntas Reales Analizadas</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-num">100%</div>
+          <div class="metric-label">Fórmula FOB Nacif / UTN</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-num">3</div>
+          <div class="metric-label">Módulos Teórico-Prácticos (5, 6, 7)</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-num">80 / 20</div>
+          <div class="metric-label">Ponderación Táctica de Foco</div>
+        </div>
+      </div>
+    </header>
+
+    <!-- SECTION 1: Matriz 80/20 & Descodificador Cognitivo -->
+    <section id="matriz-8020" class="section-wrap">
+      <div class="section-header">
+        <div class="section-tag">Estrategia de Examen</div>
+        <h2 class="section-title">⚡ Matriz 80/20 y Estilo Cognitivo de la Cátedra</h2>
+        <p class="section-desc">
+          Identificación de temas críticos de aparición garantizada vs. trampas sistemáticas donde la mayoría de los alumnos pierde la promoción o el 10.
+        </p>
+      </div>
+
+      <!-- Grid de Prioridades -->
+      <div class="grid-3">
+        <!-- Prioridad Crítica -->
+        <div class="card" style="border-top: 3px solid var(--accent-danger);">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+            <span class="badge-critical">🔴 Prioridad Crítica (90% - 100%)</span>
+          </div>
+          <h3 class="card-title">Elimina si falta o se falla</h3>
+          <p style="font-size:0.86rem; color:var(--text-secondary); margin-bottom:14px;">
+            Temas estructurales que definen la aprobación. Se evalúan mediante ejercicio práctico numérico y preguntas de desarrollo con justificación legal estricta.
+          </p>
+          <ul style="font-size:0.86rem; color:#cbd5e1; padding-left:18px; line-height:1.7;">
+            <li><strong>Ejercicio Práctico FOB/CFR:</strong> Ecuación de equilibrio con Reintegros, Drawback, Gastos Directos/Indirectos y Utilidad Bruta (Ganancias 35%).</li>
+            <li><strong>Destinaciones Aduaneras Expo:</strong> Definitiva a Consumo vs. Suspensivas (Temporaria, Tránsito, Removido) y sus efectos tributarios.</li>
+            <li><strong>Medios de Pago:</strong> Carta de Crédito (UCP 600, los 4 atributos por defecto), Cobranza (Simple vs Documentaria) y rol del banco.</li>
+            <li><strong>Integración vs. Cooperación:</strong> Los 6 estadios de integración económica y contraste con organismos de cooperación (OMC, FMI, BM).</li>
+            <li><strong>Contratos Internacionales:</strong> CISG Viena 1980 vs. CCyC, Puros vs. Impuros y figuras (Agente vs. Distribuidor).</li>
+          </ul>
+        </div>
+
+        <!-- Prioridad Media -->
+        <div class="card" style="border-top: 3px solid var(--accent-warn);">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+            <span class="badge-medium">🟡 Prioridad Media (60% - 80%)</span>
+          </div>
+          <h3 class="card-title">Preguntas Complementarias</h3>
+          <p style="font-size:0.86rem; color:var(--text-secondary); margin-bottom:14px;">
+            Determinan la diferencia entre aprobar con lo justo y aspirar a notas altas (8 o 9). Preguntas de desarrollo conceptual y verdadero/falso.
+          </p>
+          <ul style="font-size:0.86rem; color:#cbd5e1; padding-left:18px; line-height:1.7;">
+            <li><strong>Balanza de Pagos:</strong> Concepto de "residente" (personas en tratamiento/estudio exterior) y estructura de sub-balanzas.</li>
+            <li><strong>Políticas de Precios:</strong> Sondeo de mercado vs. beneficio máximo vs. costo marginal (costos variables vs fijos locales).</li>
+            <li><strong>Financiamiento No Tradicional:</strong> Mecánica operativa del Warrant (almacén fiscal + certificado) y Factoring vs. Forfaiting.</li>
+            <li><strong>Seguro de Crédito Expo:</strong> Cobertura exclusiva de riesgos comerciales (mora > 6 meses, insolvencia, quiebra) vs. caución.</li>
+            <li><strong>Ferias Internacionales:</strong> Monográficas vs. Generales, y factores antes, durante y después del evento.</li>
+          </ul>
+        </div>
+
+        <!-- Prioridad Baja -->
+        <div class="card" style="border-top: 3px solid var(--accent-emerald);">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+            <span class="badge-low">🟢 Prioridad Baja (20% - 40%)</span>
+          </div>
+          <h3 class="card-title">Detalle Fino & Desempate</h3>
+          <p style="font-size:0.86rem; color:var(--text-secondary); margin-bottom:14px;">
+            Preguntas puntuales de multiple choice o teóricas de contexto histórico para redondear el 10 absoluto.
+          </p>
+          <ul style="font-size:0.86rem; color:#cbd5e1; padding-left:18px; line-height:1.7;">
+            <li><strong>Teorías de REI:</strong> Neorrealismo (3 imágenes de Kenneth Waltz), Funcionalismo y Neofuncionalismo (spillover).</li>
+            <li><strong>Regímenes Especiales Aduaneros:</strong> Rancho, pacotilla, equipaje, franquicias diplomáticas, tráfico fronterizo.</li>
+            <li><strong>Evolución Agropecuaria:</strong> Transformación histórica del sector agropecuario argentino post Segunda Guerra Mundial.</li>
+            <li><strong>Investigaciones Secundarias:</strong> Estudios oficiales de Trademap, INDEC y Cámaras vs. primarias.</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Descodificador Cognitivo: Trampas de la Cátedra -->
+      <div class="card" style="margin-top:24px;">
+        <h3 class="card-title" style="color:var(--accent-3);">🧠 El "Descodificador Cognitivo" de la Cátedra: Preguntan "X", pero Evalúan "Y"</h3>
+        <p style="font-size:0.9rem; color:var(--text-secondary); margin-bottom:16px;">
+          En los parciales de Comercio Exterior de UTN FRBA, las preguntas nunca son literales ni ingenuas. Cada enunciado está estructurado con palabras trampa diseñadas para cazar al alumno memorista que no comprende la lógica aduanera ni financiera.
+        </p>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th style="width:28%;">Enunciado Trampa de la Cátedra</th>
+                <th style="width:36%;">Lo que en realidad están evaluando</th>
+                <th style="width:36%;">Criterio Exacto de Corrección para 10</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><em>"La Destinación de Exportación de Removido, ¿está sujeta al cobro de incentivos promocionales?"</em></td>
+                <td>Evalúan si comprendés que las destinaciones <strong>suspensivas</strong> NO generan hecho imponible, por lo cual no tributan ni cobran reintegros.</td>
+                <td><strong>Falso.</strong> El removido es una destinación suspensiva de transporte interno por aguas/territorios foráneos; al no constituir exportación definitiva a consumo, no genera hecho imponible y carece de incentivos.</td>
+              </tr>
+              <tr>
+                <td><em>"El procedimiento aduanero de exportación comienza formalmente cuando se presentan los documentos físicos ante la Aduana."</em></td>
+                <td>Evalúan si conocés el flujo sistémico informático obligatorio (SIM Malvina).</td>
+                <td><strong>Falso.</strong> Aduaneramente comienza cuando el declarante (Despachante) ingresa y <strong>oficializa los datos en el Sistema Informático Malvina (SIM)</strong> generando el Permiso de Embarque.</td>
+              </tr>
+              <tr>
+                <td><em>"En una política de precios orientada al mercado, se toman solo los costos variables dejando los fijos al mercado local."</em></td>
+                <td>Evalúan la confusión clásica entre <strong>política orientada a la empresa (costo marginal)</strong> y <strong>orientada al mercado (precios de la competencia en destino)</strong>.</td>
+                <td><strong>Falso.</strong> Asignar solo costos variables es la estrategia de costo marginal (orientada a la empresa). La orientada al mercado se fija en base al sondeo y análisis de precios de los competidores en el destino.</td>
+              </tr>
+              <tr>
+                <td><em>"El seguro de crédito a la exportación cubre robo en tránsito y avería gruesa durante la navegación marítima."</em></td>
+                <td>Evalúan si distinguís el <strong>seguro de transporte internacional de mercadería</strong> del <strong>seguro de crédito comercial</strong>.</td>
+                <td><strong>Falso.</strong> Averías y robos son cubiertos por el seguro de transporte (póliza de carga). El seguro de crédito a la exportación protege exclusivamente contra <strong>riesgos comerciales de pago</strong> (quiebra, mora prolongada > 6 meses, insolvencia del importador).</td>
+              </tr>
+              <tr>
+                <td><em>"La Comunidad Andina (CAN) y la OIT son organismos de cooperación internacional."</em></td>
+                <td>Evalúan la frontera estricta entre <strong>bloques de integración regional</strong> y <strong>organismos de cooperación</strong>.</td>
+                <td><strong>Falso.</strong> La OIT sí es un organismo de cooperación multilateral. La CAN (Comunidad Andina) es un proceso de <strong>integración económica regional</strong> con arancel externo común.</td>
+              </tr>
+              <tr>
+                <td><em>"Una carta de crédito, si nada se dice en el texto, se presume revocable, confirmada, transferible y divisible."</em></td>
+                <td>Evalúan el conocimiento de las reglas internacionales <strong>UCP 600 de la CCI</strong>.</td>
+                <td><strong>Falso.</strong> La regla mnemotécnica de la cátedra es: <em>"Todo es NO salvo que se exprese lo contrario, excepto irrevocable y divisible"</em>: Es <strong>Irrevocable</strong>, <strong>NO confirmada</strong>, <strong>Intransferible</strong> y <strong>Divisible</strong>.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 2: MÓDULO 5 - EXPORTACIÓN Y RÉGIMEN ADUANERO -->
+    <section id="modulo-5" class="section-wrap">
+      <div class="section-header">
+        <div class="section-tag">Módulo V Oficial</div>
+        <h2 class="section-title">📦 Exportación y Régimen Aduanero</h2>
+        <p class="section-desc">
+          Fundamentos micro y macroeconómicos, factores condicionantes, clasificación exhaustiva de destinaciones aduaneras, regímenes especiales y estímulos fiscales a la exportación.
+        </p>
+      </div>
+
+      <!-- 1. Beneficios Micro vs Macro & Condicionantes -->
+      <div class="grid-2">
+        <div class="card">
+          <h3 class="card-title">1. Beneficios Microeconómicos vs. Macroeconómicos</h3>
+          <p style="font-size:0.88rem; color:var(--text-secondary); margin-bottom:12px;">
+            Diferenciación estricta exigida en las preguntas teóricas del examen:
+          </p>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Nivel Microeconómico (Empresa)</th>
+                  <th>Nivel Macroeconómico (País / Estado)</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>Reducción de capacidad ociosa:</strong> Aprovechar economías de escala aumentando el volumen de producción fabril.</td>
+                  <td><strong>Generación genuina de divisas:</strong> Hace frente al pago de importaciones de bienes de capital y servicio de la deuda externa.</td>
+                </tr>
+                <tr>
+                  <td><strong>Diversificación de riesgos:</strong> No depender exclusivamente de los vaivenes de la demanda y crisis del mercado local.</td>
+                  <td><strong>Factor dinámico del crecimiento:</strong> Expande el PBI, moderniza la industria y genera encadenamientos productivos.</td>
+                </tr>
+                <tr>
+                  <td><strong>Prolongación del ciclo de vida:</strong> Productos en fase de madurez local pueden insertarse en países en fase de crecimiento.</td>
+                  <td><strong>Generación de empleo de calidad:</strong> Fomenta puestos calificados en logística, aduana, ingeniería y finanzas.</td>
+                </tr>
+                <tr>
+                  <td><strong>Incremento de competitividad:</strong> La adaptación a normas internacionales (ISO, CE, API) optimiza la eficiencia interna.</td>
+                  <td><strong>Equilibrio de la Balanza de Pagos:</strong> Aporta saldo superavitario en la Balanza Comercial de bienes ($X - M$).</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3 class="card-title">2. Condicionantes Previos: Endógenos vs. Exógenos</h3>
+          <p style="font-size:0.88rem; color:var(--text-secondary); margin-bottom:12px;">
+            Clasificación sobre los factores a analizar previo a la decisión de comercialización internacional:
+          </p>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Factores Endógenos (Internos)</th>
+                  <th>Factores Exógenos (Externos)</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>Capacidad de producción:</strong> Existencia de excedente exportable sin desatender el mercado local.</td>
+                  <td><strong>Características del mercado meta:</strong> Tamaño de la demanda, hábitos, cultura y costumbres del consumidor.</td>
+                </tr>
+                <tr>
+                  <td><strong>Capacidad financiera y liquidez:</strong> Flujo de caja para bancar tiempos de cobro y prefinanciación.</td>
+                  <td><strong>Entorno competitivo:</strong> Precios, calidad y estrategias de los competidores locales e internacionales en destino.</td>
+                </tr>
+                <tr>
+                  <td><strong>Estructura de costos:</strong> Definición de costos fijos, variables y cálculo del precio FOB mínimo.</td>
+                  <td><strong>Barreras de acceso:</strong> Aranceles de importación, cuotas, contingentes y normas paraarancelarias (licencias, fitosanitarias).</td>
+                </tr>
+                <tr>
+                  <td><strong>Recursos humanos y know-how:</strong> Personal capacitado en operativa aduanera, logística e idiomas.</td>
+                  <td><strong>Infraestructura y logística de transporte:</strong> Rutas, frecuencias marítimas/aéreas, fletes y pasos fronterizos.</td>
+                </tr>
+                <tr>
+                  <td><strong>Capacidad de servicio técnico:</strong> Garantía, asistencia post-venta y aprovisionamiento de repuestos.</td>
+                  <td><strong>Coyuntura macro y cambiaria:</strong> Tipo de cambio real, acuerdos comerciales vigentes (MERCOSUR, ACE) y riesgo país.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2. Secuencia Operativa Aduanera y SIM -->
+      <div class="card" style="margin-top:20px;">
+        <h3 class="card-title">3. Secuencia Operativa Aduanera & Sistema Informático Malvina (SIM)</h3>
+        <p style="font-size:0.88rem; color:var(--text-secondary); margin-bottom:14px;">
+          El procedimiento aduanero de exportación está regido por el Código Aduanero (Ley 22.415) y se formaliza mediante la interacción entre el Despachante de Aduanas y el Servicio Aduanero:
+        </p>
+        
+        <div class="grid-3" style="margin-bottom:18px;">
+          <div style="background:var(--bg-card-alt); border:1px solid var(--border); border-radius:var(--radius-sm); padding:16px;">
+            <div style="font-family:'JetBrains Mono',monospace; font-size:0.75rem; color:var(--accent-3); font-weight:700;">PASO 1: OFICIALIZACIÓN</div>
+            <strong style="display:block; margin:6px 0; color:#fff;">Permiso de Embarque (DUA OM-1993/A)</strong>
+            <p style="font-size:0.82rem; color:var(--text-secondary);">
+              El Despachante ingresa al SIM la declaración detallada de la mercadería (PA, valor FOB, unidades, marcas). El registro informático marca el inicio legal y fija el <strong>momento imponible</strong>.
+            </p>
+          </div>
+          <div style="background:var(--bg-card-alt); border:1px solid var(--border); border-radius:var(--radius-sm); padding:16px;">
+            <div style="font-family:'JetBrains Mono',monospace; font-size:0.75rem; color:var(--accent-warn); font-weight:700;">PASO 2: AVISO & CANALES</div>
+            <strong style="display:block; margin:6px 0; color:#fff;">Aviso de Carga & Selectividad</strong>
+            <p style="font-size:0.82rem; color:var(--text-secondary);">
+              Obligatorio antes del ingreso a zona primaria. El SIM asigna el canal: <strong>Verde</strong> (libramiento directo), <strong>Naranja</strong> (control documental exhaustivo) o <strong>Rojo</strong> (control documental + verificación física).
+            </p>
+          </div>
+          <div style="background:var(--bg-card-alt); border:1px solid var(--border); border-radius:var(--radius-sm); padding:16px;">
+            <div style="font-family:'JetBrains Mono',monospace; font-size:0.75rem; color:var(--accent-emerald); font-weight:700;">PASO 3: LIBRAMIENTO & POST</div>
+            <strong style="display:block; margin:6px 0; color:#fff;">Libramiento y Post-Embarque</strong>
+            <p style="font-size:0.82rem; color:var(--text-secondary);">
+              La Aduana autoriza la salida al exterior (Libramiento). Tras la carga real a bordo, si hubo diferencias de bultos/kilos, el exportador realiza la <strong>Declaración Post-Embarque</strong> para liquidar reintegros definitivos.
+            </p>
+          </div>
+        </div>
+
+        <div class="callout callout-info">
+          <div class="callout-title">📌 Plazos y Casos de Rectificación de la Declaración de Exportación Oficializada:</div>
+          <p style="font-size:0.86rem; color:#cbd5e1;">
+            Según la normativa aduanera, la solicitud de destinación oficializada solo puede ser rectificada en tres momentos tasados:
+            <br><strong>1. Previo al libramiento:</strong> Siempre que la Aduana aún no haya iniciado el control documental ni la verificación física de la mercadería.
+            <br><strong>2. Vía Acuática / Aérea (tras libramiento):</strong> Hasta el momento exacto en que la mercadería comience a ser cargada a bordo del buque o aeronave con destino al exterior.
+            <br><strong>3. Vía Terrestre por Carretera/Ferrocarril:</strong> Hasta antes de que el último control del puesto aduanero de frontera autorice la salida física del convoy.
+          </p>
+        </div>
+      </div>
+
+      <!-- 3. Destinaciones Aduaneras de Exportación: Tabla Sinóptica -->
+      <div class="card" style="margin-top:20px;">
+        <h3 class="card-title">4. Destinaciones Aduaneras de Exportación (Art. 724 y ss. Código Aduanero)</h3>
+        <p style="font-size:0.88rem; color:var(--text-secondary); margin-bottom:14px;">
+          Clasificación crítica de examen: Definitivas vs. Suspensivas.
+        </p>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Destinación Aduanera</th>
+                <th>Definición & Finalidad</th>
+                <th>Permanencia</th>
+                <th>Efectos Tributarios & Hecho Imponible</th>
+                <th>Garantía Requerida</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Definitiva de Exportación para Consumo</strong></td>
+                <td>La mercadería sale del territorio aduanero para permanecer fuera de él por tiempo indeterminado. Comercialización exterior irrestricta.</td>
+                <td>Indeterminada</td>
+                <td><strong>Genera hecho imponible pleno:</strong> Sujeta al pago de Derechos de Exportación (retenciones) y habilita el cobro de Reintegros. Prohibiciones económicas y no económicas aplicables.</td>
+                <td>No requiere (salvo pago diferido de aranceles).</td>
+              </tr>
+              <tr>
+                <td><strong>Exportación Temporaria</strong> (Suspensiva)</td>
+                <td>Permanece con una <em>finalidad</em> y por un <em>plazo determinado</em> fuera del territorio aduanero, sujeta a la <strong>obligación de reimportarla para consumo</strong> antes de su vencimiento. Casos: transformación, perfeccionamiento pasivo, reparación, o promoción en <strong>consignación</strong>.</td>
+                <td>Plazo fijo determinado</td>
+                <td><strong>NO genera hecho imponible:</strong> No abona derechos de exportación ni percibe estímulos promocionales (reintegros).</td>
+                <td><strong>Garantía obligatoria</strong> (Póliza de Caución) para responder por los tributos que gravarían la exportación para consumo.</td>
+              </tr>
+              <tr>
+                <td><strong>Tránsito de Exportación</strong> (Suspensiva)</td>
+                <td>La mercadería de libre circulación formaliza su destinación en una aduana interior (ej. Aduana de Córdoba) y es transportada hasta otra aduana del mismo territorio (ej. Puerto de Bs. As.) para salir por esta última. La mercadería de salida debe ser idéntica a la remitida.</td>
+                <td>Plazo del itinerario</td>
+                <td><strong>NO genera hecho imponible propio:</strong> Los tributos o reintegros se liquidan contra el cumplido final de la aduana de salida.</td>
+                <td>Régimen de control y precinto aduanero o fianza del transportista.</td>
+              </tr>
+              <tr>
+                <td><strong>Removido</strong> (Suspensiva)</td>
+                <td>Transporte de mercadería nacional o nacionalizada de un punto a otro del territorio aduanero, atravesando aguas o territorio extranjero sin que constituya exportación definitiva (ej. Buenos Aires a Tierra del Fuego).</td>
+                <td>Tiempo de tránsito</td>
+                <td><strong>Totalmente excluida de tributos:</strong> No genera hecho imponible y <strong>NO percibe incentivos ni reintegros</strong> bajo ningún concepto.</td>
+                <td>Documentación de removido que ampara el trayecto.</td>
+              </tr>
+              <tr>
+                <td><strong>Depósito Provisorio de Exportación</strong></td>
+                <td>Ingreso de mercadería a depósitos aduaneros habilitados en zona primaria en espera de su carga o destinación definitiva.</td>
+                <td>Plazo legal de depósito</td>
+                <td>Suspensión de cobros hasta la formalización de la destinación.</td>
+                <td>Custodia del permisionario fiscal.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- 4. Regímenes Especiales & Régimen de Muestras -->
+      <div class="card" style="margin-top:20px;">
+        <h3 class="card-title">5. Regímenes Especiales de Exportación & El Régimen de Muestras</h3>
+        <p style="font-size:0.88rem; color:var(--text-secondary); margin-bottom:14px;">
+          Casos especiales tipificados en el Código Aduanero con reglas diferenciales:
+        </p>
+
+        <div class="grid-2">
+          <div style="background:var(--bg-card-alt); border:1px solid var(--border); border-radius:var(--radius-sm); padding:18px;">
+            <strong style="color:var(--accent-1); font-size:0.95rem; display:block; margin-bottom:8px;">Regímenes Especiales Tipificados:</strong>
+            <ul style="font-size:0.85rem; color:var(--text-secondary); line-height:1.7; padding-left:18px;">
+              <li><strong>Régimen de Contenedores:</strong> Trato aduanero especial como continente de transporte y no como mercadería comercial.</li>
+              <li><strong>Rancho, provisiones y suministros de a bordo:</strong> Combustibles, lubricantes y víveres para el consumo de la tripulación y pasajeros durante el viaje.</li>
+              <li><strong>Pacotilla:</strong> Efectos personales que los tripulantes pueden llevar o traer consigo conforme a su categoría.</li>
+              <li><strong>Régimen de Equipaje:</strong> Bienes de uso personal nuevos o usados que el viajero lleva consigo o envía no acompañados.</li>
+              <li><strong>Tráfico Fronterizo:</strong> Pobladores de zonas limítrofes para satisfacer necesidades de subsistencia.</li>
+              <li><strong>Franquicias Diplomáticas:</strong> Envíos oficiales de misiones diplomáticas y consulares.</li>
+              <li><strong>Courier (Envíos Postales / Encomiendas):</strong> Paquetes express con límites de valor (USD 1.000 a 3.000) y peso (hasta 50 kg).</li>
+            </ul>
+          </div>
+
+          <div style="background:var(--bg-card-alt); border:1px solid var(--border); border-radius:var(--radius-sm); padding:18px;">
+            <strong style="color:var(--accent-warn); font-size:0.95rem; display:block; margin-bottom:8px;">⚠️ El Régimen de Muestras (Pregunta Trampa Habitual):</strong>
+            <p style="font-size:0.85rem; color:var(--text-secondary); margin-bottom:10px;">
+              Objetos representativos de un artículo determinado destinados exclusivamente a ser exhibidos o demostrados para concretar negocios:
+            </p>
+            <ul style="font-size:0.85rem; color:#cbd5e1; line-height:1.7; padding-left:18px;">
+              <li><strong>Valor Máximo en Exportación:</strong> Hasta <strong>USD 20.000</strong> por envío. <em>(¡Ojo! En importación el límite exento es de apenas USD 100).</em></li>
+              <li><strong>Inutilización obligatoria:</strong> Deben estar inutilizadas físicamente (tajeadas, perforadas, marcadas) para evitar su venta comercial.</li>
+              <li><strong>Carácter NO Enajenable:</strong> Tienen prohibida su comercialización, cesión onerosa o alquiler.</li>
+              <li><strong>Prohibiciones:</strong> Están exentas de prohibiciones de carácter <strong>económico</strong>, pero sujetas a prohibiciones <strong>no económicas</strong> (sanitarias, seguridad).</li>
+              <li><strong>Tributos:</strong> Exentas de aranceles de exportación, pero <strong>deben abonar las tasas retributivas de servicios</strong> (almacenaje, estadística si aplica).</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- 5. Estímulos a la Exportación: Reintegros vs Drawback -->
+      <div class="card" style="margin-top:20px;">
+        <h3 class="card-title">6. Régimen de Estímulos Fiscales: Reintegro vs. Draw-back</h3>
+        <p style="font-size:0.88rem; color:var(--text-secondary); margin-bottom:14px;">
+          Mecanismos oficiales para evitar la exportación de impuestos internos y fomentar la competitividad:
+        </p>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Concepto</th>
+                <th>Reintegro a la Exportación (R / DR)</th>
+                <th>Draw-Back (DB)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Naturaleza y Objeto</strong></td>
+                <td>Devolución total o parcial de los <strong>tributos interiores</strong> (impuestos indirectos como Ingresos Brutos, tasas municipales e impuestos que gravan etapas previas) que se hubieran pagado en las sucesivas fases de producción y comercialización del bien exportado.</td>
+                <td>Régimen aduanero de perfeccionamiento que consiste en la restitución total o parcial de los <strong>derechos de importación y tasas aduaneras</strong> efectivamente pagados al importar insumos o materias primas para consumo, que luego son incorporados al bien final que se exporta.</td>
+              </tr>
+              <tr>
+                <td><strong>Requisito Técnico</strong></td>
+                <td>Exportación definitiva para consumo de mercadería producida o manufacturada en el país.</td>
+                <td>Que la materia prima importada sea exportada para consumo luego de haber sido transformada, elaborada, combinada, mezclada, reparada o utilizada como envase/acondicionamiento.</td>
+              </tr>
+              <tr>
+                <td><strong>Base de Cálculo</strong></td>
+                <td>Se aplica un porcentaje (%) sobre el <strong>valor agregado nacional</strong>:
+                <br>$\text{Base Reintegro} = \text{FOB} - \text{CIF MPI}$
+                <br><em>(Valor FOB menos el valor CIF de los insumos importados utilizados).</em></td>
+                <td>Suma fija en moneda extranjera (USD) representativa de los aranceles de importación abonados previamente. Se resta directamente del costo de exportación.</td>
+              </tr>
+              <tr>
+                <td><strong>Efecto en la Fórmula FOB</strong></td>
+                <td>Al formular la ecuación de precio de venta, <strong>reduce el precio FOB</strong> porque es un subsidio/ingreso directo reconocido al exportador.</td>
+                <td>Al ser un crédito recuperado por el exportador, <strong>se resta como suma fija</strong> en el numerador del costeo FOB.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 3: MÓDULO 6 (PARTE I) - CONTRATOS, FIGURAS, SEGUROS Y DOCUMENTACIÓN -->
+    <section id="modulo-6-estrategia" class="section-wrap">
+      <div class="section-header">
+        <div class="section-tag">Módulo VI Oficial · Parte 1</div>
+        <h2 class="section-title">🤝 Contratos Internacionales, Figuras Comerciales y Documentación</h2>
+        <p class="section-desc">
+          Marco legal de la compraventa internacional (CISG Viena 1980 vs. CCyC), contratos puros e impuros, tipologías de intermediarios, seguro de crédito vs. caución y el sistema documental aduanero.
+        </p>
+      </div>
+
+      <!-- 1. Contratos: CISG vs CCyC y Puros vs Impuros -->
+      <div class="grid-2">
+        <div class="card">
+          <h3 class="card-title">1. Marco Legal: Convención de Viena de 1980 (CISG)</h3>
+          <p style="font-size:0.86rem; color:var(--text-secondary); margin-bottom:12px;">
+            Tratado internacional uniforme que regula los derechos y obligaciones de compradores y vendedores:
+          </p>
+          <ul style="font-size:0.86rem; color:#cbd5e1; line-height:1.7; padding-left:18px;">
+            <li><strong>Ámbito de Aplicación (Art. 1):</strong> Aplica a contratos de compraventa de mercaderías cuando las partes tengan sus <strong>establecimientos en Estados diferentes</strong> que hayan suscrito la Convención.</li>
+            <li><strong>Exclusiones Taxativas (Art. 2):</strong> NO se aplica a compraventas de:
+              <br>• Mercaderías adquiridas para uso personal, familiar o doméstico.
+              <br>• En subastas judiciales o remates.
+              <br>• Valores mobiliarios, títulos de crédito o dinero.
+              <br>• Buques, embarcaciones, aerodeslizadores y aeronaves.
+              <br>• Electricidad.
+            </li>
+            <li><strong>⚠️ Reserva Argentina (Art. 96):</strong> Argentina firmó con reserva expresa: cualquier oferta, aceptación o manifestación de intención <strong>NO PODRÁ hacerse en forma verbal</strong>; únicamente tiene validez legal el procedimiento <strong>POR ESCRITO</strong>.</li>
+            <li><strong>Definición en Código Civil y Comercial (Art. 1123):</strong> Habrá compraventa si una parte se obliga a transferir la propiedad de una cosa y la otra a <strong>pagar un precio en dinero</strong>.</li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <h3 class="card-title">2. Contratos Puros vs. Contratos Impuros</h3>
+          <p style="font-size:0.86rem; color:var(--text-secondary); margin-bottom:12px;">
+            Estructuración jurídica del consentimiento en el comercio exterior:
+          </p>
+          <div style="background:var(--bg-card-alt); border:1px solid var(--border); border-radius:var(--radius-sm); padding:14px; margin-bottom:12px;">
+            <strong style="color:var(--accent-1); font-size:0.9rem;">Contratos Puros ("Entre Presentes"):</strong>
+            <p style="font-size:0.82rem; color:var(--text-secondary); margin-top:4px;">
+              Aquellos en los cuales las partes o sus apoderados se encuentran reunidos físicamente y <strong>suscriben el instrumento contractual en el mismo acto</strong>.
+            </p>
+          </div>
+          <div style="background:var(--bg-card-alt); border:1px solid var(--border); border-radius:var(--radius-sm); padding:14px;">
+            <strong style="color:var(--accent-3); font-size:0.9rem;">Contratos Impuros ("Entre Ausentes"):</strong>
+            <p style="font-size:0.82rem; color:var(--text-secondary); margin-top:4px;">
+              Aquellos donde las partes no se reúnen. Una parte emite una propuesta y el contrato se perfecciona mediante la <strong>aceptación recíproca</strong> a través de tres variantes:
+            </p>
+            <ul style="font-size:0.82rem; color:#cbd5e1; line-height:1.6; margin-top:6px; padding-left:16px;">
+              <li><strong>Oferta en Firme:</strong> Vendedor ofrece mercadería y precio con plazo determinado. Aceptación: firma de oferta, carta de aceptación, emisión de orden de compra o apertura del medio de pago.</li>
+              <li><strong>Orden de Compra:</strong> Comprador solicita mercadería en ciertas condiciones. Aceptación: firma de la orden, carta de aceptación, emisión de Factura Proforma o <strong>envío directo de la mercadería</strong>.</li>
+              <li><strong>Factura Proforma:</strong> Factura provisoria emitida por exportador. Aceptación: firma de proforma, carta formal o apertura del medio de pago (Carta de Crédito).</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2. Figuras Comerciales de Inserción Externa -->
+      <div class="card" style="margin-top:20px;">
+        <h3 class="card-title">3. Figuras Comerciales y Contratos de Intermediación Internacional</h3>
+        <p style="font-size:0.88rem; color:var(--text-secondary); margin-bottom:14px;">
+          Clasificación obligatoria en los exámenes de la cátedra para definir el canal de comercialización:
+        </p>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Figura Comercial</th>
+                <th>¿Actúa en nombre propio o ajeno?</th>
+                <th>Tipo de Retribución</th>
+                <th>Riesgo Comercial & Propiedad</th>
+                <th>Obligaciones Típicas Distintivas</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Agente Comercial</strong></td>
+                <td>Actúa <strong>por cuenta y orden del exportador</strong> (representación ajena). No compra la mercadería.</td>
+                <td>Comisión porcentual (%) variable sobre el volumen facturado.</td>
+                <td>No asume riesgo de cobro ni quiebra del comprador (salvo cláusula de garantía <em>del credere</em>).</td>
+                <td>Promover operaciones comerciales, prospectar clientes y remitir pedidos al exportador en su zona geográfica.</td>
+              </tr>
+              <tr>
+                <td><strong>Representante</strong></td>
+                <td>Efectúa la intermediación comercial formal entre productor y cliente final.</td>
+                <td>Comisión o retribución fija pactada por gestión.</td>
+                <td>No adquiere dominio de la carga; conecta a las partes contratantes.</td>
+                <td>Poder formal de negociación bajo las instrucciones del mandante.</td>
+              </tr>
+              <tr>
+                <td><strong>Distribuidor</strong></td>
+                <td>Actúa <strong>en nombre y por cuenta propia</strong>. Compra la mercadería al exportador y la revende.</td>
+                <td>Margen comercial (diferencia entre precio de compra FOB/CIF y reventa local).</td>
+                <td><strong>Asume pleno riesgo comercial</strong> de cobro, almacenamiento, flete interno y obsolescencia en el país meta.</td>
+                <td>Organizar la red logística local, inventario, marketing y promocionar la inserción del producto en su territorio exclusivo.</td>
+              </tr>
+              <tr>
+                <td><strong>Concesionario</strong></td>
+                <td>Compra y revende en nombre propio en régimen de exclusividad territorial.</td>
+                <td>Margen de reventa sobre precio tarifado de fábrica.</td>
+                <td>Asume riesgo financiero y comercial de su stock asignado.</td>
+                <td><strong>Obligación expresa de brindar el servicio posventa oficial, mantenimiento y repuestos legítimos</strong> con garantía de fábrica.</td>
+              </tr>
+              <tr>
+                <td><strong>Franquicia (Franchising)</strong></td>
+                <td>Entidad jurídica independiente en su país de radicación.</td>
+                <td>Pago de un <strong>canon de ingreso (fee inicial)</strong> + <strong>regalías periódicas (royalties)</strong> sobre facturación.</td>
+                <td>Asume la inversión de instalación y riesgo operativo del local.</td>
+                <td>Derecho de explotar activos intangibles, marca registrada, modelo de negocio y el <strong>know-how</strong> bajo estrictos manuales operativos.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- 3. Seguros y Garantías: Crédito a la Exportación vs Caución -->
+      <div class="card" style="margin-top:20px;">
+        <h3 class="card-title">4. Seguros y Garantías en la Operación: Crédito vs. Caución vs. Transporte</h3>
+        <p style="font-size:0.88rem; color:var(--text-secondary); margin-bottom:14px;">
+          Distinción técnica fundamental: cada póliza tiene un beneficiario y un riesgo totalmente diferente.
+        </p>
+
+        <div class="grid-3">
+          <div style="background:var(--bg-card-alt); border:1px solid rgba(239, 68, 68, 0.3); border-radius:var(--radius-sm); padding:18px;">
+            <div style="font-family:'JetBrains Mono',monospace; font-size:0.75rem; color:var(--accent-danger); font-weight:700;">BENEFICIARIO: EXPORTADOR</div>
+            <strong style="display:block; margin:6px 0; color:#fff; font-size:0.95rem;">Seguro de Crédito a la Exportación</strong>
+            <p style="font-size:0.84rem; color:var(--text-secondary); line-height:1.6;">
+              Protege al exportador frente al <strong>riesgo de impago</strong> por parte del comprador extranjero. Emitido en Argentina por la <strong>CASCE</strong>.
+            </p>
+            <div style="margin-top:10px; font-size:0.8rem; color:#fecaca;">
+              <strong>Riesgos Comerciales Cubiertos:</strong>
+              <br>• Quiebra judicial del importador.
+              <br>• Insolvencia de hecho comprobada.
+              <br>• Mora prolongada (superior a 6 meses de atraso).
+              <br>• Cesación de pagos o concurso preventivo.
+              <br><em>(¡Ojo! NO cubre siniestros de transporte ni controversias comerciales).</em>
+            </div>
+          </div>
+
+          <div style="background:var(--bg-card-alt); border:1px solid rgba(99, 102, 241, 0.3); border-radius:var(--radius-sm); padding:18px;">
+            <div style="font-family:'JetBrains Mono',monospace; font-size:0.75rem; color:var(--accent-1); font-weight:700;">BENEFICIARIO: LA ADUANA / ESTADO</div>
+            <strong style="display:block; margin:6px 0; color:#fff; font-size:0.95rem;">Seguro de Caución Aduanero</strong>
+            <p style="font-size:0.84rem; color:var(--text-secondary); line-height:1.6;">
+              Garantía legal que el importador o exportador presenta <strong>ante la Dirección General de Aduanas (DGA)</strong> para afianzar el cumplimiento de obligaciones tributarias o formales.
+            </p>
+            <div style="margin-top:10px; font-size:0.8rem; color:#c7d2fe;">
+              <strong>Casos en que se Exige:</strong>
+              <br>• Destinaciones de exportación o importación <strong>temporarias</strong>.
+              <br>• Exportación en <strong>consignación</strong>.
+              <br>• Falta transitoria de documentación aduanera obligatoria (ej. falta de B/L original).
+              <br>• Tránsitos aduaneros.
+            </div>
+          </div>
+
+          <div style="background:var(--bg-card-alt); border:1px solid rgba(16, 185, 129, 0.3); border-radius:var(--radius-sm); padding:18px;">
+            <div style="font-family:'JetBrains Mono',monospace; font-size:0.75rem; color:var(--accent-emerald); font-weight:700;">BENEFICIARIO: DUEÑO DE LA CARGA</div>
+            <strong style="display:block; margin:6px 0; color:#fff; font-size:0.95rem;">Seguro de Transporte de Mercaderías</strong>
+            <p style="font-size:0.84rem; color:var(--text-secondary); line-height:1.6;">
+              Póliza que cubre los riesgos físicos y pérdidas materiales que sufren los bienes durante su traslado internacional marítimo, aéreo o terrestre.
+            </p>
+            <div style="margin-top:10px; font-size:0.8rem; color:#a7f3d0;">
+              <strong>Riesgos Cubiertos (Cláusulas ICC):</strong>
+              <br>• Avería simple y avería gruesa.
+              <br>• Pérdida total por hundimiento, caída al mar o colisión.
+              <br>• Robo, hurto y falta de entrega.
+              <br>• Incendio y explosión.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 4. Sistema Documental de Comercio Exterior -->
+      <div class="card" style="margin-top:20px;">
+        <h3 class="card-title">5. Clasificación Integral del Sistema Documental de Comercio Exterior</h3>
+        <p style="font-size:0.88rem; color:var(--text-secondary); margin-bottom:14px;">
+          Desglose taxonómico exigido por la cátedra para identificar qué documento respalda cada etapa de la operatoria:
+        </p>
+
+        <div class="grid-2">
+          <div style="background:var(--bg-card-alt); border:1px solid var(--border); border-radius:var(--radius-sm); padding:16px;">
+            <strong style="color:var(--accent-3); display:block; margin-bottom:8px;">A. Documentos Comerciales</strong>
+            <ul style="font-size:0.84rem; color:var(--text-secondary); line-height:1.7; padding-left:16px;">
+              <li><strong>Factura Comercial de Exportación (Factura 'E'):</strong> Es el documento contable y legal principal. Fija las condiciones definitivas de venta, cantidades, precio FOB/CIF y sirve al servicio aduanero para determinar el <strong>valor en aduana</strong> y calcular gravámenes o reintegros.</li>
+              <li><strong>Factura Proforma:</strong> Cotización previa o presupuesto de carácter informativo emitida para que el comprador tramite divisas o la apertura de la carta de crédito.</li>
+              <li><strong>Factura Consular:</strong> Documento visado ante el consulado del país de destino; permite evitar fraudes arancelarios por subfacturación u origen falso.</li>
+            </ul>
+          </div>
+
+          <div style="background:var(--bg-card-alt); border:1px solid var(--border); border-radius:var(--radius-sm); padding:16px;">
+            <strong style="color:var(--accent-1); display:block; margin-bottom:8px;">B. Documentos Relativos a la Mercadería</strong>
+            <ul style="font-size:0.84rem; color:var(--text-secondary); line-height:1.7; padding-left:16px;">
+              <li><strong>Lista de Empaque (Packing List):</strong> Detalla el acondicionamiento exacto, peso neto, peso bruto, dimensiones, marcas de los bultos y forma de estiba de la carga.</li>
+              <li><strong>Certificado de Origen:</strong> Emitido por <strong>Cámaras de Comercio</strong> o entidades autorizadas. Acredita el país productor para aplicar acuerdos y preferencias arancelarias (ej. ACE 35, MERCOSUR).</li>
+              <li><strong>Certificados Específicos:</strong> Certificados de Calidad (normas ISO/IRAM), Fitosanitarios/Sanitarios (SENASA/INV), Certificado de Análisis y Certificado de Peso.</li>
+            </ul>
+          </div>
+
+          <div style="background:var(--bg-card-alt); border:1px solid var(--border); border-radius:var(--radius-sm); padding:16px;">
+            <strong style="color:var(--accent-emerald); display:block; margin-bottom:8px;">C. Documentos Relativos al Transporte</strong>
+            <ul style="font-size:0.84rem; color:var(--text-secondary); line-height:1.7; padding-left:16px;">
+              <li><strong>Conocimiento de Embarque Marítimo (Bill of Lading - B/L):</strong> Es el recibo de mercadería a bordo, contrato de transporte y <strong>TÍTULO DE PROPIEDAD</strong> de la carga (negociable y endosable).</li>
+              <li><strong>Guía Aérea (Air Waybill - AWB):</strong> Hoja de ruta, comprobante de flete y póliza de seguro aéreo. <strong>NO es título de propiedad</strong> ni es negociable.</li>
+              <li><strong>Carta de Porte Terrestre (CRT):</strong> Contrato y recibo de transporte por carretera internacional.</li>
+              <li><strong>MIC / DTA:</strong> Manifiesto Internacional de Carga / Declaración de Tránsito Aduanero. Utilizado en transporte carretero entre socios del MERCOSUR; de valor legal y redactado en <strong>español y portugués</strong>.</li>
+              <li><strong>DTM:</strong> Documento de Transporte Multimodal (articula tramos de diferentes medios bajo flete unificado).</li>
+            </ul>
+          </div>
+
+          <div style="background:var(--bg-card-alt); border:1px solid var(--border); border-radius:var(--radius-sm); padding:16px;">
+            <strong style="color:var(--accent-warn); display:block; margin-bottom:8px;">D. Documentos Financieros y Bancarios</strong>
+            <ul style="font-size:0.84rem; color:var(--text-secondary); line-height:1.7; padding-left:16px;">
+              <li><strong>Letra de Cambio (Draft):</strong> Orden incondicional de pago librada por el vendedor contra el comprador. <strong>Comienza a tener validez jurídica y ejecutabilidad cuando es ACEPTADA formalmente por el comprador</strong> (librado).</li>
+              <li><strong>Pagaré (Promissory Note):</strong> Promesa incondicionada de pago emitida por el deudor.</li>
+              <li><strong>Certificado de Depósito y Warrant:</strong> Instrumentos emitidos por almacenes de depósito fiscal que amparan la tenencia y el derecho prendario sobre mercaderías almacenadas.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 4: MÓDULO 6 (PARTE II) - MEDIOS DE PAGO, FINANCIAMIENTO Y PROMOCIÓN -->
+    <section id="modulo-6-finanzas" class="section-wrap">
+      <div class="section-header">
+        <div class="section-tag">Módulo VI Oficial · Parte 2</div>
+        <h2 class="section-title">💳 Medios de Pago Internacionales, Financiación y Promoción</h2>
+        <p class="section-desc">
+          Análisis comparativo de instrumentos de cobro bajo normativas CCI (UCP 600 y URC 522), fuentes no tradicionales de financiamiento (Warrant, Factoring, Forfaiting, Leasing) y estrategias en ferias y misiones comerciales.
+        </p>
+      </div>
+
+      <!-- 1. Medios de Pago: Comparativa UCP 600 y URC 522 -->
+      <div class="card">
+        <h3 class="card-title">1. Los Instrumentos de Pago Internacional: Seguridad, Costo y Garantías</h3>
+        <p style="font-size:0.88rem; color:var(--text-secondary); margin-bottom:14px;">
+          La elección del medio depende de la confianza recíproca, la solvencia de las partes, el costo financiero y el riesgo país:
+        </p>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Instrumento de Pago</th>
+                <th>Rol del Sistema Bancario</th>
+                <th>Regla de Presunción por Defecto</th>
+                <th>Riesgo para el Exportador</th>
+                <th>Riesgo para el Importador</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Orden de Pago / Transferencia Bancaria (SWIFT)</strong></td>
+                <td><strong>Mero ejecutor de transferencia:</strong> El banco del comprador solo cursa los fondos recibidos; no garantiza pago alguno.</td>
+                <td>Por defecto es <strong>Revocable</strong> (anulable antes del crédito), <strong>Intransferible</strong> y puede ser divisible o indivisible.</td>
+                <td><strong>Máximo si es con pago diferido:</strong> Envía la mercadería sin respaldo ni garantía de cobro si el cliente quiebra.</td>
+                <td><strong>Máximo si es anticipada:</strong> Paga el dinero antes de recibir o verificar el embarque del producto.</td>
+              </tr>
+              <tr>
+                <td><strong>Cobranza Simple</strong> (Reglas URC 522 CCI)</td>
+                <td><strong>Gestor mandatario de cobro:</strong> El banco remite únicamente <em>documentos financieros</em> (letras, pagarés, cheques). No asume garantía.</td>
+                <td>Requiere confianza. Puede ser <strong>a la vista</strong> (pago contado) o <strong>a plazo</strong> (contra aceptación de letra).</td>
+                <td><strong>Alto:</strong> Si el comprador no acepta o no paga la letra, el exportador debe iniciar acciones judiciales de cobro en el exterior.</td>
+                <td><strong>Bajo:</strong> Paga o acepta contra la exhibición del título valor.</td>
+              </tr>
+              <tr>
+                <td><strong>Cobranza Documentaria</strong> (Reglas URC 522 CCI)</td>
+                <td><strong>Gestor de cobro y custodio de papeles:</strong> Entrega los <em>documentos comerciales</em> (Factura, B/L) contra el pago (D/P) o aceptación de la letra (D/A). <strong>El banco no garantiza el pago.</strong></td>
+                <td>• <strong>D/P (Documents Against Payment):</strong> El importador solo retira los documentos si paga al contado en ventanilla.
+                <br>• <strong>D/A (Documents Against Acceptance):</strong> El banco entrega documentos contra aceptación formal de letra a plazo.</td>
+                <td><strong>Moderado en D/P:</strong> La mercadería no se entrega sin pago, pero si el cliente rechaza la compra, la carga queda abandonada en puerto de destino.
+                <br><strong>Alto en D/A:</strong> La carga es retirada y queda solo con una letra firmada.</td>
+                <td><strong>Bajo:</strong> No desembolsa fondos hasta que los documentos originales de embarque hayan arribado al banco cobrador local.</td>
+              </tr>
+              <tr>
+                <td><strong>Carta de Crédito / Crédito Documentario</strong> (UCP 600 CCI)</td>
+                <td><strong>GARANTE EN FIRME:</strong> El Banco Emisor asume el compromiso autónomo e irrevocable de pagar al exportador contra la entrega estricta de documentos en regla.</td>
+                <td><strong>LOS 4 ATRIBUTOS POR DEFECTO:</strong>
+                <br>1. <strong>IRREVOCABLE</strong>
+                <br>2. <strong>NO CONFIRMADA</strong>
+                <br>3. <strong>INTRANSFERIBLE</strong>
+                <br>4. <strong>DIVISIBLE</strong> <em>(permite embarques parciales)</em></td>
+                <td><strong>Mínimo:</strong> Cobra seguro contra la presentación conforme de documentos en el banco, independientemente de la voluntad del comprador.</td>
+                <td><strong>Moderado a Alto costo:</strong> Compromete su línea crediticia bancaria y abona altas comisiones bancarias de apertura.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="callout callout-warn">
+          <div class="callout-title">⚠️ Regla Mnemotécnica de la Cátedra para Carta de Crédito (UCP 600):</div>
+          <p style="font-size:0.86rem; color:#fde68a;">
+            Cuando la cátedra pregunta: <em>"¿Cómo se presume una Carta de Crédito si el contrato no dice nada?"</em>:
+            <br>• <strong>Revocabilidad:</strong> Es <strong>IRREVOCABLE</strong> (desde 2007 las UCP 600 eliminaron la figura revocable por omisión).
+            <br>• <strong>Confirmación:</strong> Es <strong>NO CONFIRMADA</strong> (el banco avisador solo notifica, no añade su fianza a menos que se pacte explícitamente).
+            <br>• <strong>Transferibilidad:</strong> Es <strong>INTRANSFERIBLE</strong> (únicamente puede cobrarla el exportador beneficiario designado).
+            <br>• <strong>Divisibilidad:</strong> Es <strong>DIVISIBLE</strong> (se autorizan entregas y giros parciales, salvo cláusula en contrario).
+          </p>
+        </div>
+      </div>
+
+      <!-- 2. Fuentes de Financiamiento Tradicional vs No Tradicional -->
+      <div class="card" style="margin-top:20px;">
+        <h3 class="card-title">2. Fuentes de Financiación del Comercio Exterior: Tradicionales vs. No Tradicionales</h3>
+        <p style="font-size:0.88rem; color:var(--text-secondary); margin-bottom:14px;">
+          Diferenciación entre el crédito bancario clásico y los instrumentos modernos de monetización de activos y créditos:
+        </p>
+
+        <div class="grid-2">
+          <div style="background:var(--bg-card-alt); border:1px solid var(--border); border-radius:var(--radius-sm); padding:18px;">
+            <strong style="color:var(--accent-1); font-size:0.95rem; display:block; margin-bottom:8px;">Financiamiento Tradicional:</strong>
+            <p style="font-size:0.84rem; color:var(--text-secondary); line-height:1.6; margin-bottom:10px;">
+              Derivado del análisis de riesgo crediticio del balance de la empresa mediante entidades financieras:
+            </p>
+            <ul style="font-size:0.84rem; color:#cbd5e1; line-height:1.7; padding-left:18px;">
+              <li><strong>Fondos Propios (Capital de Trabajo):</strong> Autofinanciamiento con reinversión de utilidades de la firma.</li>
+              <li><strong>Prefinanciación de Exportaciones:</strong> Préstamo bancario en divisa extranjera otorgado al exportador para comprar insumos y producir la mercadería pactada.</li>
+              <li><strong>Postfinanciación de Exportaciones:</strong> Financiación bancaria para anticipar los fondos de una venta ya embarcada con plazo diferido de cobro concedido al comprador.</li>
+              <li><strong>Líneas Advanced / Préstamos Directos:</strong> Créditos a tasa bancaria convencional respaldados con balances contables.</li>
+            </ul>
+          </div>
+
+          <div style="background:var(--bg-card-alt); border:1px solid var(--border); border-radius:var(--radius-sm); padding:18px;">
+            <strong style="color:var(--accent-3); font-size:0.95rem; display:block; margin-bottom:8px;">Financiamiento No Tradicional (Warrant, Factoring, Forfaiting, Leasing):</strong>
+            <p style="font-size:0.84rem; color:var(--text-secondary); line-height:1.6; margin-bottom:10px;">
+              Instrumentos estructurados que no dependen de la solvencia balancearia sino de los activos o títulos generados:
+            </p>
+            <div class="callout callout-info" style="margin:8px 0; padding:10px 14px;">
+              <strong style="color:#fff; font-size:0.84rem;">El Mecanismo Operativo del WARRANT (Pregunta Obligada):</strong>
+              <p style="font-size:0.8rem; color:#cbd5e1; margin-top:4px;">
+                Permite obtener liquidez usando <strong>mercadería almacenada como garantía prendaria real</strong>.
+                <br>1. La empresa deposita bienes (commodities, granos, insumos, productos elaborados) en una empresa de almacenamiento autorizada por el Estado (Warrant).
+                <br>2. La almacenadora emite dos títulos: el <strong>Certificado de Depósito</strong> (prueba la titularidad de dominio) y el <strong>Warrant</strong> (instrumento de crédito prendario).
+                <br>3. El exportador endosa el Warrant a un banco y este le concede un crédito a bajo costo con la garantía física de la carga. Al cancelar la deuda, recupera el warrant y retira los bienes.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tabla Comparativa Factoring vs Forfaiting vs Leasing -->
+        <div class="table-wrap" style="margin-top:16px;">
+          <table>
+            <thead>
+              <tr>
+                <th>Instrumento No Tradicional</th>
+                <th>Definición & Mecánica</th>
+                <th>Títulos / Documentos Utilizados</th>
+                <th>Plazo Habitual</th>
+                <th>Asunción del Riesgo de Incobrabilidad</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Factoring</strong></td>
+                <td>Una entidad financiera (factor) adquiere la totalidad de los créditos por ventas de una empresa, anticipando el importe con descuento y asumiendo la gestión de cobro y administración contable.</td>
+                <td>Facturas comerciales, cuentas por cobrar y títulos ejecutivos a corto plazo.</td>
+                <td><strong>Corto Plazo</strong> (generalmente hasta 90 o 180 días).</td>
+                <td><strong>Sin Recurso (la entidad asume el riesgo):</strong> Si el comprador en el exterior quiebra, el banco o factor soporta la pérdida patrimonial.</td>
+              </tr>
+              <tr>
+                <td><strong>Forfaiting</strong></td>
+                <td>Compraventa en firme y con descuento de obligaciones internacionales de pago originadas en la exportación de bienes de capital o grandes instalaciones industriales.</td>
+                <td><strong>Letras de cambio avaladas, pagarés bancarios</strong> (Promissory Notes).</td>
+                <td><strong>Mediano y Largo Plazo</strong> (de 1 a 5 o 7 años).</td>
+                <td><strong>Rigurosamente Sin Recurso:</strong> El banco forfaiter asume el 100% del riesgo comercial y soberano sin posibilidad de accionar contra el exportador.</td>
+              </tr>
+              <tr>
+                <td><strong>Leasing Internacional</strong></td>
+                <td>Contrato por el cual el dador transfiere al tomador la tenencia, uso y goce de un bien de capital importado contra el pago periódico de un canon, otorgando al final una <strong>opción de compra</strong> por un valor residual.</td>
+                <td>Contrato de locación financiera con opción de compra.</td>
+                <td><strong>Mediano y Largo Plazo</strong> (vida útil económica del bien).</td>
+                <td>La operación está garantizada por la <strong>propiedad del propio bien</strong> objeto del leasing, evitando obsolescencia técnica.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- 3. Métodos de Promoción Comercial: Ferias y Misiones -->
+      <div class="card" style="margin-top:20px;">
+        <h3 class="card-title">3. Métodos de Promoción Comercial: Ferias Internacionales & Misiones Comerciales</h3>
+        <p style="font-size:0.88rem; color:var(--text-secondary); margin-bottom:14px;">
+          Estrategias de inserción externa para la prospección comercial y captación de clientes:
+        </p>
+
+        <div class="grid-2">
+          <div style="background:var(--bg-card-alt); border:1px solid var(--border); border-radius:var(--radius-sm); padding:18px;">
+            <strong style="color:var(--accent-1); font-size:0.95rem; display:block; margin-bottom:8px;">Tipología de Ferias Internacionales:</strong>
+            <ul style="font-size:0.84rem; color:var(--text-secondary); line-height:1.7; padding-left:18px;">
+              <li><strong>Ferias Generales / Multisectoriales:</strong> Exhiben productos de múltiples rubros de la economía; alta afluencia de público general y compradores masivos.</li>
+              <li><strong>Ferias Monográficas / Especializadas:</strong> Concentran <strong>un único rubro, línea o sector industrial determinado</strong> (ej. tecnología médica, vitivinicultura, maquinaria agrícola). El volumen de visitantes es menor, pero el público está compuesto exclusivamente por compradores profesionales y calificados. <strong>Duran habitualmente una semana o menos.</strong></li>
+              <li><strong>Ferias Horizontales:</strong> Exponen diversos niveles de la cadena y varios sectores convergentes.</li>
+              <li><strong>Ferias Verticales:</strong> Se focalizan exhaustivamente en un solo eslabón específico de la cadena de valor.</li>
+            </ul>
+          </div>
+
+          <div style="background:var(--bg-card-alt); border:1px solid var(--border); border-radius:var(--radius-sm); padding:18px;">
+            <strong style="color:var(--accent-emerald); font-size:0.95rem; display:block; margin-bottom:8px;">Protocolo Operativo en Tres Etapas (Factores Clave):</strong>
+            <ul style="font-size:0.84rem; color:#cbd5e1; line-height:1.7; padding-left:18px;">
+              <li><strong>Etapa Previa (Antes de la Feria):</strong> Diseñar plan publicitario; seleccionar ubicación estratégica del stand en el plano; diseñar escenografía y banners; tramitar con anticipación el envío temporal aduanero de muestras; inserción de la empresa en el catálogo oficial; estudiar el reglamento de expositores; preparar folletería técnica e idiomas.</li>
+              <li><strong>Etapa Peri (Durante la Feria):</strong> Registro formal de fichas de contacto; atención técnica calificada; demostraciones de producto y degustaciones; relevamiento de la competencia.</li>
+              <li><strong>Etapa Posterior (Tras la Feria):</strong> Clasificación de contactos comerciales; envío inmediato de presupuestos y muestras solicitadas; análisis del ROI (retorno de inversión) de la feria.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="grid-2" style="margin-top:16px;">
+          <div style="background:var(--bg-card-alt); border:1px solid var(--border); border-radius:var(--radius-sm); padding:16px;">
+            <strong style="color:var(--accent-warn); font-size:0.9rem; display:block; margin-bottom:6px;">Investigaciones Primarias vs. Secundarias:</strong>
+            <p style="font-size:0.82rem; color:var(--text-secondary); line-height:1.6;">
+              • <strong>Primarias (Trabajo de Campo):</strong> Realizadas de primera mano mediante <strong>ferias internacionales</strong>, <strong>viajes de negocios</strong> y entrevistas directas con clientes o distribuidores.
+              <br>• <strong>Secundarias (Gabinete):</strong> Realizadas mediante bases estadísticas oficiales (<strong>INDEC</strong>, <strong>Trademap</strong>, UN Comtrade), estudios de consultoras y cámaras sectoriales.
+            </p>
+          </div>
+          <div style="background:var(--bg-card-alt); border:1px solid var(--border); border-radius:var(--radius-sm); padding:16px;">
+            <strong style="color:var(--accent-3); font-size:0.9rem; display:block; margin-bottom:6px;">Misiones Comerciales:</strong>
+            <p style="font-size:0.82rem; color:var(--text-secondary); line-height:1.6;">
+              Viajes organizados de delegaciones empresariales para ingresar a mercados. Se clasifican en:
+              <br>• <strong>Exploratorias:</strong> Diagnóstico y primer contacto con el mercado.
+              <br>• <strong>Especializadas / Monográficas:</strong> De un rubro industrial concreto.
+              <br>• <strong>Institucionales:</strong> Acompañadas por autoridades gubernamentales y cámaras de comercio.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 5: LABORATORIO DE COSTOS Y COTIZACIÓN FOB / CFR / CIF -->
+    <section id="practica-costos" class="section-wrap">
+      <div class="section-header">
+        <div class="section-tag">Práctica de Examen · Nacif</div>
+        <h2 class="section-title">🧮 Laboratorio de Costos y Cotización FOB / CFR / CIF</h2>
+        <p class="section-desc">
+          Marco metodológico oficial de los 10 rubros de la Cátedra Nacif, deducción matemática paso a paso de la fórmula de equilibrio aduanero y simulador interactivo de cálculo en tiempo real.
+        </p>
+      </div>
+
+      <!-- 1. Los 10 Rubros Metodológicos de la Cátedra -->
+      <div class="card">
+        <h3 class="card-title">1. Estructura de Rubros de la Cátedra de Comercio Exterior (UTN FRBA)</h3>
+        <p style="font-size:0.88rem; color:var(--text-secondary); margin-bottom:14px;">
+          Toda cotización de exportación debe desagregarse estrictamente según el esquema analítico de la materia:
+        </p>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Rubro</th>
+                <th>Denominación Oficial</th>
+                <th>Conceptos Integrantes & Reglas de Tratamiento</th>
+                <th>Naturaleza del rubro</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Rubro 1</strong></td>
+                <td><strong>Costo de Producción Fabril</strong></td>
+                <td>Materia Prima Nacional (MPN) + Insumos Importados (CIF MPI) + Mano de Obra Directa (MOD) + Costos Indirectos de Fabricación (Carga Fabril). <em>Si están en pesos ($), se dividen por el Tipo de Cambio vendedor (TC).</em></td>
+                <td>Suma Fija ($ / USD)</td>
+              </tr>
+              <tr>
+                <td><strong>Rubro 2</strong></td>
+                <td><strong>Gastos Administrativos</strong></td>
+                <td>Sueldos administrativos de planta, honorarios profesionales, auditorías técnicas de calidad y certificaciones del establecimiento fabril.</td>
+                <td>Suma Fija ($ / USD)</td>
+              </tr>
+              <tr>
+                <td><strong>Rubro 3</strong></td>
+                <td><strong>Gastos Comerciales Internacionales</strong></td>
+                <td>Folletería bilingüe, envases promocionales y <strong>participación en ferias internacionales prorrateada</strong> entre el número de operaciones proyectadas (ej. $\text{Gasto Feria} / N$).</td>
+                <td>Suma Fija ($ / USD)</td>
+              </tr>
+              <tr>
+                <td><strong>Rubro 4</strong></td>
+                <td><strong>Gastos Financieros</strong></td>
+                <td>Intereses de prefinanciación bancaria para la producción o comisiones financieras fijas aplicadas sobre los costos directos.</td>
+                <td>Suma Fija ($ / USD)</td>
+              </tr>
+              <tr>
+                <td><strong>Rubro 5</strong></td>
+                <td><strong>Impuestos Directos</strong></td>
+                <td>Alícuota <strong>0%</strong> (las exportaciones están exentas de IVA e Ingresos Brutos en la factura 'E'). El impuesto a las ganancias se contempla en la Utilidad.</td>
+                <td>0,00</td>
+              </tr>
+              <tr>
+                <td><strong>Rubro 6</strong></td>
+                <td><strong>Utilidad Pretendida (UN / UB)</strong></td>
+                <td>Margen de beneficio deseado por la empresa. <strong>Regla Crítica:</strong> Si la consigna da <em>Utilidad Neta (UN)</em>, se debe calcular la <em>Utilidad Bruta (UB)</em> considerando el Impuesto a las Ganancias ($t = 35\%$):
+                <br>$$UB = \frac{UN}{1 - t}$$</td>
+                <td>Porcentual (%)</td>
+              </tr>
+              <tr>
+                <td><strong>Rubro 7</strong></td>
+                <td><strong>Gastos Directos de Exportación</strong></td>
+                <td>Embalaje de exportación, flete interno hasta terminal portuaria/aeropuerto, honorarios fijos de despacho, manipuleo/almacenaje fiscal y gastos bancarios fijos (SWIFT).</td>
+                <td>Suma Fija ($ / USD)</td>
+              </tr>
+              <tr>
+                <td><strong>Rubro 8</strong></td>
+                <td><strong>Gastos Indirectos de Exportación</strong></td>
+                <td>Gastos porcentuales aplicados sobre el valor FOB:
+                <br>• Comisión bancaria por Carta de Crédito / Transferencia (%).
+                <br>• Honorarios del Despachante de Aduanas (%).
+                <br>• Comisión de agente o corredor comercial (%).</td>
+                <td>Porcentual (%)</td>
+              </tr>
+              <tr>
+                <td><strong>Rubro 9</strong></td>
+                <td><strong>Gravámenes de Exportación (DX)</strong></td>
+                <td>Derechos de exportación (retenciones aduaneras) aplicables a la posición arancelaria NCM de la mercadería.</td>
+                <td>Porcentual (%)</td>
+              </tr>
+              <tr>
+                <td><strong>Rubro 10</strong></td>
+                <td><strong>Incentivos Promocionales</strong></td>
+                <td>• <strong>Draw-Back (DB):</strong> Devolución de aranceles de importación pagados por insumos (Suma Fija que RESTA).
+                <br>• <strong>Reintegros (R):</strong> Porcentaje sobre el valor agregado nacional ($\text{FOB} - \text{CIF MPI}$).</td>
+                <td>Mixto (Fijo + %)</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- 2. Deducción Matemática de la Fórmula de Equilibrio FOB -->
+      <div class="card" style="margin-top:20px;">
+        <h3 class="card-title">2. Deducción Matemática Rigurosa de la Fórmula FOB de Nacif</h3>
+        <p style="font-size:0.88rem; color:var(--text-secondary); margin-bottom:12px;">
+          Por qué la fórmula se estructura de esta manera y qué significa cada término en la ecuación:
+        </p>
+
+        <div class="formula-box">
+          <div class="formula-title">Paso 1: Sumatoria de Costos y Gastos en Suma Fija (CX)</div>
+          $$CX = \text{Rubro 1} + \text{Rubro 2} + \text{Rubro 3} + \text{Rubro 4} + \text{Rubro 5} + \text{Rubro 7}$$
+        </div>
+
+        <div class="formula-box">
+          <div class="formula-title">Paso 2: Ecuación General de Equilibrio Económico</div>
+          $$\text{Precio FOB} = CX + [(\text{Gastos Indirectos}\% + DX\% + UB\%) \times FOB] - \text{Incentivos}$$
+          $$\text{Donde: } \text{Incentivos} = DB + [R\% \times (FOB - CIF\ MPI)]$$
+        </div>
+
+        <div class="formula-box">
+          <div class="formula-title">Paso 3: Expansión de Términos y Despeje Algebraico</div>
+          $$FOB = CX + (\text{GXI}\% + DX\% + UB\%) \times FOB - DB - (R\% \times FOB) + (R\% \times CIF\ MPI)$$
+          $$FOB - (\text{GXI}\% + DX\% + UB\%) \times FOB + (R\% \times FOB) = CX + (R\% \times CIF\ MPI) - DB$$
+          $$FOB \times [1 - (\text{GXI}\% + DX\% + UB\%) + R\%] = CX + (R\% \times CIF\ MPI) - DB$$
+        </div>
+
+        <div class="callout callout-success" style="margin-top:14px;">
+          <div class="callout-title">🎯 FÓRMULA FINAL DE COTIZACIÓN DE LA CÁTEDRA:</div>
+          <div style="font-family:'JetBrains Mono',monospace; font-size:1.05rem; font-weight:700; color:#34d399; text-align:center; padding:12px 0;">
+            FOB₂ (Precio de Venta) = [ CX + (R × CIF MPI) - DB ] / [ 1 - (GXI + DX + UB) + R ]
+          </div>
+          <p style="font-size:0.84rem; color:#cbd5e1; margin-top:8px;">
+            • <strong>Costo FOB (FOB₀):</strong> Se calcula igual pero <strong>sin incluir la Utilidad Bruta (UB)</strong> en el denominador.
+            <br>• <strong>Precio FOB Unitario (FOBᵤ):</strong> $\text{FOB}_u = \text{FOB}_2 / \text{Cantidad de Unidades}$.
+            <br>• <strong>¿Por qué suma $(R \times CIF\ MPI)$ en el numerador?</strong> Porque el Reintegro legalmente NO se cobra sobre insumos importados. Al restarse de la base $(FOB - CIF\ MPI)$, el término negativo $(- [- R \times CIF\ MPI])$ pasa al otro lado de la igualdad con <strong>signo positivo</strong> sumando al numerador.
+          </p>
+        </div>
+      </div>
+
+      <!-- 3. Ejercicio Resuelto Paso a Paso (Modelo Examen 2023 A) -->
+      <div class="card" style="margin-top:20px;">
+        <h3 class="card-title">3. Ejercicio Resuelto de Examen Real (Caso Productos Auditivos - 850 Unidades)</h3>
+        <p style="font-size:0.86rem; color:var(--text-secondary); margin-bottom:14px;">
+          Resolución completa basada en la planilla oficial de la cátedra (Parcial 2023 Tema A):
+        </p>
+
+        <div class="grid-2">
+          <div style="background:var(--bg-card-alt); border:1px solid var(--border); border-radius:var(--radius-sm); padding:16px;">
+            <strong style="color:var(--accent-1); font-size:0.88rem; display:block; margin-bottom:8px;">Datos del Enunciado:</strong>
+            <ul style="font-size:0.82rem; color:var(--text-secondary); line-height:1.6; padding-left:16px;">
+              <li>Unidades: <strong>850 u</strong> | Tipo de Cambio: <strong>$348 / USD</strong></li>
+              <li>Materia Prima Nacional: $120.000 | Embalaje: $50.000</li>
+              <li>Insumos importados: <strong>USD 300</strong> | CIF MPI: USD 0</li>
+              <li>Mano de Obra Directa: $2.700/u | Carga Fabril: $50.000</li>
+              <li>Gastos Administrativos: $45.000</li>
+              <li>Feria Internacional: $145.000 <em>(prorrateado en 3 exportaciones)</em></li>
+              <li>Despacho Aduana (fijo): USD 100 | Gastos operativos locales: USD 285</li>
+              <li>Flete hasta terminal: $45.000 | Gastos bancarios fijos: USD 195</li>
+              <li>Despachante: 1,3% (0,013) | Comisión bancaria transf.: 0,55% (0,0055)</li>
+              <li>Derechos de Exportación (DX): <strong>5% (0,05)</strong> | Reintegros (R): <strong>4% (0,04)</strong></li>
+              <li>Draw-Back: <strong>USD 0,10 / u</strong> (USD 85 en total)</li>
+              <li>Utilidad Neta Deseada (UN): <strong>21% (0,21)</strong> | IIGG: <strong>35%</strong></li>
+            </ul>
+          </div>
+
+          <div style="background:var(--bg-card-alt); border:1px solid var(--border); border-radius:var(--radius-sm); padding:16px;">
+            <strong style="color:var(--accent-emerald); font-size:0.88rem; display:block; margin-bottom:8px;">Memoria de Cálculo Analítica:</strong>
+            <ul style="font-size:0.82rem; color:#cbd5e1; line-height:1.7; padding-left:16px;">
+              <li><strong>Rubro 1 (Producción):</strong> $[(120.000 + 50.000 + 50.000 + 2.700 \times 850) / 348] + 300 = \mathbf{USD\ 7.242,53}$</li>
+              <li><strong>Rubro 2 (Admin):</strong> $45.000 / 348 = \mathbf{USD\ 129,31}$</li>
+              <li><strong>Rubro 3 (Feria prorrateada):</strong> $(145.000 / 348) / 3 = \mathbf{USD\ 138,89}$</li>
+              <li><strong>Rubro 7 (Directos Fijos):</strong> $100 + 285 + (45.000 / 348) + 195 = \mathbf{USD\ 709,31}$</li>
+              <li><strong>Total CX (Fijos):</strong> $7.242,53 + 129,31 + 138,89 + 709,31 = \mathbf{USD\ 8.220,04}$</li>
+              <li><strong>Gastos Indirectos (GXI):</strong> $0,013 + 0,0055 = \mathbf{0,0185\ (1,85\%)}$</li>
+              <li><strong>Utilidad Bruta (UB):</strong> $0,21 / (1 - 0,35) = \mathbf{0,323077\ (32,31\%)}$</li>
+              <li><strong>Drawback Total:</strong> $0,10 \times 850 = \mathbf{USD\ 85,00}$</li>
+              <li><strong>Denominador FOB₂:</strong> $1 - (0,0185 + 0,05 + 0,323077) + 0,04 = \mathbf{0,648423}$</li>
+              <li><strong>Numerador FOB₂:</strong> $8.220,04 + (0,04 \times 0) - 85,00 = \mathbf{USD\ 8.135,04}$</li>
+              <li><strong style="color:#38bdf8;">PRECIO FOB₂ TOTAL:</strong> $8.135,04 / 0,648423 = \mathbf{USD\ 12.545,88}$</li>
+              <li><strong style="color:#38bdf8;">PRECIO FOB UNITARIO:</strong> $12.545,88 / 850 = \mathbf{USD\ 14,76}$</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- 4. Calculadora Interactiva en Vivo -->
+      <div class="calc-box">
+        <h3 class="card-title" style="color:var(--accent-3);">⚡ Simulador Interactivo de Cotización FOB (Fórmula Nacif)</h3>
+        <p style="font-size:0.86rem; color:var(--text-secondary); margin-bottom:18px;">
+          Ingresa o modifica los datos de cualquier ejercicio para obtener el costeo exacto en tiempo real:
+        </p>
+
+        <div class="calc-grid">
+          <div class="calc-field">
+            <label>Unidades a Exportar</label>
+            <input type="number" id="calc-u" value="850" />
+          </div>
+          <div class="calc-field">
+            <label>Costo Fabril (Rubro 1) [USD]</label>
+            <input type="number" id="calc-r1" value="7242.53" />
+          </div>
+          <div class="calc-field">
+            <label>Gastos Admin (Rubro 2) [USD]</label>
+            <input type="number" id="calc-r2" value="129.31" />
+          </div>
+          <div class="calc-field">
+            <label>Comercialización (Rubro 3) [USD]</label>
+            <input type="number" id="calc-r3" value="138.89" />
+          </div>
+          <div class="calc-field">
+            <label>Gastos Directos (Rubro 7) [USD]</label>
+            <input type="number" id="calc-r7" value="709.31" />
+          </div>
+          <div class="calc-field">
+            <label>CIF Materia Prima Importada [USD]</label>
+            <input type="number" id="calc-cifmpi" value="0" />
+          </div>
+          <div class="calc-field">
+            <label>Draw-Back Total [USD]</label>
+            <input type="number" id="calc-db" value="85" />
+          </div>
+          <div class="calc-field">
+            <label>Gastos Indirectos (%) [Desp+Bco]</label>
+            <input type="number" step="0.01" id="calc-gxi" value="1.85" />
+          </div>
+          <div class="calc-field">
+            <label>Derechos de Expo (DX) (%)</label>
+            <input type="number" step="0.01" id="calc-dx" value="5.0" />
+          </div>
+          <div class="calc-field">
+            <label>Reintegros (R) (%)</label>
+            <input type="number" step="0.01" id="calc-r" value="4.0" />
+          </div>
+          <div class="calc-field">
+            <label>Utilidad Neta Deseada (UN) (%)</label>
+            <input type="number" step="0.01" id="calc-un" value="21.0" />
+          </div>
+          <div class="calc-field">
+            <label>Impuesto a las Ganancias (%)</label>
+            <input type="number" step="0.01" id="calc-tax" value="35.0" />
+          </div>
+        </div>
+
+        <div class="calc-results">
+          <div class="calc-res-item">
+            <div class="res-label">Costo CX (Fijo)</div>
+            <div class="res-val" id="res-cx">USD 8.220,04</div>
+          </div>
+          <div class="calc-res-item">
+            <div class="res-label">Utilidad Bruta (UB)</div>
+            <div class="res-val" id="res-ub">32,31%</div>
+          </div>
+          <div class="calc-res-item">
+            <div class="res-label">Costo FOBo (Sin Utilidad)</div>
+            <div class="res-val" id="res-fob0">USD 8.373,69</div>
+          </div>
+          <div class="calc-res-item">
+            <div class="res-label">Precio FOB₂ Total</div>
+            <div class="res-val" id="res-fob2">USD 12.545,88</div>
+          </div>
+          <div class="calc-res-item">
+            <div class="res-label">Precio FOB Unitario</div>
+            <div class="res-val" id="res-fobu">USD 14,76</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 6: MÓDULO 7 - REI, BALANZA DE PAGOS E INTEGRACIÓN -->
+    <section id="modulo-7" class="section-wrap">
+      <div class="section-header">
+        <div class="section-tag">Módulo VII Oficial</div>
+        <h2 class="section-title">🌐 Relaciones Económicas Internacionales, Balanza e Integración</h2>
+        <p class="section-desc">
+          Corrientes doctrinarias, teorías de relaciones internacionales, la estructura de la Balanza de Pagos, la escalera de 6 estadios de integración regional y el contraste definitivo con organismos de cooperación.
+        </p>
+      </div>
+
+      <!-- 1. Corrientes de Pensamiento & Teorías de REI -->
+      <div class="grid-2">
+        <div class="card">
+          <h3 class="card-title">1. Proteccionismo vs. Librecambismo</h3>
+          <p style="font-size:0.86rem; color:var(--text-secondary); margin-bottom:12px;">
+            Dicotomía doctrinaria sobre la intervención del Estado en el comercio exterior:
+          </p>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Corriente</th>
+                  <th>Definición & Beneficios</th>
+                  <th>Desventajas & Consecuencias</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>Proteccionismo</strong></td>
+                  <td>Práctica estatal que reduce importaciones mediante aranceles, licencias y cupos.
+                  <br><strong>Beneficios:</strong> Preservación del empleo local; estímulo a la producción industrial nacional naciente.</td>
+                  <td><strong>Productos caros y menor calidad:</strong> Falta de competencia genera ineficiencia; empleados reclaman mayores sueldos encareciendo costos.</td>
+                </tr>
+                <tr>
+                  <td><strong>Librecambismo</strong></td>
+                  <td>Elimina barreras arancelarias y paraarancelarias promoviendo el libre flujo de bienes y servicios.
+                  <br><strong>Beneficios:</strong> Acceso a bienes a menor precio global; economías de escala y especialización.</td>
+                  <td><strong>Destrucción de empleo local:</strong> Externalización y pérdida de industrias no competitivas; polarización social.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <p style="font-size:0.82rem; color:var(--text-muted); margin-top:8px;">
+            <em>Contexto histórico argentino:</em> La producción nacional tiene como principal destino el mercado interno, excepto el sector agropecuario. Tras la Segunda Guerra Mundial, la agricultura desplazó a la ganadería como principal rubro exportador.
+          </p>
+        </div>
+
+        <div class="card">
+          <h3 class="card-title">2. Teorías de las Relaciones Internacionales</h3>
+          <p style="font-size:0.86rem; color:var(--text-secondary); margin-bottom:12px;">
+            Modelos analíticos de interacción entre los Estados según el Módulo VII:
+          </p>
+          <ul style="font-size:0.85rem; color:#cbd5e1; line-height:1.7; padding-left:18px;">
+            <li><strong>Realismo / Idealismo:</strong> Concibe al ser humano como un agente egoísta e instintivo que busca satisfacer sus intereses nacionales a costa de los demás actores.</li>
+            <li><strong>Neorrealismo (Kenneth Waltz):</strong> Los conflictos internacionales se explican por <strong>tres variables o imágenes</strong>:
+              <br>1. La naturaleza y el comportamiento humano individual.
+              <br>2. La organización y régimen político interno de los Estados.
+              <br>3. La estructura de anarquía del sistema internacional.
+            </li>
+            <li><strong>Funcionalismo:</strong> Los Estados buscan satisfacer necesidades humanas básicas mediante la colaboración técnica pragmática entre gobiernos y ciudadanía.</li>
+            <li><strong>Neofuncionalismo (Ernst Haas):</strong> La cooperación exitosa en un sector económico específico genera un efecto <strong>"desbordamiento" (spillover)</strong> que expande la integración hacia otras esferas políticas, privilegiando las instituciones supranacionales sobre la soberanía nacional.</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- 2. Balanza de Pagos: Estructura y Residente -->
+      <div class="card" style="margin-top:20px;">
+        <h3 class="card-title">3. La Balanza de Pagos y el Concepto Crítico de "Residente"</h3>
+        <p style="font-size:0.88rem; color:var(--text-secondary); margin-bottom:14px;">
+          Documento contable macroeconómico anual que registra a valores FOB todas las transacciones entre los residentes de un país y el resto del mundo:
+        </p>
+
+        <div class="callout callout-danger">
+          <div class="callout-title">🚨 Definición de RESIDENTE (Pregunta Trampa de Parcial):</div>
+          <p style="font-size:0.86rem; color:#fecaca;">
+            Son residentes todas las personas físicas y jurídicas que tienen su <strong>centro de interés económico</strong> en el país.
+            <br><strong>⚠️ OJO CON ESTA TRAMPA:</strong> Las personas físicas que residen habitualmente en el país pero se encuentran <strong>temporalmente en el exterior cursando estudios o recibiendo tratamientos médicos SÍ SE CONSIDERAN RESIDENTES</strong> de su país de origen a efectos del cómputo de la Balanza de Pagos.
+          </p>
+        </div>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Sub-Balanza Principal</th>
+                <th>Cuentas Integrantes</th>
+                <th>Operaciones Contabilizadas</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>1. Balanza por Cuenta Corriente</strong>
+                <br><em>(Saldo = Ahorro - Inversión)</em></td>
+                <td>
+                  • <strong>Balanza Comercial:</strong> Bienes tangibles ("visibles") a valor FOB ($BC = X - M$).
+                  <br>• <strong>Balanza de Servicios:</strong> Fletes, seguros, turismo y royalties ("invisibles").
+                  <br>• <strong>Balanza de Rentas:</strong> Intereses de deuda externa, utilidades y dividendos.
+                  <br>• <strong>Balanza de Transferencias:</strong> Remesas familiares y donaciones sin contraprestación.
+                </td>
+                <td>Registra el flujo real de bienes, servicios y transferencias corrientes. Un saldo negativo exige financiamiento externo.</td>
+              </tr>
+              <tr>
+                <td><strong>2. Balanza de Cuenta de Capital</strong></td>
+                <td>
+                  • Transferencias de capital unilaterales.
+                  <br>• Compraventa de activos intangibles no producidos (patentes, marcas, derechos de autor).
+                </td>
+                <td>Transferencias de propiedad de activos fijos sin impacto financiero directo.</td>
+              </tr>
+              <tr>
+                <td><strong>3. Balanza de Cuenta Financiera</strong></td>
+                <td>
+                  • Inversión Extranjera Directa (IED).
+                  <br>• Inversión de cartera (acciones, bonos).
+                  <br>• Préstamos bancarios internacionales y créditos comerciales.
+                  <br>• <strong>Variación de Reservas Internacionales del Banco Central.</strong>
+                </td>
+                <td>Muestra cómo el país financia su déficit corriente o invierte su superávit en el resto del mundo.</td>
+              </tr>
+              <tr>
+                <td><strong>4. Errores y Omisiones</strong></td>
+                <td>Partida de ajuste estadístico y contable.</td>
+                <td>Cuadra el principio de partida doble frente a operaciones no registradas o contrabando.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- 3. Los 6 Estadios de Integración Económica Regional -->
+      <div class="card" style="margin-top:20px;">
+        <h3 class="card-title">4. La Escalera Evolutiva de los 6 Estadios de Integración Económica</h3>
+        <p style="font-size:0.88rem; color:var(--text-secondary); margin-bottom:14px;">
+          Proceso gradual por el cual los Estados van eliminando barreras comerciales y cediendo parcelas crecientes de soberanía nacional:
+        </p>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Estadio / Nivel de Integración</th>
+                <th>Características Operativas & Normativas</th>
+                <th>Impacto en Soberanía & Aranceles</th>
+                <th>Ejemplo Histórico / Real</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>1. Área de Preferencia Arancelaria</strong></td>
+                <td>Los países miembros acuerdan una <strong>disminución parcial de barreras arancelarias</strong> únicamente sobre una <em>lista taxativa de productos</em> negociados.</td>
+                <td>Soberanía intacta. Cada país mantiene su arancel general.</td>
+                <td>British Commonwealth; Acuerdos de Alcance Parcial ALADI.</td>
+              </tr>
+              <tr>
+                <td><strong>2. Zona de Libre Comercio</strong></td>
+                <td><strong>Eliminación del 100% de aranceles y trabas</strong> comerciales entre los países miembros. Cada país <strong>conserva su propio arancel independiente frente a terceros</strong>.</td>
+                <td>Exige estrictas <strong>Reglas de Origen</strong> para evitar que mercaderías de terceros países ingresen por el socio con menor arancel (triangulación).</td>
+                <td>TLCAN / USMCA (EEUU, Canadá, México); EFTA (Europa).</td>
+              </tr>
+              <tr>
+                <td><strong>3. Unión Aduanera</strong></td>
+                <td>Zona de Libre Comercio interna + adopción de un <strong>Arancel Externo Común (AEC)</strong> unificado frente a países extrazona.
+                <br><em>Fórmula: "0% intra-zona + AEC extra-zona".</em></td>
+                <td>Se pierde autonomía en política arancelaria exterior; se unifica la recaudación aduanera común.</td>
+                <td>Zollverein (Unión Aduanera Alemana); Comunidad Económica Europea (1968); MERCOSUR <em>(imperfecto)</em>.</td>
+              </tr>
+              <tr>
+                <td><strong>4. Mercado Común</strong></td>
+                <td>Unión Aduanera + <strong>Libre circulación de factores productivos</strong>: libre tránsito de bienes, servicios, capitales y personas/trabajadores.</td>
+                <td>Exige armonizar legislaciones laborales, aduaneras y de transporte; libre radicación ciudadana.</td>
+                <td>MERCOSUR (objetivo fundacional del Tratado de Asunción); CEE (Tratado de Roma).</td>
+              </tr>
+              <tr>
+                <td><strong>5. Unión Económica</strong></td>
+                <td>Mercado Común + <strong>unificación y armonización de políticas fiscales, financieras y monetarias</strong>. Conduce a una <strong>moneda única</strong> y banco central comunitario.</td>
+                <td>Pérdida de autonomía monetaria y cambiaria. Fuerte subordinación a directrices económicas comunitarias.</td>
+                <td><strong>Unión Europea (Eurozona)</strong> con el Banco Central Europeo (BCE) y el Euro (€).</td>
+              </tr>
+              <tr>
+                <td><strong>6. Integración Total</strong></td>
+                <td>Unificación económica plena, autoridad supranacional con gobierno central comunitario, símbolos patrios comunes y dilución de fronteras estatales.</td>
+                <td><strong>Pérdida total de soberanía nacional</strong> de los Estados miembros en pos de una entidad federativa supranacional.</td>
+                <td><strong>No existe ningún caso hasta el momento</strong> (modelo teórico supremo).</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- 4. Integración vs Cooperación Internacional -->
+      <div class="card" style="margin-top:20px;">
+        <h3 class="card-title">5. Integración vs. Cooperación Internacional (El Gran Contraste de Parcial)</h3>
+        <p style="font-size:0.88rem; color:var(--text-secondary); margin-bottom:14px;">
+          Distinción conceptual ineludible que la cátedra evalúa rigurosamente en multiple choice y justificaciones de verdadero o falso:
+        </p>
+
+        <div class="grid-2">
+          <div style="background:var(--bg-card-alt); border:1px solid var(--border); border-radius:var(--radius-sm); padding:18px;">
+            <strong style="color:var(--accent-danger); font-size:0.95rem; display:block; margin-bottom:8px;">Procesos de INTEGRACIÓN Regional:</strong>
+            <ul style="font-size:0.84rem; color:var(--text-secondary); line-height:1.7; padding-left:18px;">
+              <li><strong>Objetivo:</strong> Eliminar trabas comerciales, económicas y políticas entre sus miembros para constituir un bloque unificado.</li>
+              <li><strong>Alcance:</strong> <strong>Restringido</strong> a países de una misma región geográfica que cumplan con los tratados constitutivos.</li>
+              <li><strong>Soberanía:</strong> Requieren que a largo plazo los países vayan <strong>perdiendo soberanía</strong> en favor de órganos supranacionales.</li>
+              <li><strong>Ejemplos Reales:</strong> MERCOSUR, Unión Europea, Comunidad Andina (CAN), CARICOM, TLCAN/USMCA.</li>
+            </ul>
+          </div>
+
+          <div style="background:var(--bg-card-alt); border:1px solid var(--border); border-radius:var(--radius-sm); padding:18px;">
+            <strong style="color:var(--accent-emerald); font-size:0.95rem; display:block; margin-bottom:8px;">Organismos de COOPERACIÓN Internacional:</strong>
+            <ul style="font-size:0.84rem; color:var(--text-secondary); line-height:1.7; padding-left:18px;">
+              <li><strong>Objetivo:</strong> Movilizar recursos, brindar asistencia técnica y financiera para <strong>ayudar al desarrollo de países con menor grado de desarrollo</strong> y resolver crisis de liquidez.</li>
+              <li><strong>Alcance:</strong> <strong>Abiertos</strong> a cualquier país del mundo que desee adherir.</li>
+              <li><strong>Soberanía:</strong> <strong>NO implican cesión de soberanía</strong> ni fijan aranceles comunes entre sí.</li>
+              <li><strong>Ejemplos Reales:</strong> OMC, FMI, Banco Mundial (BIRF), CEPAL, OIT, ONU, OEA.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="grid-3" style="margin-top:16px;">
+          <div style="background:var(--bg-card-alt); border:1px solid var(--border); border-radius:var(--radius-sm); padding:14px;">
+            <strong style="color:#fff; font-size:0.85rem; display:block; margin-bottom:4px;">OMC (Org. Mundial del Comercio):</strong>
+            <p style="font-size:0.8rem; color:var(--text-secondary);">
+              Nacida en 1995 (sobre pilares del GATT 1947). Establece las normas multilaterales del comercio, previene discriminaciones y administra el Órgano de Solución de Diferencias comerciales.
+            </p>
+          </div>
+          <div style="background:var(--bg-card-alt); border:1px solid var(--border); border-radius:var(--radius-sm); padding:14px;">
+            <strong style="color:#fff; font-size:0.85rem; display:block; margin-bottom:4px;">FMI (Fondo Monetario Internacional):</strong>
+            <p style="font-size:0.8rem; color:var(--text-secondary);">
+              Organismo de cooperación económica que busca estabilizar tipos de cambio y <strong>financiar a países con desequilibrios severos de balanza de pagos y falta de liquidez</strong>.
+            </p>
+          </div>
+          <div style="background:var(--bg-card-alt); border:1px solid var(--border); border-radius:var(--radius-sm); padding:14px;">
+            <strong style="color:#fff; font-size:0.85rem; display:block; margin-bottom:4px;">Banco Mundial (BM / BIRF):</strong>
+            <p style="font-size:0.8rem; color:var(--text-secondary);">
+              Creado originariamente para la reconstrucción de la Europa de posguerra. Fomenta el desarrollo estructural a largo plazo y la erradicación de la pobreza extrema mediante créditos blandos.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 7: BANCO DE PREGUNTAS REALES CON RESPUESTAS MODELO -->
+    <section id="banco-preguntas" class="section-wrap">
+      <div class="section-header">
+        <div class="section-tag">Exámenes 2023 - 2025</div>
+        <h2 class="section-title">🎯 Banco de Preguntas Reales con Respuestas Modelo</h2>
+        <p class="section-desc">
+          Desglose analítico de las preguntas extraídas textualmente de los segundos parciales anteriores. Cada ítem incluye la respuesta modelo estructurada para obtener calificación 10 y los errores fatales que restan puntos.
+        </p>
+      </div>
+
+      <!-- FILTRO DE PREGUNTAS POR MÓDULO -->
+      <div style="display:flex; gap:10px; flex-wrap:wrap; margin-bottom:20px;">
+        <button class="nav-link active" onclick="filterQA('all')" id="btn-qa-all">Ver Todas (50)</button>
+        <button class="nav-link" onclick="filterQA('m5')" id="btn-qa-m5">Módulo 5: Expo & Aduana</button>
+        <button class="nav-link" onclick="filterQA('m6')" id="btn-qa-m6">Módulo 6: Contratos & Docs</button>
+        <button class="nav-link" onclick="filterQA('m6p')" id="btn-qa-m6p">Módulo 6: Pagos & Finanzas</button>
+        <button class="nav-link" onclick="filterQA('m7')" id="btn-qa-m7">Módulo 7: REI & Integración</button>
+      </div>
+
+      <!-- BLOQUE 1: MÓDULO 5 (EXPORTACIONES & ADUANA) -->
+      <div class="qa-group qa-m5">
+        <h3 style="color:var(--accent-3); font-size:1.1rem; margin:20px 0 12px; display:flex; align-items:center; gap:8px;">
+          📦 Módulo 5: Exportación y Régimen Aduanero
+        </h3>
+
+        <!-- P1 -->
+        <details class="qa-card" data-tags="m5 micro macro beneficios exportacion">
+          <summary>
+            <span>[MC] Beneficios microeconómicos de la exportación (Parcial 2023)</span>
+            <span class="badge-critical">2P2023</span>
+          </summary>
+          <div class="qa-content">
+            <p><strong>Enunciado:</strong> Los siguientes son beneficios microeconómicos de la exportación. Seleccione 1 o más de una:
+            <br>a) Es un medio que ayuda, junto con los créditos e inversiones, a hacer frente al pago de las importaciones y de la deuda externa.
+            <br>b) Alcanzada la etapa de madurez, el empresario tratará de mantenerse en ella utilizando distintas estrategias como la exportación a mercados donde el producto esté en etapa de crecimiento.
+            <br>c) Es un factor dinámico del crecimiento económico.
+            <br>d) Diversificar riesgos y reducir la capacidad ociosa de la planta.</p>
+            
+            <div class="ideal-ans">
+              <div class="ideal-ans-title">Respuesta Ideal para 10:</div>
+              <p><strong>Opciones correctas: b) y d).</strong>
+              <br>• Justificación técnica: La opción b) y la d) impactan directamente en la gestión interna de la empresa (nivel microeconómico): prolongan el ciclo de vida de los productos amortizando inversiones fabriles, absorben costos fijos y reducen el riesgo comercial al no depender de un único mercado.
+              <br>• En contraste, las opciones a) y c) son <strong>beneficios macroeconómicos</strong> que atañen a la política económica del Estado nacional (generación de divisas para la balanza de pagos y expansión del Producto Bruto Interno).</p>
+            </div>
+
+            <div class="trap-ans">
+              <div class="trap-ans-title">Errores Fatales & Trampas:</div>
+              <p>Marcar la opción a) o c). La trampa radica en que todas son frases verdaderas de la bibliografía, pero a) y c) corresponden a la perspectiva del país (macro), no de la empresa (micro).</p>
+            </div>
+          </div>
+        </details>
+
+        <!-- P2 -->
+        <details class="qa-card" data-tags="m5 inicio aduanero sim malvina">
+          <summary>
+            <span>[V/F] Comienzo formal del procedimiento aduanero de exportación</span>
+            <span class="badge-critical">2P2023</span>
+          </summary>
+          <div class="qa-content">
+            <p><strong>Enunciado:</strong> Determine si la siguiente afirmación es verdadera o falsa y justifique: <em>"El procedimiento de exportación, aduaneramente, comienza cuando el declarante presenta en el organismo aduanero los datos requeridos según el régimen de destinación de exportación seleccionado."</em></p>
+            
+            <div class="ideal-ans">
+              <div class="ideal-ans-title">Respuesta Ideal para 10:</div>
+              <p><strong>FALSO.</strong>
+              <br>Aduaneramente, el procedimiento formal de exportación comienza cuando el declarante (Despachante de Aduanas en representación del exportador) <strong>ingresa y oficializa informáticamente en el Sistema Informático Malvina (SIM)</strong> los datos requeridos según el régimen de destinación aduanera seleccionado, generando la declaración detallada (Formulario OM-1993/A - Permiso de Embarque). La presentación documental física o ante sede aduanera es una etapa posterior subordinada al registro sistémico.</p>
+            </div>
+
+            <div class="trap-ans">
+              <div class="trap-ans-title">Errores Fatales & Trampas:</div>
+              <p>Poner verdadero creyendo que el trámite empieza en la ventanilla de la aduana. En la normativa moderna de la AFIP/ARCA, todo acto aduanero nace con la oficialización informática en el SIM.</p>
+            </div>
+          </div>
+        </details>
+
+        <!-- P3 -->
+        <details class="qa-card" data-tags="m5 verificacion mercaderia servicio aduanero">
+          <summary>
+            <span>[V/F] Objeto de la verificación de la mercadería de exportación</span>
+            <span class="badge-medium">2P2023</span>
+          </summary>
+          <div class="qa-content">
+            <p><strong>Enunciado:</strong> Determine si la siguiente afirmación es verdadera o falsa y justifique: <em>"La verificación de mercadería en la operación de exportación la realiza el Servicio Aduanero para establecer medidas arancelarias previamente a la carga en el medio de transporte seleccionado."</em></p>
+            
+            <div class="ideal-ans">
+              <div class="ideal-ans-title">Respuesta Ideal para 10:</div>
+              <p><strong>FALSO.</strong>
+              <br>La verificación física de la mercadería por parte del Servicio Aduanero <strong>no se realiza para 'establecer' medidas arancelarias</strong> (las medidas tributarias y prohibiciones ya están fijadas previamente por la ley y el nomenclador NCM vigente). La verificación se realiza para:
+              <br>1. <strong>Controlar, clasificar arancelariamente y valorar</strong> la mercadería.
+              <br>2. <strong>Cotejar lo efectivamente embarcado contra lo comprometido en la declaración aduanera</strong> (declaración jurada del SIM).
+              <br>3. Fiscalizar el cumplimiento de las normas tributarias y prohibiciones ya establecidas.</p>
+            </div>
+
+            <div class="trap-ans">
+              <div class="trap-ans-title">Errores Fatales & Trampas:</div>
+              <p>Confundir "aplicar/fiscalizar las medidas arancelarias preexistentes" con "establecerlas". La Aduana es un órgano de control y fiscalización, no el Poder Legislativo que establece tributos.</p>
+            </div>
+          </div>
+        </details>
+
+        <!-- P4 -->
+        <details class="qa-card" data-tags="m5 rectificar destinacion libramiento">
+          <summary>
+            <span>[Desarrollo] Supuestos legales de rectificación de la destinación oficializada</span>
+            <span class="badge-critical">2P2023</span>
+          </summary>
+          <div class="qa-content">
+            <p><strong>Enunciado:</strong> Mencione en qué casos la normativa aduanera permite rectificar la solicitud de destinación de exportación una vez oficializada en el sistema.</p>
+            
+            <div class="ideal-ans">
+              <div class="ideal-ans-title">Respuesta Ideal para 10:</div>
+              <p>Conforme al Código Aduanero, una vez oficializada la solicitud de destinación de exportación, su rectificación solo procede taxativamente en los siguientes tres supuestos:
+              <br>1. <strong>Previo al Libramiento:</strong> Procede siempre que el Servicio Aduanero aún <strong>no haya iniciado el control documental ni la verificación física</strong> de la mercadería, ni se haya concedido el libramiento.
+              <br>2. <strong>Vía Acuática o Aérea (post-libramiento):</strong> Procede hasta el momento exacto en que la mercadería comience a ser cargada a bordo del medio de transporte que partirá al exterior.
+              <br>3. <strong>Vía Terrestre por Carretera o Ferrocarril:</strong> Procede hasta antes de que el último puesto de control aduanero de frontera autorice la salida física del convoy hacia el país limítrofe.</p>
+            </div>
+
+            <div class="trap-ans">
+              <div class="trap-ans-title">Errores Fatales & Trampas:</div>
+              <p>Omitir la distinción entre los medios de transporte (acuático/aéreo vs. frontera terrestre) o decir que se puede rectificar en cualquier momento antes de que el buque llegue a destino.</p>
+            </div>
+          </div>
+        </details>
+
+        <!-- P5 -->
+        <details class="qa-card" data-tags="m5 condicionantes endogenos exogenos">
+          <summary>
+            <span>[V/F] Condicionantes endógenos y mercado de destino (Parcial 2023)</span>
+            <span class="badge-critical">2P2023</span>
+          </summary>
+          <div class="qa-content">
+            <p><strong>Enunciado:</strong> Determine si es V o F y justifique: <em>"El análisis previo a la decisión de exportación establece que, los condicionantes endógenos mostrarán las características del mercado destino, indicando usos y costumbres de los consumidores, entre otras cuestiones."</em></p>
+            
+            <div class="ideal-ans">
+              <div class="ideal-ans-title">Respuesta Ideal para 10:</div>
+              <p><strong>FALSO.</strong>
+              <br>Son los <strong>condicionantes EXÓGENOS</strong> los que analizan las características del mercado de destino (demanda, usos y costumbres de los consumidores, competencia local, marco regulatorio y canales de distribución), ya que son factores externos e incontrolables para la empresa.
+              <br>Por el contrario, los <strong>condicionantes ENDÓGENOS</strong> evalúan los factores internos y controlables propios de la firma (capacidad productiva fabril, estructura de costos, solvencia financiera, recursos humanos y know-how).</p>
+            </div>
+
+            <div class="trap-ans">
+              <div class="trap-ans-title">Errores Fatales & Trampas:</div>
+              <p>Invertir los términos o justificar de manera escueta sin aclarar cuáles son efectivamente los factores endógenos.</p>
+            </div>
+          </div>
+        </details>
+
+        <!-- P6 -->
+        <details class="qa-card" data-tags="m5 destinacion definitiva consumo caracteristicas">
+          <summary>
+            <span>[Desarrollo] Caracterización y ejemplo de Destinación Definitiva a Consumo</span>
+            <span class="badge-critical">2P2023</span>
+          </summary>
+          <div class="qa-content">
+            <p><strong>Enunciado:</strong> Caracterice y ejemplifique la destinación definitiva de exportación para consumo.</p>
+            
+            <div class="ideal-ans">
+              <div class="ideal-ans-title">Respuesta Ideal para 10:</div>
+              <p>• <strong>Definición Legal (Art. 724 Código Aduanero):</strong> Es aquella en virtud de la cual la mercadería de libre circulación en el territorio aduanero sale del mismo para <strong>permanecer fuera de él por tiempo indeterminado</strong>.
+              <br>• <strong>Características Principales:</strong>
+              <br>1. <em>Aspectos Tributarios:</em> <strong>Genera hecho imponible pleno</strong>; está sujeta al pago de Derechos de Exportación vigentes y concede el derecho al cobro de <strong>estímulos promocionales a la exportación</strong> (reintegros).
+              <br>2. <em>Prohibiciones:</em> Se le aplican plenamente tanto las prohibiciones económicas como las no económicas.
+              <br>3. <em>Circulación y Destino:</em> Otorga libre circulación en el país de destino y su <strong>comercialización en el exterior es irrestricta</strong>.
+              <br>• <strong>Ejemplo Real:</strong> Una empresa argentina que vende y embarca 10.000 toneladas de porotos de soja con destino a un comprador en Shanghái, China, para su molienda y procesamiento definitivo.</p>
+            </div>
+
+            <div class="trap-ans">
+              <div class="trap-ans-title">Errores Fatales & Trampas:</div>
+              <p>No mencionar que la permanencia es por "tiempo indeterminado" o no explicitar que genera hecho imponible y da derecho al cobro de reintegros.</p>
+            </div>
+          </div>
+        </details>
+
+        <!-- P7 -->
+        <details class="qa-card" data-tags="m5 transito exportacion suspensiva">
+          <summary>
+            <span>[Desarrollo] Caracterización y ejemplo de Destinación Suspensiva de Tránsito</span>
+            <span class="badge-critical">2P2023</span>
+          </summary>
+          <div class="qa-content">
+            <p><strong>Enunciado:</strong> Caracterice y ejemplifique la destinación suspensiva de tránsito de exportación.</p>
+            
+            <div class="ideal-ans">
+              <div class="ideal-ans-title">Respuesta Ideal para 10:</div>
+              <p>• <strong>Definición Legal:</strong> Es la destinación suspensiva en virtud de la cual la mercadería de libre circulación en el territorio aduanero, habiendo sido sometida a una destinación de exportación en una aduana interior (aduana de registro/origen), es transportada bajo control aduanero hasta otra aduana del mismo territorio (aduana de salida), con la exclusiva finalidad de ser exportada desde esta última.
+              <br>• <strong>Requisito Indispensable:</strong> La mercadería arribada a la aduana de salida debe ser exactamente <strong>idéntica</strong> a la registrada originalmente. Se realiza bajo precinto aduanero y plazo de itinerario fijado.
+              <br>• <strong>Ejemplo Real:</strong> Una bodega de Mendoza oficializa el despacho de 1.000 cajas de vino ante la Aduana de Mendoza, y la carga viaja precintada en camión hasta la Terminal Portuaria de Buenos Aires para abordar el buque con destino a Hamburgo.</p>
+            </div>
+
+            <div class="trap-ans">
+              <div class="trap-ans-title">Errores Fatales & Trampas:</div>
+              <p>Confundir tránsito de exportación con removido o con tránsito hacia el interior de mercadería importada.</p>
+            </div>
+          </div>
+        </details>
+
+        <!-- P8 -->
+        <details class="qa-card" data-tags="m5 removido incentivos tributos">
+          <summary>
+            <span>[V/F] Destinación de Removido e incentivos promocionales</span>
+            <span class="badge-critical">2P2023</span>
+          </summary>
+          <div class="qa-content">
+            <p><strong>Enunciado:</strong> Responda V o F justificando: <em>"La Destinación de Exportación de Removido, no está sujeta al pago de los correspondientes incentivos promocionales."</em></p>
+            
+            <div class="ideal-ans">
+              <div class="ideal-ans-title">Respuesta Ideal para 10:</div>
+              <p><strong>VERDADERO.</strong>
+              <br>La destinación de removido es una <strong>destinación suspensiva</strong> que ampara el traslado de mercadería nacional o nacionalizada de un punto a otro del territorio aduanero nacional atravesando aguas o territorios foráneos. Dado que la mercadería no sale con carácter definitivo para permanecer en el exterior, <strong>NO se produce el hecho imponible de la exportación para consumo</strong>, y en consecuencia, carece absolutamente de derecho al cobro de incentivos promocionales (reintegros o reembolsos) ni está gravada con derechos de exportación.</p>
+            </div>
+
+            <div class="trap-ans">
+              <div class="trap-ans-title">Errores Fatales & Trampas:</div>
+              <p>Decir falso creyendo que cualquier salida física por aduana cobra reintegros. Los reintegros son exclusivos de la exportación definitiva para consumo.</p>
+            </div>
+          </div>
+        </details>
+
+        <!-- P9 -->
+        <details class="qa-card" data-tags="m5 drawback incentivo insumos importados">
+          <summary>
+            <span>[Desarrollo] El régimen promocional de Draw-Back</span>
+            <span class="badge-critical">2P2023</span>
+          </summary>
+          <div class="qa-content">
+            <p><strong>Enunciado:</strong> Mencione y describa el incentivo promocional "Draw Back" para una operación de exportación.</p>
+            
+            <div class="ideal-ans">
+              <div class="ideal-ans-title">Respuesta Ideal para 10:</div>
+              <p>El <strong>Draw-Back</strong> es un régimen aduanero de estímulo fiscal directo a la exportación. Consiste en la <strong>restitución total o parcial de los importes abonados por el exportador en concepto de tributos que gravaron la previa importación para consumo</strong> (derechos de importación y tasa de estadística) de materias primas o insumos foráneos.
+              <br>• <strong>Condiciones para su procedencia:</strong> Procede exclusivamente si la mercadería sobre la cual se pagaron esos tributos es posteriormente exportada para consumo tras haber sido:
+              <br>1. Sometida en el territorio aduanero a un proceso de <strong>transformación, elaboración, combinación, mezcla o perfeccionamiento industrial</strong>.
+              <br>2. Utilizada directamente para el <strong>acondicionamiento o envasado</strong> de la mercadería exportada.</p>
+            </div>
+
+            <div class="trap-ans">
+              <div class="trap-ans-title">Errores Fatales & Trampas:</div>
+              <p>Confundir Drawback con Reintegro. El Drawback devuelve tributos de <em>importación previa</em> de insumos; el Reintegro devuelve impuestos <em>interiores</em> soportados durante la fabricación.</p>
+            </div>
+          </div>
+        </details>
+
+        <!-- P10 -->
+        <details class="qa-card" data-tags="m5 regimen muestras limites valor">
+          <summary>
+            <span>[MC] Régimen Aduanero de Muestras (Parcial 2023)</span>
+            <span class="badge-medium">2P2023</span>
+          </summary>
+          <div class="qa-content">
+            <p><strong>Enunciado:</strong> Cuáles de las siguientes afirmaciones sobre el régimen de muestras NO son correctas (seleccione una o más):
+            <br>a) Están exentas de la aplicación de prohibiciones no económicas.
+            <br>b) Están exentas del pago de tasas retributivas de servicios.
+            <br>c) Tienen un valor de exportación máximo de USD 100.
+            <br>d) Tienen un valor de importación máximo de USD 100.
+            <br>e) Deben estar inutilizadas por procedimiento idóneo.
+            <br>f) Su cantidad se ajusta a la práctica comercial.
+            <br>g) Son enajenables a título oneroso.</p>
+            
+            <div class="ideal-ans">
+              <div class="ideal-ans-title">Respuesta Ideal para 10:</div>
+              <p><strong>Las afirmaciones NO CORRECTAS son: a), b), c) y g).</strong>
+              <br>• <em>Justificación de a:</em> Están exentas de prohibiciones <strong>económicas</strong>, pero sujetas a prohibiciones <strong>no económicas</strong> (seguridad pública, fitosanitarias).
+              <br>• <em>Justificación de b:</em> NO están exentas de las tasas retributivas de servicios efectivamente prestados (estadística, almacenaje).
+              <br>• <em>Justificación de c:</em> El tope exento en <strong>exportación es de hasta USD 20.000</strong> (USD 100 es el límite aplicable en importación).
+              <br>• <em>Justificación de g:</em> Tienen <strong>estrictamente prohibida su enajenación</strong> (no son enajenables ni alquilables; son solo para demostración).</p>
+            </div>
+
+            <div class="trap-ans">
+              <div class="trap-ans-title">Errores Fatales & Trampas:</div>
+              <p>Confundir el límite de exportación (USD 20.000) con el de importación (USD 100), o creer que las muestras no pagan ninguna tasa aduanera.</p>
+            </div>
+          </div>
+        </details>
+      </div>
+
+      <!-- BLOQUE 2: MÓDULO 6 (CONTRATOS, SEGUROS & DOCUMENTOS) -->
+      <div class="qa-group qa-m6">
+        <h3 style="color:var(--accent-1); font-size:1.1rem; margin:26px 0 12px; display:flex; align-items:center; gap:8px;">
+          🤝 Módulo 6: Contratos, Figuras Comerciales, Seguros y Documentos
+        </h3>
+
+        <!-- P11 -->
+        <details class="qa-card" data-tags="m6 seguro credito exportacion cobertura casce">
+          <summary>
+            <span>[MC] Seguro de Crédito a la Exportación: Cobertura Comercial</span>
+            <span class="badge-critical">2P2024</span>
+          </summary>
+          <div class="qa-content">
+            <p><strong>Enunciado:</strong> La contratación de un seguro de crédito a la exportación protege sobre (seleccione una o más):
+            <br>a) Avería simple durante la navegación.
+            <br>b) Incumplimiento o mora prolongada de pago.
+            <br>c) Robo de mercadería en tránsito terrestre.
+            <br>d) Quiebra judicial o insolvencia del importador.
+            <br>e) Ninguna de las anteriores.</p>
+            
+            <div class="ideal-ans">
+              <div class="ideal-ans-title">Respuesta Ideal para 10:</div>
+              <p><strong>Opciones correctas: b) y d).</strong>
+              <br>• El Seguro de Crédito a la Exportación (emitido por CASCE) ampara al vendedor contra <strong>riesgos comerciales de carácter financiero</strong>: quiebra, cesación de pagos, concurso preventivo, insolvencia de hecho y mora prolongada (superior a 6 meses de impago).
+              <br>• Las opciones a) y c) (avería simple y robo) corresponden al <strong>Seguro de Transporte Internacional de Mercaderías</strong> (póliza de carga sobre el flete), el cual cubre los daños materiales que sufren los bienes físicos.</p>
+            </div>
+
+            <div class="trap-ans">
+              <div class="trap-ans-title">Errores Fatales & Trampas:</div>
+              <p>Marcar avería o robo. Es la trampa más repetida de los parciales: creer que por llamarse "seguro de exportación" cubre la carga física en el barco.</p>
+            </div>
+          </div>
+        </details>
+
+        <!-- P12 -->
+        <details class="qa-card" data-tags="m6 poliza caucion aduanera supuestos">
+          <summary>
+            <span>[MC] Supuestos de exigencia de la Póliza de Caución Aduanera</span>
+            <span class="badge-critical">2P2023</span>
+          </summary>
+          <div class="qa-content">
+            <p><strong>Enunciado:</strong> La póliza de caución aduanera será requerida en caso de (seleccione la correcta):
+            <br>a) Operaciones de comercio internacional con destino al MERCOSUR.
+            <br>b) Demostrar solvencia económica o afianzar tributos en destinaciones suspensivas temporarias.
+            <br>c) Ante ausencia transitoria de documentos de transporte para el libramiento.
+            <br>d) En exportación para consumo definitiva regular.</p>
+            
+            <div class="ideal-ans">
+              <div class="ideal-ans-title">Respuesta Ideal para 10:</div>
+              <p><strong>Opciones correctas: b) y c).</strong>
+              <br>La póliza de caución es una fianza que garantiza al Fisco aduanero el cobro de los eventuales tributos o penalidades en caso de que la mercadería temporaria no se reexporte/reimporte en término, o para autorizar el libramiento provisorio ante la falta justificada de documentación complementaria obligatoria (ej. falta transitoria del B/L original). En exportaciones definitivas a consumo regulares no se exige caución.</p>
+            </div>
+
+            <div class="trap-ans">
+              <div class="trap-ans-title">Errores Fatales & Trampas:</div>
+              <p>Creer que la caución es un instrumento voluntario de cobro entre partes privadas. La caución aduanera afianza al Estado nacional ante la DGA.</p>
+            </div>
+          </div>
+        </details>
+
+        <!-- P13 -->
+        <details class="qa-card" data-tags="m6 figuras comerciales agente distribuidor concesionario franquicia">
+          <summary>
+            <span>[Relación] Identificación taxonómica de Figuras Comerciales</span>
+            <span class="badge-critical">2P2023</span>
+          </summary>
+          <div class="qa-content">
+            <p><strong>Enunciado:</strong> Identifique a qué figura comercial corresponde cada característica funcional:
+            <br>1. En nombre propio, promoverá la inserción a un mercado determinado del producto objeto del contrato comprando y revendiendo: __________
+            <br>2. Salvo pacto expreso en contrario, tiene la obligación estricta de organizar el servicio técnico de posventa y garantías oficiales de la cosa vendida: __________
+            <br>3. Actúa por cuenta del principal; de no pactarse lo contrario, su retribución es una comisión variable según volúmenes: __________
+            <br>4. Supone el pago de un canon inicial y regalías periódicas a cambio de la explotación de activos intangibles y know-how: __________
+            <br>5. Sujeto que se obliga a intermediar comercialmente conectando productor y cliente: __________</p>
+            
+            <div class="ideal-ans">
+              <div class="ideal-ans-title">Respuesta Ideal para 10:</div>
+              <p>1. <strong>DISTRIBUIDOR</strong> (opera en nombre y cuenta propia, asume riesgo comercial y organiza el canal local).
+              <br>2. <strong>CONCESIONARIO</strong> (asume obligatoriamente el servicio post-venta y garantías de fábrica).
+              <br>3. <strong>AGENTE</strong> (opera por cuenta ajena y percibe comisión porcentual).
+              <br>4. <strong>FRANQUICIA (Franchising)</strong> (pago de canon y royalties por uso de marca y know-how).
+              <br>5. <strong>REPRESENTANTE</strong> (intermediario contractual del productor).</p>
+            </div>
+
+            <div class="trap-ans">
+              <div class="trap-ans-title">Errores Fatales & Trampas:</div>
+              <p>Confundir Agente con Distribuidor. El distribuidor compra la mercadería y asume el riesgo; el agente es un comisionista que no compra el stock.</p>
+            </div>
+          </div>
+        </details>
+
+        <!-- P14 -->
+        <details class="qa-card" data-tags="m6 convencion viena cisg reserva escrita">
+          <summary>
+            <span>[MC / VF] Convención de Viena 1980 (CISG) y Reserva de Forma en Argentina</span>
+            <span class="badge-medium">2P2023</span>
+          </summary>
+          <div class="qa-content">
+            <p><strong>Enunciado:</strong> La Convención de Viena de 1980 se aplica cuando los contratantes tienen establecimientos en distintos Estados. En Argentina, ¿cómo debe manifestarse el consentimiento y la aceptación contractual?</p>
+            
+            <div class="ideal-ans">
+              <div class="ideal-ans-title">Respuesta Ideal para 10:</div>
+              <p>A pesar de haber suscrito la Convención de Viena de 1980 (CISG), la República Argentina formuló una <strong>reserva expresa bajo el Artículo 96</strong>. En consecuencia, en el régimen jurídico argentino cualquier oferta, aceptación o manifestación de intención tendiente a celebrar o modificar un contrato de compraventa internacional <strong>NO PODRÁ HACERSE por ningún procedimiento que no sea POR ESCRITO</strong>. La manifestación puramente verbal carece de eficacia probatoria vinculante para los tribunales locales.</p>
+            </div>
+
+            <div class="trap-ans">
+              <div class="trap-ans-title">Errores Fatales & Trampas:</div>
+              <p>Sostener que en Argentina un contrato de compraventa internacional puede cerrarse telefónicamente o por palabra. La reserva escrita es estricta.</p>
+            </div>
+          </div>
+        </details>
+
+        <!-- P15 -->
+        <details class="qa-card" data-tags="m6 documentos transporte bl awb crt mic dta">
+          <summary>
+            <span>[Desarrollo] Importancia jurídica del Conocimiento de Embarque (B/L) vs Guía Aérea (AWB)</span>
+            <span class="badge-critical">2P2023</span>
+          </summary>
+          <div class="qa-content">
+            <p><strong>Enunciado:</strong> Compare las funciones jurídicas del Conocimiento de Embarque Marítimo (B/L) y la Guía Aérea (AWB). ¿Cuál de ellos representa la propiedad de la mercadería?</p>
+            
+            <div class="ideal-ans">
+              <div class="ideal-ans-title">Respuesta Ideal para 10:</div>
+              <p>• <strong>Conocimiento de Embarque (Bill of Lading - B/L):</strong> Cumple tres funciones fundamentales: 1) Recibo de mercadería cargada a bordo; 2) Contrato de transporte marítimo; y 3) <strong>TÍTULO DE PROPIEDAD / TÍTULO DE CRÉDITO</strong> representativo de la mercadería. Es un documento negociable y endosable; quien posea el original del B/L ostenta el dominio jurídico de la carga y es el único autorizado a retirarla en aduana de destino.
+              <br>• <strong>Guía Aérea (Air Waybill - AWB):</strong> Cumple funciones de recibo de mercadería por la aerolínea, hoja de ruta técnica, comprobante de flete y certificado de póliza de seguro de transporte aéreo. <strong>NO es título de propiedad ni documento negociable</strong>; la aerolínea entrega la mercadería directamente al consignatario designado sin exigir la entrega material del AWB original.</p>
+            </div>
+
+            <div class="trap-ans">
+              <div class="trap-ans-title">Errores Fatales & Trampas:</div>
+              <p>Afirmar que la Guía Aérea (AWB) es un título de propiedad como el B/L. Es un error conceptual gravísimo en exámenes de comex.</p>
+            </div>
+          </div>
+        </details>
+      </div>
+
+      <!-- BLOQUE 3: MÓDULO 6 (PAGOS, FINANZAS & PRECIOS) -->
+      <div class="qa-group qa-m6p">
+        <h3 style="color:var(--accent-emerald); font-size:1.1rem; margin:26px 0 12px; display:flex; align-items:center; gap:8px;">
+          💳 Módulo 6: Medios de Pago, Financiación y Políticas de Precios
+        </h3>
+
+        <!-- P16 -->
+        <details class="qa-card" data-tags="m6p carta credito ucp 600 atributos defecto">
+          <summary>
+            <span>[MC / Desarrollo] Los 4 atributos por defecto de la Carta de Crédito (UCP 600)</span>
+            <span class="badge-critical">2P2023</span>
+          </summary>
+          <div class="qa-content">
+            <p><strong>Enunciado:</strong> Según las Reglas UCP 600 de la Cámara de Comercio Internacional, si una Carta de Crédito no establece explícitamente lo contrario, ¿cuáles son sus características en cuanto a revocabilidad, confirmación, transferibilidad y divisibilidad?</p>
+            
+            <div class="ideal-ans">
+              <div class="ideal-ans-title">Respuesta Ideal para 10:</div>
+              <p>Bajo la normativa UCP 600 vigente, si el condicionado del crédito documentario omite mención en contrario, se rige por la siguiente regla mnemotécnica oficial:
+              <br>1. <strong>IRREVOCABLE:</strong> No puede ser anulada ni modificada sin el consentimiento explícito y unánime del banco emisor, banco confirmador y beneficiario.
+              <br>2. <strong>NO CONFIRMADA:</strong> El banco del país del exportador solo actúa notificando el crédito, sin asumir compromiso de pago directo ni agregar su garantía.
+              <br>3. <strong>INTRANSFERIBLE:</strong> Los derechos del crédito corresponden con exclusividad al exportador beneficiario designado y no pueden cederse.
+              <br>4. <strong>DIVISIBLE:</strong> Se autorizan expresamente embarques parciales y utilizaciones fraccionadas de los fondos pactados.</p>
+            </div>
+
+            <div class="trap-ans">
+              <div class="trap-ans-title">Errores Fatales & Trampas:</div>
+              <p>Decir que es confirmada por defecto o que es revocable. La revocabilidad fue erradicada desde la publicación 600 de la CCI.</p>
+            </div>
+          </div>
+        </details>
+
+        <!-- P17 -->
+        <details class="qa-card" data-tags="m6p cobranza simple documentaria vista plazo">
+          <summary>
+            <span>[Desarrollo] Diferencia entre Cobranza Simple y Cobranza Documentaria (URC 522)</span>
+            <span class="badge-critical">2P2024</span>
+          </summary>
+          <div class="qa-content">
+            <p><strong>Enunciado:</strong> Caracterice el medio de pago "Cobranza". Describa la diferencia entre cobranza simple y cobranza documentaria, y el rol que asume el sistema bancario.</p>
+            
+            <div class="ideal-ans">
+              <div class="ideal-ans-title">Respuesta Ideal para 10:</div>
+              <p>• <strong>Definición & Rol Bancario:</strong> La cobranza es un medio de pago en el cual el exportador (cedente) encomienda a su banco (banco remitente) la gestión de cobro ante el comprador (librado) a través de un banco corresponsal en destino (banco cobrador). <strong>Los bancos intervienen exclusivamente como mandatarios de gestión de cobro y NO asumen ningún tipo de garantía ni compromiso de pago.</strong>
+              <br>• <strong>Cobranza Simple:</strong> Es aquella que involucra la tramitación de <strong>documentos financieros exclusivamente</strong> (letras de cambio, pagarés, cheques) desprovista de documentos comerciales de embarque.
+              <br>• <strong>Cobranza Documentaria:</strong> Involucra documentos financieros acompañados de <strong>documentos comerciales</strong> (Factura E, B/L, Packing List), o documentos comerciales por sí solos. Puede operar:
+              <br>&nbsp;&nbsp;- <em>A la vista (D/P - Documents Against Payment):</em> Los documentos se entregan solo si el comprador abona al contado.
+              <br>&nbsp;&nbsp;- <em>A plazo (D/A - Documents Against Acceptance):</em> Los documentos se entregan contra la aceptación formal de una letra de cambio con vencimiento diferido.</p>
+            </div>
+
+            <div class="trap-ans">
+              <div class="trap-ans-title">Errores Fatales & Trampas:</div>
+              <p>Decir que en la cobranza el banco garantiza el pago si el comprador entra en cesación de pagos. Los bancos no garantizan en la cobranza.</p>
+            </div>
+          </div>
+        </details>
+
+        <!-- P18 -->
+        <details class="qa-card" data-tags="m6p warrant financiamiento no tradicional almacen">
+          <summary>
+            <span>[Desarrollo] Financiamiento No Tradicional: Mecánica del WARRANT</span>
+            <span class="badge-critical">2P2023</span>
+          </summary>
+          <div class="qa-content">
+            <p><strong>Enunciado:</strong> ¿A qué llamamos financiamiento no tradicional? Defina el instrumento "WARRANT" y describa detalladamente su funcionamiento operativo.</p>
+            
+            <div class="ideal-ans">
+              <div class="ideal-ans-title">Respuesta Ideal para 10:</div>
+              <p>• <strong>Financiamiento No Tradicional:</strong> Son alternativas financieras estructuradas que permiten obtener liquidez y capital de trabajo respaldándose en activos comerciales o mercaderías, sin recurrir a los préstamos bancarios de línea corriente dependientes del balance contable.
+              <br>• <strong>Definición de Warrant:</strong> Es un instrumento de crédito con <strong>garantía prendaria real</strong> sobre mercaderías o productos almacenados en un depósito fiscal autorizado por la ley nacional (Ley 9643).
+              <br>• <strong>Mecánica Operativa Paso a Paso:</strong>
+              <br>1. La empresa entrega mercadería (granos, materias primas, insumos o manufacturas) en custodia a una empresa almacenadora habilitada por el Estado.
+              <br>2. La empresa almacenadora emite dos documentos complementarios:
+              <br>&nbsp;&nbsp;a) El <strong>Certificado de Depósito:</strong> Acredita la titularidad jurídica y propiedad de la mercadería.
+              <br>&nbsp;&nbsp;b) El <strong>Warrant:</strong> Título de crédito que confiere el derecho de prenda sobre los bienes guardados.
+              <br>3. El titular endosa el Warrant a favor de una entidad financiera o banco a cambio de un préstamo de fondos inmediato.
+              <br>4. Al saldar el préstamo con sus intereses, el banco restituye el Warrant cancelado al exportador, quien lo presenta en el depósito para retirar su mercadería.</p>
+            </div>
+
+            <div class="trap-ans">
+              <div class="trap-ans-title">Errores Fatales & Trampas:</div>
+              <p>No explicar la duplicidad de documentos (Certificado de Depósito vs. Warrant) o no mencionar que se utiliza la mercadería almacenada como garantía real prendaria.</p>
+            </div>
+          </div>
+        </details>
+
+        <!-- P19 -->
+        <details class="qa-card" data-tags="m6p factoring forfaiting comparacion creditos">
+          <summary>
+            <span>[Cuadro] Comparación Operativa: Factoring vs. Forfaiting</span>
+            <span class="badge-medium">2P2024</span>
+          </summary>
+          <div class="qa-content">
+            <p><strong>Enunciado:</strong> Complete las diferencias esenciales entre Factoring y Forfaiting en cuanto a instrumentos utilizados, plazos y asunción del riesgo.</p>
+            
+            <div class="ideal-ans">
+              <div class="ideal-ans-title">Respuesta Ideal para 10:</div>
+              <p>• <strong>Factoring:</strong>
+              <br>&nbsp;&nbsp;- <em>Títulos:</em> Facturas comerciales, cuentas abiertas por cobrar y títulos de crédito a corto plazo.
+              <br>&nbsp;&nbsp;- <em>Plazo:</em> <strong>Corto Plazo</strong> (habitualmente de 30 a 180 días).
+              <br>&nbsp;&nbsp;- <em>Servicios & Riesgo:</em> La entidad factor adquiere en bloque la cartera de créditos, se encarga de la gestión y administración de cobros, y en la modalidad "sin recurso" asume el riesgo de insolvencia del cliente.
+              <br>• <strong>Forfaiting:</strong>
+              <br>&nbsp;&nbsp;- <em>Títulos:</em> Letras de cambio formalmente avaladas por un banco de primera línea o pagarés (Promissory Notes).
+              <br>&nbsp;&nbsp;- <em>Plazo:</em> <strong>Mediano y Largo Plazo</strong> (típicamente de 1 a 5 o 7 años, para exportaciones de bienes de capital o llave en mano).
+              <br>&nbsp;&nbsp;- <em>Riesgo:</em> La compra del título se realiza <strong>estrictamente SIN RECURSO</strong>, liberando por completo al exportador de cualquier responsabilidad si el deudor o banco avalista incumple.</p>
+            </div>
+
+            <div class="trap-ans">
+              <div class="trap-ans-title">Errores Fatales & Trampas:</div>
+              <p>Invertir los plazos (asignar largo plazo al factoring o corto al forfaiting) o no mencionar que el forfaiting opera siempre sin recurso sobre letras avaladas.</p>
+            </div>
+          </div>
+        </details>
+
+        <!-- P20 -->
+        <details class="qa-card" data-tags="m6p politicas precios mercado marginal beneficio maximo">
+          <summary>
+            <span>[V/F] Políticas de Precios: Sondeo de Mercado vs. Costo Marginal (Parcial 2023/2024)</span>
+            <span class="badge-critical">2P2023/2024</span>
+          </summary>
+          <div class="qa-content">
+            <p><strong>Enunciado:</strong> Determine si la afirmación es V o F y justifique: <em>"En la colocación de precios según una política orientada al mercado, el exportador considera el precio de la competencia, tomando en cuenta solamente los costos variables, dejando los fijos para cargarlos al mercado local."</em></p>
+            
+            <div class="ideal-ans">
+              <div class="ideal-ans-title">Respuesta Ideal para 10:</div>
+              <p><strong>FALSO.</strong>
+              <br>La afirmación mezcla erróneamente dos estrategias de fijación de precios totalmente distintas:
+              <br>1. La <strong>política orientada al mercado (sondeo de mercado)</strong> fija el precio de cotización analizando la oferta, demanda y precios de los competidores directos en el mercado de destino.
+              <br>2. Tomar exclusivamente los costos variables adicionales para la exportación y dejar los costos fijos fabriles asignados al mercado local es la definición exacta de la <strong>política orientada a la empresa bajo el enfoque de COSTO MARGINAL</strong> (marginal costing), utilizada para penetrar plazas externas con capacidad ociosa.</p>
+            </div>
+
+            <div class="trap-ans">
+              <div class="trap-ans-title">Errores Fatales & Trampas:</div>
+              <p>Poner verdadero por haber leído rápido. La primera parte de la frase habla de la competencia, pero la segunda introduce el mecanismo de costo marginal fabril.</p>
+            </div>
+          </div>
+        </details>
+
+        <!-- P21 -->
+        <details class="qa-card" data-tags="m6p letra de cambio validez aceptacion">
+          <summary>
+            <span>[MC] Momento de Validez Jurídica de la Letra de Cambio</span>
+            <span class="badge-medium">2P2023</span>
+          </summary>
+          <div class="qa-content">
+            <p><strong>Enunciado:</strong> Una letra de cambio librada en el marco de una operación comercial comienza a tener validez jurídica y ejecutividad de cobro contra el deudor cuando:
+            <br>a) Es emitida por el vendedor.
+            <br>b) Es confirmada por el banco del comprador.
+            <br>c) Es <strong>aceptada formalmente por el comprador</strong> (librado).
+            <br>d) Es protestada judicialmente por el beneficiario.</p>
+            
+            <div class="ideal-ans">
+              <div class="ideal-ans-title">Respuesta Ideal para 10:</div>
+              <p><strong>Opción correcta: c).</strong>
+              <br>La letra de cambio es una orden pura y simple de pago girada por el librador (exportador) contra el librado (importador). El librado solo asume la obligación cambiaria directa de pago cuando estampa su firma estampando la <strong>ACEPTACIÓN</strong> en el documento. A partir de ese acto, la letra adquiere fuerza ejecutiva y certeza jurídica de cobro a su vencimiento.</p>
+            </div>
+
+            <div class="trap-ans">
+              <div class="trap-ans-title">Errores Fatales & Trampas:</div>
+              <p>Marcar la emisión por el vendedor. Antes de ser aceptada por el comprador, la letra es una mera propuesta de pago sin obligación cambiaria perfeccionada.</p>
+            </div>
+          </div>
+        </details>
+      </div>
+
+      <!-- BLOQUE 4: MÓDULO 7 (REI, BALANZA & INTEGRACIÓN) -->
+      <div class="qa-group qa-m7">
+        <h3 style="color:var(--accent-warn); font-size:1.1rem; margin:26px 0 12px; display:flex; align-items:center; gap:8px;">
+          🌐 Módulo 7: Relaciones Económicas Internacionales, Balanza e Integración
+        </h3>
+
+        <!-- P22 -->
+        <details class="qa-card" data-tags="m7 union economica caracteristicas consecuencias">
+          <summary>
+            <span>[Desarrollo] Caracterización y Consecuencias de la Unión Económica</span>
+            <span class="badge-critical">2P2023</span>
+          </summary>
+          <div class="qa-content">
+            <p><strong>Enunciado:</strong> ¿A qué se denomina Unión Económica? Explique, indique un ejemplo real y señale las principales consecuencias para los Estados de encontrarse en dicho proceso integrador.</p>
+            
+            <div class="ideal-ans">
+              <div class="ideal-ans-title">Respuesta Ideal para 10:</div>
+              <p>• <strong>Definición:</strong> Es el quinto y más avanzado estadio real de integración económica regional. Agrega a los elementos del Mercado Común (libre tránsito de bienes, servicios, personas y capital con arancel externo común) la <strong>unificación y armonización de las políticas macroeconómicas, fiscales, financieras y monetarias</strong> de los Estados miembros, con una autoridad bancaria central y la adopción de una <strong>moneda única</strong>.
+              <br>• <strong>Ejemplo Real:</strong> La <strong>Unión Europea (Eurozona)</strong>, respaldada por las directrices del Banco Central Europeo (BCE) y el uso del Euro (€).
+              <br>• <strong>Principales Consecuencias para los Estados:</strong>
+              <br>1. <em>Pérdida de autonomía monetaria y cambiaria:</em> Los países no pueden emitir moneda propia ni devaluar unilateralmente para ganar competitividad.
+              <br>2. <em>Disciplina fiscal comunitaria:</em> Subordinación de los presupuestos nacionales a techos de déficit y deuda pública fijados por órganos supranacionales.
+              <br>3. <em>Mayor poder de negociación geopolítica y estabilidad financiera:</em> Eliminación de los riesgos cambiarios intra-bloque y economías de escala continentales.</p>
+            </div>
+
+            <div class="trap-ans">
+              <div class="trap-ans-title">Errores Fatales & Trampas:</div>
+              <p>Confundir Unión Económica con Mercado Común. El mercado común solo llega a la libre circulación de factores; no unifica la moneda ni las políticas fiscales.</p>
+            </div>
+          </div>
+        </details>
+
+        <!-- P23 -->
+        <details class="qa-card" data-tags="m7 estadios integracion evolucion 6 etapas">
+          <summary>
+            <span>[Desarrollo] Los 6 Estadios del Proceso de Integración Internacional</span>
+            <span class="badge-critical">2P2024</span>
+          </summary>
+          <div class="qa-content">
+            <p><strong>Enunciado:</strong> Describa el proceso gradual por el cual los Estados alcanzan distintos estadios de integración económica internacional.</p>
+            
+            <div class="ideal-ans">
+              <div class="ideal-ans-title">Respuesta Ideal para 10:</div>
+              <p>El proceso de integración regional avanza a través de 6 estadios evolutivos acumulativos:
+              <br>1. <strong>Área de Preferencias Arancelarias:</strong> Rebajas parciales de aranceles sobre una lista taxativa de bienes (Ej. British Commonwealth).
+              <br>2. <strong>Zona de Libre Comercio:</strong> Eliminación del 100% de los aranceles entre los miembros (arancel 0% intra-zona); cada país mantiene su propio arancel frente a terceros (Ej. TLCAN/USMCA).
+              <br>3. <strong>Unión Aduanera:</strong> Libre comercio interno + adopción de un <strong>Arancel Externo Común (AEC)</strong> unificado frente al resto del mundo (Ej. Zollverein, CEE 1968).
+              <br>4. <strong>Mercado Común:</strong> Unión aduanera + <strong>libre circulación de factores productivos</strong> (bienes, servicios, capitales y trabajadores) (Ej. MERCOSUR objetivo fundacional).
+              <br>5. <strong>Unión Económica:</strong> Mercado común + coordinación y unificación de políticas fiscales, financieras y monetarias con moneda común (Ej. Unión Europea - Eurozona).
+              <br>6. <strong>Integración Económica Total:</strong> Unificación política e institucional plena con autoridad supranacional única y cesión total de soberanías (Modelo teórico aún no alcanzado).</p>
+            </div>
+
+            <div class="trap-ans">
+              <div class="trap-ans-title">Errores Fatales & Trampas:</div>
+              <p>Desordenar la escalera o saltarse la Unión Aduanera. Recuerde que el Arancel Externo Común (AEC) nace obligatoriamente en el paso 3 (Unión Aduanera).</p>
+            </div>
+          </div>
+        </details>
+
+        <!-- P24 -->
+        <details class="qa-card" data-tags="m7 cooperacion internacional omc fmi bm objetivos">
+          <summary>
+            <span>[Desarrollo] Razones de pertenencia a Organismos de Cooperación Internacional</span>
+            <span class="badge-critical">2P2024</span>
+          </summary>
+          <div class="qa-content">
+            <p><strong>Enunciado:</strong> ¿Cuáles son las razones por las que los países eligen formar parte de organismos de cooperación internacional? Cite ejemplos estableciendo sus objetivos.</p>
+            
+            <div class="ideal-ans">
+              <div class="ideal-ans-title">Respuesta Ideal para 10:</div>
+              <p>• <strong>Razones Fundamentales:</strong> Los países (especialmente aquellos en vías de desarrollo) adhieren para acceder a financiamiento en condiciones favorables, recibir asistencia técnica especializada, obtener auxilio financiero ante crisis de liquidez externa, armonizar normativas y participar de un marco multilateral regido por reglas claras que mitiguen las asimetrías de poder frente a potencias hegemónicas. <strong>No resignan soberanía territorial.</strong>
+              <br>• <strong>Ejemplos y Objetivos Específicos:</strong>
+              <br>1. <strong>OMC (Organización Mundial del Comercio):</strong> Establecer las normas del comercio multilateral, garantizar la fluidez y no discriminación en los intercambios, y dirimir disputas comerciales a través de su Órgano de Solución de Diferencias.
+              <br>2. <strong>FMI (Fondo Monetario Internacional):</strong> Garantizar la estabilidad del sistema monetario y financiero internacional, mantener la estabilidad de tipos de cambio y otorgar préstamos de auxilio para recomponer reservas ante desequilibrios de Balanza de Pagos.
+              <br>3. <strong>Banco Mundial (BM / BIRF):</strong> Otorgar financiamiento a largo plazo para obras de infraestructura estructural y combatir la pobreza extrema en países emergentes.</p>
+            </div>
+
+            <div class="trap-ans">
+              <div class="trap-ans-title">Errores Fatales & Trampas:</div>
+              <p>Confundir los roles del FMI y del Banco Mundial. El FMI atiende la liquidez cambiaria y la balanza de pagos a corto/mediano plazo; el Banco Mundial financia el desarrollo productivo y la pobreza a largo plazo.</p>
+            </div>
+          </div>
+        </details>
+
+        <!-- P25 -->
+        <details class="qa-card" data-tags="m7 balanza pagos residente tratamiento estudio">
+          <summary>
+            <span>[V/F] Balanza de Pagos: El concepto de "Residente" en tratamientos o estudios</span>
+            <span class="badge-critical">2P2023</span>
+          </summary>
+          <div class="qa-content">
+            <p><strong>Enunciado:</strong> Determine si es V o F y justifique: <em>"El concepto de residente, que es el marco de referencia para determinar las operaciones a computar en la balanza de pagos comprende, en cuanto a personas físicas, solo a aquellas que viven en un país permanentemente. Según esta definición no se consideran residentes del país a las personas que están cursando estudios o recibiendo tratamiento médico en el exterior."</em></p>
+            
+            <div class="ideal-ans">
+              <div class="ideal-ans-title">Respuesta Ideal para 10:</div>
+              <p><strong>FALSO.</strong>
+              <br>El concepto macroeconómico de <strong>residente</strong> según las directrices del Fondo Monetario Internacional (FMI) y la metodología de la Balanza de Pagos comprende a todas las personas físicas y jurídicas que poseen su <strong>centro de interés económico</strong> en el país.
+              <br>Bajo este marco técnico, <strong>las personas físicas que se encuentran residiendo transitoriamente en el exterior por razones de estudio (becarios, estudiantes) o por tratamientos médicos prolongados SÍ SE CONSIDERAN RESIDENTES</strong> del país de origen, y por ende, todos sus giros, gastos y operaciones se computan formalmente en la Balanza de Pagos nacional.</p>
+            </div>
+
+            <div class="trap-ans">
+              <div class="trap-ans-title">Errores Fatales & Trampas:</div>
+              <p>Poner verdadero asumiendo que "vivir en el exterior" quita la residencia económica. El FMI exceptúa taxativamente la salud y los estudios temporales.</p>
+            </div>
+          </div>
+        </details>
+
+        <!-- P26 -->
+        <details class="qa-card" data-tags="m7 arancel externo comun union aduanera">
+          <summary>
+            <span>[Desarrollo] Arancel Externo Común (AEC): Definición y Estadio de Integración</span>
+            <span class="badge-critical">2P2023</span>
+          </summary>
+          <div class="qa-content">
+            <p><strong>Enunciado:</strong> ¿A qué se denomina Arancel Externo Común (AEC)? Explique e indique en qué proceso de integración regional se establece por primera vez.</p>
+            
+            <div class="ideal-ans">
+              <div class="ideal-ans-title">Respuesta Ideal para 10:</div>
+              <p>• <strong>Definición Técnica:</strong> Es la alícuota arancelaria unificada y homogénea que aplican conjuntamente todos los Estados miembros de un bloque integrador a cualquier mercadería originaria y procedente de terceros países (extrazona) al momento de ser importada.
+              <br>• <strong>Estadio en que se Establece:</strong> Se instaura obligatoriamente en el tercer escalón de la integración: la <strong>UNIÓN ADUANERA</strong>.
+              <br>• <strong>Efecto Práctico:</strong> Permite que los bienes extrazona abonen el mismo arancel aduanero independientemente del puerto de ingreso al bloque, eliminando la necesidad de controles de origen intra-comunitarios una vez nacionalizada la carga.</p>
+            </div>
+
+            <div class="trap-ans">
+              <div class="trap-ans-title">Errores Fatales & Trampas:</div>
+              <p>Decir que el AEC se establece en la Zona de Libre Comercio. En la Zona de Libre Comercio cada país conserva celosamente su propio arancel exterior individual.</p>
+            </div>
+          </div>
+        </details>
+      </div>
+    </section>
+
+    <!-- SECTION 8: SIMULADOR DE EXAMEN Y CHECKLIST DE AUTOEVALUACIÓN -->
+    <section id="simulador" class="section-wrap">
+      <div class="section-header">
+        <div class="section-tag">Herramienta Interactiva</div>
+        <h2 class="section-title">📝 Simulador de Examen & Checklist de Autoevaluación</h2>
+        <p class="section-desc">
+          Lista interactiva de verificación con persistencia en el navegador (Local Storage). Marca los conceptos que dominas con fluidez para medir tu porcentaje de preparación real antes de entrar a rendir.
+        </p>
+      </div>
+
+      <!-- Barra de Progreso del Checklist -->
+      <div class="card" style="margin-bottom:20px; text-align:center;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+          <span style="font-size:0.85rem; font-weight:700; color:var(--text-secondary); text-transform:uppercase; letter-spacing:0.05em;">Progreso de Dominio Temático:</span>
+          <span id="checklist-pct" style="font-family:'JetBrains Mono',monospace; font-weight:800; color:var(--accent-emerald); font-size:1.15rem;">0%</span>
+        </div>
+        <div style="width:100%; height:12px; background:#0d1322; border-radius:999px; overflow:hidden; border:1px solid var(--border);">
+          <div id="checklist-bar" style="width:0%; height:100%; background:linear-gradient(90deg, var(--accent-1), var(--accent-3), var(--accent-emerald)); transition:width 0.3s ease;"></div>
+        </div>
+        <div id="checklist-feedback" style="font-size:0.82rem; color:var(--text-muted); margin-top:8px;">
+          Selecciona los ítems dominados para calcular tu nivel de preparación para el 10.
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <!-- Checklist Módulo 5 -->
+        <div class="checklist-card">
+          <h3 class="card-title" style="color:var(--accent-3); font-size:1rem;">📦 Módulo 5: Exportación y Aduana</h3>
+          <div class="checklist-item" onclick="toggleCheck(this)">
+            <input type="checkbox" id="chk-1" />
+            <span class="checklist-text">Diferencio beneficios microeconómicos (empresa) de macroeconómicos (país).</span>
+          </div>
+          <div class="checklist-item" onclick="toggleCheck(this)">
+            <input type="checkbox" id="chk-2" />
+            <span class="checklist-text">Clasifico con exactitud condicionantes endógenos (internos) y exógenos (mercado).</span>
+          </div>
+          <div class="checklist-item" onclick="toggleCheck(this)">
+            <input type="checkbox" id="chk-3" />
+            <span class="checklist-text">Sé que el procedimiento aduanero inicia con la oficialización en el SIM Malvina.</span>
+          </div>
+          <div class="checklist-item" onclick="toggleCheck(this)">
+            <input type="checkbox" id="chk-4" />
+            <span class="checklist-text">Domino los 3 momentos legales de rectificación de la destinación de exportación.</span>
+          </div>
+          <div class="checklist-item" onclick="toggleCheck(this)">
+            <input type="checkbox" id="chk-5" />
+            <span class="checklist-text">Sé que la Destinación Definitiva a Consumo genera hecho imponible y reintegros.</span>
+          </div>
+          <div class="checklist-item" onclick="toggleCheck(this)">
+            <input type="checkbox" id="chk-6" />
+            <span class="checklist-text">Sé que el Removido es suspensivo y NO cobra reintegros ni paga tributos.</span>
+          </div>
+          <div class="checklist-item" onclick="toggleCheck(this)">
+            <input type="checkbox" id="chk-7" />
+            <span class="checklist-text">Conozco los límites del Régimen de Muestras (USD 20.000 expo vs. USD 100 impo, inutilizadas).</span>
+          </div>
+          <div class="checklist-item" onclick="toggleCheck(this)">
+            <input type="checkbox" id="chk-8" />
+            <span class="checklist-text">Diferencio Drawback (devolución aranceles impo) de Reintegros (devolución impuestos internos).</span>
+          </div>
+        </div>
+
+        <!-- Checklist Módulo 6 (Parte 1) -->
+        <div class="checklist-card">
+          <h3 class="card-title" style="color:var(--accent-1); font-size:1rem;">🤝 Módulo 6: Contratos y Documentos</h3>
+          <div class="checklist-item" onclick="toggleCheck(this)">
+            <input type="checkbox" id="chk-9" />
+            <span class="checklist-text">Conozco el ámbito y exclusiones de la Convención de Viena 1980 (CISG).</span>
+          </div>
+          <div class="checklist-item" onclick="toggleCheck(this)">
+            <input type="checkbox" id="chk-10" />
+            <span class="checklist-text">Sé que en Argentina la CISG exige obligatoriamente procedimiento POR ESCRITO (Art. 96).</span>
+          </div>
+          <div class="checklist-item" onclick="toggleCheck(this)">
+            <input type="checkbox" id="chk-11" />
+            <span class="checklist-text">Diferencio Contratos Puros (presentes) de Impuros (ausentes: oferta, orden, proforma).</span>
+          </div>
+          <div class="checklist-item" onclick="toggleCheck(this)">
+            <input type="checkbox" id="chk-12" />
+            <span class="checklist-text">Distingo Agente (comisión ajena), Distribuidor (cuenta propia), Concesionario y Franquicia.</span>
+          </div>
+          <div class="checklist-item" onclick="toggleCheck(this)">
+            <input type="checkbox" id="chk-13" />
+            <span class="checklist-text">Sé que el Seguro de Crédito Expo solo cubre riesgos comerciales (quiebra, mora > 6 meses).</span>
+          </div>
+          <div class="checklist-item" onclick="toggleCheck(this)">
+            <input type="checkbox" id="chk-14" />
+            <span class="checklist-text">Sé que la Póliza de Caución Aduanera garantiza tributos ante la Aduana / Fisco.</span>
+          </div>
+          <div class="checklist-item" onclick="toggleCheck(this)">
+            <input type="checkbox" id="chk-15" />
+            <span class="checklist-text">Conozco que el B/L marítimo es título de propiedad pero la Guía Aérea (AWB) NO lo es.</span>
+          </div>
+          <div class="checklist-item" onclick="toggleCheck(this)">
+            <input type="checkbox" id="chk-16" />
+            <span class="checklist-text">Sé que el MIC/DTA terrestre MERCOSUR se redacta en español y portugués.</span>
+          </div>
+        </div>
+
+        <!-- Checklist Módulo 6 (Parte 2) -->
+        <div class="checklist-card">
+          <h3 class="card-title" style="color:var(--accent-emerald); font-size:1rem;">💳 Módulo 6: Pagos y Cotización FOB</h3>
+          <div class="checklist-item" onclick="toggleCheck(this)">
+            <input type="checkbox" id="chk-17" />
+            <span class="checklist-text">Domino los 4 atributos de la Carta de Crédito: Irrevocable, No confirmada, Intransferible, Divisible.</span>
+          </div>
+          <div class="checklist-item" onclick="toggleCheck(this)">
+            <input type="checkbox" id="chk-18" />
+            <span class="checklist-text">Sé que en la Cobranza Internacional el banco NO garantiza el pago.</span>
+          </div>
+          <div class="checklist-item" onclick="toggleCheck(this)">
+            <input type="checkbox" id="chk-19" />
+            <span class="checklist-text">Diferencio Cobranza Simple (solo financieros) de Documentaria (comerciales a la vista o plazo).</span>
+          </div>
+          <div class="checklist-item" onclick="toggleCheck(this)">
+            <input type="checkbox" id="chk-20" />
+            <span class="checklist-text">Explico la mecánica del WARRANT con Certificado de Depósito y Warrant prendario.</span>
+          </div>
+          <div class="checklist-item" onclick="toggleCheck(this)">
+            <input type="checkbox" id="chk-21" />
+            <span class="checklist-text">Diferencio Factoring (corto plazo, facturas) de Forfaiting (mediano/largo plazo, letras avaladas).</span>
+          </div>
+          <div class="checklist-item" onclick="toggleCheck(this)">
+            <input type="checkbox" id="chk-22" />
+            <span class="checklist-text">Sé que una Feria Monográfica dura ≤ 1 semana y expone un solo rubro especializado.</span>
+          </div>
+          <div class="checklist-item" onclick="toggleCheck(this)">
+            <input type="checkbox" id="chk-23" />
+            <span class="checklist-text">Diferencio política de Sondeo de Mercado de la de Costo Marginal fabril.</span>
+          </div>
+          <div class="checklist-item" onclick="toggleCheck(this)">
+            <input type="checkbox" id="chk-24" />
+            <span class="checklist-text">Domino la fórmula FOB Nacif y el cálculo de Utilidad Bruta: UB = UN / (1 - 0,35).</span>
+          </div>
+        </div>
+
+        <!-- Checklist Módulo 7 -->
+        <div class="checklist-card">
+          <h3 class="card-title" style="color:var(--accent-warn); font-size:1rem;">🌐 Módulo 7: REI e Integración</h3>
+          <div class="checklist-item" onclick="toggleCheck(this)">
+            <input type="checkbox" id="chk-25" />
+            <span class="checklist-text">Diferencio ventajas y desventajas del Proteccionismo vs. Librecambismo.</span>
+          </div>
+          <div class="checklist-item" onclick="toggleCheck(this)">
+            <input type="checkbox" id="chk-26" />
+            <span class="checklist-text">Conozco las 3 imágenes del Neorrealismo (Waltz) y el concepto de Spillover (Haas).</span>
+          </div>
+          <div class="checklist-item" onclick="toggleCheck(this)">
+            <input type="checkbox" id="chk-27" />
+            <span class="checklist-text">Sé que las personas en el exterior por estudio o salud SÍ son residentes en la Balanza de Pagos.</span>
+          </div>
+          <div class="checklist-item" onclick="toggleCheck(this)">
+            <input type="checkbox" id="chk-28" />
+            <span class="checklist-text">Domino las 4 sub-balanzas: Cuenta Corriente, Capital, Financiera y Errores/Omisiones.</span>
+          </div>
+          <div class="checklist-item" onclick="toggleCheck(this)">
+            <input type="checkbox" id="chk-29" />
+            <span class="checklist-text">Conozco la escalera de los 6 estadios de integración regional en orden estricto.</span>
+          </div>
+          <div class="checklist-item" onclick="toggleCheck(this)">
+            <input type="checkbox" id="chk-30" />
+            <span class="checklist-text">Sé que el Arancel Externo Común (AEC) nace en la Unión Aduanera y no antes.</span>
+          </div>
+          <div class="checklist-item" onclick="toggleCheck(this)">
+            <input type="checkbox" id="chk-31" />
+            <span class="checklist-text">Diferencio bloques de Integración (MERCOSUR, CAN) de Organismos de Cooperación (OMC, FMI, BM).</span>
+          </div>
+          <div class="checklist-item" onclick="toggleCheck(this)">
+            <input type="checkbox" id="chk-32" />
+            <span class="checklist-text">Distingo las misiones del FMI (balanza de pagos/liquidez) y del Banco Mundial (desarrollo/pobreza).</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Plan Táctico 48 Horas -->
+      <div class="card" style="margin-top:24px;">
+        <h3 class="card-title" style="color:#fff;">⏱️ Plan Táctico de Repaso Intensivo: Últimas 48 y 24 Horas</h3>
+        <div class="grid-2" style="margin-top:14px;">
+          <div style="background:var(--bg-card-alt); border:1px solid var(--border); border-radius:var(--radius-sm); padding:16px;">
+            <strong style="color:var(--accent-warn); font-size:0.9rem; display:block; margin-bottom:8px;">A 48 Horas del Parcial:</strong>
+            <ul style="font-size:0.84rem; color:var(--text-secondary); line-height:1.7; padding-left:16px;">
+              <li>Resuelve 2 ejercicios numéricos completos de cotización FOB a mano con papel y calculadora (aplicando la fórmula con Drawback, Reintegros y Ganancias 35%).</li>
+              <li>Revisa los 6 estadios de integración y los 4 atributos de la Carta de Crédito (UCP 600).</li>
+              <li>Lee de corrido las respuestas ideales del Banco de Preguntas para fijar el vocabulario técnico aduanero exigido.</li>
+            </ul>
+          </div>
+
+          <div style="background:var(--bg-card-alt); border:1px solid var(--border); border-radius:var(--radius-sm); padding:16px;">
+            <strong style="color:var(--accent-emerald); font-size:0.9rem; display:block; margin-bottom:8px;">A 24 Horas del Parcial (Estrategia en la Hoja):</strong>
+            <ul style="font-size:0.84rem; color:var(--text-secondary); line-height:1.7; padding-left:16px;">
+              <li>En preguntas de Verdadero/Falso: <strong>comienza siempre escribiendo en mayúscula 'VERDADERO' o 'FALSO'</strong>, y fundamenta en 3 a 5 líneas con la cita legal (ej. "Código Aduanero", "UCP 600", "CISG 1980").</li>
+              <li>En el ejercicio práctico: <strong>desglosa y rotula explícitamente cada Rubro (Rubro 1, 2, 3, 7, GXI, DX, R, UB)</strong>. Los correctores de UTN penalizan fuertemente los resultados correctos si no muestran la memoria de cálculo desglosada.</li>
+              <li>Cuida las trampas semánticas: distingue siempre <em>integración</em> de <em>cooperación</em>, <em>seguro de crédito</em> de <em>seguro de carga</em>, y <em>sondeo de mercado</em> de <em>costo marginal</em>.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </div><!-- /container -->
+
+  <footer>
+    <p><strong>Cátedra de Comercio Exterior · Ciclo Lectivo 2026 · UTN FRBA</strong></p>
+    <p style="margin-top:4px;">Guía Estratégica Interactiva de Estudio · Módulos V, VI y VII</p>
+  </footer>
+
+  <!-- ==================== SCRIPTS EMBEBIDOS ==================== -->
+  <script>
+    // 1. Reading Progress Bar
+    window.addEventListener('scroll', () => {
+      const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+      const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+      const scrolled = (winScroll / height) * 100;
+      document.getElementById('progress-bar').style.width = scrolled + '%';
+    });
+
+    // 2. Calculadora Interactiva FOB (Fórmula Nacif)
+    function updateCalc() {
+      const u = parseFloat(document.getElementById('calc-u').value) || 1;
+      const r1 = parseFloat(document.getElementById('calc-r1').value) || 0;
+      const r2 = parseFloat(document.getElementById('calc-r2').value) || 0;
+      const r3 = parseFloat(document.getElementById('calc-r3').value) || 0;
+      const r7 = parseFloat(document.getElementById('calc-r7').value) || 0;
+      const cifmpi = parseFloat(document.getElementById('calc-cifmpi').value) || 0;
+      const db = parseFloat(document.getElementById('calc-db').value) || 0;
+      
+      const gxi_pct = (parseFloat(document.getElementById('calc-gxi').value) || 0) / 100;
+      const dx_pct = (parseFloat(document.getElementById('calc-dx').value) || 0) / 100;
+      const r_pct = (parseFloat(document.getElementById('calc-r').value) || 0) / 100;
+      const un_pct = (parseFloat(document.getElementById('calc-un').value) || 0) / 100;
+      const tax_pct = (parseFloat(document.getElementById('calc-tax').value) || 0) / 100;
+
+      // Cálculo de CX (Costo suma fija)
+      const cx = r1 + r2 + r3 + r7;
+
+      // Utilidad Bruta
+      const ub_pct = (1 - tax_pct) > 0 ? (un_pct / (1 - tax_pct)) : un_pct;
+
+      // Denominadores
+      const den_fob0 = 1 - (gxi_pct + dx_pct) + r_pct;
+      const den_fob2 = 1 - (gxi_pct + dx_pct + ub_pct) + r_pct;
+
+      // Numerador
+      const num = cx + (r_pct * cifmpi) - db;
+
+      const fob0 = den_fob0 > 0 ? (num / den_fob0) : 0;
+      const fob2 = den_fob2 > 0 ? (num / den_fob2) : 0;
+      const fobu = u > 0 ? (fob2 / u) : 0;
+
+      document.getElementById('res-cx').innerText = 'USD ' + cx.toLocaleString('es-AR', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+      document.getElementById('res-ub').innerText = (ub_pct * 100).toFixed(2) + '%';
+      document.getElementById('res-fob0').innerText = 'USD ' + fob0.toLocaleString('es-AR', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+      document.getElementById('res-fob2').innerText = 'USD ' + fob2.toLocaleString('es-AR', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+      document.getElementById('res-fobu').innerText = 'USD ' + fobu.toLocaleString('es-AR', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+    }
+
+    const calcInputs = document.querySelectorAll('.calc-box input');
+    calcInputs.forEach(inp => inp.addEventListener('input', updateCalc));
+    updateCalc();
+
+    // 3. Live Search en todo el documento
+    const searchInput = document.getElementById('live-search');
+    searchInput.addEventListener('input', (e) => {
+      const q = e.target.value.toLowerCase().trim();
+      const qaCards = document.querySelectorAll('.qa-card');
+
+      qaCards.forEach(card => {
+        const text = card.innerText.toLowerCase();
+        const tags = (card.getAttribute('data-tags') || '').toLowerCase();
+        if (q === '' || text.includes(q) || tags.includes(q)) {
+          card.classList.remove('search-hidden');
+          if (q !== '') card.setAttribute('open', 'true');
+        } else {
+          card.classList.add('search-hidden');
+        }
+      });
+    });
+
+    // 4. Filtro por Módulo en Preguntas
+    function filterQA(group) {
+      document.querySelectorAll('#banco-preguntas .nav-link').forEach(btn => btn.classList.remove('active'));
+      const activeBtn = document.getElementById('btn-qa-' + group);
+      if (activeBtn) activeBtn.classList.add('active');
+
+      const allGroups = document.querySelectorAll('.qa-group');
+      if (group === 'all') {
+        allGroups.forEach(g => g.style.display = 'block');
+      } else {
+        allGroups.forEach(g => {
+          if (g.classList.contains('qa-' + group)) {
+            g.style.display = 'block';
+          } else {
+            g.style.display = 'none';
+          }
+        });
+      }
+    }
+
+    // 5. Checklist con LocalStorage
+    function toggleCheck(item) {
+      const chk = item.querySelector('input[type="checkbox"]');
+      if (event.target !== chk) {
+        chk.checked = !chk.checked;
+      }
+      saveChecklist();
+      updateChecklistProgress();
+    }
+
+    function saveChecklist() {
+      const state = {};
+      document.querySelectorAll('.checklist-item input[type="checkbox"]').forEach(chk => {
+        state[chk.id] = chk.checked;
+      });
+      localStorage.setItem('comex_2p_checklist_state', JSON.stringify(state));
+    }
+
+    function loadChecklist() {
+      const saved = localStorage.getItem('comex_2p_checklist_state');
+      if (saved) {
+        try {
+          const state = JSON.parse(saved);
+          for (let id in state) {
+            const chk = document.getElementById(id);
+            if (chk) chk.checked = state[id];
+          }
+        } catch(e) {}
+      }
+      updateChecklistProgress();
+    }
+
+    function updateChecklistProgress() {
+      const all = document.querySelectorAll('.checklist-item input[type="checkbox"]');
+      let checked = 0;
+      all.forEach(c => { if (c.checked) checked++; });
+      const total = all.length;
+      const pct = total > 0 ? Math.round((checked / total) * 100) : 0;
+
+      document.getElementById('checklist-pct').innerText = pct + '%';
+      document.getElementById('checklist-bar').style.width = pct + '%';
+
+      const fb = document.getElementById('checklist-feedback');
+      if (pct === 100) {
+        fb.innerHTML = '🏆 <strong>¡Nivel Dios del Comex Alcanzado!</strong> Dominio total de la materia para sacar 10.';
+        fb.style.color = 'var(--accent-emerald)';
+      } else if (pct >= 80) {
+        fb.innerHTML = '🔥 <strong>Excelente preparación (Rango 8 a 10).</strong> Estructura sólida para promocionar.';
+        fb.style.color = '#38bdf8';
+      } else if (pct >= 50) {
+        fb.innerHTML = '⚡ <strong>Nivel Intermedio (Aprobación en camino).</strong> Refuerza los núcleos críticos en rojo.';
+        fb.style.color = 'var(--accent-warn)';
+      } else {
+        fb.innerHTML = 'Has dominado ' + checked + ' de ' + total + ' temas clave. Continúa marcando conceptos repasados.';
+        fb.style.color = 'var(--text-muted)';
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', loadChecklist);
+  </script>
+</body>
+</html>

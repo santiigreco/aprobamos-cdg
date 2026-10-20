@@ -45,8 +45,8 @@ export const SUBJECTS = [
       },
       {
         title: '2do Parcial',
-        description: 'Próximamente se habilitará el contenido.',
-        htmlFile: null
+        description: 'Exportación, contratos, medios de pago, costos FOB y más.',
+        htmlFile: './comercio-exterior-2do-parcial.html'
       }
     ]
   },
