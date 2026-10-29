@@ -1,8 +1,8 @@
 import React from 'react';
-import { BookOpen, Brain, FileText, Globe, Wrench, Package, ArrowRight } from 'lucide-react';
+import { BookOpen, Brain, FileText, Globe, Wrench, Package, Cpu, ArrowRight } from 'lucide-react';
 
 const ICON_MAP = {
-  BookOpen, Brain, Globe, Wrench, Package, FileText
+  BookOpen, Brain, Globe, Wrench, Package, FileText, Cpu
 };
 
 export default function SubjectHub({ subject, setHtmlFile }) {

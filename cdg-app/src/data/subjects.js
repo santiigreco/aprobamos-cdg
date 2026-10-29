@@ -121,6 +121,28 @@ export const SUBJECTS = [
       }
     ]
   },
+
+  {
+    id: 'procesos-industriales',
+    name: 'Procesos Industriales',
+    shortName: 'PI',
+    description: 'Guías de estudio interactivo.',
+    color: '#ef4444',
+    accentColor: '#f97316',
+    icon: 'Cpu',
+    guides: [
+      {
+        title: '1er Parcial',
+        description: 'Próximamente se habilitará el contenido.',
+        htmlFile: null
+      },
+      {
+        title: '2do Parcial',
+        description: 'Mecanizado, tratamientos superficiales, utilajes y plásticos. Ejercicios y teoría ordenados por frecuencia.',
+        htmlFile: './procesos-industriales-2do-parcial.html'
+      }
+    ]
+  },
 ];
 
 /**
