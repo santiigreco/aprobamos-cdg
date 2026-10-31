@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>Guía 2do Parcial – Mantenimiento UTN</title>
-  <meta name="description" content="Guía completa de estudio para el 2do parcial de Mantenimiento UTN. Basado en el apunte de Lucas De Tonon y clases (03/08 y 24/08)." />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <title>Guía Maestra Interactiva – 2do Parcial Mantenimiento UTN</title>
+  <meta name="description" content="Guía interactiva de estudio para el 2do parcial de Mantenimiento UTN FRBA. Cátedra Aprigliano / Rueda. Unidades 4, 5 y 6." />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <style>
     :root {
       --bg-primary:    #0a0e1a;
@@ -22,8 +22,8 @@
       --text-secondary:#94a3b8;
       --text-muted:    #64748b;
       --border:        rgba(139,92,246,0.18);
-      --border-glow:   rgba(139,92,246,0.4);
-      --shadow-lg:     0 20px 60px rgba(0,0,0,0.5);
+      --border-glow:   rgba(139,92,246,0.45);
+      --shadow-lg:     0 20px 60px rgba(0,0,0,0.55);
       --radius:        12px;
       --radius-sm:     8px;
     }
@@ -36,89 +36,108 @@
       color: var(--text-primary);
       line-height: 1.7;
       overflow-x: hidden;
-      font-size: 16px;
+      font-size: 15.5px;
     }
 
     body::before, body::after {
       content: ''; position: fixed; border-radius: 50%; filter: blur(120px);
       opacity: 0.12; pointer-events: none; z-index: 0;
-      animation: blobFloat 12s ease-in-out infinite alternate;
+      animation: blobFloat 14s ease-in-out infinite alternate;
     }
-    body::before { width: 600px; height: 600px; background: var(--accent-1); top: -200px; left: -200px; }
-    body::after  { width: 500px; height: 500px; background: var(--accent-3); bottom: -200px; right: -200px; animation-delay: -6s; }
-    @keyframes blobFloat { from { transform: translate(0,0) scale(1); } to { transform: translate(40px,30px) scale(1.08); } }
+    body::before { width: 650px; height: 650px; background: var(--accent-1); top: -220px; left: -220px; }
+    body::after  { width: 550px; height: 550px; background: var(--accent-3); bottom: -220px; right: -220px; animation-delay: -7s; }
+    @keyframes blobFloat { from { transform: translate(0,0) scale(1); } to { transform: translate(45px,35px) scale(1.08); } }
 
     /* ── HEADER ── */
     header {
-      position: relative; z-index: 10; text-align: center; padding: 60px 24px 40px;
-      background: linear-gradient(180deg, rgba(139,92,246,0.08) 0%, transparent 100%);
+      position: relative; z-index: 10; text-align: center; padding: 50px 20px 32px;
+      background: linear-gradient(180deg, rgba(139,92,246,0.12) 0%, transparent 100%);
       border-bottom: 1px solid var(--border);
     }
     .badge {
-      display: inline-flex; align-items: center; gap: 6px; background: rgba(139,92,246,0.15);
-      border: 1px solid var(--border-glow); color: var(--accent-1); padding: 5px 14px;
+      display: inline-flex; align-items: center; gap: 7px; background: rgba(139,92,246,0.15);
+      border: 1px solid var(--border-glow); color: var(--accent-1); padding: 5px 15px;
       border-radius: 999px; font-size: 0.78rem; font-weight: 600; letter-spacing: 0.06em;
-      text-transform: uppercase; margin-bottom: 16px;
+      text-transform: uppercase; margin-bottom: 12px;
     }
     .badge-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--accent-1); animation: pulse 2s ease-in-out infinite; }
-    @keyframes pulse { 0%,100% { opacity:1; transform:scale(1); } 50% { opacity:0.5; transform:scale(1.4); } }
+    @keyframes pulse { 0%,100% { opacity:1; transform:scale(1); } 50% { opacity:0.4; transform:scale(1.4); } }
     h1 {
-      font-size: clamp(1.8rem, 4vw, 3rem); font-weight: 800;
-      background: linear-gradient(135deg, #f1f5f9 0%, var(--accent-1) 50%, var(--accent-3) 100%);
-      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; line-height: 1.15; margin-bottom: 12px;
+      font-size: clamp(1.8rem, 4.2vw, 2.9rem); font-weight: 800;
+      background: linear-gradient(135deg, #ffffff 0%, var(--accent-1) 50%, var(--accent-3) 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; line-height: 1.2; margin-bottom: 10px;
     }
-    .subtitle { color: var(--text-secondary); font-size: 0.95rem; max-width: 650px; margin: 0 auto; }
+    .subtitle { color: var(--text-secondary); font-size: 0.95rem; max-width: 800px; margin: 0 auto 16px; }
+
+    .search-box-wrap { max-width: 520px; margin: 15px auto 0; position: relative; }
+    .search-input {
+      width: 100%; background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: 999px; padding: 10px 20px 10px 42px; color: var(--text-primary);
+      font-family: inherit; font-size: 0.9rem; outline: none; transition: all 0.25s;
+    }
+    .search-input:focus { border-color: var(--accent-1); box-shadow: 0 0 15px rgba(139,92,246,0.3); }
+    .search-icon { position: absolute; left: 16px; top: 50%; transform: translateY(-50%); color: var(--text-muted); font-size: 0.95rem; }
 
     /* ── NAV ── */
     nav {
-      position: sticky; top: 0; z-index: 100; background: rgba(10,14,26,0.92);
-      backdrop-filter: blur(20px); border-bottom: 1px solid var(--border); padding: 0 24px;
+      position: sticky; top: 0; z-index: 100; background: rgba(10,14,26,0.94);
+      backdrop-filter: blur(20px); border-bottom: 1px solid var(--border); padding: 0 16px;
     }
     .nav-inner {
-      max-width: 1000px; margin: 0 auto; display: flex; gap: 8px;
-      overflow-x: auto; scrollbar-width: none; padding: 8px 0; align-items: center; justify-content: center;
+      max-width: 1250px; margin: 0 auto; display: flex; gap: 6px;
+      overflow-x: auto; scrollbar-width: none; padding: 8px 0; align-items: center;
     }
     .nav-inner::-webkit-scrollbar { display: none; }
     .nav-btn {
       white-space: nowrap; border: 1px solid transparent; background: transparent;
       color: var(--text-secondary); font-family: 'Inter', sans-serif; border-radius: var(--radius-sm);
-      cursor: pointer; transition: all 0.22s; display: flex; align-items: center; gap: 6px; padding: 8px 16px; font-size: 0.88rem; font-weight: 500;
+      cursor: pointer; transition: all 0.2s; display: flex; align-items: center; gap: 5px; padding: 7px 12px; font-size: 0.82rem; font-weight: 500;
+      flex-shrink: 0;
     }
-    .nav-btn:hover { background: rgba(139,92,246,0.12); border-color: rgba(139,92,246,0.2); color: var(--accent-1); }
-    .nav-btn.active { background: rgba(139,92,246,0.18); border-color: rgba(139,92,246,0.35); color: var(--accent-1); }
+    .nav-btn:hover { background: rgba(139,92,246,0.12); border-color: rgba(139,92,246,0.25); color: var(--accent-1); }
+    .nav-btn.active { background: rgba(139,92,246,0.22); border-color: rgba(139,92,246,0.45); color: var(--text-primary); font-weight: 600; }
+    .nav-btn.btn-interactive { border-color: rgba(6,182,212,0.4); color: #38bdf8; background: rgba(6,182,212,0.1); }
+    .nav-btn.btn-interactive:hover { background: rgba(6,182,212,0.2); border-color: #38bdf8; }
 
     /* ── MAIN ── */
-    main { max-width: 950px; margin: 0 auto; padding: 36px 24px 70px; position: relative; z-index: 1; }
+    main { max-width: 1020px; margin: 0 auto; padding: 32px 20px 80px; position: relative; z-index: 1; }
 
     /* ── SECTION TITLES ── */
-    .section-title { display: flex; align-items: center; gap: 12px; margin: 40px 0 20px; padding-bottom: 12px; border-bottom: 1px solid var(--border); }
+    .section-title { display: flex; align-items: center; gap: 14px; margin: 48px 0 22px; padding-bottom: 14px; border-bottom: 1px solid var(--border); }
     .section-title:first-of-type { margin-top: 0; }
-    .section-icon { width: 38px; height: 38px; border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; font-size: 1.1rem; flex-shrink: 0; }
-    .section-title h2 { font-size: 1.4rem; font-weight: 700; color: var(--text-primary); }
-    .section-title .sec-sub { font-size: 0.82rem; color: var(--text-muted); margin-top: 2px; }
+    .section-icon { width: 42px; height: 42px; border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; font-size: 1.25rem; flex-shrink: 0; }
+    .section-title h2 { font-size: 1.45rem; font-weight: 700; color: var(--text-primary); }
+    .section-title .sec-sub { font-size: 0.84rem; color: var(--text-muted); margin-top: 3px; }
 
-    .ic-violet { background: rgba(139,92,246,0.15); }
-    .ic-cyan   { background: rgba(6,182,212,0.15); }
-    .ic-green  { background: rgba(16,185,129,0.15); }
-    .ic-amber  { background: rgba(245,158,11,0.15); }
-    .ic-pink   { background: rgba(236,72,153,0.15); }
+    .ic-violet { background: rgba(139,92,246,0.16); }
+    .ic-cyan   { background: rgba(6,182,212,0.16); }
+    .ic-green  { background: rgba(16,185,129,0.16); }
+    .ic-amber  { background: rgba(245,158,11,0.16); }
+    .ic-pink   { background: rgba(236,72,153,0.16); }
+    .ic-red    { background: rgba(239,68,68,0.16); }
 
     /* ── CRITICIDAD TAGS ── */
     .crit-tag {
-      display: inline-flex; align-items: center; gap: 5px;
-      padding: 3px 10px; border-radius: 999px; font-size: 0.7rem; font-weight: 700;
-      letter-spacing: 0.06em; text-transform: uppercase; border: 1px solid; margin-bottom: 10px;
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 3px 10px; border-radius: 999px; font-size: 0.72rem; font-weight: 700;
+      letter-spacing: 0.05em; text-transform: uppercase; border: 1px solid; margin-bottom: 10px;
     }
     .tag-alta   { background: rgba(239,68,68,0.12); color: #fca5a5; border-color: rgba(239,68,68,0.35); }
-    .tag-examen { background: rgba(236,72,153,0.12); color: #f9a8d4; border-color: rgba(236,72,153,0.35); }
-    .crit-tag::before { content: '●'; font-size: 0.55rem; }
+    .tag-examen { background: rgba(236,72,153,0.14); color: #f9a8d4; border-color: rgba(236,72,153,0.4); }
+    .tag-formula{ background: rgba(6,182,212,0.14); color: #67e8f9; border-color: rgba(6,182,212,0.4); }
+    .tag-concepto{background: rgba(139,92,246,0.14); color: #c4b5fd; border-color: rgba(139,92,246,0.4); }
+    .tag-interactive{background: rgba(16,185,129,0.14); color: #6ee7b7; border-color: rgba(16,185,129,0.4); }
+    .crit-tag::before { content: '●'; font-size: 0.6rem; }
     .tag-alta::before   { color: #ef4444; }
     .tag-examen::before { color: #ec4899; }
+    .tag-formula::before{ color: #06b6d4; }
+    .tag-concepto::before{color: #8b5cf6; }
+    .tag-interactive::before{color: #10b981; }
 
     /* ── CARDS ── */
     .card {
       background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius);
-      padding: 20px 22px; margin-bottom: 16px; transition: transform 0.25s, border-color 0.25s, box-shadow 0.25s;
+      padding: 22px 24px; margin-bottom: 18px; transition: transform 0.22s, border-color 0.22s, box-shadow 0.22s;
       position: relative; overflow: hidden;
     }
     .card::before {
@@ -132,29 +151,38 @@
     .card.amber::before  { background: linear-gradient(90deg, var(--accent-warn), transparent); }
     .card.green::before  { background: linear-gradient(90deg, var(--accent-4), transparent); }
     .card.pink::before   { background: linear-gradient(90deg, var(--accent-2), transparent); }
+    .card.danger::before { background: linear-gradient(90deg, var(--accent-danger), transparent); }
 
-    .card h3 { font-size: 1.05rem; font-weight: 700; color: var(--text-primary); margin-bottom: 8px; display: flex; align-items: center; gap: 8px; }
-    .card p, .card li { color: var(--text-secondary); font-size: 0.92rem; line-height: 1.65; }
+    .card h3 { font-size: 1.1rem; font-weight: 700; color: var(--text-primary); margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
+    .card h4 { font-size: 0.95rem; font-weight: 600; color: var(--text-primary); margin: 12px 0 6px; }
+    .card p, .card li { color: var(--text-secondary); font-size: 0.93rem; line-height: 1.68; }
     .card ul { padding-left: 20px; margin-top: 6px; }
     .card li { margin-bottom: 6px; }
     .card li::marker { color: var(--accent-1); }
 
     /* ── HIGHLIGHT BOXES ── */
-    .highlight  { background: rgba(139,92,246,0.08); border-left: 3px solid var(--accent-1); border-radius: 0 var(--radius-sm) var(--radius-sm) 0; padding: 12px 15px; margin: 10px 0; font-size: 0.9rem; color: var(--text-secondary); }
-    .warn-box   { background: rgba(245,158,11,0.08); border-left: 3px solid var(--accent-warn); border-radius: 0 var(--radius-sm) var(--radius-sm) 0; padding: 12px 15px; margin: 10px 0; font-size: 0.9rem; color: var(--text-secondary); }
-    .green-box  { background: rgba(16,185,129,0.08); border-left: 3px solid var(--accent-4); border-radius: 0 var(--radius-sm) var(--radius-sm) 0; padding: 12px 15px; margin: 10px 0; font-size: 0.9rem; color: var(--text-secondary); }
-    .danger-box { background: rgba(239,68,68,0.08); border-left: 3px solid var(--accent-danger); border-radius: 0 var(--radius-sm) var(--radius-sm) 0; padding: 12px 15px; margin: 10px 0; font-size: 0.9rem; color: var(--text-secondary); }
+    .highlight  { background: rgba(139,92,246,0.08); border-left: 3.5px solid var(--accent-1); border-radius: 0 var(--radius-sm) var(--radius-sm) 0; padding: 12px 16px; margin: 12px 0; font-size: 0.92rem; color: var(--text-secondary); }
+    .warn-box   { background: rgba(245,158,11,0.09); border-left: 3.5px solid var(--accent-warn); border-radius: 0 var(--radius-sm) var(--radius-sm) 0; padding: 12px 16px; margin: 12px 0; font-size: 0.92rem; color: var(--text-secondary); }
+    .green-box  { background: rgba(16,185,129,0.09); border-left: 3.5px solid var(--accent-4); border-radius: 0 var(--radius-sm) var(--radius-sm) 0; padding: 12px 16px; margin: 12px 0; font-size: 0.92rem; color: var(--text-secondary); }
+    .danger-box { background: rgba(239,68,68,0.09); border-left: 3.5px solid var(--accent-danger); border-radius: 0 var(--radius-sm) var(--radius-sm) 0; padding: 12px 16px; margin: 12px 0; font-size: 0.92rem; color: var(--text-secondary); }
 
     .highlight strong  { color: var(--accent-1); }
     .warn-box strong   { color: var(--accent-warn); }
     .green-box strong  { color: var(--accent-4); }
     .danger-box strong { color: var(--accent-danger); }
 
+    /* ── CODE & FORMULAS ── */
+    .formula-box {
+      background: #0d1222; border: 1px solid var(--border); border-radius: var(--radius-sm);
+      padding: 14px 18px; margin: 12px 0; font-family: 'JetBrains Mono', monospace; font-size: 0.95rem;
+      color: #38bdf8; overflow-x: auto;
+    }
+
     /* ── TABLES ── */
-    .table-wrap { overflow-x: auto; margin-top: 10px; }
+    .table-wrap { overflow-x: auto; margin-top: 12px; border-radius: var(--radius-sm); border: 1px solid var(--border); }
     table.t { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
-    table.t th { background: rgba(139,92,246,0.12); color: var(--accent-1); font-weight: 700; padding: 10px 14px; text-align: left; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.05em; }
-    table.t td { padding: 9px 14px; border-bottom: 1px solid rgba(255,255,255,0.05); color: var(--text-secondary); vertical-align: top; }
+    table.t th { background: rgba(139,92,246,0.14); color: var(--accent-1); font-weight: 700; padding: 11px 14px; text-align: left; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.05em; border-bottom: 1px solid var(--border); }
+    table.t td { padding: 10px 14px; border-bottom: 1px solid rgba(255,255,255,0.05); color: var(--text-secondary); vertical-align: top; }
     table.t tr:last-child td { border-bottom: none; }
     table.t tr:hover td { background: rgba(255,255,255,0.02); }
     table.t td:first-child { color: var(--text-primary); font-weight: 600; }
@@ -163,11 +191,164 @@
     .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin-top: 10px; }
     @media (max-width: 768px) { .grid-2, .grid-3 { grid-template-columns: 1fr; } }
 
+    /* ── TOOL 4: INTERACTIVE SVG PARAMETRIC GRAPH ── */
+    .graph-container {
+      background: #0b101d; border: 1px solid var(--border); border-radius: var(--radius);
+      padding: 16px; margin: 16px 0; position: relative;
+    }
+    .graph-nav { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; justify-content: center; }
+    .g-btn {
+      background: rgba(255,255,255,0.05); border: 1px solid var(--border); color: var(--text-secondary);
+      border-radius: var(--radius-sm); padding: 5px 11px; font-size: 0.78rem; font-weight: 600;
+      cursor: pointer; transition: all 0.2s; font-family: inherit;
+    }
+    .g-btn:hover, .g-btn.active { background: var(--accent-1); color: white; border-color: var(--accent-1); }
+    .svg-wrap { width: 100%; overflow-x: auto; text-align: center; }
+    .interactive-curve { stroke-dasharray: 1000; stroke-dashoffset: 0; }
+    .zone-hover { cursor: pointer; transition: all 0.25s; }
+    .zone-hover:hover { opacity: 0.35 !important; }
+    .graph-info-card {
+      background: var(--bg-card); border: 1px solid var(--border-glow); border-radius: var(--radius-sm);
+      padding: 14px 18px; margin-top: 12px; min-height: 110px; transition: all 0.25s;
+    }
+    .graph-info-card h4 { color: var(--accent-3); font-size: 1rem; margin-bottom: 6px; }
+
+    /* ── TOOL 2: FLASHCARDS INTERACTIVAS ── */
+    .fc-section { margin-top: 20px; }
+    .fc-container {
+      perspective: 1000px; max-width: 680px; margin: 15px auto; height: 260px;
+    }
+    .fc-card {
+      width: 100%; height: 100%; position: relative; transform-style: preserve-3d;
+      transition: transform 0.5s cubic-bezier(0.4, 0.2, 0.2, 1); cursor: pointer;
+    }
+    .fc-card.flipped { transform: rotateY(180deg); }
+    .fc-face {
+      position: absolute; width: 100%; height: 100%; backface-visibility: hidden;
+      border-radius: var(--radius); padding: 24px; display: flex; flex-direction: column;
+      justify-content: space-between; border: 1px solid var(--border); box-shadow: var(--shadow-lg);
+    }
+    .fc-front {
+      background: linear-gradient(145deg, #161e31, #0f1626); color: var(--text-primary);
+    }
+    .fc-back {
+      background: linear-gradient(145deg, #131c33, #191c33); color: var(--text-primary);
+      transform: rotateY(180deg); border-color: var(--accent-1);
+    }
+    .fc-tag { font-size: 0.72rem; font-weight: 700; text-transform: uppercase; color: var(--accent-3); letter-spacing: 0.05em; }
+    .fc-prompt { font-size: 1.12rem; font-weight: 600; text-align: center; margin: auto 0; line-height: 1.5; }
+    .fc-answer { font-size: 0.95rem; line-height: 1.65; color: #e2e8f0; margin: auto 0; text-align: left; }
+    .fc-answer strong { color: var(--accent-4); }
+    .fc-hint { font-size: 0.75rem; color: var(--text-muted); text-align: center; }
+    .fc-controls { display: flex; justify-content: center; align-items: center; gap: 12px; margin-top: 15px; }
+    .fc-btn {
+      background: var(--bg-card); border: 1px solid var(--border); color: var(--text-primary);
+      padding: 8px 16px; border-radius: var(--radius-sm); cursor: pointer; font-family: inherit; font-size: 0.85rem; font-weight: 600; transition: all 0.2s;
+    }
+    .fc-btn:hover { border-color: var(--accent-1); color: var(--accent-1); }
+    .fc-btn.btn-know { background: rgba(16,185,129,0.15); border-color: rgba(16,185,129,0.4); color: #34d399; }
+    .fc-btn.btn-know:hover { background: rgba(16,185,129,0.25); border-color: #34d399; }
+    .fc-btn.btn-review { background: rgba(239,68,68,0.15); border-color: rgba(239,68,68,0.4); color: #f87171; }
+    .fc-btn.btn-review:hover { background: rgba(239,68,68,0.25); border-color: #f87171; }
+    .fc-progress-txt { font-size: 0.85rem; color: var(--text-muted); font-weight: 600; min-width: 90px; text-align: center; }
+
+    /* ── TOOL 3: RCM DECISION SIMULATOR ── */
+    .rcm-wizard {
+      background: #0d1322; border: 1px solid var(--border); border-radius: var(--radius);
+      padding: 22px; margin: 16px 0;
+    }
+    .rcm-scenarios { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 18px; }
+    .rcm-sc-btn {
+      background: rgba(255,255,255,0.04); border: 1px solid var(--border); color: var(--text-secondary);
+      border-radius: var(--radius-sm); padding: 7px 12px; font-size: 0.8rem; cursor: pointer; transition: all 0.2s; font-family: inherit;
+    }
+    .rcm-sc-btn:hover, .rcm-sc-btn.active { background: rgba(6,182,212,0.15); border-color: var(--accent-3); color: #38bdf8; font-weight: 600; }
+    .rcm-step-box {
+      background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-sm);
+      padding: 16px 20px; margin-bottom: 14px;
+    }
+    .rcm-step-title { font-size: 0.95rem; font-weight: 700; color: var(--text-primary); margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
+    .rcm-choices { display: flex; gap: 10px; flex-wrap: wrap; }
+    .rcm-opt {
+      background: rgba(255,255,255,0.04); border: 1px solid var(--border); color: var(--text-secondary);
+      padding: 8px 16px; border-radius: var(--radius-sm); cursor: pointer; font-size: 0.86rem; font-weight: 600; transition: all 0.2s; font-family: inherit;
+    }
+    .rcm-opt:hover { border-color: var(--accent-1); color: var(--text-primary); }
+    .rcm-opt.selected { background: var(--accent-1); border-color: var(--accent-1); color: white; }
+    .rcm-result {
+      background: #091220; border-radius: var(--radius-sm); padding: 18px; margin-top: 14px;
+      border-left: 4px solid var(--accent-4);
+    }
+
+    /* ── TOOL 1: EXAM SIMULATOR (ONLY REVEALS ON VERIFY) ── */
+    .sim-exam-card {
+      background: #0d1222; border: 1px solid var(--border); border-radius: var(--radius);
+      padding: 24px; margin: 18px 0;
+    }
+    .sim-q {
+      background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-sm);
+      padding: 18px 20px; margin-bottom: 16px; transition: all 0.25s;
+    }
+    .sim-q.answered { border-color: rgba(139,92,246,0.35); }
+    .sim-q.correct { border-left: 4.5px solid var(--accent-4); background: rgba(16,185,129,0.04); }
+    .sim-q.incorrect { border-left: 4.5px solid var(--accent-danger); background: rgba(239,68,68,0.04); }
+    .sim-q-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px; }
+    .sim-q-num { font-size: 0.78rem; font-weight: 700; color: var(--accent-1); text-transform: uppercase; }
+    .sim-q-text { font-size: 0.96rem; font-weight: 600; color: var(--text-primary); line-height: 1.5; margin-bottom: 12px; }
+    .sim-options { display: flex; flex-direction: column; gap: 8px; }
+    .sim-opt-btn {
+      background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08);
+      border-radius: var(--radius-sm); padding: 10px 14px; color: var(--text-secondary);
+      cursor: pointer; text-align: left; font-size: 0.88rem; transition: all 0.2s; font-family: inherit;
+      display: flex; align-items: center; gap: 10px;
+    }
+    .sim-opt-btn:hover { background: rgba(139,92,246,0.1); border-color: rgba(139,92,246,0.3); color: var(--text-primary); }
+    .sim-opt-btn.selected { background: rgba(139,92,246,0.22); border-color: var(--accent-1); color: #fff; font-weight: 600; }
+    .sim-opt-btn.is-correct { background: rgba(16,185,129,0.22) !important; border-color: var(--accent-4) !important; color: #a7f3d0 !important; font-weight: 700; }
+    .sim-opt-btn.is-wrong { background: rgba(239,68,68,0.22) !important; border-color: var(--accent-danger) !important; color: #fca5a5 !important; }
+    .sim-opt-radio {
+      width: 16px; height: 16px; border-radius: 50%; border: 2px solid var(--text-muted);
+      flex-shrink: 0; display: flex; align-items: center; justify-content: center;
+    }
+    .sim-opt-btn.selected .sim-opt-radio { border-color: var(--accent-1); }
+    .sim-opt-btn.selected .sim-opt-radio::after { content: ''; width: 8px; height: 8px; border-radius: 50%; background: var(--accent-1); }
+    .sim-feedback {
+      margin-top: 12px; padding: 12px 14px; border-radius: var(--radius-sm); font-size: 0.88rem; line-height: 1.6;
+      display: none;
+    }
+    .sim-feedback.show { display: block; }
+    .sim-feedback.green { background: rgba(16,185,129,0.09); border-left: 3px solid var(--accent-4); color: #d1fae5; }
+    .sim-feedback.red { background: rgba(239,68,68,0.09); border-left: 3px solid var(--accent-danger); color: #fee2e2; }
+
+    .exam-actions-bar {
+      display: flex; gap: 12px; justify-content: center; margin-top: 24px; flex-wrap: wrap;
+    }
+    .btn-verify {
+      background: linear-gradient(135deg, var(--accent-1), var(--accent-3)); color: white;
+      border: none; padding: 12px 28px; border-radius: 999px; font-weight: 700; font-size: 0.95rem;
+      cursor: pointer; transition: all 0.25s; box-shadow: 0 4px 20px rgba(139,92,246,0.4); font-family: inherit;
+    }
+    .btn-verify:hover { transform: translateY(-2px); box-shadow: 0 6px 25px rgba(139,92,246,0.6); }
+    .btn-reset {
+      background: transparent; border: 1px solid var(--border); color: var(--text-secondary);
+      padding: 12px 22px; border-radius: 999px; font-weight: 600; font-size: 0.9rem; cursor: pointer; transition: all 0.2s; font-family: inherit;
+    }
+    .btn-reset:hover { border-color: var(--accent-danger); color: var(--accent-danger); }
+
+    .exam-score-banner {
+      background: linear-gradient(135deg, rgba(139,92,246,0.18), rgba(6,182,212,0.18));
+      border: 1px solid var(--border-glow); border-radius: var(--radius); padding: 20px;
+      text-align: center; margin-bottom: 24px; display: none;
+    }
+    .exam-score-banner.show { display: block; }
+    .score-title { font-size: 1.4rem; font-weight: 800; color: #fff; margin-bottom: 4px; }
+    .score-sub { font-size: 0.9rem; color: var(--text-secondary); }
+
     /* ── CHECKLIST ── */
     .checklist { list-style: none; padding: 0; }
     .checklist li {
       display: flex; align-items: flex-start; gap: 12px;
-      padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.04);
+      padding: 11px 0; border-bottom: 1px solid rgba(255,255,255,0.04);
       font-size: 0.92rem; color: var(--text-secondary); transition: color 0.2s;
     }
     .checklist li:last-child { border-bottom: none; }
@@ -182,12 +363,12 @@
       content: '✓'; position: absolute; top: 50%; left: 50%;
       transform: translate(-50%, -50%); color: white; font-size: 0.72rem; font-weight: 700;
     }
-    .progress-bar-wrap { background: rgba(255,255,255,0.06); border-radius: 999px; height: 8px; margin: 14px 0 6px; overflow: hidden; }
+    .progress-bar-wrap { background: rgba(255,255,255,0.06); border-radius: 999px; height: 10px; margin: 16px 0 6px; overflow: hidden; }
     .progress-bar-fill { height: 100%; background: linear-gradient(90deg, var(--accent-1), var(--accent-3)); border-radius: 999px; transition: width 0.4s ease; }
-    .progress-label { font-size: 0.78rem; color: var(--text-muted); text-align: right; }
+    .progress-label { font-size: 0.82rem; color: var(--text-secondary); text-align: right; font-weight: 600; }
 
     #scroll-bar { position: fixed; top: 0; left: 0; height: 3px; background: linear-gradient(90deg, var(--accent-1), var(--accent-3)); z-index: 9999; width: 0%; transition: width 0.1s linear; }
-    footer { text-align: center; padding: 24px; color: var(--text-muted); font-size: 0.8rem; border-top: 1px solid var(--border); position: relative; z-index: 1; }
+    footer { text-align: center; padding: 35px 20px; color: var(--text-muted); font-size: 0.83rem; border-top: 1px solid var(--border); position: relative; z-index: 1; }
   </style>
 </head>
 <body>
@@ -195,204 +376,393 @@
 <div id="scroll-bar"></div>
 
 <header>
-  <div class="badge"><span class="badge-dot"></span> UTN · Mantenimiento · 2do Parcial</div>
-  <h1>Mantenimiento Predictivo & Condicional</h1>
-  <p class="subtitle">Guía de estudio basada en los apuntes de <strong>Lucas De Tonon</strong> y clases presenciales.</p>
+  <div class="badge"><span class="badge-dot"></span> UTN FRBA · Mantenimiento · 2do Parcial 2026</div>
+  <h1>Guía Maestra Interactiva – 2do Parcial</h1>
+  <p class="subtitle">Herramienta integral de estudio activo con <strong>Simulador de Examen</strong>, <strong>Flashcards</strong>, <strong>Árbol RCM</strong> y <strong>Gráfico Paramétrico Vectorial</strong>. Cátedra <strong>Ing. Aprigliano / Ing. Rueda</strong> (Unidades 4, 5 y 6).</p>
+  <div class="search-box-wrap">
+    <span class="search-icon">🔍</span>
+    <input type="text" id="filterInput" class="search-input" placeholder="Buscar concepto o técnica (ej: vibraciones, irreversible, 8 pilares, BMS)..." onkeyup="filterCards()" />
+  </div>
 </header>
 
 <nav>
   <div class="nav-inner">
-    <button class="nav-btn active" id="nb-b1" onclick="navScroll(this,'sec-predictivo')">
-      🔮 Predictivo & Condicional
-    </button>
-    <button class="nav-btn" id="nb-b2" onclick="navScroll(this,'sec-caso')">
-      ⚙️ Caso Motor-Bomba
-    </button>
-    <button class="nav-btn" id="nb-b3" onclick="navScroll(this,'sec-herramientas')">
-      🛠️ Herramientas de Diagnóstico
-    </button>
-    <button class="nav-btn" id="nb-cl" onclick="navScroll(this,'sec-checklist')">
-      ✅ Checklist
-    </button>
+    <button class="nav-btn btn-interactive" onclick="navScroll('sec-simulador')">🧪 Simulador Examen</button>
+    <button class="nav-btn btn-interactive" onclick="navScroll('sec-flashcards')">🗂️ Flashcards</button>
+    <button class="nav-btn btn-interactive" onclick="navScroll('sec-rcm-sim')">🛡️ Simulador RCM</button>
+    <button class="nav-btn btn-interactive" onclick="navScroll('sec-parametrico')">📈 Gráfico SVG</button>
+    <button class="nav-btn" onclick="navScroll('sec-predictivo')">🔮 1. Predictivo</button>
+    <button class="nav-btn" onclick="navScroll('sec-condicional')">⚡ 2. Condición & Proactivo</button>
+    <button class="nav-btn" onclick="navScroll('sec-confiabilidad')">🎯 4. Confiabilidad</button>
+    <button class="nav-btn" onclick="navScroll('sec-servicios')">🏢 5. Edificios & BMS</button>
+    <button class="nav-btn" onclick="navScroll('sec-pdp')">🏭 6. Parada de Planta</button>
+    <button class="nav-btn" onclick="navScroll('sec-tpm')">⚙️ 7. TPM & JIT</button>
+    <button class="nav-btn" onclick="navScroll('sec-rcm')">🛡️ 8. RCM Teórico</button>
+    <button class="nav-btn" onclick="navScroll('sec-flexible')">🤖 9. Manufactura Flexible</button>
+    <button class="nav-btn" onclick="navScroll('sec-tercerizacion')">🤝 10. Tercerización</button>
+    <button class="nav-btn" onclick="navScroll('sec-checklist')">✅ Checklist</button>
   </div>
 </nav>
 
 <main>
 
   <!-- ══════════════════════════════════════
-       SECCIÓN 1: MANTENIMIENTO PREDICTIVO Y CONDICIONAL
+       HERRAMIENTA 1: SIMULADOR DE EXAMEN (RESPUESTAS SOLO AL VERIFICAR)
   ══════════════════════════════════════ -->
-  <section id="sec-predictivo">
+  <section id="sec-simulador">
     <div class="section-title">
-      <div class="section-icon ic-violet">🔮</div>
+      <div class="section-icon ic-red">🧪</div>
       <div>
-        <h2>Mantenimiento Predictivo & Mantenimiento Condicional</h2>
-        <div class="sec-sub">Fundamentos teóricos, gestión de variables, balance de costos y objetivos</div>
+        <h2>Simulador de Examen Parcial (Modo UTN)</h2>
+        <div class="sec-sub">12 preguntas reales de parciales anteriores. Las respuestas y justificaciones <strong>solo se revelan al hacer clic en «Verificar y Calificar»</strong>.</div>
       </div>
     </div>
 
-    <!-- Introducción y Variables de Estado -->
-    <div class="card info">
-      <span class="crit-tag tag-alta">🔴 Pregunta de Examen</span>
-      <h3>¿Qué es el Mantenimiento Predictivo?</h3>
-      <p>Se basa en el <strong>monitoreo de ciertas variables</strong> mientras la máquina está en <strong>funcionamiento (casi siempre)</strong>.</p>
+    <div class="sim-exam-card">
+      <div id="examBanner" class="exam-score-banner">
+        <div class="score-title" id="scoreTitle">Puntaje: 0 / 12</div>
+        <div class="score-sub" id="scoreSub">Revisa las justificaciones detalladas abajo.</div>
+      </div>
+
+      <div id="examQuestionsContainer">
+        <!-- Questions injected dynamically by JavaScript -->
+      </div>
+
+      <div class="exam-actions-bar">
+        <button class="btn-verify" onclick="gradeExam()">📝 Verificar y Calificar Examen</button>
+        <button class="btn-reset" onclick="resetExam()">🔄 Reiniciar Examen</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════
+       HERRAMIENTA 2: FLASHCARDS DIGITALES (ANKI INTEGRADO)
+  ══════════════════════════════════════ -->
+  <section id="sec-flashcards">
+    <div class="section-title">
+      <div class="section-icon ic-cyan">🗂️</div>
+      <div>
+        <h2>Flashcards Digitales (Active Recall)</h2>
+        <div class="sec-sub">16 tarjetas clave con efecto de giro 3D para consolidar la memoria a largo plazo</div>
+      </div>
+    </div>
+
+    <div class="card info fc-section">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+        <span class="fc-tag" id="fcTag">TEMA: PREDICTIVO</span>
+        <span class="fc-progress-txt" id="fcMasteredTxt">0 / 16 Dominadas</span>
+      </div>
+
+      <div class="fc-container" onclick="flipFlashcard()">
+        <div class="fc-card" id="activeFlashcard">
+          <div class="fc-face fc-front">
+            <span class="fc-tag" id="fcFrontTag">PREGUNTA DE EXAMEN</span>
+            <div class="fc-prompt" id="fcFrontText">¿Qué variables le interesan a Mantenimiento vs. Producción en una electrobomba?</div>
+            <div class="fc-hint">👆 Clic para girar y ver la respuesta oficial de cátedra</div>
+          </div>
+          <div class="fc-face fc-back">
+            <span class="fc-tag" style="color:var(--accent-4);">RESPUESTA DE CÁTEDRA</span>
+            <div class="fc-answer" id="fcBackText">A Producción le interesan variables de salida del proceso como <strong>Caudal (Q)</strong> o <strong>m.c.a.</strong>; a Mantenimiento le interesan variables de estado físico: <strong>Vibraciones mecánicas</strong> y <strong>Temperatura de rodamientos</strong>.</div>
+            <div class="fc-hint">Evalúa tu conocimiento abajo:</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="fc-controls">
+        <button class="fc-btn" onclick="prevFlashcard()">⬅️ Anterior</button>
+        <button class="fc-btn btn-review" onclick="markCard(false)">🔄 Repasar</button>
+        <button class="fc-btn btn-know" onclick="markCard(true)">✅ ¡Ya me la sé!</button>
+        <button class="fc-btn" onclick="nextFlashcard()">Siguiente ➡️</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════
+       HERRAMIENTA 3: SIMULADOR DIAGRAMA DECISIÓN RCM
+  ══════════════════════════════════════ -->
+  <section id="sec-rcm-sim">
+    <div class="section-title">
+      <div class="section-icon ic-violet">🛡️</div>
+      <div>
+        <h2>Simulador Interactivo del Diagrama de Decisión de RCM</h2>
+        <div class="sec-sub">Recorre el árbol de decisión oficial respondiendo preguntas o seleccionando casos reales</div>
+      </div>
+    </div>
+
+    <div class="rcm-wizard">
+      <p style="font-size:0.88rem; color:var(--text-secondary); margin-bottom:10px;">Selecciona un caso típico de examen o prueba el modo personalizado:</p>
       
-      <div class="grid-2">
-        <div class="highlight">
-          <strong>No es a Frecuencia Fija:</strong> Un requerimiento es que no se haga a frecuencia fija, pero sí tiene que haber un <strong>monitoreo o seguimiento periódico de la variable</strong>.
+      <div class="rcm-scenarios">
+        <button class="rcm-sc-btn active" onclick="loadRCMScenario('valvula')">🔥 Caso 1: Válvula de Seguridad de Caldera Trabada</button>
+        <button class="rcm-sc-btn" onclick="loadRCMScenario('rodamiento')">⚙️ Caso 2: Rodamiento de Bomba con Frecuencia Anormal</button>
+        <button class="rcm-sc-btn" onclick="loadRCMScenario('pintura')">🎨 Caso 3: Descascaramiento Estético en Oficinas</button>
+        <button class="rcm-sc-btn" onclick="loadRCMScenario('libre')">⚡ Modo Libre / Personalizado</button>
+      </div>
+
+      <div class="rcm-step-box" id="rcmStep1">
+        <div class="rcm-step-title">1. ¿Es la falla funcional EVIDENTE para los operarios en sus tareas normales?</div>
+        <div class="rcm-choices">
+          <button class="rcm-opt selected" id="optEvidenteSi" onclick="setRCMChoice('evidente', true)">SÍ (Falla Evidente)</button>
+          <button class="rcm-opt" id="optEvidenteNo" onclick="setRCMChoice('evidente', false)">NO (Falla Oculta en Sistema en Reposo/Protección)</button>
         </div>
-        <div class="green-box">
-          <strong>Monitoreo "Un Instante Antes":</strong> Vas monitoreando la variable hasta <em>"un instante antes"</em> de que falle funcionalmente y realizás el mantenimiento sustitutivo / restaurativo.
+      </div>
+
+      <div class="rcm-step-box" id="rcmStep2">
+        <div class="rcm-step-title">2. ¿El modo de falla afecta a la SEGURIDAD de las personas o al MEDIO AMBIENTE?</div>
+        <div class="rcm-choices">
+          <button class="rcm-opt selected" id="optSomeSi" onclick="setRCMChoice('some', true)">SÍ (Riesgo en Seguridad o Medio Ambiente)</button>
+          <button class="rcm-opt" id="optSomeNo" onclick="setRCMChoice('some', false)">NO (Sin consecuencias de Seguridad o Ecológicas)</button>
         </div>
       </div>
 
-      <!-- Variables y truco de producción -->
-      <div class="warn-box" style="margin-top: 12px;">
-        <strong>Variables de Mantenimiento vs. Producción:</strong><br>
-        A mantenimiento le interesan las <strong>variables representativas del estado del elemento</strong>, las cuales <em>no necesariamente son las que le interesan a producción</em>.<br>
-        • <em>Ejemplo (Electrobomba):</em> Producción mide Caudal ($Q$) o Metros de Columna de Agua ($m.c.a.$). Mantenimiento necesita medir <strong>vibraciones o temperatura de rodamientos</strong> para conocer el estado físico real de la bomba.
-      </div>
-
-      <div class="highlight" style="margin-top: 10px;">
-        💡 <strong>Estrategia de Gestión de Costos (De Tonon):</strong> Antes de adquirir instrumental costoso, Mantenimiento debe verificar si Producción ya está registrando variables de proceso ($Q$, $h$, $T$). Si ya las miden, se aprovechan para mantenimiento <strong>sin costo adicional</strong>, sumando solo mediciones específicas (como vibraciones o termografía) periódicamente.
-      </div>
-    </div>
-
-    <!-- Mantenimiento Condicional -->
-    <div class="card cyan">
-      <span class="crit-tag tag-alta">🔴 Concepto Clave de Cátedra</span>
-      <h3>Mantenimiento Condicional</h3>
-      <p>Propone la idea de <strong>llevar al límite de su utilización la vida remanente</strong> de los componentes de un activo.</p>
-      <div class="green-box" style="margin-top: 10px;">
-        <strong>Fórmula Teórica de Examen:</strong><br>
-        <span style="font-size: 1.1rem; font-weight: 700; color: var(--accent-4);">Mantenimiento Condicional = Mantenimiento Predictivo + Mantenimiento Proactivo</span>
-      </div>
-      <p style="margin-top: 10px;">Considera la <strong>condición de las partes que están bajo inspección</strong> y se dejan en funcionamiento en función de su estado en el momento del chequeo (si están bien siguen funcionando y si no se reemplazan o reparan).</p>
-      <div class="highlight" style="margin-top: 10px;">
-        <strong>Condición Obligatoria de Aplicación (De Tonon):</strong> Debe ser <strong>«Técnicamente Factible y Económicamente Viable»</strong>. Se basa en estrategias de diagnóstico del estado paramétrico.
-      </div>
-    </div>
-
-    <!-- Justificación Económica y Punto de Cruce -->
-    <div class="card info">
-      <h3>¿Cuándo se justifica el Mantenimiento Predictivo?</h3>
-      <p>El predictivo se realiza cuando en el gráfico de costos la curva se cruza <strong>muy muy a la izquierda</strong>.</p>
-      <div class="warn-box" style="margin-top: 8px;">
-        <strong>Costo del Paro No Programado:</strong> Se justifica en <strong>equipos muy críticos</strong> donde un tiempo de parada no programada corto tiene un <strong>costo altísimo (lucro cesante elevado)</strong>. Solo así se compensa el costo del instrumental sofisticado y procesamiento de datos.
-      </div>
-    </div>
-
-    <!-- Objetivos Formales según De Tonon -->
-    <div class="card green">
-      <h3>Objetivos del Mantenimiento Predictivo (De Tonon Pág. 30)</h3>
-      <ul style="margin-top: 6px;">
-        <li><strong>Determinar la causa raíz</strong> (modo de falla).</li>
-        <li><strong>Incremento en la disponibilidad</strong> del equipamiento.</li>
-        <li><strong>Eliminación de paradas imprevistas</strong> en la producción.</li>
-        <li><strong>Reducción de costos de repuestos:</strong> Evita cambios anticipados y <em>daños secundarios</em> producidos por fallas catastróficas.</li>
-        <li><strong>Reducción de costos de mano de obra</strong> al no ejecutar tareas rutinarias a fecha fija.</li>
-        <li><strong>Disminución de stock</strong> de repuestos y capital inmovilizado.</li>
-      </ul>
-    </div>
-
-    <!-- Ventajas y Desventajas Completas -->
-    <div class="card info">
-      <span class="crit-tag tag-examen">💖 Pregunta Frecuente de Examen</span>
-      <h3>Ventajas y Desventajas del Mantenimiento Predictivo</h3>
-      <div class="grid-2">
-        <div class="green-box">
-          <strong>2 Grandes Ventajas Principales:</strong>
-          <ul>
-            <li><strong>Maximiza la vida útil</strong> del equipo (100% de aprovechamiento sin remoción prematura).</li>
-            <li><strong>Baja el stock</strong> de repuestos y el capital inmovilizado.</li>
-          </ul>
-          <strong style="display:block; margin-top:10px;">Otras Ventajas Clave (De Tonon):</strong>
-          <ul>
-            <li>Se aplica con la <strong>máquina en marcha</strong>.</li>
-            <li><strong>Evita la Mortalidad Infantil:</strong> Al no desarmar la máquina innecesariamente (como en el preventivo), se evitan defectos de armado y montaje.</li>
-            <li>Mayor seguimiento: da un <strong>mejor análisis histórico de fallas</strong> y aporta datos para el preventivo.</li>
-            <li>Mejor programación de paradas en horario central de trabajo.</li>
-            <li>Menor dependencia de la Mano de Obra para inspección.</li>
-          </ul>
+      <div class="rcm-step-box" id="rcmStep3" style="display:none;">
+        <div class="rcm-step-title">3. ¿Tiene consecuencias OPERACIONALES (pérdida de producción o lucro cesante)?</div>
+        <div class="rcm-choices">
+          <button class="rcm-opt selected" id="optOpSi" onclick="setRCMChoice('operacional', true)">SÍ (Pérdidas de producción / Paro de línea)</button>
+          <button class="rcm-opt" id="optOpNo" onclick="setRCMChoice('operacional', false)">NO (Consecuencias No Operacionales: solo costo directo de repuesto)</button>
         </div>
-        <div class="danger-box">
-          <strong>Gran Desventaja Principal:</strong>
-          <ul>
-            <li><strong>Falla sintomática de carácter IRREVERSIBLE:</strong> Cuando la variable salta en predictivo (Zona III), el daño físico en el material ya ocurrió.</li>
-          </ul>
-          <strong style="display:block; margin-top:10px;">Otras Desventajas (De Tonon):</strong>
-          <ul>
-            <li><strong>Mayor inversión inicial</strong> y adicional de equipamiento de medición.</li>
-            <li>Obligación de mediciones con mayor frecuencia (algunas de acceso difícil: correas, bandas).</li>
-            <li>Costos importantes de <strong>proveedores especializados y laboratorios</strong>.</li>
-            <li><strong>No reemplaza totalmente al preventivo</strong> (lubricación y ajustes básicos siguen siendo necesarios).</li>
-          </ul>
+      </div>
+
+      <div class="rcm-step-box" id="rcmStep4">
+        <div class="rcm-step-title">4. ¿Es técnicamente factible y económicamente viable una Tarea a Condición?</div>
+        <div class="rcm-choices">
+          <button class="rcm-opt selected" id="optCondSi" onclick="setRCMChoice('condicion', true)">SÍ (Existe variable medible antes de la falla)</button>
+          <button class="rcm-opt" id="optCondNo" onclick="setRCMChoice('condicion', false)">NO (No es técnicamente posible o es inviable económicamente)</button>
+        </div>
+      </div>
+
+      <div class="rcm-result" id="rcmResultBox">
+        <h4 style="color:var(--accent-4); margin-bottom:6px;" id="rcmResTitle">Resultado: Tarea A Condición (Predictivo/Proactivo)</h4>
+        <p id="rcmResDesc" style="color:var(--text-secondary); font-size:0.92rem; line-height:1.6;">Se prioriza siempre la Tarea a Condición para evitar el fallo o reducir el riesgo a un nivel admisible.</p>
+        <div class="highlight" id="rcmResRule" style="margin-top:10px;">📌 <strong>Regla Cátedra:</strong> Siempre que sea técnicamente posible y económicamente viable, las Tareas a Condición tienen prioridad 1 en el diagrama.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════
+       HERRAMIENTA 4: GRÁFICO DE ESTADO PARAMÉTRICO INTERACTIVO (SVG)
+  ══════════════════════════════════════ -->
+  <section id="sec-parametrico">
+    <div class="section-title">
+      <div class="section-icon ic-green">📈</div>
+      <div>
+        <h2>3. Gráfico de Estado Paramétrico Interactivo (Pistarelli)</h2>
+        <div class="sec-sub">Haz clic en cada zona o punto del gráfico vectorial para analizar su comportamiento técnico y preguntas de parcial</div>
+      </div>
+    </div>
+
+    <div class="graph-container">
+      <div class="graph-nav">
+        <button class="g-btn active" onclick="selectGraphZone('z1')">Zona I: Marcha Normal</button>
+        <button class="g-btn" onclick="selectGraphZone('ps')">Punto S: Síntoma Incipiente</button>
+        <button class="g-btn" onclick="selectGraphZone('z2')">Zona II: Reversible (Proactivo)</button>
+        <button class="g-btn" onclick="selectGraphZone('lim')">Límite de Irreversibilidad</button>
+        <button class="g-btn" onclick="selectGraphZone('z3')">Zona III: Irreversible (Predictivo)</button>
+        <button class="g-btn" onclick="selectGraphZone('z4')">Zona IV: Sentidos / Inminente</button>
+        <button class="g-btn" onclick="selectGraphZone('ff')">Falla Funcional / Avería</button>
+      </div>
+
+      <div class="svg-wrap">
+        <svg viewBox="0 0 850 380" style="width:100%; max-width:850px; height:auto; overflow:visible;">
+          <defs>
+            <linearGradient id="gradCurve" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stop-color="#10b981" />
+              <stop offset="35%" stop-color="#10b981" />
+              <stop offset="48%" stop-color="#f59e0b" />
+              <stop offset="75%" stop-color="#8b5cf6" />
+              <stop offset="100%" stop-color="#ef4444" />
+            </linearGradient>
+            <filter id="glow">
+              <feGaussianBlur stdDeviation="4" result="coloredBlur"/>
+              <feMerge>
+                <feMergeNode in="coloredBlur"/>
+                <feMergeNode in="SourceGraphic"/>
+              </feMerge>
+            </filter>
+          </defs>
+
+          <!-- Axes -->
+          <line x1="70" y1="330" x2="800" y2="330" stroke="#334155" stroke-width="2.5" />
+          <line x1="70" y1="330" x2="70" y2="30" stroke="#334155" stroke-width="2.5" />
+          <text x="800" y="348" fill="#64748b" font-size="12" font-family="Inter" text-anchor="end">Tiempo de Marcha / Operación ➔</text>
+          <text x="65" y="22" fill="#64748b" font-size="12" font-family="Inter" text-anchor="start">▲ Estado del Activo (%)</text>
+          <text x="50" y="55" fill="#94a3b8" font-size="11" font-family="Inter">100%</text>
+          <text x="50" y="335" fill="#94a3b8" font-size="11" font-family="Inter">0%</text>
+
+          <!-- Zone Overlays for Click/Hover -->
+          <rect id="rectZ1" class="zone-hover" x="70" y="30" width="180" height="300" fill="#10b981" opacity="0.08" onclick="selectGraphZone('z1')" />
+          <rect id="rectZ2" class="zone-hover" x="250" y="30" width="160" height="300" fill="#f59e0b" opacity="0.08" onclick="selectGraphZone('z2')" />
+          <rect id="rectZ3" class="zone-hover" x="410" y="30" width="230" height="300" fill="#8b5cf6" opacity="0.08" onclick="selectGraphZone('z3')" />
+          <rect id="rectZ4" class="zone-hover" x="640" y="30" width="140" height="300" fill="#ef4444" opacity="0.08" onclick="selectGraphZone('z4')" />
+
+          <!-- Zone Vertical Dividing Lines -->
+          <line x1="250" y1="40" x2="250" y2="330" stroke="#475569" stroke-dasharray="4" stroke-width="1.5" />
+          <line x1="410" y1="40" x2="410" y2="330" stroke="#475569" stroke-dasharray="4" stroke-width="1.5" />
+          <line x1="640" y1="40" x2="640" y2="330" stroke="#475569" stroke-dasharray="4" stroke-width="1.5" />
+
+          <!-- Zone Labels Top -->
+          <text x="160" y="50" fill="#10b981" font-size="12" font-weight="700" text-anchor="middle">ZONA I: NORMAL</text>
+          <text x="330" y="50" fill="#f59e0b" font-size="12" font-weight="700" text-anchor="middle">ZONA II: REVERSIBLE</text>
+          <text x="525" y="50" fill="#c084fc" font-size="12" font-weight="700" text-anchor="middle">ZONA III: IRREVERSIBLE</text>
+          <text x="710" y="50" fill="#f87171" font-size="12" font-weight="700" text-anchor="middle">ZONA IV</text>
+
+          <!-- Limit of Irreversibility Line -->
+          <line id="lineLim" x1="70" y1="165" x2="780" y2="165" stroke="#ef4444" stroke-dasharray="6,4" stroke-width="2" />
+          <text x="770" y="158" fill="#f87171" font-size="11" font-weight="700" text-anchor="end">-- LÍMITE DE IRREVERSIBILIDAD (Daño Físico en Material) --</text>
+
+          <!-- Parametric Curve Path -->
+          <path id="curvePath" d="M 70 65 L 250 65 C 320 65, 360 110, 410 165 C 470 230, 580 270, 640 285 C 690 295, 740 325, 760 330"
+                fill="none" stroke="url(#gradCurve)" stroke-width="5" filter="url(#glow)" />
+
+          <!-- Interactive Highlight Nodes -->
+          <circle id="nodePuntoS" cx="250" cy="65" r="7" fill="#f59e0b" stroke="#fff" stroke-width="2" style="cursor:pointer;" onclick="selectGraphZone('ps')" />
+          <text x="250" y="90" fill="#fbbf24" font-size="11" font-weight="700" text-anchor="middle">Punto S</text>
+
+          <circle id="nodeLim" cx="410" cy="165" r="7" fill="#ef4444" stroke="#fff" stroke-width="2" style="cursor:pointer;" onclick="selectGraphZone('lim')" />
+
+          <circle id="nodeFF" cx="760" cy="330" r="7" fill="#ef4444" stroke="#fff" stroke-width="2" style="cursor:pointer;" onclick="selectGraphZone('ff')" />
+          <text x="760" y="352" fill="#ef4444" font-size="11" font-weight="700" text-anchor="middle">Avería</text>
+        </svg>
+      </div>
+
+      <div class="graph-info-card" id="graphInfoBox">
+        <h4 id="gInfoTitle">Zona I: Marcha Normal / Estado Teórico</h4>
+        <p id="gInfoBody" style="color:var(--text-secondary); font-size:0.92rem; line-height:1.65;">
+          El activo funciona dentro de sus especificaciones de diseño. Se aplica <strong>Mantenimiento Preventivo Sistemático</strong> (lubricación, limpieza y rutinas de inspección dinámicas RID). <em>No se hace proactivo</em> porque carece de sentido buscar la causa raíz de una anomalía que aún no existe.
+        </p>
+        <div class="highlight" id="gInfoTip" style="margin-top:8px;">
+          📌 <strong>Criterio de Cátedra:</strong> Mantiene el estado teórico del activo sin desmontajes innecesarios.
         </div>
       </div>
     </div>
   </section>
 
   <!-- ══════════════════════════════════════
-       SECCIÓN 2: CASO DE ESTUDIO MOTOR - ELECTROBOMBA
+       SECCIÓN 1: MANTENIMIENTO PREDICTIVO
   ══════════════════════════════════════ -->
-  <section id="sec-caso">
+  <section id="sec-predictivo">
     <div class="section-title">
-      <div class="section-icon ic-amber">⚙️</div>
+      <div class="section-icon ic-violet">🔮</div>
       <div>
-        <h2>Caso Práctico de Ejemplo: Motor – Electrobomba</h2>
-        <div class="sec-sub">Comparativa real de estrategias (De Tonon Pág. 32)</div>
+        <h2>1. Mantenimiento Predictivo</h2>
+        <div class="sec-sub">Fundamento, monitoreo continuo, variables Mantenimiento vs Producción y técnicas de diagnóstico</div>
       </div>
     </div>
 
-    <div class="card amber">
-      <span class="crit-tag tag-alta">🔴 Ejemplo Típico de Examen</span>
-      <h3>Los 3 Enfoques ante un Defecto en Rodamiento</h3>
-      <p>El apunte presenta un sistema Motor – Electrobomba y compara cómo actúan el Preventivo, Predictivo y Proactivo:</p>
+    <div class="card info">
+      <span class="crit-tag tag-examen">🔴 Pregunta Obligatoria de Examen</span>
+      <h3>Concepto y Principio de Funcionamiento</h3>
+      <p>Se basa en el <strong>monitoreo de la condición</strong> a través del seguimiento periódico de variables técnicas representativas del estado físico del activo, <strong>casi siempre con la máquina en marcha / funcionamiento</strong>.</p>
+      
+      <div class="grid-2">
+        <div class="highlight">
+          <strong>No es a Frecuencia Fija:</strong> No se ejecuta por días calendario o ciclos preestablecidos, sino mediante el seguimiento de la evolución física de la variable.
+        </div>
+        <div class="green-box">
+          <strong>Monitoreo «Un Instante Antes»:</strong> Se monitorea la tendencia de degradación hasta <em>"un instante antes"</em> de que ocurra la falla funcional, programando la acción sustitutiva de forma planificada.
+        </div>
+      </div>
 
+      <div class="warn-box">
+        <strong>Variables de Mantenimiento vs. Variables de Producción (Pregunta de parcial):</strong><br>
+        A mantenimiento le interesan las <strong>variables representativas del estado de salud y desgaste del elemento</strong>, las cuales <em>no necesariamente coinciden con las de producción</em>.<br>
+        • <em>Ejemplo clásico (Electrobomba):</em> Producción mide <strong>Caudal ($Q$)</strong> o <strong>Metros de Columna de Agua ($m.c.a.$)</strong>. Mantenimiento requiere medir <strong>Vibraciones mecánicas</strong> o <strong>Temperatura en cajas de rodamientos</strong> para evaluar el estado real del equipo.
+      </div>
+
+      <div class="highlight">
+        💡 <strong>Estrategia de Costos (Apunte De Tonon):</strong> Si Producción ya registra variables continuas de proceso ($Q$, $P$, $T$) conectadas al PLC, Mantenimiento debe aprovecharlas <strong>sin costo adicional</strong>, incorporando instrumental predictivo específico sólo donde sea indispensable.
+      </div>
+    </div>
+
+    <!-- Justificación Económica -->
+    <div class="card cyan">
+      <h3>¿Cuándo se Justifica el Mantenimiento Predictivo?</h3>
+      <p>En el gráfico de costos (<em>Costo de Falla vs. Costo de Mantenimiento</em>), se ubica <strong>muy arriba a la izquierda</strong>: se justifica en <strong>equipos altamente críticos</strong> donde un tiempo de parada no programada corto genera un <strong>costo de paro altísimo (lucro cesante elevado)</strong> que compensa el costo del instrumental sofisticado.</p>
+    </div>
+
+    <!-- 2 Ventajas y Gran Desventaja -->
+    <div class="card pink">
+      <span class="crit-tag tag-examen">💖 Pregunta Literal de Examen</span>
+      <h3>Ventajas y Desventajas del Mantenimiento Predictivo</h3>
+      <div class="grid-2">
+        <div class="green-box">
+          <strong>2 Grandes Ventajas Principales:</strong>
+          <ul>
+            <li><strong>Maximiza la vida útil del equipo:</strong> Se aprovecha al 100% la vida remanente sin desmontajes ni sustituciones prematuras.</li>
+            <li><strong>Disminuye el stock de repuestos:</strong> Reduce el capital inmovilizado al poder comprar o alistar repuestos con la anticipación que da la variable.</li>
+          </ul>
+          <strong style="display:block; margin-top:8px;">Otras Ventajas:</strong>
+          <ul>
+            <li>Se realiza con máquina en marcha.</li>
+            <li><strong>Evita la Mortalidad Infantil:</strong> Al no desarmar innecesariamente (como en el preventivo), se eliminan errores de armado y ajuste.</li>
+            <li>Mejor historial de fallas y programación en horario central diurno.</li>
+          </ul>
+        </div>
+        <div class="danger-box">
+          <strong>Gran Desventaja Principal (Pregunta trampa):</strong>
+          <ul>
+            <li><strong>Falla sintomática de carácter IRREVERSIBLE:</strong> Cuando la variable salta en predictivo, el daño físico en el material ya ocurrió. <em>El predictivo NO alarga la vida útil de la pieza dañada, sólo aprovecha su vida remanente.</em></li>
+          </ul>
+          <strong style="display:block; margin-top:8px;">Otras Desventajas:</strong>
+          <ul>
+            <li>Alta inversión inicial en instrumental de precisión.</li>
+            <li>Obligación de mediciones periódicas frecuentes.</li>
+            <li>Costo de mano de obra altamente especializada o tercerizada.</li>
+            <li><strong>No reemplaza totalmente al preventivo</strong> (lubricación y limpieza técnica siguen siendo mandatarias).</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Catálogo de Técnicas -->
+    <div class="card info">
+      <h3>Catálogo de Herramientas de Diagnóstico Predictivo</h3>
       <div class="table-wrap">
         <table class="t">
           <tr>
-            <th>Estrategia</th>
-            <th>Secuencia de Eventos</th>
-            <th>Consecuencias y Evaluación</th>
+            <th>Herramienta</th>
+            <th>Principio Físico / Aplicación</th>
+            <th>Criterio Técnico de Examen</th>
           </tr>
           <tr>
-            <td><strong>1. Preventivo</strong><br>(Control Auditivo)</td>
-            <td>
-              • <strong>28/8:</strong> El operario apoya un destornillador en un punto fijo e <em>intuye</em> un zumbido en el rodamiento.<br>
-              • Programa el reemplazo a 48 hs.<br>
-              • <strong>30/8:</strong> Se sustituye el rodamiento.
-            </td>
-            <td>
-              • 2 días para programar repuestos y MO.<br>
-              • No hubo avería.<br>
-              • Diagnóstico subjetivo; <strong>no aprovecha la vida útil remanente</strong>.
-            </td>
+            <td><strong>Análisis de Vibraciones</strong></td>
+            <td>Captura de espectros con acelerómetros en puntos de apoyo.</td>
+            <td>• <strong>Frecuencia:</strong> Origen de falla (desalineación, desbalanceo, pistas).<br>• <strong>Amplitud:</strong> Gravedad de la falla y energía destructiva.</td>
           </tr>
           <tr>
-            <td><strong>2. Predictivo</strong><br>(Análisis de Vibraciones)</td>
-            <td>
-              • <strong>26/7:</strong> El análisis detecta una <em>frecuencia anormal</em> en rodamiento pero la <strong>amplitud es baja (no grave)</strong>.<br>
-              • Se inicia el seguimiento de la variable en el gráfico.<br>
-              • <strong>29/9:</strong> 2 meses después se ejecuta el reemplazo programado.
-            </td>
-            <td>
-              • Se programó en horario central reduciendo costos.<br>
-              • No existió avería.<br>
-              • <strong>Aprovechamiento total de 2 meses más de vida útil</strong> que el preventivo hubiese descartado.
-            </td>
+            <td><strong>Termografía Infrarroja</strong></td>
+            <td>Cámaras térmicas que captan radiación electromagnética.</td>
+            <td><strong>Gran ventaja:</strong> Se realiza <strong>a distancia</strong> mediante gama de colores. Detecta puntos calientes eléctricos y rozamientos.</td>
           </tr>
           <tr>
-            <td><strong>3. Proactivo</strong><br>(Alineación Láser)</td>
-            <td>
-              • <strong>23/5:</strong> La alineación láser detecta que los ejes del motor y la electrobomba están desalineados.<br>
-              • El mismo día se corrige la alineación (acción restaurativa).
-            </td>
-            <td>
-              • <strong>Se actúa sobre la Causa Raíz</strong> del problema.<br>
-              • <strong>No fue necesario reemplazar el rodamiento</strong> (se evitó el daño irreversible).<br>
-              • Se pagó el servicio a un 3° especializado pero se salvó el componente.
-            </td>
+            <td><strong>Análisis de Amperaje / PLC</strong></td>
+            <td>Monitoreo del consumo de corriente de motores.</td>
+            <td>• <em>Pinza suelta manual:</em> Preventivo de rutina (RID).<br>• <em>Sensor en lazo continuo a PLC:</em> Predictivo / A Condición.</td>
+          </tr>
+          <tr>
+            <td><strong>Ultrasonido</strong></td>
+            <td>Ondas sonoras de alta frecuencia.</td>
+            <td>Detecta <strong>grietas y fisuras internas</strong> producto del desgaste antes de que lleguen a la superficie externa.</td>
+          </tr>
+          <tr>
+            <td><strong>Tintas Penetrantes</strong></td>
+            <td>Líquidos capilares y revelador.</td>
+            <td>Ensayo no destructivo para fisuras <strong>abiertas en la superficie</strong> de materiales no porosos.</td>
+          </tr>
+          <tr>
+            <td><strong>Partículas Magnetizables</strong></td>
+            <td>Magnetización de pieza ferrosa + limadura de hierro.</td>
+            <td>La pieza se vuelve un imán; las limaduras siguen líneas de campo. Una fisura distorsiona las líneas de campo revelando el defecto.</td>
+          </tr>
+          <tr>
+            <td><strong>Tribología / Desgaste de Aceite</strong></td>
+            <td>Espectrometría de muestras de lubricante en marcha/parada.</td>
+            <td>Cuantifica partículas metálicas en suspensión por desgaste abrasivo interno de cojinetes o engranajes.</td>
+          </tr>
+          <tr>
+            <td><strong>Ensayos en Transformadores</strong></td>
+            <td>Resistencia óhmica de bobinados y rigidez dieléctrica.</td>
+            <td>Evalúa envejecimiento del aislamiento eléctrico y posibles espiras en cortocircuito.</td>
           </tr>
         </table>
       </div>
@@ -400,117 +770,680 @@
   </section>
 
   <!-- ══════════════════════════════════════
-       SECCIÓN 3: HERRAMIENTAS DE DIAGNÓSTICO
+       SECCIÓN 2: CONDICIÓN & PROACTIVO
   ══════════════════════════════════════ -->
-  <section id="sec-herramientas">
+  <section id="sec-condicional">
     <div class="section-title">
-      <div class="section-icon ic-cyan">🛠️</div>
+      <div class="section-icon ic-amber">⚡</div>
       <div>
-        <h2>Herramientas de Mantenimiento Predictivo</h2>
-        <div class="sec-sub">Catálogo completo según el apunte de Lucas De Tonon y clases presenciales</div>
+        <h2>2. Mantenimiento a Condición & Mantenimiento Proactivo</h2>
+        <div class="sec-sub">Límites de vida remanente, causa raíz, reversibilidad y comparativa de los 3 enfoques</div>
       </div>
     </div>
 
-    <!-- 1. Análisis de Vibraciones -->
-    <div class="card amber">
-      <span class="crit-tag tag-examen">💖 Pregunta de Examen (Gráfico de Vibraciones)</span>
-      <h3>1. Análisis de Vibraciones</h3>
-      <p>El <strong>arco de onda</strong> me va a decir la gravedad de la falla y cuán cerca estoy de una avería. Lo realiza habitualmente un 3°.</p>
+    <div class="card cyan">
+      <span class="crit-tag tag-formula">📐 Fórmula de Cátedra</span>
+      <h3>Mantenimiento a Condición</h3>
+      <p>Propone la idea de <strong>llevar al límite de su utilización la vida remanente</strong> de los componentes de un activo. Considera la condición física de las partes bajo inspección y se dejan en funcionamiento según su estado en el momento del chequeo (si están bien siguen marchando, si están degradadas se reacondicionan o sustituyen).</p>
       
-      <div class="grid-2" style="margin-top: 10px;">
-        <div class="highlight">
-          <strong>Frecuencia (Origen):</strong> Nos da la idea del <strong>origen de la falla</strong> (desequilibrio, alineación incorrecta o defecto en pistas de rodamientos).
-        </div>
-        <div class="danger-box">
-          <strong>Amplitud (Gravedad):</strong> Nos da la idea de la <strong>gravedad de la falla</strong> y energía destructiva generada.
-        </div>
+      <div class="formula-box">
+        Mantenimiento a Condición = Mantenimiento Predictivo + Mantenimiento Proactivo
       </div>
 
-      <div class="warn-box" style="margin-top: 12px;">
-        <strong>📌 Pregunta de Examen (¿Dónde es Preventivo, Predictivo y Proactivo?):</strong>
-        <ul>
-          <li><strong>Proactivo (Zona II):</strong> Si detecta desalineación incipiente de ejes y se soluciona alineando sin cambiar piezas (actúa sobre la causa raíz).</li>
-          <li><strong>Predictivo (Zona III):</strong> Si detecta frecuencia anormal e irreversible en rodamiento; se hace seguimiento dinámico para programar la sustitución "un instante antes" de fallar.</li>
-          <li><strong>Preventivo (Zona IV):</strong> Si la medición se hace a fecha fija de forma manual perceptiva (o auditiva previa a la avería inminente).</li>
-        </ul>
+      <div class="highlight">
+        <strong>Condición Obligatoria de Cátedra:</strong> Toda tarea de mantenimiento a condición debe ser estrictamente <strong>«Técnicamente Factible y Económicamente Viable»</strong>. Se nutre de mediciones continuas, historial de fallas y controles estadísticos de proceso (CEP).
       </div>
     </div>
 
-    <!-- 2. Amperaje / PLC -->
-    <div class="card green">
-      <h3>2. Análisis de Amperaje / PLC</h3>
-      <p>Sirve para medir la corriente y detectar <strong>problemas eléctricos o mecánicos</strong> (sobreesfuerzos, rozamientos).</p>
-      <div class="highlight" style="margin-top: 8px;">
-        <strong>Diferencia clave de Examen:</strong>
-        <ul>
-          <li><strong>Pinza amperométrica suelta manual:</strong> Es <em>Mantenimiento Preventivo</em> (rutina RID puntual).</li>
-          <li><strong>Sistema/Pinza conectada continuamente a un PLC:</strong> Es <em>Mantenimiento Predictivo / A Condición</em> (seguimiento dinámico de la variable).</li>
-        </ul>
-      </div>
-    </div>
-
-    <!-- 3. Ultrasonido -->
-    <div class="card cyan">
-      <h3>3. Ultrasonido</h3>
-      <p>Nos permite <strong>identificar grietas internas producto del desgaste</strong> en piezas metálicas o recipientes antes de que se manifiesten en la superficie externa, pero es costoso.</p>
-    </div>
-
-    <!-- 4. Termografía -->
-    <div class="card pink">
-      <h3>4. Termografía</h3>
-      <p><strong>Gran Ventaja Clave:</strong> Se realiza <strong>a distancia</strong> mediante cámaras infrarrojas.</p>
-      <p style="margin-top: 6px;">Permite inferir la temperatura del equipamiento en función de una <strong>gama de colores</strong>, detectando puntos calientes, sobrecalentamientos eléctricos o fricciones mecánicas en marcha.</p>
-    </div>
-
-    <!-- 5. Alineación Láser -->
-    <div class="card info">
-      <h3>5. Alineación Láser</h3>
-      <p>Cuando se tienen <strong>dos elementos conectados por un eje</strong> (ej: Motor – Electrobomba), tienen que estar perfectamente alineados.</p>
-      <p style="margin-top: 6px;">Permite corregir desalineaciones con precisión micrométrica. Es una acción predominantemente <strong>proactiva</strong> porque elimina la causa raíz del desgaste prematuro.</p>
-    </div>
-
-    <!-- 6. Partículas Magnetizables -->
     <div class="card amber">
-      <h3>6. Partículas Magnetizables</h3>
-      <p>Consiste en <strong>transformar la pieza de estudio en un imán</strong> (magnetización).</p>
-      <p style="margin-top: 6px;">Se espolvorea la superficie con limadura de hierro o polvillo metálico, las cuales se van a <strong>orientar según las líneas del campo magnético</strong>. Si existe una fisura superficial o subsuperficial, las líneas de campo se deforman revelando la falla.</p>
-    </div>
-
-    <!-- 7. Análisis de Desgaste (Tribología) -->
-    <div class="card green">
-      <h3>7. Análisis de Desgaste (Muestras de Aceite)</h3>
-      <p>Se extrae una muestra de lubricante/líquido con la máquina parada para analizar en laboratorio la presencia de <strong>partículas metálicas en suspensión</strong> producidas por fricción interna.</p>
-    </div>
-
-    <!-- 8. Tintas Penetrantes (De Tonon) -->
-    <div class="card cyan">
-      <h3>8. Tintas Penetrantes</h3>
-      <p>Técnica no destructiva para detectar <strong>fallas y grietas abiertas en la superficie</strong> de piezas metálicas no porosas (a diferencia del ultrasonido que inspecciona el interior).</p>
-    </div>
-
-    <!-- 9. Mediciones de Nivel de Ruido & Sensores (De Tonon) -->
-    <div class="grid-2">
-      <div class="card info" style="margin-bottom:0;">
-        <h3>9. Nivel de Ruido (Sonometría)</h3>
-        <p>Se compara la evolución del nivel sonoro en función de las <strong>horas de marcha de la máquina</strong> para detectar roces mecánicos o problemas de vibraciones.</p>
+      <span class="crit-tag tag-concepto">🔍 Concepto Clave</span>
+      <h3>Mantenimiento Proactivo</h3>
+      <p>Acciones de <strong>carácter investigativo</strong> que surgen como alternativa para anticiparse al momento en que una causa raíz de falla pueda convertirse en una falla sintomática irreversible.</p>
+      
+      <div class="grid-2">
+        <div class="green-box">
+          <strong>Actúa sobre la Causa Raíz:</strong> No interviene sobre los síntomas ni sobre los efectos, sino sobre el origen primario del desvío.
+        </div>
+        <div class="highlight">
+          <strong>Falla REVERSIBLE y Acción Restaurativa:</strong> Se actúa cuando la falla aún es reversible; se ejecutan <em>acciones restaurativas o de ajuste</em>, sin necesidad de sustituir el componente noble.
+        </div>
       </div>
-      <div class="card info" style="margin-bottom:0;">
-        <h3>10. Sensores de Proceso en Línea</h3>
-        <p>Transmisores continuos de presión, caudal y temperatura integrados al control general de la planta.</p>
+
+      <div class="warn-box">
+        <strong>Impacto en la Vida Útil (Diferencia con Predictivo):</strong> Mientras que el Predictivo sólo aprovecha la vida remanente de una pieza dañada de forma irreversible, el Proactivo <strong>SÍ EXTIENDE / PROLONGA la vida útil del equipo</strong>, evitando que el daño físico llegue a producirse.
       </div>
+
+      <h4>Ejemplos Reales de Clase:</h4>
+      <ul>
+        <li><strong>Alineación Láser de Precisión:</strong> Corrige desalineaciones entre motor y bomba el mismo día, eliminando sobrecargas que destruirían los rodamientos.</li>
+        <li><strong>Agua en Aceites Dieléctricos de Transformadores:</strong> Si el contenido supera 15 ppm de agua disuelta, se realiza termovaciado y deshidratación del aceite, salvando el bobinado antes de que pierda rigidez dieléctrica.</li>
+        <li><strong>Muestreo de Gasoil en Grupos Electrógenos:</strong> Análisis microbiológico y filtrado para evitar formación de barros y agua que tapen los inyectores ante un corte de energía.</li>
+      </ul>
     </div>
 
+    <!-- Caso de Estudio Comparativo -->
+    <div class="card info">
+      <span class="crit-tag tag-examen">🔴 Caso de Estudio: Motor – Electrobomba (De Tonon Pág. 32)</span>
+      <h3>Comparativa de los 3 Enfoques ante un Defecto en Rodamiento</h3>
+      <div class="table-wrap">
+        <table class="t">
+          <tr>
+            <th>Estrategia</th>
+            <th>Acción Concreta en Planta</th>
+            <th>Consecuencias y Evaluación</th>
+          </tr>
+          <tr>
+            <td><strong>Preventivo</strong><br>(Control Auditivo)</td>
+            <td>• <strong>28/8:</strong> El operario apoya un destornillador en el soporte e intuye un zumbido.<br>• Programa reemplazo a 48 hs.<br>• <strong>30/8:</strong> Se sustituye el rodamiento.</td>
+            <td>• 2 días para programar repuesto y MO.<br>• Diagnóstico puramente subjetivo.<br>• <strong>Desperdicia vida útil remanente</strong> (el rodamiento podía funcionar mucho más).</td>
+          </tr>
+          <tr>
+            <td><strong>Predictivo</strong><br>(Análisis Vibraciones)</td>
+            <td>• <strong>26/7:</strong> Se detecta frecuencia de falla en pista pero la amplitud es baja.<br>• Se inicia seguimiento periódico.<br>• <strong>29/9:</strong> 2 meses después se reemplaza de forma programada.</td>
+            <td>• Se programa en horario central diurno sin horas extras.<br>• No existió avería intempestiva.<br>• <strong>Aprovechamiento total de 2 meses más de vida útil</strong> que el preventivo hubiese descartado.</td>
+          </tr>
+          <tr>
+            <td><strong>Proactivo</strong><br>(Alineación Láser)</td>
+            <td>• <strong>23/5:</strong> La alineación láser detecta desalineación angular entre ejes.<br>• El mismo día se corrige la alineación con lainas (acción restaurativa).</td>
+            <td>• <strong>Se actúa sobre la Causa Raíz</strong>.<br>• <strong>No fue necesario cambiar el rodamiento</strong> (la falla era reversible).<br>• Se pagó al proveedor especializado pero se salvó el activo.</td>
+          </tr>
+        </table>
+      </div>
+    </div>
   </section>
 
   <!-- ══════════════════════════════════════
-       CHECKLIST DE REPASO COMPLETO
+       SECCIÓN 4: CONFIABILIDAD & REDUNDANCIAS
+  ══════════════════════════════════════ -->
+  <section id="sec-confiabilidad">
+    <div class="section-title">
+      <div class="section-icon ic-cyan">🎯</div>
+      <div>
+        <h2>4. Confiabilidad (Fiabilidad) & Redundancias</h2>
+        <div class="sec-sub">Definición formal, 4 elementos constitutivos, modelos estructurales y las 3 variantes de redundancia</div>
+      </div>
+    </div>
+
+    <div class="card info">
+      <span class="crit-tag tag-concepto">Definición Formal de Cátedra</span>
+      <h3>Confiabilidad (Fiabilidad)</h3>
+      <div class="highlight">
+        "Es la <strong>probabilidad</strong> de que un dispositivo funcione <strong>adecuadamente</strong> durante un <strong>período de tiempo determinado</strong>, bajo <strong>condiciones operativas específicas</strong>."
+      </div>
+
+      <h4>Los 4 Aspectos Constitutivos Obligatorios:</h4>
+      <div class="grid-2">
+        <div class="cyan-box">
+          <strong>1. La Probabilidad:</strong> Valor cuantitativo de la fracción o porcentaje de éxito respecto al total de operaciones (&lambda; = 1 / MTBF).<br>
+          <strong>2. Funcionamiento Adecuado:</strong> Estándar explícito de lo que se considera operación satisfactoria.
+        </div>
+        <div class="cyan-box">
+          <strong>3. El Tiempo:</strong> Período durante el cual se evalúa la degradación funcional del activo.<br>
+          <strong>4. Condiciones Operativas:</strong> Parámetros ambientales y de carga (temperatura, vibración, humedad, carga de trabajo).
+        </div>
+      </div>
+
+      <h4 style="margin-top:14px;">Los 3 Niveles de Cuantificación:</h4>
+      <ul>
+        <li><strong>A Nivel Componente:</strong> Ensayos provistos por fabricantes; el usuario calcula la tasa de fallas real.</li>
+        <li><strong>A Nivel Sistemas:</strong> Esquema estructural según su disposición (serie, paralelo, mixto).</li>
+        <li><strong>A Nivel Equipos:</strong> Integración global de los sistemas que lo componen.</li>
+      </ul>
+    </div>
+
+    <div class="card cyan">
+      <span class="crit-tag tag-formula">Fórmulas de Examen</span>
+      <h3>Modelos Matemáticos de Esquema Estructural</h3>
+
+      <div class="grid-2">
+        <div>
+          <h4>1. Configuración Serie</h4>
+          <p>La falla de <em>cualquiera</em> de los componentes ocasiona la falla del sistema.</p>
+          <div class="formula-box">
+            R_sist = R_1 × R_2 × R_3 × ... × R_n
+          </div>
+          <div class="warn-box">
+            <strong>Conclusiones de Examen:</strong><br>
+            • La confiabilidad del sistema es <strong>siempre menor que la del componente menos confiable</strong>.<br>
+            • Cuantos más componentes se agreguen en serie, <strong>peor es la confiabilidad global</strong>.
+          </div>
+        </div>
+
+        <div>
+          <h4>2. Configuración Paralelo (Redundancia Funcional)</h4>
+          <p>El sistema funciona mientras <em>al menos uno</em> de los componentes siga operando.</p>
+          <div class="formula-box">
+            R_sist = 1 - [(1 - R_1)(1 - R_2)...(1 - R_n)]
+          </div>
+          <div class="green-box">
+            <strong>Conclusiones de Examen:</strong><br>
+            • La confiabilidad del sistema es <strong>siempre mayor que la del componente más confiable</strong>.<br>
+            • Cuantos más componentes en paralelo se incorporen, <strong>mayor es la confiabilidad</strong>.
+          </div>
+        </div>
+      </div>
+
+      <div style="margin-top: 14px;">
+        <h4>3. Configuración Mixta (Ejemplo Numérico de Parcial):</h4>
+        <div class="formula-box">
+          R_sist = R_1 × { 1 - [(1 - R_2) × (1 - R_3)] } × R_4
+        </div>
+        <p>• <em>Ejemplo:</em> Si R_1 = 0.8, R_2 = 0.7, R_3 = 0.9, R_4 = 0.99:<br>
+        R_paralelo = 1 - (0.3 × 0.1) = 0.97<br>
+        R_sist = 0.8 × 0.97 × 0.99 = <strong>0.7682</strong></p>
+      </div>
+    </div>
+
+    <div class="card amber">
+      <span class="crit-tag tag-examen">🔴 Pregunta Típica de Examen</span>
+      <h3>Las 3 Variantes de Redundancia</h3>
+      <div class="table-wrap">
+        <table class="t">
+          <tr>
+            <th>Tipo de Redundancia</th>
+            <th>Modo de Funcionamiento</th>
+            <th>Ejemplo de Clase</th>
+          </tr>
+          <tr>
+            <td><strong>1. Redundancia Cargada (Activa)</strong></td>
+            <td>Los componentes repetidos operan simultáneamente a plena carga.<br>
+            • <strong>1A:</strong> Al fallar uno, el resto mantiene su régimen normal y satisface la función.<br>
+            • <strong>1B:</strong> Al fallar uno, los restantes deben trabajar más sobrecargados.</td>
+            <td>• <em>1A:</em> Avión bimotor comercial.<br>• <em>1B:</em> Banco de transformadores o sistemas UPS en paralelo.</td>
+          </tr>
+          <tr>
+            <td><strong>2. Redundancia Aligerada</strong></td>
+            <td>Uno de los elementos opera con la mayor carga mientras los otros trabajan a regímenes menores. Ante la falla del principal, los secundarios elevan su nivel.</td>
+            <td>Compresores en cascada o bombas con variadores de frecuencia.</td>
+          </tr>
+          <tr>
+            <td><strong>3. Redundancia No Cargada (Stand-By)</strong></td>
+            <td>Sólo opera el componente principal; el secundario se encuentra <strong>en reposo / apagado</strong>. Ante la falla, un conmutador activa la reserva.</td>
+            <td>Electrobomba de reserva en reposo; Grupo electrógeno de emergencia.</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════
+       SECCIÓN 5: EMPRESAS DE SERVICIOS & BMS
+  ══════════════════════════════════════ -->
+  <section id="sec-servicios">
+    <div class="section-title">
+      <div class="section-icon ic-pink">🏢</div>
+      <div>
+        <h2>5. Mantenimiento en Empresas de Servicios</h2>
+        <div class="sec-sub">Property Management, instalaciones edilicias, Edificios Inteligentes (Honeywell) y sistema BMS</div>
+      </div>
+    </div>
+
+    <div class="card info">
+      <h3>Clasificación de Empresas de Servicios</h3>
+      <div class="grid-2">
+        <div class="highlight">
+          <strong>1. Empresas de Transporte:</strong> (Trenes, Subtes, Micros). El mantenimiento se centra en los vehículos (material rodante), que son el núcleo directo del negocio.
+        </div>
+        <div class="highlight">
+          <strong>2. Restantes Empresas:</strong> (Hoteles, Shoppings, Hospitales, Bancos, Oficinas). El mantenimiento se basa en la <strong>infraestructura edilicia</strong> (*Property Management*).
+        </div>
+      </div>
+
+      <div class="green-box" style="margin-top:12px;">
+        <strong>Gerenciamiento de Propiedades (Property Management):</strong><br>
+        "La adecuada gestión integral de mantenimiento sobre la infraestructura edilicia y las instalaciones electromecánicas, termomecánicas, electrónicas y de comunicaciones que permiten el desempeño efectivo de la organización."
+      </div>
+
+      <h4 style="margin-top:14px;">Aspectos Clave de la Gestión:</h4>
+      <ul>
+        <li><strong>Aspectos Administrativos:</strong> Variedad inmensa de tecnologías concentradas en reducidos metros cuadrados; administración de stocks; cumplimiento estricto de <strong>Normas Legales Obligatorias</strong> (habilitación de ascensores, limpieza semestral de tanques de agua, certificación de red contra incendios).</li>
+        <li><strong>Aspectos Técnicos:</strong> Ingeniería tradicional (energía, tableros, grupos, climatización) vs. <strong>Aspectos no tradicionales de ingeniería</strong> de enorme impacto en la calidad del servicio: <em>estética, tapicería, decoración, pintura, amoblamiento e iluminación</em>.</li>
+        <li><strong>Organización Modelo:</strong> Hotel 5 estrellas (400 habitaciones, 5 hectáreas de superficie, servicio continuo 24x365, con la factura energética integrada al presupuesto de mantenimiento).</li>
+      </ul>
+    </div>
+
+    <div class="card pink">
+      <span class="crit-tag tag-examen">🔴 Definición de Examen (Honeywell)</span>
+      <h3>Edificios Inteligentes y Building Management System (BMS)</h3>
+      <p><strong>Definición de Honeywell (Cátedra):</strong> Un edificio es inteligente cuando tiene aplicadas tecnologías y control automatizado en <strong>3 GRANDES ÁREAS INTEGRADAS MEDIANTE UN SISTEMA ÚNICO</strong>:</p>
+      
+      <div class="grid-3" style="margin-top:10px;">
+        <div class="cyan-box">
+          <strong>1. Energía:</strong> Iluminación sectorizada, tableros de transferencia automática, grupos electrógenos, ascensores inteligentes.
+        </div>
+        <div class="amber-box">
+          <strong>2. Termomecánica:</strong> Climatización HVAC, enfriadoras de agua (chillers), bombas de condensado, torres de enfriamiento.
+        </div>
+        <div class="danger-box">
+          <strong>3. Seguridad:</strong> Detección y extinción de incendios (sprinklers, gas FM200), control de accesos y circuito cerrado (CCTV).
+        </div>
+      </div>
+
+      <div class="highlight" style="margin-top:14px;">
+        <strong>BMS (Building Management System):</strong> Plataforma computarizada centralizada que monitorea y comanda en tiempo real todos los sensores, actuadores y subsistemas del edificio.
+      </div>
+
+      <div class="warn-box">
+        <strong>Ejemplos Obligatorios de Integración de Sistemas:</strong>
+        <ul>
+          <li><strong>Corte de Suministro Eléctrico:</strong> El BMS detecta la falta de tensión, enciende de inmediato los grupos electrógenos y conmuta los tableros de transferencia alimentando los servicios esenciales sin interrupción.</li>
+          <li><strong>Alarma de Incendio (Secuencia integrada de clase):</strong> Al activarse un detector de humo en un piso:<br>
+          1) Se disparan señales acústicas y lumínicas en el sector.<br>
+          2) El CCTV orienta cámaras al punto del foco ígneo.<br>
+          3) El sistema HVAC <strong>apaga la inyección de aire</strong> para no aportar oxígeno al fuego.<br>
+          4) Se activan los ventiladores presurizadores de cajas de escaleras para mantenerlas libres de humo.<br>
+          5) Se liberan las retenciones magnéticas de las puertas de emergencia.<br>
+          6) Los ascensores van automáticamente a Planta Baja, abren sus puertas y quedan fuera de servicio.
+          </li>
+        </ul>
+      </div>
+
+      <p style="margin-top:10px;"><strong>Sustentabilidad:</strong> Free-cooling aprovechando aire exterior frío; variadores de velocidad en ventiladores; aislación térmica eficiente; colectores solares térmicos; reutilización de aguas pluviales (aguas grises) para sanitarios y torres de enfriamiento.</p>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════
+       SECCIÓN 6: PARADA DE PLANTA (PDP)
+  ══════════════════════════════════════ -->
+  <section id="sec-pdp">
+    <div class="section-title">
+      <div class="section-icon ic-amber">🏭</div>
+      <div>
+        <h2>6. Mantenimiento en Parada de Planta (PDP)</h2>
+        <div class="sec-sub">Grandes reparaciones, análisis de riesgos, objetivos de espaciamiento y las 3 fases operativas</div>
+      </div>
+    </div>
+
+    <div class="card amber">
+      <span class="crit-tag tag-alta">Concepto y Características Críticas</span>
+      <h3>¿Qué es una Parada de Planta?</h3>
+      <p>Es un evento de <strong>Grandes Reparaciones</strong> complejo pero rigurosamente programado, cuyo fin es lograr la máxima disponibilidad anual (>95%) reduciendo al mínimo el tiempo fuera de servicio y los costos de ejecución.</p>
+      
+      <div class="grid-2" style="margin-top:12px;">
+        <div class="danger-box">
+          <strong>Incremento Notorio de Accidentes (Pregunta de parcial):</strong><br>
+          Concurrencia masiva de contratistas de distintos gremios en sitios comunes; falta de familiaridad con normas internas; trabajos peligrosos en altura, espacios confinados y presencia de fluidos tóxicos/inflamables; altísima presión de plazos y fatiga.
+        </div>
+        <div class="warn-box">
+          <strong>Características Económicas y Operativas:</strong><br>
+          • <strong>Gasto elevado en breve tiempo:</strong> Requiere presupuesto complementario fuera del operativo anual.<br>
+          • <strong>Cese total de producción:</strong> Obliga a producir y acumular stock previo de producto terminado.<br>
+          • <strong>Trabajos emergentes imprevistos:</strong> Se revelan al abrir y destapar equipos cerrados.
+        </div>
+      </div>
+
+      <div class="highlight" style="margin-top:12px;">
+        <strong>Objetivos Estratégicos:</strong> Cero accidentes; reducir consecuencias de fallas; reducir horas-hombre externas y <strong>aumentar el intervalo entre paradas sucesivas</strong> (pasar de paradas anuales a cada 18 o 24 meses).
+      </div>
+    </div>
+
+    <!-- Las 3 Fases de la PDP -->
+    <div class="card info">
+      <span class="crit-tag tag-examen">🔴 Las 3 Fases de la PDP (Estructura de Examen)</span>
+      <h3>Fases Operativas de una Parada de Planta</h3>
+      <div class="table-wrap">
+        <table class="t">
+          <tr>
+            <th>Fase</th>
+            <th>Actividades Principales</th>
+            <th>Roles Clave y Documentación</th>
+          </tr>
+          <tr>
+            <td><strong>1. Planificación y Organización</strong></td>
+            <td>• Determinación del alcance estricto (Scope).<br>• Programación de tiempos mediante diagramas <strong>PERT y GANTT</strong> (Ruta Crítica).<br>• Presupuesto de gastos complementario.<br>• Evaluación y calificación previa de contratistas.<br>• Aseguramiento de repuestos estratégicos (nacionalización y plazos de entrega).<br>• Contratación de equipos de izaje, grúas y andamios.</td>
+            <td>Designación de Coordinadores por Área (Mantenimiento, Producción, Seguridad).<br>Emisión de Órdenes de Compra (OC) y Órdenes de Trabajo (OT).</td>
+          </tr>
+          <tr>
+            <td><strong>2. Ejecución</strong></td>
+            <td>• Preventivo mayor y Overhaul (puestas a cero).<br>• Predictivo/Proactivo para fallas sintomáticas.<br>• Detectivo en sistemas redundantes y de alivio.<br>• Reacondicionamiento y modificaciones de diseño.<br>• Control diario mediante indicadores de avance físico vs. financiero.</td>
+            <td><strong>Rol Central del Coordinador de Área:</strong> Máxima autoridad en campo para comunicación con contratistas, cumplimiento de normas de seguridad, control de calidad, limpieza y solución de interferencias técnicas.</td>
+          </tr>
+          <tr>
+            <td><strong>3. Terminación y Cierre</strong></td>
+            <td>• <strong>Puesta en marcha (Start-up):</strong> Confección de programas de pre-arranque conjunto entre Mantenimiento y Producción hasta lograr régimen estable.<br>• Cierre de OT y carga al <strong>Historial de Equipos</strong>.<br>• Certificación de avance de obra para liberar pagos a proveedores.</td>
+            <td><strong>Informes Obligatorios de Cierre:</strong><br>• <em>Seguridad:</em> Incidentes, accidentes, desvíos y uso de EPP.<br>• <em>Calidad:</em> Resolución de No Conformidades.<br>• <em>Mantenimiento:</em> Cierre económico (Presupuestado vs. Gastado Real).</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════
+       SECCIÓN 7: TPM & JIT
+  ══════════════════════════════════════ -->
+  <section id="sec-tpm">
+    <div class="section-title">
+      <div class="section-icon ic-violet">⚙️</div>
+      <div>
+        <h2>7. TPM (Mantenimiento Productivo Total)</h2>
+        <div class="sec-sub">Filosofía JIT, los 5 Ceros, las 6 Grandes Pérdidas, Mantenimiento Autónomo y los 8 Pilares</div>
+      </div>
+    </div>
+
+    <div class="card info">
+      <span class="crit-tag tag-concepto">Filosofía de Gestión</span>
+      <h3>Fundamentos del TPM y Vínculo con JIT</h3>
+      <p>Originado en Japón (JIPM / Toyota), su meta es maximizar la efectividad global de los sistemas productivos eliminando de raíz todas las pérdidas y despilfarros con la participación de todo el personal en pequeños grupos (*Kaizen: Mantener $\rightarrow$ Mejorar*).</p>
+      
+      <div class="grid-2" style="margin-top:12px;">
+        <div class="highlight">
+          <strong>Sustento en los 5 Ceros de JIT:</strong><br>
+          • <strong>Cero Defectos:</strong> El estado óptimo de la máquina garantiza tolerancias exactas.<br>
+          • <strong>Cero Averías:</strong> <em>En TPM trabajar a la falla es inaceptable.</em> Desaparece la curva de costo de falla.<br>
+          • <strong>Cero Burocracia:</strong> Desaparecen las órdenes de trabajo formales de avería; comunicación ágil.<br>
+          • <strong>Cero Stocks:</strong> Los inventarios cubren ineficiencias de máquina.<br>
+          • <strong>Cero Plazos:</strong> Cumplimiento estricto sin demoras por paros.
+        </div>
+        <div class="warn-box">
+          <strong>Las 6 Grandes Pérdidas de los Equipos:</strong><br>
+          1. <strong>Averías:</strong> Paros no programados > 10 min.<br>
+          2. <strong>Preparación / Ajustes (Set-up):</strong> Ajustes > 10 min.<br>
+          3. <strong>Esperas y Paradas Cortas:</strong> Detenciones < 10 min.<br>
+          4. <strong>Velocidad Reducida:</strong> Marcha por debajo del régimen nominal.<br>
+          5. <strong>Defectos de Calidad:</strong> Scrap y retrabajos > 0.1%.<br>
+          6. <strong>Puesta en Marcha (Start-up):</strong> Pérdidas hasta estabilizar régimen (eficiencia < 99%).
+        </div>
+      </div>
+    </div>
+
+    <div class="card green">
+      <span class="crit-tag tag-examen">🔴 Pregunta Literal de Examen</span>
+      <h3>Mantenimiento Profesional vs. Mantenimiento Autónomo</h3>
+      <p>• <strong>Mantenimiento Profesional (Planificado):</strong> A cargo de la Oficina Técnica / Departamento de Mantenimiento. Tareas complejas, predictivo, paradas y análisis de confiabilidad.</p>
+      <p style="margin-top:6px;">• <strong>Mantenimiento No Profesional (Autónomo):</strong> A cargo directo de los <strong>operarios de producción</strong>.</p>
+      
+      <div class="danger-box" style="margin-top:10px;">
+        <strong>📌 Pregunta Trampa de Parcial: ¿Qué pasa con los operarios de producción en TPM?</strong><br>
+        <strong>Respuesta de cátedra:</strong> <strong>NUNCA se los traslada ni se reduce la dotación.</strong> Simplemente <strong>cambian sus funciones</strong>: se elimina la barrera de "yo opero, vos arreglás". El operario toma posesión de su equipo, se transforma en un <strong>inspector permanente</strong>, y ejecuta tareas básicas de limpieza, lubricación, reapriete y detección temprana de desvíos.
+      </div>
+    </div>
+
+    <div class="card pink">
+      <span class="crit-tag tag-examen">💖 Los 8 Pilares del TPM</span>
+      <h3>Estructura de los 8 Pilares del TPM</h3>
+      <div class="table-wrap">
+        <table class="t">
+          <tr>
+            <th>#</th>
+            <th>Pilar</th>
+            <th>Objetivo y Alcance</th>
+          </tr>
+          <tr>
+            <td>1</td>
+            <td><strong>Mantenimiento Autónomo</strong></td>
+            <td>Capacitar al operario para inspeccionar, lubricar y limpiar su puesto.</td>
+          </tr>
+          <tr>
+            <td>2</td>
+            <td><strong>Mantenimiento Planificado</strong></td>
+            <td>Estructuración del mantenimiento profesional para lograr cero averías.</td>
+          </tr>
+          <tr>
+            <td>3</td>
+            <td><strong>Mejora Focalizada (Kobetsu Kaizen)</strong></td>
+            <td>Grupos interdisciplinarios para eliminar sistemáticamente las 6 grandes pérdidas.</td>
+          </tr>
+          <tr>
+            <td>4</td>
+            <td><strong>Gestión Temprana o Inicial</strong></td>
+            <td>Mantenimiento participa desde el diseño/compra para asegurar alta fiabilidad y mantenibilidad.</td>
+          </tr>
+          <tr>
+            <td>5</td>
+            <td><strong>Mantenimiento de la Calidad</strong></td>
+            <td>Asegurar condiciones del equipo que garanticen cero defectos en el producto.</td>
+          </tr>
+          <tr>
+            <td>6</td>
+            <td><strong>Capacitación y Entrenamiento</strong></td>
+            <td>Formación técnica continua y polivalencia operativa del personal.</td>
+          </tr>
+          <tr>
+            <td>7</td>
+            <td><strong>TPM en Departamentos de Apoyo</strong></td>
+            <td>Eliminar burocracia y tiempos muertos en Compras, Logística, Almacenes y RRHH.</td>
+          </tr>
+          <tr>
+            <td>8</td>
+            <td><strong>Seguridad, Higiene y Medio Ambiente</strong></td>
+            <td><strong>PILAR INTEGRADOR / TRANSVERSAL:</strong> Prioridad absoluta de Cero Accidentes y Cero Contaminación (desarrollo sustentable).</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════
+       SECCIÓN 8: RCM TEÓRICO
+  ══════════════════════════════════════ -->
+  <section id="sec-rcm">
+    <div class="section-title">
+      <div class="section-icon ic-cyan">🛡️</div>
+      <div>
+        <h2>8. RCM (Mantenimiento Centrado en la Confiabilidad)</h2>
+        <div class="sec-sub">Preservación de funciones en contexto operacional actual y las 7 preguntas clave</div>
+      </div>
+    </div>
+
+    <div class="card info">
+      <span class="crit-tag tag-concepto">Filosofía de Trabajo</span>
+      <h3>Fundamentos del RCM</h3>
+      <p>Nacido en la aviación comercial en la década de 1960. Reconoce que el mantenimiento <strong>no puede elevar la confiabilidad inherente del diseño</strong>. Su propósito no es preservar máquinas aisladas, sino <strong>PRESERVAR LAS FUNCIONES que los activos desempeñan en su CONTEXTO OPERACIONAL PRESENTE</strong>.</p>
+      
+      <div class="highlight" style="margin-top:10px;">
+        <strong>Metodología de Trabajo:</strong> Equipos polifuncionales (operadores, técnicos, calidad, facilitador capacitado; <strong>los jefes no participan en las mesas</strong> para no sesgar el análisis).
+      </div>
+
+      <h4 style="margin-top:14px;">Las 7 Preguntas Fundamentales:</h4>
+      <div class="table-wrap">
+        <table class="t">
+          <tr>
+            <th>#</th>
+            <th>Pregunta RCM</th>
+            <th>Paso / Concepto</th>
+            <th>Mayor Aporte</th>
+          </tr>
+          <tr>
+            <td>1</td>
+            <td>¿Cuáles son las funciones del sistema y sus estándares de desempeño?</td>
+            <td>Funciones (Verbo + Sustantivo + Estándar cuantificable)</td>
+            <td>Operación</td>
+          </tr>
+          <tr>
+            <td>2</td>
+            <td>¿De qué forma no se cumplen las funciones?</td>
+            <td>Fallas Funcionales (total, parcial, exceso)</td>
+            <td>Mantenimiento</td>
+          </tr>
+          <tr>
+            <td>3</td>
+            <td>¿Cuáles son las causas que provocan las fallas funcionales?</td>
+            <td>Modos de Falla (Causa raíz)</td>
+            <td>Mantenimiento</td>
+          </tr>
+          <tr>
+            <td>4</td>
+            <td>¿Qué sucede cuando ocurre cada modo de falla?</td>
+            <td>Efectos de Falla (daños, alarmas, tiempos)</td>
+            <td>Operación</td>
+          </tr>
+          <tr>
+            <td>5</td>
+            <td>¿Qué consecuencias provoca cada modo de falla?</td>
+            <td>Consecuencias (SoME, Operacionales, No Operacionales, Oculta)</td>
+            <td>Operación / Decisión</td>
+          </tr>
+          <tr>
+            <td>6</td>
+            <td>¿Qué puede hacerse para evitar, predecir o detectar la falla?</td>
+            <td>Acciones Proactivas (Condición, Reacondicionamiento, Sustitución)</td>
+            <td>Mantenimiento</td>
+          </tr>
+          <tr>
+            <td>7</td>
+            <td>¿Cómo proceder si no es posible evitar, predecir o detectar la falla?</td>
+            <td>Acciones Reactivas (Búsqueda de fallas, NAP, Rediseño)</td>
+            <td>Mantenimiento</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════
+       SECCIÓN 9: MANUFACTURA FLEXIBLE (FMS)
+  ══════════════════════════════════════ -->
+  <section id="sec-flexible">
+    <div class="section-title">
+      <div class="section-icon ic-violet">🤖</div>
+      <div>
+        <h2>9. Mantenimiento en Manufactura Flexible (FMS)</h2>
+        <div class="sec-sub">Automatización integral, rol cognitivo del operario, lucro cesante, Diseño Robusto y paradas de vacaciones</div>
+      </div>
+    </div>
+
+    <div class="card info">
+      <span class="crit-tag tag-alta">Características y Rol del Mantenimiento</span>
+      <h3>Características de los Sistemas FMS</h3>
+      <p>Líneas altamente automatizadas para producir lotes pequeños con tiempos de preparación (*set-up*) mínimos (1 a 2 minutos). Máquinas CNC, robots, AGV y almacenes conectados en red bajo control computarizado.</p>
+      
+      <div class="grid-2" style="margin-top:12px;">
+        <div class="highlight">
+          <strong>Impacto en el Personal:</strong><br>
+          • Fuerte reducción de operarios manuales (posibles roces sindicales).<br>
+          • Declinan las tareas manuales y crecen las <strong>actividades cognitivas</strong>: el operario pasa a ser un <em>Operador de Sistemas</em> supervisando pantallas y consolas.
+        </div>
+        <div class="danger-box">
+          <strong>Lucro Cesante Devastador:</strong><br>
+          Al estar todo el circuito automatizado e integrado con almacenes y compras, una parada imprevista paraliza toda la cadena productiva. El mantenimiento es predominantemente <strong>A Condición / Predictivo</strong> continuo.
+        </div>
+      </div>
+
+      <h4 style="margin-top:14px;">El Concepto de «Diseño Robusto»:</h4>
+      <p>Consiste en emplear la información aportada por mantenimiento para diseñar o rediseñar la máquina con <strong>coeficientes de seguridad más elevados</strong> y materiales más resistentes. El mayor costo de adquisición resulta insignificante frente al multimillonario costo de paradas y lucro cesante evitado. Exige alta accesibilidad de sensores y componentes.</p>
+
+      <div class="warn-box" style="margin-top:14px;">
+        <strong>📌 Pregunta de Examen: ¿La parada de planta no se puede utilizar en manufactura flexible?</strong><br>
+        <strong>Respuesta: FALSO.</strong> SÍ se puede y se debe utilizar. En líneas convencionales con cambios de matriz de 8 a 10 hs se aprovechaba ese tiempo para hacer mantenimiento; pero en FMS el cambio toma 1 a 2 minutos y no hay ventanas operativas. Por lo tanto, el mantenimiento mayor <strong>se realiza concentrado durante el receso por VACACIONES</strong> de la fábrica o en ventanas diarias de 5-6 hs en plantas que operan a 18-19 hs.
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════
+       SECCIÓN 10: TERCERIZACIÓN DEL MANTENIMIENTO
+  ══════════════════════════════════════ -->
+  <section id="sec-tercerizacion">
+    <div class="section-title">
+      <div class="section-icon ic-green">🤝</div>
+      <div>
+        <h2>10. Tercerización del Mantenimiento</h2>
+        <div class="sec-sub">Niveles, las 5 razones, tipos de contratos, criterios de éxito, acuerdos de nivel de servicio (SLA) y dificultades</div>
+      </div>
+    </div>
+
+    <div class="card info">
+      <h3>Las 5 Razones para Tercerizar el Servicio</h3>
+      <div class="table-wrap">
+        <table class="t">
+          <tr>
+            <th>#</th>
+            <th>Razón</th>
+            <th>Fundamento Técnico de Cátedra</th>
+          </tr>
+          <tr>
+            <td>1</td>
+            <td><strong>Equipos de Gran Complejidad</strong></td>
+            <td>Instrumental muy costoso y capacitación que se aprovecharía poco tiempo (ej. alineación láser, análisis de vibraciones, PLC, calibración de válvulas de seguridad, o habilitación legal de ascensores).</td>
+          </tr>
+          <tr>
+            <td>2</td>
+            <td><strong>Equipos en Garantía</strong></td>
+            <td>Obligación contractual con el fabricante para sostener la cobertura.</td>
+          </tr>
+          <tr>
+            <td>3</td>
+            <td><strong>Carga Instantánea de Trabajo</strong></td>
+            <td>Picos extraordinarios de demanda donde la dotación fija diseñada para demanda media no da abasto.</td>
+          </tr>
+          <tr>
+            <td>4</td>
+            <td><strong>Reducción de Gastos Fijos</strong></td>
+            <td><em>¡Peligro de cátedra!</em> Reemplazar personal propio por contratado entraña serios riesgos en la calidad y seguridad si no se ejerce una rigurosa supervisión técnica.</td>
+          </tr>
+          <tr>
+            <td>5</td>
+            <td><strong>Eventos de Gran Envergadura</strong></td>
+            <td>Paradas de Planta (PDP), Overhauls masivos, instalación de nuevas líneas.</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+
+    <!-- Tipos de Contratos -->
+    <div class="card cyan">
+      <span class="crit-tag tag-examen">🔴 Los 3 Tipos de Contratos de Mantenimiento</span>
+      <h3>Modalidades Contractuales</h3>
+      <div class="table-wrap">
+        <table class="t">
+          <tr>
+            <th>Tipo de Contrato</th>
+            <th>Quién Ejerce la Supervisión Directa</th>
+            <th>Características y Riesgos</th>
+          </tr>
+          <tr>
+            <td><strong>1. Horas/Hombre por Administración</strong></td>
+            <td><strong>El Contratante (Mantenimiento propio)</strong></td>
+            <td>Se paga tarifa por hora según categoría. Genera conflictos gremiales internos (distintos sueldos en mismo taller) y obliga a un estricto control horario.</td>
+          </tr>
+          <tr>
+            <td><strong>2. Por Unidad de Trabajo</strong></td>
+            <td><strong>La Contratista</strong></td>
+            <td>Se abona por unidad mensurable ($m^2$, metros lineales, bocas). El contratante <strong>no tiene contacto directo con los operarios</strong>; sólo inspecciona calidad final con el supervisor externo. Se usan <strong>Órdenes de Compra Abiertas (OCA)</strong>.</td>
+          </tr>
+          <tr>
+            <td><strong>3. Por Resultados / Objetivos</strong></td>
+            <td><strong>La Contratista (Gestión Integral)</strong></td>
+            <td>Se contrata disponibilidad y confiabilidad garantizada. Se estipulan <strong>Acuerdos de Nivel de Servicio (SLA)</strong> con penalidades y bonificaciones.</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+
+    <!-- Criterios de Éxito & Largo Plazo -->
+    <div class="card amber">
+      <span class="crit-tag tag-examen">💖 Criterio Clave: ¿Por qué Tercerizar a Largo Plazo?</span>
+      <h3>Criterios de Éxito en la Tercerización</h3>
+      <div class="warn-box">
+        <strong>📌 Pregunta Textual de Parcial: ¿Por qué se debe tercerizar a largo plazo (3 a 5 años)?</strong><br>
+        <strong>Respuesta de cátedra:</strong> Ninguna tercerización es exitosa si se contrata año a año. Si el contrato dura solo un año, el proveedor <strong>invertirá lo mínimo indispensable</strong> sabiendo que el año próximo puede no continuar. Si se contrata a largo plazo, el contratista se ve forzado a realizar un preventivo riguroso desde el día uno, ya que cualquier desidia o ahorro ficticio inicial se convertirá en averías complejas y sobrecostos que él mismo deberá solventar en los años subsiguientes.
+      </div>
+
+      <h4 style="margin-top:14px;">Otros Criterios de Éxito de Cátedra:</h4>
+      <ul>
+        <li>Decisión estratégica que emana de la Dirección de la empresa.</li>
+        <li><strong>Fomentar la diversidad de oferentes:</strong> Evitar convertirse en un cliente cautivo que degrade la calidad del servicio.</li>
+        <li><strong>No considerar el costo como única variable:</strong> Lo que parece barato inicialmente sale carísimo a mediano plazo.</li>
+        <li><strong>Considerar al contratista un aliado estratégico:</strong> No esconderle planos ni información técnica relevante (celebrar acuerdos de confidencialidad).</li>
+        <li><strong>No buscar un subordinado:</strong> El contratista es el experto en su actividad; aceptar sus propuestas técnicas.</li>
+        <li><strong>No tercerizar exclusivamente la mano de obra:</strong> Si la empresa sigue administrando, pierde el tiempo que debía destinar a su *Core Business*.</li>
+      </ul>
+
+      <div class="danger-box" style="margin-top:14px;">
+        <strong>Gran Desventaja de Tercerizar (Pregunta de parcial):</strong><br>
+        <strong>PÉRDIDA DEL HISTORIAL TÉCNICO DE EQUIPOS:</strong> Se pierden los antecedentes de fallas y el know-how técnico que se queda en manos del contratista.
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════
+       SECCIÓN 12: CHECKLIST DE REPASO MAESTRO
   ══════════════════════════════════════ -->
   <section id="sec-checklist">
     <div class="section-title">
       <div class="section-icon ic-green">✅</div>
       <div>
-        <h2>Checklist de Repaso</h2>
-        <div class="sec-sub">Conceptos consolidados de clases y apunte de Lucas De Tonon</div>
+        <h2>Checklist Maestro de Repaso</h2>
+        <div class="sec-sub">36 conceptos esenciales para asegurar la aprobación del 2do parcial</div>
       </div>
     </div>
 
@@ -518,25 +1451,45 @@
       <div class="progress-bar-wrap">
         <div class="progress-bar-fill" id="progress-fill" style="width:0%"></div>
       </div>
-      <div class="progress-label" id="progress-label">0 / 0 conceptos dominados</div>
+      <div class="progress-label" id="progress-label">0 / 36 conceptos dominados</div>
 
-      <ul class="checklist" id="checklist-items" style="margin-top: 14px;">
-        <li id="c2p-1"><span class="check-box" onclick="toggleCheck('c2p-1')"></span>Predictivo: Monitoreo de variables representativas en funcionamiento ("un instante antes")</li>
-        <li id="c2p-2"><span class="check-box" onclick="toggleCheck('c2p-2')"></span>Variables Mto vs Producción (ej. electrobomba: caudal vs vibraciones/temperatura)</li>
-        <li id="c2p-3"><span class="check-box" onclick="toggleCheck('c2p-3')"></span>Estrategia de ahorro: aprovechar variables de proceso que Producción ya mide sin costo extra</li>
-        <li id="c2p-4"><span class="check-box" onclick="toggleCheck('c2p-4')"></span>2 Grandes Ventajas: Maximizar vida útil (100%) y reducir el stock inmovilizado</li>
-        <li id="c2p-5"><span class="check-box" onclick="toggleCheck('c2p-5')"></span>Mantenimiento Condicional = Predictivo + Proactivo («Técnicamente factible y económicamente viable»)</li>
-        <li id="c2p-6"><span class="check-box" onclick="toggleCheck('c2p-6')"></span>Punto de cruce en curva de costos: se justifica cuando la parada no programada tiene un costo altísimo</li>
-        <li id="c2p-7"><span class="check-box" onclick="toggleCheck('c2p-7')"></span>Gran Desventaja: Falla sintomática de carácter IRREVERSIBLE</li>
-        <li id="c2p-8"><span class="check-box" onclick="toggleCheck('c2p-8')"></span>Caso Motor-Electrobomba: Preventivo (subjetivo 48h) vs Predictivo (+2 meses vida útil) vs Proactivo (alineación láser sobre causa raíz)</li>
-        <li id="c2p-9"><span class="check-box" onclick="toggleCheck('c2p-9')"></span>Análisis de Vibraciones: Frecuencia (origen) vs Amplitud (gravedad) + Gráfico de examen (Zona II, III y IV)</li>
-        <li id="c2p-10"><span class="check-box" onclick="toggleCheck('c2p-10')"></span>Amperaje / PLC: Pinza suelta manual (Preventivo) vs Lazo continuo con PLC (Predictivo)</li>
-        <li id="c2p-11"><span class="check-box" onclick="toggleCheck('c2p-11')"></span>Ultrasonido: Detección de grietas internas por desgaste antes de que lleguen a la superficie</li>
-        <li id="c2p-12"><span class="check-box" onclick="toggleCheck('c2p-12')"></span>Termografía: Ventaja de medición a distancia mediante gama de colores</li>
-        <li id="c2p-13"><span class="check-box" onclick="toggleCheck('c2p-13')"></span>Alineación Láser: Corrección de ejes conectados (acción proactiva sobre causa raíz)</li>
-        <li id="c2p-14"><span class="check-box" onclick="toggleCheck('c2p-14')"></span>Partículas Magnetizables: Magnetización + limadura de hierro para ver distorsiones de líneas de campo</li>
-        <li id="c2p-15"><span class="check-box" onclick="toggleCheck('c2p-15')"></span>Tintas Penetrantes vs Ultrasonido: Tintas para grietas superficiales / Ultrasonido para grietas internas</li>
-        <li id="c2p-16"><span class="check-box" onclick="toggleCheck('c2p-16')"></span>Análisis de Desgaste (muestras de aceite) y Nivel de Ruido (evolución en horas de marcha)</li>
+      <ul class="checklist" id="checklist-items" style="margin-top: 16px;">
+        <li id="c2p-1"><span class="check-box" onclick="toggleCheck('c2p-1')"></span>Predictivo: Monitoreo periódico de variables representativas en marcha ("un instante antes").</li>
+        <li id="c2p-2"><span class="check-box" onclick="toggleCheck('c2p-2')"></span>Variables Mto vs Producción (electrobomba: caudal vs vibraciones/temperatura).</li>
+        <li id="c2p-3"><span class="check-box" onclick="toggleCheck('c2p-3')"></span>Estrategia de ahorro: aprovechar variables de proceso que producción ya mide sin costo extra.</li>
+        <li id="c2p-4"><span class="check-box" onclick="toggleCheck('c2p-4')"></span>2 Grandes Ventajas de Predictivo: Maximizar vida útil remanente y reducir el stock inmovilizado.</li>
+        <li id="c2p-5"><span class="check-box" onclick="toggleCheck('c2p-5')"></span>Gran Desventaja de Predictivo: Falla sintomática de carácter IRREVERSIBLE (no alarga la vida útil de la pieza).</li>
+        <li id="c2p-6"><span class="check-box" onclick="toggleCheck('c2p-6')"></span>Vibraciones: Frecuencia (origen de la falla) vs Amplitud (gravedad y energía destructiva).</li>
+        <li id="c2p-7"><span class="check-box" onclick="toggleCheck('c2p-7')"></span>Termografía: Gran ventaja de medición a distancia mediante escala de colores.</li>
+        <li id="c2p-8"><span class="check-box" onclick="toggleCheck('c2p-8')"></span>Pinza amperométrica suelta (Preventivo) vs Vinculada continuamente a PLC (Predictivo / A Condición).</li>
+        <li id="c2p-9"><span class="check-box" onclick="toggleCheck('c2p-9')"></span>Ultrasonido (grietas internas profundas) vs Tintas penetrantes (grietas superficiales abiertas).</li>
+        <li id="c2p-10"><span class="check-box" onclick="toggleCheck('c2p-10')"></span>Partículas magnetizables: Pieza imán + limadura de hierro para detectar deformación de líneas de campo.</li>
+        <li id="c2p-11"><span class="check-box" onclick="toggleCheck('c2p-11')"></span>Mantenimiento a Condición = Predictivo + Proactivo («Técnicamente factible y económicamente viable»).</li>
+        <li id="c2p-12"><span class="check-box" onclick="toggleCheck('c2p-12')"></span>Mantenimiento Proactivo: Actúa sobre la Causa Raíz, falla REVERSIBLE, acción RESTAURATIVA (extiende vida útil).</li>
+        <li id="c2p-13"><span class="check-box" onclick="toggleCheck('c2p-13')"></span>Ejemplos Proactivos: Alineación láser en ejes, Humedad en aceites dieléctricos (>15 ppm), gasoil en generadores.</li>
+        <li id="c2p-14"><span class="check-box" onclick="toggleCheck('c2p-14')"></span>Caso Motor-Bomba: Preventivo (48h subjetivo) vs Predictivo (+2 meses vida útil) vs Proactivo (alineación láser).</li>
+        <li id="c2p-15"><span class="check-box" onclick="toggleCheck('c2p-15')"></span>Gráfico Paramétrico: Ejes (Estado vs Tiempo), Punto S, Zona I, II (Reversible), III (Irreversible) y IV.</li>
+        <li id="c2p-16"><span class="check-box" onclick="toggleCheck('c2p-16')"></span>Ventaja de detección temprana en Zona III: Mayor vida remanente de seguridad para planificar compra y MO diurna.</li>
+        <li id="c2p-17"><span class="check-box" onclick="toggleCheck('c2p-17')"></span>Confiabilidad: Definición formal (Probabilidad, Funcionamiento adecuado, Tiempo, Condiciones operativas).</li>
+        <li id="c2p-18"><span class="check-box" onclick="toggleCheck('c2p-18')"></span>Modelos: Serie (menor al menos confiable) vs Paralelo (mayor al más confiable) vs Mixto.</li>
+        <li id="c2p-19"><span class="check-box" onclick="toggleCheck('c2p-19')"></span>Redundancias: Cargada (1A bimotor, 1B UPS), Aligerada y No cargada (Stand-by / electrobomba en reposo).</li>
+        <li id="c2p-20"><span class="check-box" onclick="toggleCheck('c2p-20')"></span>Property Management: Transportes (vehículos) vs Resto (infraestructura edilicia y estética).</li>
+        <li id="c2p-21"><span class="check-box" onclick="toggleCheck('c2p-21')"></span>Edificios Inteligentes (Honeywell): Control e integración en Energía, Termomecánica y Seguridad.</li>
+        <li id="c2p-22"><span class="check-box" onclick="toggleCheck('c2p-22')"></span>BMS: Plataforma informática centralizada para monitoreo y comando en tiempo real.</li>
+        <li id="c2p-23"><span class="check-box" onclick="toggleCheck('c2p-23')"></span>Protocolo de incendio integrado: Detectores disparan CCTV, corte HVAC, presurización escaleras y ascensores a PB.</li>
+        <li id="c2p-24"><span class="check-box" onclick="toggleCheck('c2p-24')"></span>Parada de Planta (PDP): Grandes reparaciones, disponibilidad >95%, presupuesto complementario.</li>
+        <li id="c2p-25"><span class="check-box" onclick="toggleCheck('c2p-25')"></span>Causa del aumento de accidentes en PDP: Contratistas diversos, altura, confinados, presión de plazos y fatiga.</li>
+        <li id="c2p-26"><span class="check-box" onclick="toggleCheck('c2p-26')"></span>Las 3 Fases de PDP: Planificación (Gantt/PERT/repuestos), Ejecución (Coordinador) y Cierre (Start-up e informes).</li>
+        <li id="c2p-27"><span class="check-box" onclick="toggleCheck('c2p-27')"></span>TPM y JIT: Los 5 Ceros (Defectos, Averías, Burocracia, Stocks, Plazos). Prohibido trabajar a la falla.</li>
+        <li id="c2p-28"><span class="check-box" onclick="toggleCheck('c2p-28')"></span>Las 6 Grandes Pérdidas: Paradas (averías, set-up), Ciclo (esperas, velocidad reducida) y Calidad (scrap, start-up).</li>
+        <li id="c2p-29"><span class="check-box" onclick="toggleCheck('c2p-29')"></span>Operarios en TPM: Nunca se van ni reducen; asumen Mto Autónomo e inspección permanente de sus equipos.</li>
+        <li id="c2p-30"><span class="check-box" onclick="toggleCheck('c2p-30')"></span>8 Pilares de TPM: SyMA es el pilar integrador / transversal (prioridad Cero Accidentes y Cero Contaminación).</li>
+        <li id="c2p-31"><span class="check-box" onclick="toggleCheck('c2p-31')"></span>RCM: Preservación de funciones en contexto operacional actual. Grupos multidisciplinarios (jefes afuera).</li>
+        <li id="c2p-32"><span class="check-box" onclick="toggleCheck('c2p-32')"></span>RCM Decisión SoME: 1° Condición -> 2° Reacondicionamiento -> 3° Sustitución -> Rediseño OBLIGATORIO.</li>
+        <li id="c2p-33"><span class="check-box" onclick="toggleCheck('c2p-33')"></span>RCM Operacional: Se permite NAP (trabajar a la falla) si costo tarea > lucro cesante + reparación.</li>
+        <li id="c2p-34"><span class="check-box" onclick="toggleCheck('c2p-34')"></span>Manufactura Flexible: Alta automatización, rol cognitivo, Diseño Robusto y paradas durante VACACIONES.</li>
+        <li id="c2p-35"><span class="check-box" onclick="toggleCheck('c2p-35')"></span>Tercerización: 5 razones, tipos de contratos (Horas/Hombre vs Unidad de Trabajo vs Resultados/SLA).</li>
+        <li id="c2p-36"><span class="check-box" onclick="toggleCheck('c2p-36')"></span>Tercerización a Largo Plazo (fuerza al contratista a invertir) y Gran Desventaja (pérdida del historial de equipos).</li>
       </ul>
     </div>
   </section>
@@ -544,10 +1497,529 @@
 </main>
 
 <footer>
-  <p>Guía 2do Parcial · Mantenimiento Predictivo & Condicional · Apunte Lucas De Tonon / Cátedra Aprigliano · UTN FRBA 2026</p>
+  <p>Guía Maestra 2do Parcial · Mantenimiento Industrial UTN FRBA 2026 · Cátedra Ing. Fernando Aprigliano / Ing. Rueda</p>
 </footer>
 
 <script>
+  /* ══════════════════════════════════════
+       DATA: 12 PREGUNTAS DEL SIMULADOR DE EXAMEN
+  ══════════════════════════════════════ */
+  const examQuestions = [
+    {
+      id: 1,
+      type: "vf",
+      text: "«En una parada de planta (PDP) no se incrementan los riesgos de accidentes de trabajo ya que la fábrica no se encuentra en producción activa.»",
+      options: [
+        { label: "Verdadero", val: "V" },
+        { label: "Falso", val: "F" }
+      ],
+      correct: "F",
+      feedback: "FALSO: En PDP los riesgos de accidentes e incidentes se incrementan notoriamente debido al trabajo simultáneo de contratistas de múltiples gremios que no conocen las normas internas de la planta, tareas en altura y espacios confinados, presencia de fluidos tóxicos o inflamables y alta presión de plazos."
+    },
+    {
+      id: 2,
+      type: "vf",
+      text: "«La parada de planta no se puede utilizar en plantas de manufactura flexible.»",
+      options: [
+        { label: "Verdadero", val: "V" },
+        { label: "Falso", val: "F" }
+      ],
+      correct: "F",
+      feedback: "FALSO: SÍ se puede y se debe utilizar. Se realiza concentrada durante el receso por VACACIONES para no generar el altísimo lucro cesante que ocasionaría una detención durante el ciclo de producción."
+    },
+    {
+      id: 3,
+      type: "vf",
+      text: "«El mantenimiento predictivo alarga la vida útil del elemento dañado.»",
+      options: [
+        { label: "Verdadero", val: "V" },
+        { label: "Falso", val: "F" }
+      ],
+      correct: "F",
+      feedback: "FALSO: Cuando la falla se manifiesta en el predictivo (Zona III), el daño físico en el material ya ocurrió de forma irreversible. El predictivo NO alarga la vida útil de la pieza; lo que hace es aprovechar al máximo la vida útil remanente. Quien sí prolonga la vida útil es el Mantenimiento Proactivo (Zona II)."
+    },
+    {
+      id: 4,
+      type: "vf",
+      text: "«En TPM, el objetivo principal es capacitar al operario de producción para que realice el mantenimiento completo y complejo de la maquinaria.»",
+      options: [
+        { label: "Verdadero", val: "V" },
+        { label: "Falso", val: "F" }
+      ],
+      correct: "F",
+      feedback: "FALSO: El operario de producción no realiza un mantenimiento integral. Ejecuta Mantenimiento Autónomo: limpieza como inspección, lubricación básica, reaprietes y detección temprana de desvíos, convirtiéndose en un inspector permanente. El mantenimiento complejo sigue a cargo del Mantenimiento Profesional."
+    },
+    {
+      id: 5,
+      type: "vf",
+      text: "«En RCM, ante una falla evidente con consecuencias directas sobre la Seguridad o el Medio Ambiente, la única opción es realizar el rediseño obligatorio de la máquina.»",
+      options: [
+        { label: "Verdadero", val: "V" },
+        { label: "Falso", val: "F" }
+      ],
+      correct: "F",
+      feedback: "FALSO: Antes de llegar al rediseño obligatorio deben evaluarse secuencialmente: 1° Tareas a Condición, 2° Reacondicionamiento cíclico, 3° Sustitución cíclica y 4° Combinación de tareas. Solo si ninguna de las tareas proactivas reduce el riesgo a un nivel admisible, el rediseño es OBLIGATORIO."
+    },
+    {
+      id: 6,
+      type: "vf",
+      text: "«En el Mantenimiento Centrado en la Confiabilidad (RCM) nunca se permite trabajar a la falla bajo ninguna circunstancia.»",
+      options: [
+        { label: "Verdadero", val: "V" },
+        { label: "Falso", val: "F" }
+      ],
+      correct: "F",
+      feedback: "FALSO: En RCM SÍ se permite trabajar a la falla (NAP - Ninguna Acción Programada) cuando la falla es evidente, no afecta a la Seguridad de las personas ni al Medio Ambiente, y convivir con la falla resulta técnica y económicamente más conveniente que prevenirla. (En TPM sí es inaceptable)."
+    },
+    {
+      id: 7,
+      type: "vf",
+      text: "«Los contratos de tercerización de mantenimiento deben celebrarse preferentemente por períodos cortos (por ejemplo, un año) para evaluar el desempeño del proveedor.»",
+      options: [
+        { label: "Verdadero", val: "V" },
+        { label: "Falso", val: "F" }
+      ],
+      correct: "F",
+      feedback: "FALSO: Deben tercerizarse a largo plazo (3 a 5 años). En contratos anuales el proveedor invierte lo mínimo indispensable sabiendo que el año entrante puede no continuar; a largo plazo está obligado a cuidar el activo para no asumir averías complejas y sobrecostos en los años subsiguientes."
+    },
+    {
+      id: 8,
+      type: "vf",
+      text: "«En un contrato de mantenimiento por unidad de trabajo, la supervisión directa de los operarios es ejercida por el jefe de mantenimiento de la planta contratante.»",
+      options: [
+        { label: "Verdadero", val: "V" },
+        { label: "Falso", val: "F" }
+      ],
+      correct: "F",
+      feedback: "FALSO: En contratos por unidad de trabajo la supervisión directa del personal la ejerce exclusivamente la empresa contratista. El contratante solo inspecciona la calidad final y los plazos pactados con el supervisor externo, sin dirigir operarios ajenos."
+    },
+    {
+      id: 9,
+      type: "mc",
+      text: "¿Cuál es el pilar del TPM considerado integrador y transversal a todos los demás?",
+      options: [
+        { label: "A) Mantenimiento Autónomo", val: "A" },
+        { label: "B) Mejora Focalizada (Kobetsu Kaizen)", val: "B" },
+        { label: "C) Seguridad, Higiene y Medio Ambiente", val: "C" },
+        { label: "D) TPM en Departamentos de Apoyo", val: "D" }
+      ],
+      correct: "C",
+      feedback: "CORRECTO: Seguridad, Higiene y Medio Ambiente es el Pilar Integrador / Transversal, cuya prioridad absoluta es el Cero Accidentes y Cero Contaminación (desarrollo sustentable)."
+    },
+    {
+      id: 10,
+      type: "mc",
+      text: "En un sistema Motor - Electrobomba, ¿qué variables representan el estado físico real que le interesan a Mantenimiento?",
+      options: [
+        { label: "A) Caudal (Q) y Metros de Columna de Agua (m.c.a.)", val: "A" },
+        { label: "B) Vibraciones mecánicas y Temperatura en rodamientos", val: "B" },
+        { label: "C) Facturación por metro cúbico bombeado", val: "C" },
+        { label: "D) Horas netas de operarios de taller", val: "D" }
+      ],
+      correct: "B",
+      feedback: "CORRECTO: Caudal y m.c.a. son variables de proceso de interés para Producción. A Mantenimiento le interesan las variables que delatan el estado físico del componente: vibraciones mecánicas y temperatura de rodamientos."
+    },
+    {
+      id: 11,
+      type: "vf",
+      text: "«En plantas de Manufactura Flexible (FMS), una parada de planta no prevista genera un lucro cesante sumamente elevado debido al alto nivel de automatización e integración.»",
+      options: [
+        { label: "Verdadero", val: "V" },
+        { label: "Falso", val: "F" }
+      ],
+      correct: "V",
+      feedback: "VERDADERO: Al estar todo el circuito automatizado e integrado con almacenes y compras de insumos, una parada descompagina toda la cadena productiva generando un lucro cesante crítico."
+    },
+    {
+      id: 12,
+      type: "mc",
+      text: "Según la definición de Honeywell vista en clase, ¿cuáles son las 3 grandes áreas integradas que definen a un Edificio Inteligente?",
+      options: [
+        { label: "A) Finanzas, Producción y Logística", val: "A" },
+        { label: "B) Energía, Termomecánica y Seguridad", val: "B" },
+        { label: "C) Limpieza, Mantenimiento e Iluminación", val: "C" },
+        { label: "D) Recursos Humanos, Calidad y Mantenimiento", val: "D" }
+      ],
+      correct: "B",
+      feedback: "CORRECTO: Honeywell define que un edificio es inteligente cuando tiene control y tecnologías aplicadas en 3 áreas integradas mediante un sistema único (BMS): Energía, Termomecánica y Seguridad."
+    }
+  ];
+
+  let userAnswers = {};
+
+  function renderExam() {
+    const container = document.getElementById('examQuestionsContainer');
+    container.innerHTML = examQuestions.map((q, idx) => `
+      <div class="sim-q" id="simQ_${q.id}">
+        <div class="sim-q-header">
+          <span class="sim-q-num">Pregunta ${idx + 1} de ${examQuestions.length} · ${q.type === 'vf' ? 'Verdadero / Falso' : 'Opción Múltiple'}</span>
+        </div>
+        <div class="sim-q-text">${q.text}</div>
+        <div class="sim-options">
+          ${q.options.map(opt => `
+            <button type="button" class="sim-opt-btn" id="btn_${q.id}_${opt.val}" onclick="selectExamOption(${q.id}, '${opt.val}')">
+              <span class="sim-opt-radio"></span>
+              <span>${opt.label}</span>
+            </button>
+          `).join('')}
+        </div>
+        <div class="sim-feedback" id="feedback_${q.id}"></div>
+      </div>
+    `).join('');
+  }
+
+  function selectExamOption(qId, val) {
+    userAnswers[qId] = val;
+    const qEl = document.getElementById(`simQ_${qId}`);
+    qEl.classList.add('answered');
+    const allBtns = qEl.querySelectorAll('.sim-opt-btn');
+    allBtns.forEach(b => b.classList.remove('selected'));
+    const chosenBtn = document.getElementById(`btn_${qId}_${val}`);
+    if (chosenBtn) chosenBtn.classList.add('selected');
+  }
+
+  function gradeExam() {
+    let score = 0;
+    examQuestions.forEach(q => {
+      const qEl = document.getElementById(`simQ_${q.id}`);
+      const fbEl = document.getElementById(`feedback_${q.id}`);
+      const chosen = userAnswers[q.id];
+      const isCorrect = (chosen === q.correct);
+
+      // Clean classes
+      qEl.classList.remove('correct', 'incorrect');
+      const allBtns = qEl.querySelectorAll('.sim-opt-btn');
+      allBtns.forEach(b => b.classList.remove('is-correct', 'is-wrong'));
+
+      if (isCorrect) {
+        score++;
+        qEl.classList.add('correct');
+        const correctBtn = document.getElementById(`btn_${q.id}_${q.correct}`);
+        if (correctBtn) correctBtn.classList.add('is-correct');
+        fbEl.className = 'sim-feedback show green';
+        fbEl.innerHTML = `<strong>✅ ¡Respuesta Correcta!</strong><br>${q.feedback}`;
+      } else {
+        qEl.classList.add('incorrect');
+        if (chosen) {
+          const wrongBtn = document.getElementById(`btn_${q.id}_${chosen}`);
+          if (wrongBtn) wrongBtn.classList.add('is-wrong');
+        }
+        const correctBtn = document.getElementById(`btn_${q.id}_${q.correct}`);
+        if (correctBtn) correctBtn.classList.add('is-correct');
+        fbEl.className = 'sim-feedback show red';
+        fbEl.innerHTML = `<strong>❌ Respuesta Incorrecta (o sin responder):</strong><br>${q.feedback}`;
+      }
+    });
+
+    const banner = document.getElementById('examBanner');
+    const title = document.getElementById('scoreTitle');
+    const sub = document.getElementById('scoreSub');
+    banner.classList.add('show');
+    title.textContent = `Puntaje Obtenido: ${score} / ${examQuestions.length} (${Math.round((score/examQuestions.length)*100)}%)`;
+    if (score >= 8) {
+      sub.innerHTML = `🎉 <strong>¡EXCELENTE RENDIMIENTO!</strong> Demuestras un dominio sólido de los criterios de la cátedra para aprobar con honores.`;
+    } else if (score >= 6) {
+      sub.innerHTML = `👍 <strong>APROBADO.</strong> Has superado el umbral, pero revisa las justificaciones marcadas en rojo para afianzar detalles.`;
+    } else {
+      sub.innerHTML = `⚠️ <strong>DESAPROBADO.</strong> Te recomendamos repasar los temas correspondientes a las preguntas con fallos.`;
+    }
+    banner.scrollIntoView({ behavior: 'smooth' });
+  }
+
+  function resetExam() {
+    userAnswers = {};
+    document.getElementById('examBanner').classList.remove('show');
+    examQuestions.forEach(q => {
+      const qEl = document.getElementById(`simQ_${q.id}`);
+      qEl.classList.remove('answered', 'correct', 'incorrect');
+      const allBtns = qEl.querySelectorAll('.sim-opt-btn');
+      allBtns.forEach(b => b.classList.remove('selected', 'is-correct', 'is-wrong'));
+      const fbEl = document.getElementById(`feedback_${q.id}`);
+      fbEl.className = 'sim-feedback';
+      fbEl.innerHTML = '';
+    });
+    document.getElementById('sec-simulador').scrollIntoView({ behavior: 'smooth' });
+  }
+
+  /* ══════════════════════════════════════
+       DATA: 16 FLASHCARDS DIGITALES (ANKI)
+  ══════════════════════════════════════ */
+  const flashcardData = [
+    {
+      tag: "PREDICTIVO",
+      prompt: "¿Qué variables le interesan a Mantenimiento vs. Producción en una electrobomba?",
+      answer: "A Producción le interesan variables de salida de proceso: <strong>Caudal (Q)</strong> y <strong>m.c.a.</strong>; a Mantenimiento le interesan variables de estado físico: <strong>Vibraciones mecánicas</strong> y <strong>Temperatura en cajas de rodamientos</strong>."
+    },
+    {
+      tag: "PREDICTIVO",
+      prompt: "¿Cuáles son las 2 grandes ventajas principales del Mantenimiento Predictivo?",
+      answer: "1) <strong>Maximiza la vida útil del activo</strong> (se aprovecha al 100% la vida remanente sin desmontajes prematuros).<br>2) <strong>Baja el stock de repuestos</strong> y el capital inmovilizado en almacenes."
+    },
+    {
+      tag: "PREDICTIVO",
+      prompt: "¿El Mantenimiento Predictivo alarga la vida útil de la pieza dañada?",
+      answer: "<strong>NO.</strong> Cuando la falla salta en Zona III, el daño físico en el material es irreversible. El predictivo <strong>no alarga la vida útil de la pieza</strong>; lo que hace es <strong>aprovechar al máximo la vida útil remanente</strong> hasta un instante antes de la avería."
+    },
+    {
+      tag: "PREDICTIVO",
+      prompt: "¿Qué información brinda la Frecuencia vs. la Amplitud en el análisis de vibraciones?",
+      answer: "• <strong>Frecuencia:</strong> Revela el <strong>origen de la falla</strong> (desalineación, desbalanceo o pista de rodamiento deteriorada).<br>• <strong>Amplitud:</strong> Mide la energía destructiva e indica la <strong>gravedad de la falla</strong>."
+    },
+    {
+      tag: "MTO A CONDICIÓN",
+      prompt: "¿Cuál es la fórmula teórica obligatoria y el requisito de aplicación del Mantenimiento a Condición?",
+      answer: "<strong>Mto a Condición = Mto Predictivo + Mto Proactivo</strong>.<br>Requisito mandatorio de cátedra: Debe ser estrictamente <strong>«Técnicamente Factible y Económicamente Viable»</strong>."
+    },
+    {
+      tag: "MTO PROACTIVO",
+      prompt: "¿Cuáles son las características definitorias del Mantenimiento Proactivo?",
+      answer: "Acciones de carácter investigativo que actúan sobre la <strong>CAUSA RAÍZ</strong> cuando la falla aún es <strong>REVERSIBLE</strong>. Ejecuta acciones <strong>restaurativas o de ajuste</strong> (sin reemplazar el componente) y <strong>SÍ prolonga la vida útil</strong> del equipo."
+    },
+    {
+      tag: "ESTADO PARAMÉTRICO",
+      prompt: "¿Cuál es la ventaja fundamental de la detección temprana en la Zona III del gráfico paramétrico?",
+      answer: "Otorga una <strong>mayor «Vida Remanente de Seguridad»</strong>: permite planificar compras/nacionalización de repuestos, programar mano de obra en horario diurno normal (evitando horas extras y nocturnidad) y coordinar paradas sin lucro cesante."
+    },
+    {
+      tag: "CONFIABILIDAD",
+      prompt: "¿Cuáles son los 4 aspectos constitutivos obligatorios de la definición de Confiabilidad?",
+      answer: "1) La <strong>Probabilidad</strong> (&lambda; = 1/MTBF).<br>2) El <strong>Funcionamiento Adecuado</strong> (estándar explícito).<br>3) El <strong>Tiempo</strong> (período de supervivencia).<br>4) Las <strong>Condiciones Operativas</strong> (temperatura, vibración, humedad)."
+    },
+    {
+      tag: "CONFIABILIDAD",
+      prompt: "¿Cuáles son las 3 variantes de Redundancia vistas en clase?",
+      answer: "1) <strong>Cargada:</strong> Operan juntos a plena carga (1A bimotor: resto mantiene; 1B UPS: resto se sobrecarga).<br>2) <strong>Aligerada:</strong> Uno más cargado, otros a régimen menor.<br>3) <strong>No Cargada (Stand-by):</strong> Reserva en reposo/apagada."
+    },
+    {
+      tag: "EMPRESAS DE SERVICIOS",
+      prompt: "Según Honeywell, ¿cuáles son las 3 áreas integradas que definen a un Edificio Inteligente?",
+      answer: "Tecnología y automatización integradas mediante un sistema único (BMS) en: <strong>1. Energía</strong>, <strong>2. Termomecánica (HVAC)</strong> y <strong>3. Seguridad</strong>."
+    },
+    {
+      tag: "PARADA DE PLANTA",
+      prompt: "¿Por qué en una Parada de Planta (PDP) se incrementan notoriamente los accidentes de trabajo?",
+      answer: "Por la presencia masiva de <strong>contratistas de múltiples gremios</strong> no familiarizados con normas internas, tareas críticas en <strong>altura y espacios confinados</strong>, presencia de fluidos peligrosos, alta presión de plazos y fatiga."
+    },
+    {
+      tag: "TPM",
+      prompt: "¿Qué ocurre con los operarios de producción al implementar TPM en una fábrica?",
+      answer: "<strong>NUNCA se los desvincula ni traslada.</strong> Simplemente <strong>cambian sus funciones</strong>: asumen el Mantenimiento Autónomo de su puesto (limpieza, lubricación, ajustes) y se transforman en <strong>inspectores permanentes</strong> de su equipo."
+    },
+    {
+      tag: "TPM",
+      prompt: "¿Cuál es el pilar integrador y transversal a todos los demás en TPM?",
+      answer: "El pilar de <strong>Seguridad, Higiene y Medio Ambiente</strong>, cuya prioridad absoluta es el Cero Accidentes y Cero Contaminación (desarrollo sustentable)."
+    },
+    {
+      tag: "RCM vs TPM",
+      prompt: "¿Se permite trabajar a la falla en TPM y en RCM?",
+      answer: "En <strong>TPM es inaceptable</strong> (objetivo Cero Averías de JIT). En <strong>RCM SÍ se permite trabajar a la falla (NAP)</strong> cuando la falla es evidente, no afecta a Seguridad ni Medio Ambiente y convivir con ella es más económico que prevenirla."
+    },
+    {
+      tag: "RCM DECISIÓN",
+      prompt: "En RCM, ante una falla con consecuencias en Seguridad o Medio Ambiente, ¿cómo se procede?",
+      answer: "Se evalúa secuencialmente: 1° Tarea a Condición ➔ 2° Reacondicionamiento ➔ 3° Sustitución ➔ 4° Combinación ➔ <strong>5° Rediseño OBLIGATORIO</strong>. ¡Las acciones reactivas están <strong>TERMINANTEMENTE PROHIBIDAS</strong>!"
+    },
+    {
+      tag: "TERCERIZACIÓN",
+      prompt: "¿Por qué los contratos de tercerización de mantenimiento deben celebrarse a largo plazo (3 a 5 años)?",
+      answer: "Porque a un año el contratista <strong>invertirá lo mínimo</strong> sabiendo que puede no seguir. A largo plazo se ve forzado a realizar un preventivo riguroso desde el primer día para <strong>no asumir fallas complejas y sobrecostos</strong> en los años siguientes."
+    }
+  ];
+
+  let currentFcIdx = 0;
+  let masteredCards = new Set();
+
+  function renderCurrentFlashcard() {
+    const card = flashcardData[currentFcIdx];
+    document.getElementById('fcTag').textContent = `TEMA: ${card.tag}`;
+    document.getElementById('fcFrontTag').textContent = `TARJETA ${currentFcIdx + 1} DE ${flashcardData.length} · ${card.tag}`;
+    document.getElementById('fcFrontText').textContent = card.prompt;
+    document.getElementById('fcBackText').innerHTML = card.answer;
+    document.getElementById('activeFlashcard').classList.remove('flipped');
+    document.getElementById('fcMasteredTxt').textContent = `${masteredCards.size} / ${flashcardData.length} Dominadas`;
+  }
+
+  function flipFlashcard() {
+    document.getElementById('activeFlashcard').classList.toggle('flipped');
+  }
+
+  function nextFlashcard() {
+    currentFcIdx = (currentFcIdx + 1) % flashcardData.length;
+    renderCurrentFlashcard();
+  }
+
+  function prevFlashcard() {
+    currentFcIdx = (currentFcIdx - 1 + flashcardData.length) % flashcardData.length;
+    renderCurrentFlashcard();
+  }
+
+  function markCard(known) {
+    if (known) {
+      masteredCards.add(currentFcIdx);
+    } else {
+      masteredCards.delete(currentFcIdx);
+    }
+    nextFlashcard();
+  }
+
+  /* ══════════════════════════════════════
+       DATA: SIMULADOR INTERACTIVO DEL ÁRBOL RCM
+  ══════════════════════════════════════ */
+  let rcmState = {
+    evidente: true,
+    some: true,
+    operacional: true,
+    condicion: true
+  };
+
+  const rcmScenariosData = {
+    valvula: { evidente: false, some: true, operacional: false, condicion: false, name: "Válvula de Seguridad de Caldera Trabada" },
+    rodamiento: { evidente: true, some: false, operacional: true, condicion: true, name: "Rodamiento de Bomba con Vibración Anormal" },
+    pintura: { evidente: true, some: false, operacional: false, condicion: false, name: "Descascaramiento Estético en Oficinas" }
+  };
+
+  function loadRCMScenario(key) {
+    const btns = document.querySelectorAll('.rcm-sc-btn');
+    btns.forEach(b => b.classList.remove('active'));
+    if (key !== 'libre') {
+      const target = rcmScenariosData[key];
+      rcmState = { ...target };
+      event.target.classList.add('active');
+    } else {
+      event.target.classList.add('active');
+    }
+    updateRCMUI();
+  }
+
+  function setRCMChoice(prop, val) {
+    rcmState[prop] = val;
+    updateRCMUI();
+  }
+
+  function updateRCMUI() {
+    // Step 1 UI
+    document.getElementById('optEvidenteSi').className = rcmState.evidente ? 'rcm-opt selected' : 'rcm-opt';
+    document.getElementById('optEvidenteNo').className = !rcmState.evidente ? 'rcm-opt selected' : 'rcm-opt';
+
+    // Step 2 UI
+    document.getElementById('optSomeSi').className = rcmState.some ? 'rcm-opt selected' : 'rcm-opt';
+    document.getElementById('optSomeNo').className = !rcmState.some ? 'rcm-opt selected' : 'rcm-opt';
+
+    // Step 3 UI (only if some is false)
+    const step3 = document.getElementById('rcmStep3');
+    if (!rcmState.some) {
+      step3.style.display = 'block';
+      document.getElementById('optOpSi').className = rcmState.operacional ? 'rcm-opt selected' : 'rcm-opt';
+      document.getElementById('optOpNo').className = !rcmState.operacional ? 'rcm-opt selected' : 'rcm-opt';
+    } else {
+      step3.style.display = 'none';
+    }
+
+    // Step 4 UI
+    document.getElementById('optCondSi').className = rcmState.condicion ? 'rcm-opt selected' : 'rcm-opt';
+    document.getElementById('optCondNo').className = !rcmState.condicion ? 'rcm-opt selected' : 'rcm-opt';
+
+    // Calculate Result
+    const resTitle = document.getElementById('rcmResTitle');
+    const resDesc = document.getElementById('rcmResDesc');
+    const resRule = document.getElementById('rcmResRule');
+
+    if (rcmState.condicion) {
+      resTitle.textContent = "Resultado: 1° TAREA A CONDICIÓN (Predictivo / Proactivo)";
+      resTitle.style.color = "var(--accent-4)";
+      resDesc.textContent = "Es técnicamente factible y económicamente viable monitorear el estado paramétrico para intervenir un instante antes de la falla funcional.";
+      resRule.innerHTML = `📌 <strong>Regla Cátedra:</strong> Siempre se priorizan las tareas a condición tanto en fallas evidentes como ocultas porque aprovechan al máximo la vida útil remanente.`;
+    } else {
+      // Condicion is false
+      if (rcmState.some) {
+        if (!rcmState.evidente) {
+          resTitle.textContent = "Resultado: 4° BÚSQUEDA DE FALLAS (Mantenimiento Detectivo) o REDISEÑO OBLIGATORIO";
+          resTitle.style.color = "var(--accent-danger)";
+          resDesc.textContent = "Al tratarse de una falla oculta con consecuencias en Seguridad/Medio Ambiente, se debe realizar Mantenimiento Detectivo periódico. Si no es viable, el REDISEÑO es OBLIGATORIO.";
+          resRule.innerHTML = `⚠️ <strong>Regla Estricta de Parcial:</strong> ¡Acciones reactivas terminantemente PROHIBIDAS! No se permite convivir con el riesgo.`;
+        } else {
+          resTitle.textContent = "Resultado: 5° REDISEÑO OBLIGATORIO DEL EQUIPO O PROCESO";
+          resTitle.style.color = "var(--accent-danger)";
+          resDesc.textContent = "La falla es evidente y pone en riesgo a personas o medio ambiente. Al no haber tareas proactivas viables, la máquina no puede operar sin un rediseño de ingeniería que elimine el peligro.";
+          resRule.innerHTML = `⚠️ <strong>Regla Estricta de Parcial:</strong> En Seguridad y Medio Ambiente nunca se permite trabajar a la falla.`;
+        }
+      } else {
+        // No SoME
+        resTitle.textContent = "Resultado: 4° NINGUNA ACCIÓN PROGRAMADA (NAP) / Mantenimiento Correctivo";
+        resTitle.style.color = "var(--accent-warn)";
+        resDesc.textContent = "No existe riesgo para personas ni ecología. Dado que prevenir la falla cuesta más que repararla (o es inviable técnicamente), la organización decide de forma consciente TRABAJAR A LA FALLA.";
+        resRule.innerHTML = `💡 <strong>Diferencia con TPM:</strong> RCM sí permite trabajar a la falla (NAP) en consecuencias operacionales o no operacionales si es económicamente más rentable.`;
+      }
+    }
+  }
+
+  /* ══════════════════════════════════════
+       DATA: GRÁFICO INTERACTIVO DE PISTARELLI
+  ══════════════════════════════════════ */
+  const graphData = {
+    z1: {
+      title: "Zona I: Marcha Normal / Estado Teórico",
+      body: "El activo funciona dentro de sus especificaciones de diseño. Se aplica <strong>Mantenimiento Preventivo Sistemático</strong> (lubricación, limpieza y rutinas de inspección dinámicas RID). <em>No se hace proactivo</em> porque carece de sentido buscar la causa raíz de una anomalía que aún no existe.",
+      tip: "📌 <strong>Criterio de Cátedra:</strong> Mantiene el estado teórico del activo sin desmontajes innecesarios."
+    },
+    ps: {
+      title: "Punto S: Aparición del Síntoma Incipiente",
+      body: "Punto de quiebre donde se manifiesta la primera anomalía mensurable. Cuanto antes se detecte el punto S, más amplio será el intervalo hasta la rotura total (<strong>Mayor Vida Remanente de Seguridad</strong>).",
+      tip: "📌 <strong>Objetivo Predictivo/Proactivo:</strong> Adelantar al máximo la detección del Punto S."
+    },
+    z2: {
+      title: "Zona II: Falla Sintomática Incipiente (Zona REVERSIBLE)",
+      body: "La anomalía está en su origen primario y el daño metalúrgico permanente todavía no se produjo en el material. Se aplica <strong>Mantenimiento PROACTIVO</strong> mediante <strong>acciones restaurativas o de ajuste sobre la Causa Raíz</strong> (ej: alinear ejes con láser, secar aceite dieléctrico). No hay reemplazo y <strong>se prolonga la vida útil</strong> del equipo.",
+      tip: "🔥 <strong>Pregunta de Parcial:</strong> El Proactivo actúa en Zona II porque la falla es REVERSIBLE y actúa sobre la causa raíz."
+    },
+    lim: {
+      title: "Límite de Irreversibilidad (Umbral Físico)",
+      body: "Línea crítica divisoria. A partir de este momento, se produce el daño físico o metalúrgico permanente en la pieza (fatiga superficial, picado de pista de rodamiento, fisura). Se extingue la reversibilidad.",
+      tip: "⚠️ <strong>Clave de Examen:</strong> Antes de la línea se hace Proactivo; después de la línea se hace Predictivo."
+    },
+    z3: {
+      title: "Zona III: Falla Sintomática Instalada (Zona IRREVERSIBLE)",
+      body: "El daño ya ocurrió y es irreversible. Se aplica <strong>Mantenimiento PREDICTIVO</strong> mediante seguimiento dinámico de la variable técnica. <em>No alarga la vida útil de la pieza; aprovecha al 100% la vida remanente</em> para programar la sustitución un instante antes de la avería.",
+      tip: "🎯 <strong>Pregunta Frecuente:</strong> La detección temprana en Zona III otorga mayor vida remanente de seguridad para planificar compras y asignar mano de obra en horario normal."
+    },
+    z4: {
+      title: "Zona IV: Inminencia de Falla Funcional",
+      body: "Degradación extrema próxima a la rotura catastrófica. La falla se detecta por los <strong>sentidos humanos</strong> (ruido anormal, humo, alta temperatura palpable al tacto). Margen de maniobra mínimo (horas/días) con altísimo riesgo de accidente y lucro cesante.",
+      tip: "🚨 <strong>Riesgo Máximo:</strong> Mantenimiento de última línea / perceptible."
+    },
+    ff: {
+      title: "Falla Funcional / Avería Total",
+      body: "Pérdida total de la capacidad para cumplir la función establecida. Parada intempestiva no programada de la máquina con máximo costo de lucro cesante y daño secundario.",
+      tip: "⛔ <strong>Costo Crítico:</strong> Aquí culmina la curva de estado paramétrico."
+    }
+  };
+
+  function selectGraphZone(zoneKey) {
+    const data = graphData[zoneKey];
+    if (!data) return;
+    document.getElementById('gInfoTitle').innerHTML = data.title;
+    document.getElementById('gInfoBody').innerHTML = data.body;
+    document.getElementById('gInfoTip').innerHTML = data.tip;
+
+    // Highlight button
+    const btns = document.querySelectorAll('.g-btn');
+    btns.forEach(b => b.classList.remove('active'));
+    const btn = Array.from(btns).find(b => b.getAttribute('onclick').includes(zoneKey));
+    if (btn) btn.classList.add('active');
+
+    // Visual effect on SVG
+    const nodes = ['nodePuntoS', 'nodeLim', 'nodeFF'];
+    nodes.forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.setAttribute('stroke-width', '2');
+    });
+
+    if (zoneKey === 'ps') document.getElementById('nodePuntoS').setAttribute('stroke-width', '5');
+    if (zoneKey === 'lim') document.getElementById('nodeLim').setAttribute('stroke-width', '5');
+    if (zoneKey === 'ff') document.getElementById('nodeFF').setAttribute('stroke-width', '5');
+  }
+
   /* ── SCROLL PROGRESS BAR ── */
   window.addEventListener('scroll', () => {
     const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
@@ -555,13 +2027,19 @@
     document.getElementById('scroll-bar').style.width = ((winScroll / height) * 100) + '%';
   });
 
+  /* ── SMOOTH SCROLL NAV ── */
+  function navScroll(targetId) {
+    const el = document.getElementById(targetId);
+    if (el) el.scrollIntoView({ behavior: 'smooth' });
+  }
+
   /* ── NAV ACTIVE STATE ── */
   const sections = document.querySelectorAll('section');
   const navBtns  = document.querySelectorAll('.nav-btn');
   window.addEventListener('scroll', () => {
     let current = '';
     sections.forEach(sec => {
-      if (pageYOffset >= sec.offsetTop - 220) current = sec.getAttribute('id');
+      if (pageYOffset >= sec.offsetTop - 200) current = sec.getAttribute('id');
     });
     navBtns.forEach(btn => {
       btn.classList.remove('active');
@@ -571,12 +2049,18 @@
     });
   });
 
-  function navScroll(btn, targetId) {
-    document.getElementById(targetId).scrollIntoView({ behavior: 'smooth' });
+  /* ── FILTER CARDS ── */
+  function filterCards() {
+    const query = document.getElementById('filterInput').value.toLowerCase();
+    const cards = document.querySelectorAll('.card, .sim-q');
+    cards.forEach(card => {
+      const text = card.innerText.toLowerCase();
+      card.style.display = text.includes(query) ? 'block' : 'none';
+    });
   }
 
   /* ── CHECKLIST + LOCALSTORAGE ── */
-  const STORAGE_KEY = 'mto_2p_checklist_v3_full';
+  const STORAGE_KEY = 'mto_2p_master_checklist_2026_interactive';
 
   function getState() {
     try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}'); } catch { return {}; }
@@ -587,6 +2071,7 @@
 
   function toggleCheck(liId) {
     const li  = document.getElementById(liId);
+    if (!li) return;
     const box = li.querySelector('.check-box');
     const isDone = box.classList.toggle('done');
     li.classList.toggle('checked', isDone);
@@ -604,7 +2089,10 @@
     document.getElementById('progress-label').textContent = `${done.length} / ${items.length} conceptos dominados`;
   }
 
-  (function restoreChecklist() {
+  (function init() {
+    renderExam();
+    renderCurrentFlashcard();
+    updateRCMUI();
     const state = getState();
     Object.entries(state).forEach(([liId, isDone]) => {
       if (!isDone) return;

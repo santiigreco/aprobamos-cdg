@@ -67,7 +67,7 @@ export const SUBJECTS = [
       },
       {
         title: '2do Parcial',
-        description: 'Mantenimiento Predictivo y sus herramientas.',
+        description: 'Predictivo, Servicios y Tercerización (U4, U5 y U6). Simulador, flashcards y teoría.',
         htmlFile: './mantenimiento-2do-parcial.html'
       },
       {
