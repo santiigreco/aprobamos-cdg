@@ -67,7 +67,7 @@ export const SUBJECTS = [
       },
       {
         title: '2do Parcial',
-        description: 'Predictivo, Servicios y Tercerización (U4, U5 y U6). Simulador, flashcards y teoría.',
+        description: 'Predictivo, Servicios y Tercerización (U4, U5 y U6). Parciales reales 10/10, simulador y flashcards.',
         htmlFile: './mantenimiento-2do-parcial.html'
       },
       {
