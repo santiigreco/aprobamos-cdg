@@ -371,7 +371,7 @@
     footer { text-align: center; padding: 35px 20px; color: var(--text-muted); font-size: 0.83rem; border-top: 1px solid var(--border); position: relative; z-index: 1; }
   
     /* ════════════════════════════════════════════════════════════
-       ESTILOS PARA RCM 6 COLUMNAS SEGÚN APUNTE CÁTEDRA
+       ESTILOS PARA RCM 6 COLUMNAS (1 a 6) SIN DESLIZAMIENTO HORIZONTAL
     ════════════════════════════════════════════════════════════ */
     .rcm-col-filter {
       background: var(--bg-card);
@@ -394,39 +394,62 @@
       border-color: var(--accent-1);
       box-shadow: 0 0 15px rgba(139, 92, 246, 0.4);
     }
-    .rcm-grid-container {
-      overflow-x: auto;
-      padding-bottom: 15px;
-      margin-top: 10px;
+    .rcm-layout-container {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      overflow: visible;
     }
-    .rcm-grid-container::-webkit-scrollbar {
-      height: 8px;
-    }
-    .rcm-grid-container::-webkit-scrollbar-track {
-      background: rgba(15, 23, 42, 0.6);
-      border-radius: 4px;
-    }
-    .rcm-grid-container::-webkit-scrollbar-thumb {
-      background: rgba(139, 92, 246, 0.4);
-      border-radius: 4px;
-    }
-    .rcm-6col-grid {
-      display: grid;
-      grid-template-columns: repeat(6, minmax(260px, 1fr));
-      gap: 14px;
-      min-width: 1600px;
-    }
-    .rcm-col-box {
-      background: var(--bg-card);
+    .rcm-block-section {
+      width: 100%;
+      background: rgba(15, 23, 42, 0.5);
       border: 1px solid var(--border);
       border-radius: 10px;
+      padding: 16px;
+    }
+    .rcm-block-header-bar {
+      padding: 10px 14px;
+      border-radius: 6px;
+      font-weight: 800;
+      font-size: 0.88rem;
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .header-bar-evidente {
+      background: rgba(56, 189, 248, 0.15);
+      color: #38bdf8;
+      border: 1px solid rgba(56, 189, 248, 0.3);
+    }
+    .header-bar-oculta {
+      background: rgba(168, 85, 247, 0.15);
+      color: #c084fc;
+      border: 1px solid rgba(168, 85, 247, 0.3);
+    }
+    .rcm-3col-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      width: 100%;
+    }
+    @media (max-width: 950px) {
+      .rcm-3col-row {
+        grid-template-columns: 1fr;
+      }
+    }
+    .rcm-col-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
       overflow: hidden;
       display: flex;
       flex-direction: column;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+      box-shadow: 0 4px 15px rgba(0,0,0,0.25);
       transition: transform 0.2s ease, border-color 0.2s ease;
     }
-    .rcm-col-box:hover {
+    .rcm-col-card:hover {
       border-color: var(--accent-1);
       transform: translateY(-2px);
     }
@@ -955,7 +978,7 @@
 <header>
   <div class="badge"><span class="badge-dot"></span> UTN FRBA · Mantenimiento · 2do Parcial 2026</div>
   <h1>Guía Maestra Interactiva – 2do Parcial</h1>
-  <p class="subtitle">Herramienta integral de estudio activo con <strong>Parciales Reales Resueltos 10/10</strong>, <strong>Simulador Interactivo</strong>, <strong>Flashcards</strong>, <strong>Diagrama RCM en 6 Columnas</strong> y <strong>Gráfico Paramétrico Vectorial</strong>. Cátedra <strong>Ing. Aprigliano / Ing. Rueda</strong> (Unidades 4, 5 y 6).</p>
+  <p class="subtitle">Herramienta integral de estudio activo con <strong>Parciales Reales Resueltos 10/10</strong>, <strong>Simulador Interactivo</strong>, <strong>Flashcards</strong>, <strong>Diagrama RCM en 6 Columnas (1 a 6)</strong> y <strong>Gráfico Paramétrico Vectorial</strong>. Cátedra <strong>Ing. Aprigliano / Ing. Rueda</strong> (Unidades 4, 5 y 6).</p>
   <div class="search-box-wrap">
     <span class="search-icon">🔍</span>
     <input type="text" id="filterInput" class="search-input" placeholder="Buscar concepto o técnica (ej: vibraciones, irreversible, 8 pilares, BMS, parada)..." onkeyup="filterCards()" />
@@ -968,7 +991,7 @@
     <button class="nav-btn btn-interactive" onclick="navScroll('sec-simulador')">🧪 Simulador Examen</button>
     <button class="nav-btn btn-interactive" onclick="navScroll('sec-flashcards')">🗂️ Flashcards</button>
     <button class="nav-btn btn-interactive" onclick="navScroll('sec-rcm-columnas')">📊 RCM 6 Columnas</button>
-    <button class="nav-btn btn-interactive" onclick="navScroll('sec-parametrico')">📈 Gráfico SVG</button>
+    <button class="nav-btn btn-interactive" onclick="navScroll('sec-parametrico')">📈 Gráfico Paramétrico</button>
     <button class="nav-btn" onclick="navScroll('sec-predictivo')">🔮 1. Predictivo</button>
     <button class="nav-btn" onclick="navScroll('sec-condicional')">⚡ 2. Condición & Proactivo</button>
     <button class="nav-btn" onclick="navScroll('sec-confiabilidad')">🎯 4. Confiabilidad</button>
@@ -1587,354 +1610,507 @@
     <div class="section-icon ic-violet">📊</div>
     <div>
       <h2>Diagrama de Decisión de RCM en 6 Columnas (Estructura Oficial Cátedra)</h2>
-      <div class="sec-sub">Flujo metodológico completo según diapositivas 81 a 88 de Unidad 4.1 y pautas de evaluación del Ing. Aprigliano</div>
+      <div class="sec-sub">Flujo metodológico oficial según diapositivas 81 a 90 de Unidad 4.1 y pautas de evaluación del Ing. Aprigliano</div>
     </div>
   </div>
 
-  <div class="highlight" style="margin-bottom: 20px;">
-    <strong>📌 Principio Rector de RCM en UTN:</strong> La primera pregunta obligatoria que se formula el equipo de análisis es: 
+  <!-- ════════════════════════════════════════════════════════════
+       BLOQUE EDUCATIVO: PROCESO, COORDINACIÓN, ROLES, VENTAJAS Y DESVENTAJAS
+  ════════════════════════════════════════════════════════════ -->
+  <div style="background:rgba(15, 23, 42, 0.85); border:1px solid var(--border); border-radius:10px; padding:18px; margin-bottom:24px;">
+    <h3 style="color:#c084fc; font-size:1.15rem; margin-bottom:12px; display:flex; align-items:center; gap:8px;">
+      <span>🛡️</span> Metodología y Proceso de Trabajo del RCM (Cátedra UTN)
+    </h3>
+    
+    <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap:16px; margin-bottom:16px;">
+      <!-- ¿Qué es y qué se hace? -->
+      <div style="background:rgba(255,255,255,0.02); border:1px solid rgba(255,255,255,0.06); border-radius:8px; padding:14px;">
+        <h4 style="color:#38bdf8; font-size:0.95rem; margin-bottom:6px;">📋 ¿Qué es y qué se hace en RCM?</h4>
+        <p style="font-size:0.86rem; color:var(--text-secondary); line-height:1.55; margin:0;">
+          Es una <strong>metodología estructurada de gestión del mantenimiento</strong> mediante equipos polifuncionales cuyo objetivo primordial es <strong>asegurar que los activos continúen cumpliendo sus funciones requeridas</strong> dentro de su <em>contexto operacional presente</em>. Reconoce que el mantenimiento no puede superar la <strong>confiabilidad inherente</strong> del diseño original.
+        </p>
+      </div>
+
+      <!-- ¿Quién coordina y quién participa? -->
+      <div style="background:rgba(255,255,255,0.02); border:1px solid rgba(255,255,255,0.06); border-radius:8px; padding:14px;">
+        <h4 style="color:#facc15; font-size:0.95rem; margin-bottom:6px;">👥 ¿Quién coordina y quiénes integran el equipo?</h4>
+        <p style="font-size:0.86rem; color:var(--text-secondary); line-height:1.55; margin:0;">
+          • <strong>Coordinador / Facilitador:</strong> Profesional externo altamente entrenado en RCM. Rol estrictamente metodológico: guía las 7 preguntas, asegura el rigor y modera el consenso sin imponer soluciones.<br>
+          • <strong>Equipo Multidisciplinario:</strong> Operarios de producción (los que conviven con la máquina), técnicos de mantenimiento, instrumentistas, personal de Seguridad e Higiene, calidad y proveedores.<br>
+          <span style="color:#f87171; font-weight:700;">🚨 REGLA MANDATORIA APRIGLIANO:</span> <em>¡Los Jefes de Sector y Gerentes tienen TERMINANTEMENTE PROHIBIDO participar!</em> para no inhibir a los operarios ni sesgar el análisis de fallas humanas.
+        </p>
+      </div>
+    </div>
+
+    <!-- Las 7 Preguntas y Herramientas -->
+    <div style="background:rgba(30, 41, 59, 0.4); border:1px solid var(--border); border-radius:8px; padding:14px; margin-bottom:16px;">
+      <h4 style="color:#6ee7b7; font-size:0.95rem; margin-bottom:8px;">❓ Las 7 Preguntas Fundamentales y Hojas de Soporte (Diapo 75)</h4>
+      <div style="overflow-x:auto;">
+        <table class="diff-table" style="margin:0; font-size:0.82rem;">
+          <thead>
+            <tr>
+              <th style="width:45px;">N°</th>
+              <th>Pregunta Fundamental</th>
+              <th>Concepto / Típico</th>
+              <th>Mayor Aporte</th>
+              <th>Etapa / Soporte</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>1</strong></td>
+              <td>¿Cuáles son las funciones del sistema y sus patrones de funcionamiento?</td>
+              <td>Funciones</td>
+              <td><span style="color:#38bdf8; font-weight:600;">Operación</span></td>
+              <td>Hoja de Análisis</td>
+            </tr>
+            <tr>
+              <td><strong>2</strong></td>
+              <td>¿De qué forma no se cumplen las funciones?</td>
+              <td>Fallas Funcionales</td>
+              <td><span style="color:#a78bfa; font-weight:600;">Mantenimiento</span></td>
+              <td>Hoja de Análisis</td>
+            </tr>
+            <tr>
+              <td><strong>3</strong></td>
+              <td>¿Cuáles son las causas que provocan las fallas funcionales?</td>
+              <td>Modos de Falla (5 Por Qué, Ishikawa, Árbol)</td>
+              <td><span style="color:#a78bfa; font-weight:600;">Mantenimiento</span></td>
+              <td>Hoja de Análisis</td>
+            </tr>
+            <tr>
+              <td><strong>4</strong></td>
+              <td>¿Qué sucede cuando ocurre cada modo de falla?</td>
+              <td>Efecto de los fallos (secuencia, tiempo, costo)</td>
+              <td><span style="color:#38bdf8; font-weight:600;">Operación</span></td>
+              <td>Hoja de Análisis</td>
+            </tr>
+            <tr>
+              <td><strong>5</strong></td>
+              <td>¿Qué consecuencias provoca cada modo de falla?</td>
+              <td>Consecuencias (Evidente/Oculta, SoME, Op, No Op)</td>
+              <td><span style="color:#38bdf8; font-weight:600;">Operación</span></td>
+              <td>Diagnóstico de Decisión</td>
+            </tr>
+            <tr>
+              <td><strong>6</strong></td>
+              <td>¿Qué se puede hacer para evitar, predecir o detectar el fallo?</td>
+              <td>Acciones Proactivas (Condición, Reacond., Sust.)</td>
+              <td><span style="color:#a78bfa; font-weight:600;">Mantenimiento</span></td>
+              <td>Diagnóstico Decisión - Resultados</td>
+            </tr>
+            <tr>
+              <td><strong>7</strong></td>
+              <td>¿Cómo proceder si no es posible evitar, predecir o detectar?</td>
+              <td>Acciones Reactivas / Detectivo / Rediseño</td>
+              <td><span style="color:#a78bfa; font-weight:600;">Mantenimiento</span></td>
+              <td>Diagnóstico Decisión - Resultados</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Ventajas y Desventajas (Diapos 89 y 90) -->
+    <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap:16px;">
+      <div style="background:rgba(16, 185, 129, 0.08); border-left:4px solid #10b981; padding:12px 14px; border-radius:6px;">
+        <h4 style="color:#6ee7b7; font-size:0.92rem; margin-bottom:6px;">✅ Ventajas de RCM (Diapositiva 89)</h4>
+        <ul style="font-size:0.83rem; color:var(--text-secondary); line-height:1.5; margin:0 0 0 16px; padding:0;">
+          <li><strong>Rutinas más efectivas:</strong> Se hace solo lo necesario (evita el sobremantenimiento dañino que causa más daño del que previene).</li>
+          <li><strong>Seguridad y Medio Ambiente:</strong> Reduce el riesgo a niveles tolerables y admisibles.</li>
+          <li><strong>Disponibilidad y Confiabilidad:</strong> Maximiza el rendimiento del activo en su contexto operacional.</li>
+          <li><strong>Disminuye el lucro cesante:</strong> Reduce paradas no programadas y gastos globales.</li>
+          <li><strong>Identificación exhaustiva:</strong> Identifica más del 90% de los modos de falla.</li>
+          <li><strong>Reduce el MTTR:</strong> Focaliza las tareas en mantener la función.</li>
+          <li><strong>Aumento de competencias:</strong> Eleva el nivel técnico de los integrantes del grupo.</li>
+        </ul>
+      </div>
+
+      <div style="background:rgba(239, 68, 68, 0.08); border-left:4px solid #ef4444; padding:12px 14px; border-radius:6px;">
+        <h4 style="color:#fca5a5; font-size:0.92rem; margin-bottom:6px;">⚠️ Desventajas y Limitaciones de RCM (Diapositiva 90)</h4>
+        <ul style="font-size:0.83rem; color:var(--text-secondary); line-height:1.5; margin:0 0 0 16px; padding:0;">
+          <li><strong>Gran experiencia técnica requerida:</strong> Determinar los modos de falla exige dominio de Ishikawa, 5 Por Qué y árboles de falla.</li>
+          <li><strong>Análisis sumamente extensos:</strong> Consume mucho tiempo de personal clave; debe limitarse a sistemas críticos, nunca a toda la planta junta.</li>
+          <li><strong>Dificultad con fallas crónicas:</strong> Si los parámetros iniciales no son exhaustivos, no se resuelven fallas complejas.</li>
+          <li><strong>Resultados a MEDIANO/LARGO PLAZO:</strong> No genera beneficios mágicos inmediatos; requiere maduración.</li>
+          <li><strong>Inversión inicial moderada:</strong> Costo del facilitador, capacitación y horas hombre no productivas del equipo.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════════════════════════
+       FLUJO OFICIAL EN 6 COLUMNAS (1, 2, 3 EVIDENTES / 4, 5, 6 OCULTAS)
+       DISEÑO EN 2 BLOQUES RESPONSIVOS SIN DESLIZAMIENTO HORIZONTAL
+  ════════════════════════════════════════════════════════════ -->
+  <div class="highlight" style="margin-bottom: 16px;">
+    <strong>📌 Regla de Decisión Cátedra Aprigliano:</strong> La primera pregunta obligatoria es: 
     <em>«¿Es la falla funcional EVIDENTE para los operarios en sus tareas normales?»</em>. 
-    A partir de allí, se ramifica en dos grandes grupos (Evidentes vs. Ocultas / No Evidentes), subdividiéndose en 3 categorías de consecuencia cada uno, totalizando las <strong>6 columnas normativas</strong>.
+    Se ramifica en <strong>Fallas Evidentes (Columnas 1, 2 y 3)</strong> y <strong>Fallas Ocultas / No Evidentes (Columnas 4, 5 y 6)</strong>.
   </div>
 
-  <!-- Controles de Vista de Columnas -->
-  <div style="display:flex; gap:10px; flex-wrap:wrap; margin-bottom:18px;">
-    <button type="button" class="rcm-col-filter active" onclick="filterRCMColumns('all')">🌐 Ver Todas las 6 Columnas</button>
-    <button type="button" class="rcm-col-filter" onclick="filterRCMColumns('evidentes')">👁️ Solo Consecuencias EVIDENTES (Cols 1A, 2A, 3A)</button>
-    <button type="button" class="rcm-col-filter" onclick="filterRCMColumns('ocultas')">🔒 Solo Consecuencias OCULTAS / No Evidentes (Cols 1B, 2B, 3B)</button>
+  <!-- Filtros de visualización -->
+  <div style="display:flex; gap:10px; flex-wrap:wrap; margin-bottom:16px;">
+    <button type="button" class="rcm-col-filter active" onclick="filterRCMColumns('all')">🌐 Ver Todas las 6 Columnas (1 a 6)</button>
+    <button type="button" class="rcm-col-filter" onclick="filterRCMColumns('evidentes')">👁️ Solo Consecuencias EVIDENTES (Columnas 1, 2 y 3)</button>
+    <button type="button" class="rcm-col-filter" onclick="filterRCMColumns('ocultas')">🔒 Solo Consecuencias OCULTAS (Columnas 4, 5 y 6)</button>
   </div>
 
-  <!-- Grid de 6 Columnas -->
-  <div class="rcm-grid-container">
-    <div class="rcm-6col-grid" id="rcm6Grid">
-      
-      <!-- ================= COLUMNA 1A ================= -->
-      <div class="rcm-col-box col-evidente" data-group="evidentes">
-        <div class="rcm-col-header header-some">
-          <div class="rcm-col-tag">COLUMNA 1A · EVIDENTE</div>
-          <div class="rcm-col-title">Seguridad y Medio Ambiente (SoME)</div>
-          <div class="rcm-col-sub">Impacto en vidas humanas o infracción de leyes ambientales</div>
-        </div>
-        <div class="rcm-col-body">
-          <div class="rcm-filter-question">
-            <strong>Pregunta Filtro Mandatoria:</strong><br>
-            <em>«¿Esta tarea disminuye a un nivel admisible el riesgo de falla?»</em>
-            <div style="font-size:0.75rem; color:#ef4444; margin-top:4px;">⚠️ Prohibida la evaluación por costos. La seguridad no se negocia.</div>
-          </div>
+  <!-- CONTENEDOR 100% RESPONSIVO (SIN DESLIZAMIENTO HORIZONTAL) -->
+  <div class="rcm-layout-container" id="rcmLayoutContainer">
 
-          <div class="rcm-tasks-hierarchy">
-            <div class="rcm-task-item task-condicion">
-              <span class="rcm-task-badge">1° Prioridad</span>
-              <strong>Tareas a Condición</strong>
-              <small>Predictivo / Proactivo. Detecta desvíos antes de la falla funcional.</small>
-            </div>
-            <div class="rcm-task-arrow">↓ si no es técnicamente factible o no reduce el riesgo</div>
-            <div class="rcm-task-item task-preventivo">
-              <span class="rcm-task-badge">2° Prioridad</span>
-              <strong>Reacondicionamiento Cíclico</strong>
-              <small>Overhaul preventivo a intervalo fijo de tiempo u horas.</small>
-            </div>
-            <div class="rcm-task-arrow">↓ si no es técnicamente factible</div>
-            <div class="rcm-task-item task-sustitucion">
-              <span class="rcm-task-badge">3° Prioridad</span>
-              <strong>Sustitución Cíclica</strong>
-              <small>Reemplazo preventivo sistemático a vida útil límite.</small>
-            </div>
-            <div class="rcm-task-arrow">↓ si no es factible individualmente</div>
-            <div class="rcm-task-item task-combinacion">
-              <span class="rcm-task-badge">4° Prioridad</span>
-              <strong>Combinación de Tareas</strong>
-              <small>Aplicar dos o más tareas proactivas combinadas para reducir el riesgo.</small>
-            </div>
-            <div class="rcm-task-arrow">↓ si ninguna tarea reduce el riesgo a nivel admisible</div>
-            <div class="rcm-task-item task-rediseño-obligatorio">
-              <span class="rcm-task-badge badge-danger">OBLIGATORIO</span>
-              <strong>REDISEÑO OBLIGATORIO</strong>
-              <small>Modificación física, guarda o reingeniería mandatoria. ¡PROHIBIDO TRABAJAR A LA FALLA!</small>
-            </div>
-          </div>
-        </div>
+    <!-- ────────────────────────────────────────────────────────────
+         BLOQUE A: CONSECUENCIAS EVIDENTES (COLUMNAS 1, 2 Y 3)
+    ──────────────────────────────────────────────────────────── -->
+    <div class="rcm-block-section" id="blockEvidentes">
+      <div class="rcm-block-header-bar header-bar-evidente">
+        <span>👁️ GRUPO A: FALLAS FUNCIONALES EVIDENTES (El operario percibe la anomalía en condiciones normales)</span>
       </div>
 
-      <!-- ================= COLUMNA 2A ================= -->
-      <div class="rcm-col-box col-evidente" data-group="evidentes">
-        <div class="rcm-col-header header-operacional">
-          <div class="rcm-col-tag">COLUMNA 2A · EVIDENTE</div>
-          <div class="rcm-col-title">Consecuencias Operacionales</div>
-          <div class="rcm-col-sub">Afecta producción, capacidad, calidad o lucro cesante</div>
-        </div>
-        <div class="rcm-col-body">
-          <div class="rcm-filter-question">
-            <strong>Pregunta Filtro y Ecuación:</strong><br>
-            <em>«¿Es técnicamente factible y económicamente viable?»</em>
-            <div class="rcm-eq-box">
-              Costo Tarea &lt; (Costo Consecuencias Operacionales + Costo Reparación)
-            </div>
-            <small style="color:var(--text-muted); display:block; margin-top:4px;">
-              Costo Operacional = Lucro Cesante: HH + NM + K + Penaliz. + MP + SE + Reproceso.
-            </small>
+      <div class="rcm-3col-row">
+        
+        <!-- ================= COLUMNA 1 ================= -->
+        <div class="rcm-col-card col-evidente">
+          <div class="rcm-col-header header-some">
+            <div class="rcm-col-tag">COLUMNA 1 · EVIDENTE</div>
+            <div class="rcm-col-title">Seguridad y Medio Ambiente (SoME)</div>
+            <div class="rcm-col-sub">Riesgo directo de lesión/muerte o infracción legal ambiental</div>
           </div>
+          <div class="rcm-col-body">
+            <div class="rcm-filter-question">
+              <strong>Pregunta Filtro Mandatoria:</strong><br>
+              <em>«¿Esta tarea disminuye a un nivel admisible el riesgo de falla?»</em>
+              <div style="font-size:0.75rem; color:#ef4444; margin-top:4px; font-weight:700;">⚠️ PROHIBIDA LA EVALUACIÓN POR COSTOS.</div>
+            </div>
 
-          <div class="rcm-tasks-hierarchy">
-            <div class="rcm-task-item task-condicion">
-              <span class="rcm-task-badge">1° Prioridad</span>
-              <strong>Tareas a Condición</strong>
-              <small>Predictivo / Proactivo siempre que sea más barato que la falla.</small>
-            </div>
-            <div class="rcm-task-arrow">↓ si no es factible o viable</div>
-            <div class="rcm-task-item task-preventivo">
-              <span class="rcm-task-badge">2° Prioridad</span>
-              <strong>Reacondicionamiento Cíclico</strong>
-              <small>A frecuencia fija si demuestra viabilidad económica.</small>
-            </div>
-            <div class="rcm-task-arrow">↓ si no es factible o viable</div>
-            <div class="rcm-task-item task-sustitucion">
-              <span class="rcm-task-badge">3° Prioridad</span>
-              <strong>Sustitución Cíclica</strong>
-              <small>Reemplazo programado si cumple criterio económico.</small>
-            </div>
-            <div class="rcm-task-arrow">↓ si ninguna tarea es viable económicamente</div>
-            <div class="rcm-task-item task-nap">
-              <span class="rcm-task-badge badge-warning">NAP / CORRECTIVO</span>
-              <strong>Ninguna Acción Programada (NAP)</strong>
-              <small>Trabajar a la falla. La empresa asume convivir con la avería por ser más económico.</small>
-            </div>
-            <div class="rcm-task-arrow">↓ paralelamente</div>
-            <div class="rcm-task-item task-rediseño-electivo">
-              <span class="rcm-task-badge badge-info">ELECTIVO</span>
-              <strong>Evaluar Rediseño</strong>
-              <small>Reingeniería opcional sujeta a análisis de retorno de inversión.</small>
+            <div class="rcm-tasks-hierarchy">
+              <div class="rcm-task-item task-condicion">
+                <span class="rcm-task-badge">1° Prioridad</span>
+                <strong>Tareas a Condición</strong>
+                <small>Predictivo / Proactivo. Detecta desvíos antes de la falla funcional.</small>
+              </div>
+              <div class="rcm-task-arrow">↓ si no es técnicamente factible o no reduce el riesgo</div>
+              <div class="rcm-task-item task-preventivo">
+                <span class="rcm-task-badge">2° Prioridad</span>
+                <strong>Reacondicionamiento Cíclico</strong>
+                <small>Overhaul preventivo a intervalo fijo de tiempo u horas.</small>
+              </div>
+              <div class="rcm-task-arrow">↓ si no es técnicamente factible</div>
+              <div class="rcm-task-item task-sustitucion">
+                <span class="rcm-task-badge">3° Prioridad</span>
+                <strong>Sustitución Cíclica</strong>
+                <small>Reemplazo preventivo sistemático a vida útil límite.</small>
+              </div>
+              <div class="rcm-task-arrow">↓ si no es factible individualmente</div>
+              <div class="rcm-task-item task-combinacion">
+                <span class="rcm-task-badge">4° Prioridad</span>
+                <strong>Combinación de Tareas</strong>
+                <small>Dos o más tareas proactivas combinadas para mitigar el riesgo.</small>
+              </div>
+              <div class="rcm-task-arrow">↓ si ninguna tarea reduce el riesgo a nivel admisible</div>
+              <div class="rcm-task-item task-rediseño-obligatorio">
+                <span class="rcm-task-badge badge-danger">MANDATORIO</span>
+                <strong>REDISEÑO OBLIGATORIO</strong>
+                <small>Modificación física o reingeniería. ¡PROHIBIDO TRABAJAR A LA ROTURA!</small>
+              </div>
             </div>
           </div>
         </div>
+
+        <!-- ================= COLUMNA 2 ================= -->
+        <div class="rcm-col-card col-evidente">
+          <div class="rcm-col-header header-operacional">
+            <div class="rcm-col-tag">COLUMNA 2 · EVIDENTE</div>
+            <div class="rcm-col-title">Consecuencias Operacionales</div>
+            <div class="rcm-col-sub">Afecta producción, capacidad, calidad o lucro cesante</div>
+          </div>
+          <div class="rcm-col-body">
+            <div class="rcm-filter-question">
+              <strong>Pregunta Filtro y Ecuación:</strong><br>
+              <em>«¿Es técnicamente factible y económicamente viable?»</em>
+              <div class="rcm-eq-box">
+                Costo Tarea &lt; (Costo Consecuencias Operacionales + Costo Reparación)
+              </div>
+              <small style="color:var(--text-muted); display:block; margin-top:4px;">
+                Costo Operacional = Lucro Cesante: HH + NM + K + Penaliz. + MP + SE + Reproceso.
+              </small>
+            </div>
+
+            <div class="rcm-tasks-hierarchy">
+              <div class="rcm-task-item task-condicion">
+                <span class="rcm-task-badge">1° Prioridad</span>
+                <strong>Tareas a Condición</strong>
+                <small>Predictivo / Proactivo si cuesta menos que el lucro cesante.</small>
+              </div>
+              <div class="rcm-task-arrow">↓ si no es factible o viable económicamente</div>
+              <div class="rcm-task-item task-preventivo">
+                <span class="rcm-task-badge">2° Prioridad</span>
+                <strong>Reacondicionamiento Cíclico</strong>
+                <small>Overhaul a frecuencia fija si demuestra viabilidad económica.</small>
+              </div>
+              <div class="rcm-task-arrow">↓ si no es factible o viable económicamente</div>
+              <div class="rcm-task-item task-sustitucion">
+                <span class="rcm-task-badge">3° Prioridad</span>
+                <strong>Sustitución Cíclica</strong>
+                <small>Reemplazo programado por vida útil si cumple la ecuación.</small>
+              </div>
+              <div class="rcm-task-arrow">↓ si ninguna tarea es viable económicamente</div>
+              <div class="rcm-task-item task-nap">
+                <span class="rcm-task-badge badge-warning">NAP / CORRECTIVO</span>
+                <strong>Ninguna Acción Programada (NAP)</strong>
+                <small>Trabajar a la falla. Asumir la avería por ser más económica que prevenir.</small>
+              </div>
+              <div class="rcm-task-arrow">↓ paralelamente</div>
+              <div class="rcm-task-item task-rediseño-electivo">
+                <span class="rcm-task-badge badge-info">ELECTIVO</span>
+                <strong>Evaluar Rediseño</strong>
+                <small>Reingeniería opcional sujeta a análisis de retorno de inversión.</small>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ================= COLUMNA 3 ================= -->
+        <div class="rcm-col-card col-evidente">
+          <div class="rcm-col-header header-no-operacional">
+            <div class="rcm-col-tag">COLUMNA 3 · EVIDENTE</div>
+            <div class="rcm-col-title">Consecuencias No Operacionales</div>
+            <div class="rcm-col-sub">No frena la producción ni daña la seguridad; solo costo directo de taller</div>
+          </div>
+          <div class="rcm-col-body">
+            <div class="rcm-filter-question">
+              <strong>Pregunta Filtro y Ecuación:</strong><br>
+              <em>«¿Es técnicamente factible y económicamente viable?»</em>
+              <div class="rcm-eq-box">
+                Costo Tarea &lt; Costo de Reparación Directa
+              </div>
+              <small style="color:var(--text-muted); display:block; margin-top:4px;">
+                Reparación Directa = MO + Terceros + Repuestos + Flete (¡SIN Lucro Cesante!).
+              </small>
+            </div>
+
+            <div class="rcm-tasks-hierarchy">
+              <div class="rcm-task-item task-condicion">
+                <span class="rcm-task-badge">1° Prioridad</span>
+                <strong>Tareas a Condición</strong>
+                <small>Predictivo / Proactivo si cuesta menos que la reparación rota.</small>
+              </div>
+              <div class="rcm-task-arrow">↓ si no es factible o viable</div>
+              <div class="rcm-task-item task-preventivo">
+                <span class="rcm-task-badge">2° Prioridad</span>
+                <strong>Reacondicionamiento Cíclico</strong>
+                <small>Inspección preventiva periódica si justifica el gasto directo.</small>
+              </div>
+              <div class="rcm-task-arrow">↓ si no es factible o viable</div>
+              <div class="rcm-task-item task-sustitucion">
+                <span class="rcm-task-badge">3° Prioridad</span>
+                <strong>Sustitución Cíclica</strong>
+                <small>Reemplazo programado por edad límite.</small>
+              </div>
+              <div class="rcm-task-arrow">↓ si reparar al fallo es más económico</div>
+              <div class="rcm-task-item task-nap">
+                <span class="rcm-task-badge badge-warning">NAP / CORRECTIVO</span>
+                <strong>Ninguna Acción Programada (NAP)</strong>
+                <small>Trabajar a la rotura: reparar tras la falla porque no frena la fábrica.</small>
+              </div>
+              <div class="rcm-task-arrow">↓ paralelamente</div>
+              <div class="rcm-task-item task-rediseño-electivo">
+                <span class="rcm-task-badge badge-info">ELECTIVO</span>
+                <strong>Evaluar Rediseño</strong>
+                <small>Reingeniería optativa si abarata drásticamente el costo de repuesto.</small>
+              </div>
+            </div>
+          </div>
+        </div>
+
       </div>
-
-      <!-- ================= COLUMNA 3A ================= -->
-      <div class="rcm-col-box col-evidente" data-group="evidentes">
-        <div class="rcm-col-header header-no-operacional">
-          <div class="rcm-col-tag">COLUMNA 3A · EVIDENTE</div>
-          <div class="rcm-col-title">Consecuencias No Operacionales</div>
-          <div class="rcm-col-sub">No afecta producción ni seguridad; solo costo directo de reparación</div>
-        </div>
-        <div class="rcm-col-body">
-          <div class="rcm-filter-question">
-            <strong>Pregunta Filtro y Ecuación:</strong><br>
-            <em>«¿Es técnicamente factible y económicamente viable?»</em>
-            <div class="rcm-eq-box">
-              Costo Tarea &lt; Costo de Reparación Directa
-            </div>
-            <small style="color:var(--text-muted); display:block; margin-top:4px;">
-              Reparación Directa = MO + Terceros + Repuestos + Transporte (¡Sin Lucro Cesante!).
-            </small>
-          </div>
-
-          <div class="rcm-tasks-hierarchy">
-            <div class="rcm-task-item task-condicion">
-              <span class="rcm-task-badge">1° Prioridad</span>
-              <strong>Tareas a Condición</strong>
-              <small>Predictivo / Proactivo si cuesta menos que reparar tras la rotura.</small>
-            </div>
-            <div class="rcm-task-arrow">↓ si no es factible o viable</div>
-            <div class="rcm-task-item task-preventivo">
-              <span class="rcm-task-badge">2° Prioridad</span>
-              <strong>Reacondicionamiento Cíclico</strong>
-              <small>Preventivo mayor periódico si justifica el costo directo.</small>
-            </div>
-            <div class="rcm-task-arrow">↓ si no es factible o viable</div>
-            <div class="rcm-task-item task-sustitucion">
-              <span class="rcm-task-badge">3° Prioridad</span>
-              <strong>Sustitución Cíclica</strong>
-              <small>Reemplazo programado por edad límite.</small>
-            </div>
-            <div class="rcm-task-arrow">↓ si reparar al fallo es más económico</div>
-            <div class="rcm-task-item task-nap">
-              <span class="rcm-task-badge badge-warning">NAP / CORRECTIVO</span>
-              <strong>Ninguna Acción Programada (NAP)</strong>
-              <small>Trabajar a la rotura: reparar cuando falle porque no frena la fábrica.</small>
-            </div>
-            <div class="rcm-task-arrow">↓ paralelamente</div>
-            <div class="rcm-task-item task-rediseño-electivo">
-              <span class="rcm-task-badge badge-info">ELECTIVO</span>
-              <strong>Evaluar Rediseño</strong>
-              <small>Reingeniería optativa si reduce drásticamente el costo de repuesto.</small>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- ================= COLUMNA 1B ================= -->
-      <div class="rcm-col-box col-oculta" data-group="ocultas">
-        <div class="rcm-col-header header-some">
-          <div class="rcm-col-tag">COLUMNA 1B · NO EVIDENTE (OCULTA)</div>
-          <div class="rcm-col-title">Seguridad y Medio Ambiente (SoME)</div>
-          <div class="rcm-col-sub">Falla en dispositivo de seguridad que expone a desastre ante falla múltiple</div>
-        </div>
-        <div class="rcm-col-body">
-          <div class="rcm-filter-question">
-            <strong>Pregunta Filtro Mandatoria:</strong><br>
-            <em>«¿Esta tarea disminuye a un nivel admisible el riesgo de falla múltiple catastrófica?»</em>
-            <div style="font-size:0.75rem; color:#ef4444; margin-top:4px;">⚠️ Ej: Válvula de seguridad, sensor de sobrevelocidad, sistema contra incendios.</div>
-          </div>
-
-          <div class="rcm-tasks-hierarchy">
-            <div class="rcm-task-item task-condicion">
-              <span class="rcm-task-badge">1° Prioridad</span>
-              <strong>Tareas a Condición</strong>
-              <small>Monitoreo continuo de instrumentación de seguridad si es posible.</small>
-            </div>
-            <div class="rcm-task-arrow">↓ si no es técnicamente factible</div>
-            <div class="rcm-task-item task-preventivo">
-              <span class="rcm-task-badge">2° Prioridad</span>
-              <strong>Reacondicionamiento Cíclico</strong>
-              <small>Desarme e inspección interna preventiva periódica.</small>
-            </div>
-            <div class="rcm-task-arrow">↓ si no es técnicamente factible</div>
-            <div class="rcm-task-item task-sustitucion">
-              <span class="rcm-task-badge">3° Prioridad</span>
-              <strong>Sustitución Cíclica</strong>
-              <small>Cambio de componentes críticos por nuevos a fecha fija.</small>
-            </div>
-            <div class="rcm-task-arrow">↓ si no es técnicamente factible</div>
-            <div class="rcm-task-item task-detectivo">
-              <span class="rcm-task-badge badge-detectivo">4° TAREA CLAVE: DETECTIVO</span>
-              <strong>Búsqueda de Fallas (Detectivo)</strong>
-              <small>Prueba funcional periódica para verificar si el dispositivo oculto opera correctamente.</small>
-            </div>
-            <div class="rcm-task-arrow">↓ si ninguna tarea asegura riesgo admisible</div>
-            <div class="rcm-task-item task-rediseño-obligatorio">
-              <span class="rcm-task-badge badge-danger">OBLIGATORIO</span>
-              <strong>REDISEÑO OBLIGATORIO</strong>
-              <small>Redundancia (2 de 3), sistema a prueba de fallos (*fail-safe*). ¡PROHIBIDO TRABAJAR A LA ROTURA!</small>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- ================= COLUMNA 2B ================= -->
-      <div class="rcm-col-box col-oculta" data-group="ocultas">
-        <div class="rcm-col-header header-operacional">
-          <div class="rcm-col-tag">COLUMNA 2B · NO EVIDENTE (OCULTA)</div>
-          <div class="rcm-col-title">Consecuencias Operacionales</div>
-          <div class="rcm-col-sub">Falla oculta que, al ocurrir falla combinada, paraliza la producción</div>
-        </div>
-        <div class="rcm-col-body">
-          <div class="rcm-filter-question">
-            <strong>Pregunta Filtro y Ecuación:</strong><br>
-            <em>«¿Es técnicamente factible y económicamente viable?»</em>
-            <div class="rcm-eq-box">
-              Costo Tarea &lt; (Costo Consecuencias Operacionales + Costo Reparación)
-            </div>
-            <small style="color:var(--text-muted); display:block; margin-top:4px;">
-              Se evalúa el impacto financiero acumulado de la indisponibilidad.
-            </small>
-          </div>
-
-          <div class="rcm-tasks-hierarchy">
-            <div class="rcm-task-item task-condicion">
-              <span class="rcm-task-badge">1° Prioridad</span>
-              <strong>Tareas a Condición</strong>
-              <small>Predictivo / Proactivo si es viable.</small>
-            </div>
-            <div class="rcm-task-arrow">↓ si no es factible o viable</div>
-            <div class="rcm-task-item task-preventivo">
-              <span class="rcm-task-badge">2° Prioridad</span>
-              <strong>Reacondicionamiento Cíclico</strong>
-              <small>Overhaul preventivo programado.</small>
-            </div>
-            <div class="rcm-task-arrow">↓ si no es factible o viable</div>
-            <div class="rcm-task-item task-sustitucion">
-              <span class="rcm-task-badge">3° Prioridad</span>
-              <strong>Sustitución Cíclica</strong>
-              <small>Sustitución periódica por vida límite.</small>
-            </div>
-            <div class="rcm-task-arrow">↓ si no es factible o viable</div>
-            <div class="rcm-task-item task-detectivo">
-              <span class="rcm-task-badge badge-detectivo">4° Prioridad</span>
-              <strong>Búsqueda de Fallas (Detectivo)</strong>
-              <small>Pruebas funcionales para asegurar disponibilidad en stand-by.</small>
-            </div>
-            <div class="rcm-task-arrow">↓ si no justifica económicamente</div>
-            <div class="rcm-task-item task-nap">
-              <span class="rcm-task-badge badge-warning">NAP / CORRECTIVO</span>
-              <strong>Ninguna Acción Programada (NAP)</strong>
-              <small>Trabajar a la falla funcional si el impacto global es menor al costo de intervenir.</small>
-            </div>
-            <div class="rcm-task-arrow">↓ paralelamente</div>
-            <div class="rcm-task-item task-rediseño-electivo">
-              <span class="rcm-task-badge badge-info">ELECTIVO</span>
-              <strong>Evaluar Rediseño</strong>
-              <small>Evaluar cambio técnico según TIR / VAN.</small>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- ================= COLUMNA 3B ================= -->
-      <div class="rcm-col-box col-oculta" data-group="ocultas">
-        <div class="rcm-col-header header-no-operacional">
-          <div class="rcm-col-tag">COLUMNA 3B · NO EVIDENTE (OCULTA)</div>
-          <div class="rcm-col-title">Consecuencias No Operacionales</div>
-          <div class="rcm-col-sub">Falla oculta secundaria cuyo único impacto final es el gasto de reparación</div>
-        </div>
-        <div class="rcm-col-body">
-          <div class="rcm-filter-question">
-            <strong>Pregunta Filtro y Ecuación:</strong><br>
-            <em>«¿Es técnicamente factible y económicamente viable?»</em>
-            <div class="rcm-eq-box">
-              Costo Tarea &lt; Costo de Reparación Directa
-            </div>
-            <small style="color:var(--text-muted); display:block; margin-top:4px;">
-              Compara el gasto de la tarea vs. la factura directa de taller.
-            </small>
-          </div>
-
-          <div class="rcm-tasks-hierarchy">
-            <div class="rcm-task-item task-condicion">
-              <span class="rcm-task-badge">1° Prioridad</span>
-              <strong>Tareas a Condición</strong>
-              <small>Tareas predictivas / proactivas.</small>
-            </div>
-            <div class="rcm-task-arrow">↓ si no es factible o viable</div>
-            <div class="rcm-task-item task-preventivo">
-              <span class="rcm-task-badge">2° Prioridad</span>
-              <strong>Reacondicionamiento Cíclico</strong>
-              <small>Inspección preventiva programada.</small>
-            </div>
-            <div class="rcm-task-arrow">↓ si no es factible o viable</div>
-            <div class="rcm-task-item task-sustitucion">
-              <span class="rcm-task-badge">3° Prioridad</span>
-              <strong>Sustitución Cíclica</strong>
-              <small>Reemplazo preventivo sistemático.</small>
-            </div>
-            <div class="rcm-task-arrow">↓ si no es factible o viable</div>
-            <div class="rcm-task-item task-detectivo">
-              <span class="rcm-task-badge badge-detectivo">4° Prioridad</span>
-              <strong>Búsqueda de Fallas (Detectivo)</strong>
-              <small>Chequeo funcional periódico para evitar reparaciones mayores.</small>
-            </div>
-            <div class="rcm-task-arrow">↓ si no es viable económicamente</div>
-            <div class="rcm-task-item task-nap">
-              <span class="rcm-task-badge badge-warning">NAP / CORRECTIVO</span>
-              <strong>Ninguna Acción Programada (NAP)</strong>
-              <small>Trabajar a la rotura: reparar cuando finalmente se detecte la avería.</small>
-            </div>
-            <div class="rcm-task-arrow">↓ paralelamente</div>
-            <div class="rcm-task-item task-rediseño-electivo">
-              <span class="rcm-task-badge badge-info">ELECTIVO</span>
-              <strong>Evaluar Rediseño</strong>
-              <small>Reingeniería opcional.</small>
-            </div>
-          </div>
-        </div>
-      </div>
-
     </div>
+
+    <!-- ────────────────────────────────────────────────────────────
+         BLOQUE B: CONSECUENCIAS OCULTAS / NO EVIDENTES (COLUMNAS 4, 5 Y 6)
+    ──────────────────────────────────────────────────────────── -->
+    <div class="rcm-block-section" id="blockOcultas" style="margin-top:24px;">
+      <div class="rcm-block-header-bar header-bar-oculta">
+        <span>🔒 GRUPO B: FALLAS FUNCIONALES NO EVIDENTES / OCULTAS (Dispositivos en reposo o sistemas de protección)</span>
+      </div>
+
+      <div class="rcm-3col-row">
+        
+        <!-- ================= COLUMNA 4 ================= -->
+        <div class="rcm-col-card col-oculta">
+          <div class="rcm-col-header header-some">
+            <div class="rcm-col-tag">COLUMNA 4 · NO EVIDENTE (OCULTA)</div>
+            <div class="rcm-col-title">Seguridad y Medio Ambiente (SoME)</div>
+            <div class="rcm-col-sub">Falla en protección que expone a catástrofe ante falla múltiple</div>
+          </div>
+          <div class="rcm-col-body">
+            <div class="rcm-filter-question">
+              <strong>Pregunta Filtro Mandatoria:</strong><br>
+              <em>«¿Esta tarea disminuye a un nivel admisible el riesgo de falla múltiple catastrófica?»</em>
+              <div style="font-size:0.75rem; color:#ef4444; margin-top:4px; font-weight:700;">⚠️ Ej: Válvula de seguridad, relé térmico, grupo electrógeno.</div>
+            </div>
+
+            <div class="rcm-tasks-hierarchy">
+              <div class="rcm-task-item task-condicion">
+                <span class="rcm-task-badge">1° Prioridad</span>
+                <strong>Tareas a Condición</strong>
+                <small>Monitoreo instrumental continuo del elemento en stand-by si es factible.</small>
+              </div>
+              <div class="rcm-task-arrow">↓ si no es técnicamente factible</div>
+              <div class="rcm-task-item task-preventivo">
+                <span class="rcm-task-badge">2° Prioridad</span>
+                <strong>Reacondicionamiento Cíclico</strong>
+                <small>Desarme e inspección interna periódica programada.</small>
+              </div>
+              <div class="rcm-task-arrow">↓ si no es técnicamente factible</div>
+              <div class="rcm-task-item task-sustitucion">
+                <span class="rcm-task-badge">3° Prioridad</span>
+                <strong>Sustitución Cíclica</strong>
+                <small>Cambio sistemático de componentes de seguridad a fecha fija.</small>
+              </div>
+              <div class="rcm-task-arrow">↓ si no es técnicamente factible</div>
+              <div class="rcm-task-item task-detectivo">
+                <span class="rcm-task-badge badge-detectivo">4° TAREA CLAVE: DETECTIVO</span>
+                <strong>Búsqueda de Fallas (Detectivo)</strong>
+                <small>Prueba funcional periódica para constatar si el dispositivo oculto sigue operable.</small>
+              </div>
+              <div class="rcm-task-arrow">↓ si ninguna tarea reduce el riesgo a nivel admisible</div>
+              <div class="rcm-task-item task-rediseño-obligatorio">
+                <span class="rcm-task-badge badge-danger">MANDATORIO</span>
+                <strong>REDISEÑO OBLIGATORIO</strong>
+                <small>Redundancia activa (2 de 3), circuito *fail-safe*. ¡PROHIBIDO TRABAJAR A LA FALLA!</small>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ================= COLUMNA 5 ================= -->
+        <div class="rcm-col-card col-oculta">
+          <div class="rcm-col-header header-operacional">
+            <div class="rcm-col-tag">COLUMNA 5 · NO EVIDENTE (OCULTA)</div>
+            <div class="rcm-col-title">Consecuencias Operacionales</div>
+            <div class="rcm-col-sub">Falla oculta que, al ocurrir falla combinada, paraliza la producción</div>
+          </div>
+          <div class="rcm-col-body">
+            <div class="rcm-filter-question">
+              <strong>Pregunta Filtro y Ecuación:</strong><br>
+              <em>«¿Es técnicamente factible y económicamente viable?»</em>
+              <div class="rcm-eq-box">
+                Costo Tarea &lt; (Costo Consecuencias Operacionales + Costo Reparación)
+              </div>
+              <small style="color:var(--text-muted); display:block; margin-top:4px;">
+                Se evalúa la pérdida por indisponibilidad acumulada del paro.
+              </small>
+            </div>
+
+            <div class="rcm-tasks-hierarchy">
+              <div class="rcm-task-item task-condicion">
+                <span class="rcm-task-badge">1° Prioridad</span>
+                <strong>Tareas a Condición</strong>
+                <small>Predictivo / Proactivo si es viable.</small>
+              </div>
+              <div class="rcm-task-arrow">↓ si no es factible o viable</div>
+              <div class="rcm-task-item task-preventivo">
+                <span class="rcm-task-badge">2° Prioridad</span>
+                <strong>Reacondicionamiento Cíclico</strong>
+                <small>Overhaul programado del equipo de respaldo.</small>
+              </div>
+              <div class="rcm-task-arrow">↓ si no es factible o viable</div>
+              <div class="rcm-task-item task-sustitucion">
+                <span class="rcm-task-badge">3° Prioridad</span>
+                <strong>Sustitución Cíclica</strong>
+                <small>Sustitución periódica por vida límite.</small>
+              </div>
+              <div class="rcm-task-arrow">↓ si no es factible o viable</div>
+              <div class="rcm-task-item task-detectivo">
+                <span class="rcm-task-badge badge-detectivo">4° Prioridad</span>
+                <strong>Búsqueda de Fallas (Detectivo)</strong>
+                <small>Chequeo funcional periódico para asegurar disponibilidad del stand-by.</small>
+              </div>
+              <div class="rcm-task-arrow">↓ si no justifica económicamente</div>
+              <div class="rcm-task-item task-nap">
+                <span class="rcm-task-badge badge-warning">NAP / CORRECTIVO</span>
+                <strong>Ninguna Acción Programada (NAP)</strong>
+                <small>Trabajar a la falla funcional si el impacto global es menor al costo de intervenir.</small>
+              </div>
+              <div class="rcm-task-arrow">↓ paralelamente</div>
+              <div class="rcm-task-item task-rediseño-electivo">
+                <span class="rcm-task-badge badge-info">ELECTIVO</span>
+                <strong>Evaluar Rediseño</strong>
+                <small>Evaluar cambio técnico según retorno de inversión.</small>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ================= COLUMNA 6 ================= -->
+        <div class="rcm-col-card col-oculta">
+          <div class="rcm-col-header header-no-operacional">
+            <div class="rcm-col-tag">COLUMNA 6 · NO EVIDENTE (OCULTA)</div>
+            <div class="rcm-col-title">Consecuencias No Operacionales</div>
+            <div class="rcm-col-sub">Falla oculta secundaria cuyo único impacto final es el gasto de reparación</div>
+          </div>
+          <div class="rcm-col-body">
+            <div class="rcm-filter-question">
+              <strong>Pregunta Filtro y Ecuación:</strong><br>
+              <em>«¿Es técnicamente factible y económicamente viable?»</em>
+              <div class="rcm-eq-box">
+                Costo Tarea &lt; Costo de Reparación Directa
+              </div>
+              <small style="color:var(--text-muted); display:block; margin-top:4px;">
+                Compara el costo de la tarea vs. la factura directa de taller.
+              </small>
+            </div>
+
+            <div class="rcm-tasks-hierarchy">
+              <div class="rcm-task-item task-condicion">
+                <span class="rcm-task-badge">1° Prioridad</span>
+                <strong>Tareas a Condición</strong>
+                <small>Tareas predictivas / proactivas.</small>
+              </div>
+              <div class="rcm-task-arrow">↓ si no es factible o viable</div>
+              <div class="rcm-task-item task-preventivo">
+                <span class="rcm-task-badge">2° Prioridad</span>
+                <strong>Reacondicionamiento Cíclico</strong>
+                <small>Inspección preventiva programada.</small>
+              </div>
+              <div class="rcm-task-arrow">↓ si no es factible o viable</div>
+              <div class="rcm-task-item task-sustitucion">
+                <span class="rcm-task-badge">3° Prioridad</span>
+                <strong>Sustitución Cíclica</strong>
+                <small>Reemplazo preventivo sistemático.</small>
+              </div>
+              <div class="rcm-task-arrow">↓ si no es factible o viable</div>
+              <div class="rcm-task-item task-detectivo">
+                <span class="rcm-task-badge badge-detectivo">4° Prioridad</span>
+                <strong>Búsqueda de Fallas (Detectivo)</strong>
+                <small>Chequeo funcional periódico para evitar reparaciones mayores.</small>
+              </div>
+              <div class="rcm-task-arrow">↓ si no es viable económicamente</div>
+              <div class="rcm-task-item task-nap">
+                <span class="rcm-task-badge badge-warning">NAP / CORRECTIVO</span>
+                <strong>Ninguna Acción Programada (NAP)</strong>
+                <small>Trabajar a la rotura: reparar cuando finalmente se detecte la avería.</small>
+              </div>
+              <div class="rcm-task-arrow">↓ paralelamente</div>
+              <div class="rcm-task-item task-rediseño-electivo">
+                <span class="rcm-task-badge badge-info">ELECTIVO</span>
+                <strong>Evaluar Rediseño</strong>
+                <small>Reingeniería opcional.</small>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
   </div>
 
   <!-- Resumen Comparativo de Reglas de Cátedra RCM -->
   <div style="margin-top:24px; display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:14px;">
     <div style="background:rgba(239, 68, 68, 0.08); border-left:4px solid #ef4444; padding:12px 14px; border-radius:6px;">
-      <h4 style="color:#ef4444; margin-bottom:4px; font-size:0.95rem;">🚨 Columnas 1A y 1B (Seguridad y Medio Ambiente)</h4>
+      <h4 style="color:#ef4444; margin-bottom:4px; font-size:0.95rem;">🚨 Columnas 1 y 4 (Seguridad y Medio Ambiente)</h4>
       <p style="font-size:0.84rem; color:var(--text-secondary); line-height:1.5; margin:0;">
         • <strong>Criterio:</strong> Reducción del riesgo a nivel admisible (NO entra la comparación de costos).<br>
         • <strong>Prohibición:</strong> Está TERMINANTEMENTE PROHIBIDO trabajar a la falla (no existe NAP).<br>
@@ -1943,7 +2119,7 @@
     </div>
 
     <div style="background:rgba(234, 179, 8, 0.08); border-left:4px solid #eab308; padding:12px 14px; border-radius:6px;">
-      <h4 style="color:#eab308; margin-bottom:4px; font-size:0.95rem;">⚙️ Columnas 2A y 2B (Operacionales)</h4>
+      <h4 style="color:#eab308; margin-bottom:4px; font-size:0.95rem;">⚙️ Columnas 2 y 5 (Operacionales)</h4>
       <p style="font-size:0.84rem; color:var(--text-secondary); line-height:1.5; margin:0;">
         • <strong>Criterio:</strong> Costo Tarea &lt; (Costo Consecuencias Operacionales [Lucro Cesante] + Costo Reparación Directa).<br>
         • <strong>NAP:</strong> Sí se permite convivir con la falla si el costo de prevenirla es mayor que la pérdida.<br>
@@ -1952,7 +2128,7 @@
     </div>
 
     <div style="background:rgba(59, 130, 246, 0.08); border-left:4px solid #3b82f6; padding:12px 14px; border-radius:6px;">
-      <h4 style="color:#3b82f6; margin-bottom:4px; font-size:0.95rem;">🔧 Columnas 3A y 3B (No Operacionales)</h4>
+      <h4 style="color:#3b82f6; margin-bottom:4px; font-size:0.95rem;">🔧 Columnas 3 y 6 (No Operacionales)</h4>
       <p style="font-size:0.84rem; color:var(--text-secondary); line-height:1.5; margin:0;">
         • <strong>Criterio:</strong> Costo Tarea &lt; Costo de Reparación Directa (MO + terceros + repuestos + flete).<br>
         • <strong>Lucro Cesante:</strong> <strong>NO existe lucro cesante</strong> porque la parada no frena el flujo productivo.<br>
@@ -1962,100 +2138,247 @@
   </div>
 </section>
 
-<section id="sec-parametrico">
-    <div class="section-title">
-      <div class="section-icon ic-green">📈</div>
-      <div>
-        <h2>3. Gráfico de Estado Paramétrico Interactivo (Pistarelli)</h2>
-        <div class="sec-sub">Haz clic en cada zona o punto del gráfico vectorial para analizar su comportamiento técnico y preguntas de parcial</div>
+<section id="sec-parametrico" class="topic-card" style="border: 1px solid rgba(16, 185, 129, 0.4); background: linear-gradient(180deg, rgba(16, 185, 129, 0.05) 0%, rgba(15, 23, 42, 0.7) 100%);">
+  <div class="section-title">
+    <div class="section-icon ic-green">📈</div>
+    <div>
+      <h2>3. Gráfico de Estado Paramétrico (Pistarelli) · Zonas I, II y III</h2>
+      <div class="sec-sub">Curva de degradación física, zonas de reversibilidad/irreversibilidad, mantenimientos y acciones asociadas (Cátedra UTN)</div>
+    </div>
+  </div>
+
+  <div class="callout-profesor" style="margin-bottom:20px; font-size:0.9rem;">
+    <strong>📝 REGLA RECTORA DEL ING. APRIGLIANO (Anotación en parciales 10/10):</strong><br>
+    <em>«Obs: Todos estos mantenimientos se aplican SIEMPRE QUE ECONÓMICAMENTE VALGA LA PENA, comparando el Costo de Mantener vs. el Costo Total de la Falla (Costos Fijos + Lucro Cesante).»</em>
+  </div>
+
+  <!-- NAVEGADOR DE BOTONES INTERACTIVOS -->
+  <div class="graph-nav" style="margin-bottom:14px; display:flex; flex-wrap:wrap; gap:8px;">
+    <button type="button" class="g-btn active" onclick="selectGraphZone('z1')">Zona I: Operación Normal (Preventivo)</button>
+    <button type="button" class="g-btn" onclick="selectGraphZone('ps')">Punto S: Punto de Quiebre (Falla Incipiente)</button>
+    <button type="button" class="g-btn" onclick="selectGraphZone('z2')" style="border-color:#f59e0b; color:#fbbf24;">Zona II: ZONA DE REVERSIBILIDAD (Proactivo)</button>
+    <button type="button" class="g-btn" onclick="selectGraphZone('lim')" style="border-color:#ef4444; color:#f87171;">Límite de Irreversibilidad</button>
+    <button type="button" class="g-btn" onclick="selectGraphZone('z3')" style="border-color:#8b5cf6; color:#c084fc;">Zona III: ZONA DE IRREVERSIBILIDAD (Predictivo)</button>
+    <button type="button" class="g-btn" onclick="selectGraphZone('z4')">Zona IV: Fin de Vida (Preventivo Último Recurso)</button>
+    <button type="button" class="g-btn" onclick="selectGraphZone('ff')">Falla Funcional / Avería</button>
+  </div>
+
+  <!-- GRÁFICO VECTORIAL SVG CONTEXTUALIZADO -->
+  <div class="svg-wrap" style="background:rgba(15, 23, 42, 0.9); border:1px solid var(--border); border-radius:10px; padding:12px; margin-bottom:20px;">
+    <svg viewBox="0 0 880 430" style="width:100%; max-width:880px; height:auto; overflow:visible;">
+      <defs>
+        <linearGradient id="gradCurveParam" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" stop-color="#10b981" />
+          <stop offset="30%" stop-color="#10b981" />
+          <stop offset="46%" stop-color="#f59e0b" />
+          <stop offset="75%" stop-color="#8b5cf6" />
+          <stop offset="95%" stop-color="#ef4444" />
+        </linearGradient>
+        <filter id="glowParam">
+          <feGaussianBlur stdDeviation="3.5" result="coloredBlur"/>
+          <feMerge>
+            <feMergeNode in="coloredBlur"/>
+            <feMergeNode in="SourceGraphic"/>
+          </feMerge>
+        </filter>
+      </defs>
+
+      <!-- Ejes Cartesianos -->
+      <line x1="80" y1="360" x2="840" y2="360" stroke="#475569" stroke-width="2.5" />
+      <line x1="80" y1="360" x2="80" y2="40" stroke="#475569" stroke-width="2.5" />
+      <text x="840" y="380" fill="#94a3b8" font-size="12" font-family="Inter" font-weight="600" text-anchor="end">Tiempo de Marcha / Operación (t) ➔</text>
+      <text x="75" y="28" fill="#94a3b8" font-size="12" font-family="Inter" font-weight="600" text-anchor="start">▲ Estado Paramétrico (%) / Condición</text>
+      <text x="50" y="70" fill="#cbd5e1" font-size="11" font-family="JetBrains Mono">100%</text>
+      <text x="55" y="365" fill="#cbd5e1" font-size="11" font-family="JetBrains Mono">0%</text>
+
+      <!-- Sombreados de Fondo para las 3 Zonas -->
+      <rect id="rectZ1" x="80" y="40" width="190" height="320" fill="#10b981" opacity="0.08" style="cursor:pointer;" onclick="selectGraphZone('z1')" />
+      <rect id="rectZ2" x="270" y="40" width="170" height="320" fill="#f59e0b" opacity="0.12" style="cursor:pointer;" onclick="selectGraphZone('z2')" />
+      <rect id="rectZ3" x="440" y="40" width="250" height="320" fill="#8b5cf6" opacity="0.10" style="cursor:pointer;" onclick="selectGraphZone('z3')" />
+      <rect id="rectZ4" x="690" y="40" width="110" height="320" fill="#ef4444" opacity="0.08" style="cursor:pointer;" onclick="selectGraphZone('z4')" />
+
+      <!-- Líneas Divisorias Verticales -->
+      <line x1="270" y1="45" x2="270" y2="360" stroke="#f59e0b" stroke-dasharray="4,4" stroke-width="1.5" />
+      <line x1="440" y1="45" x2="440" y2="360" stroke="#ef4444" stroke-dasharray="5,4" stroke-width="2" />
+      <line x1="690" y1="45" x2="690" y2="360" stroke="#64748b" stroke-dasharray="4,4" stroke-width="1.5" />
+
+      <!-- Títulos y Rótulos de Zonas Superiores -->
+      <text x="175" y="58" fill="#10b981" font-size="12" font-weight="800" text-anchor="middle">ZONA I: NORMAL</text>
+      <text x="175" y="74" fill="#6ee7b7" font-size="10" text-anchor="middle">Preventivo / Predictivo base</text>
+
+      <text x="355" y="58" fill="#f59e0b" font-size="12" font-weight="800" text-anchor="middle">ZONA II: REVERSIBILIDAD</text>
+      <text x="355" y="74" fill="#fcd34d" font-size="10" text-anchor="middle">MTO PROACTIVO (Restaurativo)</text>
+
+      <text x="565" y="58" fill="#c084fc" font-size="12" font-weight="800" text-anchor="middle">ZONA III: IRREVERSIBILIDAD</text>
+      <text x="565" y="74" fill="#d8b4fe" font-size="10" text-anchor="middle">MTO PREDICTIVO (Sustitutivo)</text>
+
+      <text x="745" y="58" fill="#f87171" font-size="11" font-weight="800" text-anchor="middle">ZONA IV: FIN</text>
+      <text x="745" y="74" fill="#fca5a5" font-size="9" text-anchor="middle">Preventivo Urgencia</text>
+
+      <!-- Línea Horizontal: LÍMITE DE IRREVERSIBILIDAD -->
+      <line id="lineLim" x1="80" y1="185" x2="820" y2="185" stroke="#ef4444" stroke-dasharray="6,4" stroke-width="2" />
+      <text x="815" y="177" fill="#f87171" font-size="11" font-weight="700" text-anchor="end">--- LÍMITE DE IRREVERSIBILIDAD (Daño Físico Permanente en Material) ---</text>
+
+      <!-- Curva de Estado Paramétrico de Pistarelli -->
+      <path id="curvePath" d="M 80 85 L 270 85 C 330 85, 380 125, 440 185 C 500 245, 620 295, 690 315 C 740 330, 780 355, 800 360"
+            fill="none" stroke="url(#gradCurveParam)" stroke-width="5" filter="url(#glowParam)" />
+
+      <!-- Cota de Tiempo: Vida Remanente T -->
+      <line x1="440" y1="320" x2="800" y2="320" stroke="#38bdf8" stroke-width="2" />
+      <polygon points="440,320 448,316 448,324" fill="#38bdf8" />
+      <polygon points="800,320 792,316 792,324" fill="#38bdf8" />
+      <text x="620" y="312" fill="#38bdf8" font-size="11" font-weight="700" text-anchor="middle">Vida Remanente de Seguridad (T)</text>
+      <text x="620" y="338" fill="#7dd3fc" font-size="9" text-anchor="middle">Tiempo para planificar compras y MO diurna sin lucro cesante</text>
+
+      <!-- Nodos Interactivos Destacados -->
+      <!-- Punto S -->
+      <circle id="nodePuntoS" cx="270" cy="85" r="7" fill="#f59e0b" stroke="#fff" stroke-width="2.5" style="cursor:pointer;" onclick="selectGraphZone('ps')" />
+      <text x="270" y="110" fill="#fbbf24" font-size="11" font-weight="800" text-anchor="middle">Punto S (Quiebre)</text>
+
+      <!-- Límite de Irreversibilidad Nodo -->
+      <circle id="nodeLim" cx="440" cy="185" r="7" fill="#ef4444" stroke="#fff" stroke-width="2.5" style="cursor:pointer;" onclick="selectGraphZone('lim')" />
+      <text x="440" y="210" fill="#fca5a5" font-size="11" font-weight="700" text-anchor="middle">Límite</text>
+
+      <!-- Falla Funcional / Avería Nodo -->
+      <circle id="nodeFF" cx="800" cy="360" r="7" fill="#ef4444" stroke="#fff" stroke-width="2.5" style="cursor:pointer;" onclick="selectGraphZone('ff')" />
+      <text x="800" y="380" fill="#ef4444" font-size="11" font-weight="800" text-anchor="middle">Avería</text>
+    </svg>
+  </div>
+
+  <!-- TARJETA DINÁMICA DE INFORMACIÓN AL HACER CLIC -->
+  <div class="graph-info-card" id="graphInfoBox" style="margin-bottom:24px;">
+    <h4 id="gInfoTitle" style="color:#10b981; font-size:1.05rem; margin-bottom:6px;">Zona I: Operación Normal / Régimen de Diseño</h4>
+    <p id="gInfoBody" style="color:var(--text-secondary); font-size:0.92rem; line-height:1.65; margin:0;">
+      El activo opera dentro de los límites y tolerancias del fabricante. Se aplica <strong>Mantenimiento Preventivo Sistemático</strong> (limpieza, lubricación periódica y rutinas dinámicas de inspección) o <strong>Mantenimiento Predictivo de base</strong> para establecer la línea de referencia histórica. <em>No se realiza proactivo</em> porque carece de sentido buscar la causa raíz de una anomalía que todavía no existe.
+    </p>
+    <div class="highlight" id="gInfoTip" style="margin-top:10px;">
+      📌 <strong>Criterio Cátedra:</strong> Mantiene el estado óptimo del activo. Toda intervención se rige por especificación técnica sin desarmes innecesarios.
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════════════════════════
+       CUADRO COMPARATIVO MAESTRO: DIFERENCIAS ENTRE ZONAS I, II Y III
+  ════════════════════════════════════════════════════════════ -->
+  <div style="background:rgba(15, 23, 42, 0.85); border:1px solid var(--border); border-radius:10px; padding:18px; margin-bottom:24px;">
+    <h3 style="color:#38bdf8; font-size:1.1rem; margin-bottom:12px; display:flex; align-items:center; gap:8px;">
+      <span>📑</span> Cuadro Comparativo Maestro de Diferencias entre Zonas I, II y III (Examen Parcial)
+    </h3>
+    <div style="overflow-x:auto;">
+      <table class="diff-table" style="font-size:0.85rem; margin:0;">
+        <thead>
+          <tr>
+            <th style="width:160px;">Criterio / Característica</th>
+            <th style="color:#10b981;">ZONA I (Operación Normal)</th>
+            <th style="color:#f59e0b;">ZONA II (Zona de Reversibilidad)</th>
+            <th style="color:#c084fc;">ZONA III (Zona de Irreversibilidad)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Límites Temporales</strong></td>
+            <td>Desde $t = 0$ hasta el <strong>Punto S (Punto de Quiebre)</strong>.</td>
+            <td>Desde el <strong>Punto S</strong> hasta el <strong>Límite de Irreversibilidad</strong>.</td>
+            <td>Desde el <strong>Límite de Irreversibilidad</strong> hasta la <strong>Avería / Falla Funcional</strong>.</td>
+          </tr>
+          <tr>
+            <td><strong>Estado Físico del Elemento</strong></td>
+            <td>Sano, sin degradación visible ni sintomática; opera en régimen.</td>
+            <td>Falla incipiente sin daño estructural en el material (falsos contactos, desalineación, vibración leve).</td>
+            <td><strong>Daño físico irreversible permanente</strong> en el material (picado de pistas, microfisuras por fatiga, daño térmico).</td>
+          </tr>
+          <tr>
+            <td><strong>Tipo de Falla Presente</strong></td>
+            <td>Ninguna falla detectable.</td>
+            <td><strong>Falla Sintomática Incipiente pero REVERSIBLE</strong>.</td>
+            <td><strong>Falla Sintomática IRREVERSIBLE</strong> (progreso acumulativo fatal).</td>
+          </tr>
+          <tr>
+            <td><strong>Mantenimiento Aplicado</strong></td>
+            <td><strong>Mantenimiento Preventivo Sistemático</strong> o Predictivo de línea base.</td>
+            <td><strong>MANTENIMIENTO PROACTIVO</strong> (investigación de causa raíz).</td>
+            <td><strong>MANTENIMIENTO PREDICTIVO INTENSIFICADO</strong> (monitoreo frecuente o continuo).</td>
+          </tr>
+          <tr>
+            <td><strong>Acción Reactiva Asociada</strong></td>
+            <td>No aplica acción reactiva (solo rutinas).</td>
+            <td><strong>ACCIÓN RESTAURATIVA</strong>: Ajustes, reaprietes, alineación láser, balanceo, filtrado de lubricante.</td>
+            <td><strong>ACCIÓN SUSTITUTIVA</strong>: Reemplazo o sustitución integral de la pieza deteriorada por un repuesto nuevo.</td>
+          </tr>
+          <tr>
+            <td><strong>¿Prolonga la Vida Útil de la Pieza?</strong></td>
+            <td>Conserva la vida útil teórica de diseño.</td>
+            <td><span style="color:#10b981; font-weight:800;">SÍ ALARGA Y RESTAURA</span> la vida útil real de la pieza al devolverla a la Zona I sin sustitución.</td>
+            <td><span style="color:#ef4444; font-weight:800;">NO ALARGA</span> la vida útil del elemento dañado; su rol es aprovechar la <strong>vida útil remanente</strong> de seguridad ($T$).</td>
+          </tr>
+          <tr>
+            <td><strong>Ventaja Fundamental de Intervenir</strong></td>
+            <td>Operación continua sin sorpresas.</td>
+            <td>Elimina la causa raíz al menor costo directo antes del deterioro permanente del activo.</td>
+            <td>Otorga tiempo ($T$) para planificar compras al costo más bajo y programar mano de obra diurna sin lucro cesante.</td>
+          </tr>
+          <tr>
+            <td><strong>Herramental Requerido</strong></td>
+            <td>Herramental estándar de taller y sentidos.</td>
+            <td>Mismo instrumental predictivo avanzado (FFT, termografía) pero aplicado a corregir la causa raíz.</td>
+            <td>Instrumental predictivo avanzado (analizadores de vibraciones FFT, termografía, análisis de aceites).</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════════════════════════
+       DESGLOSE DETALLADO ZONA POR ZONA CON PREGUNTAS TÍPICAS
+  ════════════════════════════════════════════════════════════ -->
+  <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap:16px;">
+    
+    <!-- TARJETA ZONA II: REVERSIBILIDAD -->
+    <div style="background:rgba(245, 158, 11, 0.06); border:1px solid rgba(245, 158, 11, 0.3); border-radius:8px; padding:16px;">
+      <h4 style="color:#fbbf24; font-size:1rem; margin-bottom:8px; display:flex; align-items:center; gap:6px;">
+        <span>⚡</span> Zona II: Zona de Reversibilidad (Mto Proactivo)
+      </h4>
+      <p style="font-size:0.87rem; color:var(--text-secondary); line-height:1.6; margin-bottom:10px;">
+        Se ubica entre el <strong>Punto S</strong> y el <strong>Límite de Irreversibilidad</strong>. Aquí aparece la <strong>falla sintomática incipiente</strong>, pero el material del componente aún no ha sufrido alteración estructural permanente.
+      </p>
+      <div style="background:rgba(0,0,0,0.3); padding:10px 12px; border-radius:6px; font-size:0.84rem; line-height:1.55; color:#cbd5e1; margin-bottom:10px;">
+        • <strong>Acción Reactiva:</strong> Es <strong>RESTAURATIVA</strong>. Mediante un ajuste mecánico, reapriete de bornes flojos o balanceo de rotor, se elimina la causa raíz del calentamiento o vibración y el equipo retorna a la Zona I.<br>
+        • <strong>Impacto en Vida Útil:</strong> <strong>SÍ alarga la vida útil</strong> de la máquina.<br>
+        • <strong>Pregunta de Parcial:</strong> <em>«La falla sintomática puede ser detectada en la zona de reversibilidad»</em> ➔ <span class="badge-vf-true">VERDADERO</span>.
       </div>
     </div>
 
-    <div class="graph-container">
-      <div class="graph-nav">
-        <button class="g-btn active" onclick="selectGraphZone('z1')">Zona I: Marcha Normal</button>
-        <button class="g-btn" onclick="selectGraphZone('ps')">Punto S: Síntoma Incipiente</button>
-        <button class="g-btn" onclick="selectGraphZone('z2')">Zona II: Reversible (Proactivo)</button>
-        <button class="g-btn" onclick="selectGraphZone('lim')">Límite de Irreversibilidad</button>
-        <button class="g-btn" onclick="selectGraphZone('z3')">Zona III: Irreversible (Predictivo)</button>
-        <button class="g-btn" onclick="selectGraphZone('z4')">Zona IV: Sentidos / Inminente</button>
-        <button class="g-btn" onclick="selectGraphZone('ff')">Falla Funcional / Avería</button>
-      </div>
-
-      <div class="svg-wrap">
-        <svg viewBox="0 0 850 380" style="width:100%; max-width:850px; height:auto; overflow:visible;">
-          <defs>
-            <linearGradient id="gradCurve" x1="0%" y1="0%" x2="100%" y2="0%">
-              <stop offset="0%" stop-color="#10b981" />
-              <stop offset="35%" stop-color="#10b981" />
-              <stop offset="48%" stop-color="#f59e0b" />
-              <stop offset="75%" stop-color="#8b5cf6" />
-              <stop offset="100%" stop-color="#ef4444" />
-            </linearGradient>
-            <filter id="glow">
-              <feGaussianBlur stdDeviation="4" result="coloredBlur"/>
-              <feMerge>
-                <feMergeNode in="coloredBlur"/>
-                <feMergeNode in="SourceGraphic"/>
-              </feMerge>
-            </filter>
-          </defs>
-
-          <!-- Axes -->
-          <line x1="70" y1="330" x2="800" y2="330" stroke="#334155" stroke-width="2.5" />
-          <line x1="70" y1="330" x2="70" y2="30" stroke="#334155" stroke-width="2.5" />
-          <text x="800" y="348" fill="#64748b" font-size="12" font-family="Inter" text-anchor="end">Tiempo de Marcha / Operación ➔</text>
-          <text x="65" y="22" fill="#64748b" font-size="12" font-family="Inter" text-anchor="start">▲ Estado del Activo (%)</text>
-          <text x="50" y="55" fill="#94a3b8" font-size="11" font-family="Inter">100%</text>
-          <text x="50" y="335" fill="#94a3b8" font-size="11" font-family="Inter">0%</text>
-
-          <!-- Zone Overlays for Click/Hover -->
-          <rect id="rectZ1" class="zone-hover" x="70" y="30" width="180" height="300" fill="#10b981" opacity="0.08" onclick="selectGraphZone('z1')" />
-          <rect id="rectZ2" class="zone-hover" x="250" y="30" width="160" height="300" fill="#f59e0b" opacity="0.08" onclick="selectGraphZone('z2')" />
-          <rect id="rectZ3" class="zone-hover" x="410" y="30" width="230" height="300" fill="#8b5cf6" opacity="0.08" onclick="selectGraphZone('z3')" />
-          <rect id="rectZ4" class="zone-hover" x="640" y="30" width="140" height="300" fill="#ef4444" opacity="0.08" onclick="selectGraphZone('z4')" />
-
-          <!-- Zone Vertical Dividing Lines -->
-          <line x1="250" y1="40" x2="250" y2="330" stroke="#475569" stroke-dasharray="4" stroke-width="1.5" />
-          <line x1="410" y1="40" x2="410" y2="330" stroke="#475569" stroke-dasharray="4" stroke-width="1.5" />
-          <line x1="640" y1="40" x2="640" y2="330" stroke="#475569" stroke-dasharray="4" stroke-width="1.5" />
-
-          <!-- Zone Labels Top -->
-          <text x="160" y="50" fill="#10b981" font-size="12" font-weight="700" text-anchor="middle">ZONA I: NORMAL</text>
-          <text x="330" y="50" fill="#f59e0b" font-size="12" font-weight="700" text-anchor="middle">ZONA II: REVERSIBLE</text>
-          <text x="525" y="50" fill="#c084fc" font-size="12" font-weight="700" text-anchor="middle">ZONA III: IRREVERSIBLE</text>
-          <text x="710" y="50" fill="#f87171" font-size="12" font-weight="700" text-anchor="middle">ZONA IV</text>
-
-          <!-- Limit of Irreversibility Line -->
-          <line id="lineLim" x1="70" y1="165" x2="780" y2="165" stroke="#ef4444" stroke-dasharray="6,4" stroke-width="2" />
-          <text x="770" y="158" fill="#f87171" font-size="11" font-weight="700" text-anchor="end">-- LÍMITE DE IRREVERSIBILIDAD (Daño Físico en Material) --</text>
-
-          <!-- Parametric Curve Path -->
-          <path id="curvePath" d="M 70 65 L 250 65 C 320 65, 360 110, 410 165 C 470 230, 580 270, 640 285 C 690 295, 740 325, 760 330"
-                fill="none" stroke="url(#gradCurve)" stroke-width="5" filter="url(#glow)" />
-
-          <!-- Interactive Highlight Nodes -->
-          <circle id="nodePuntoS" cx="250" cy="65" r="7" fill="#f59e0b" stroke="#fff" stroke-width="2" style="cursor:pointer;" onclick="selectGraphZone('ps')" />
-          <text x="250" y="90" fill="#fbbf24" font-size="11" font-weight="700" text-anchor="middle">Punto S</text>
-
-          <circle id="nodeLim" cx="410" cy="165" r="7" fill="#ef4444" stroke="#fff" stroke-width="2" style="cursor:pointer;" onclick="selectGraphZone('lim')" />
-
-          <circle id="nodeFF" cx="760" cy="330" r="7" fill="#ef4444" stroke="#fff" stroke-width="2" style="cursor:pointer;" onclick="selectGraphZone('ff')" />
-          <text x="760" y="352" fill="#ef4444" font-size="11" font-weight="700" text-anchor="middle">Avería</text>
-        </svg>
-      </div>
-
-      <div class="graph-info-card" id="graphInfoBox">
-        <h4 id="gInfoTitle">Zona I: Marcha Normal / Estado Teórico</h4>
-        <p id="gInfoBody" style="color:var(--text-secondary); font-size:0.92rem; line-height:1.65;">
-          El activo funciona dentro de sus especificaciones de diseño. Se aplica <strong>Mantenimiento Preventivo Sistemático</strong> (lubricación, limpieza y rutinas de inspección dinámicas RID). <em>No se hace proactivo</em> porque carece de sentido buscar la causa raíz de una anomalía que aún no existe.
-        </p>
-        <div class="highlight" id="gInfoTip" style="margin-top:8px;">
-          📌 <strong>Criterio de Cátedra:</strong> Mantiene el estado teórico del activo sin desmontajes innecesarios.
-        </div>
+    <!-- TARJETA ZONA III: IRREVERSIBILIDAD -->
+    <div style="background:rgba(139, 92, 246, 0.06); border:1px solid rgba(139, 92, 246, 0.3); border-radius:8px; padding:16px;">
+      <h4 style="color:#c084fc; font-size:1rem; margin-bottom:8px; display:flex; align-items:center; gap:6px;">
+        <span>🔮</span> Zona III: Zona de Irreversibilidad (Mto Predictivo)
+      </h4>
+      <p style="font-size:0.87rem; color:var(--text-secondary); line-height:1.6; margin-bottom:10px;">
+        Se extiende desde el <strong>Límite de Irreversibilidad</strong> hasta la avería. El daño físico en el material (fatiga, picado de pista) ya ocurrió y es irreversible. Ningún reapriete o lubricación salvará la pieza.
+      </p>
+      <div style="background:rgba(0,0,0,0.3); padding:10px 12px; border-radius:6px; font-size:0.84rem; line-height:1.55; color:#cbd5e1; margin-bottom:10px;">
+        • <strong>Acción Reactiva:</strong> Es <strong>SUSTITUTIVA</strong> (cambio por pieza nueva).<br>
+        • <strong>Impacto en Vida Útil:</strong> <strong>NO alarga la vida útil de la pieza dañada</strong>. Su función es exprimir la <em>vida remanente de seguridad ($T$)</em>.<br>
+        • <strong>Ventaja Detección Temprana en Zona III:</strong> Brinda mayor tiempo $T$ para cotizar repuestos sin flete aéreo de urgencia, asignar mano de obra en horario normal diurno (sin horas extras ni nocturnidad) y consensuar la parada con producción para no tener lucro cesante.
       </div>
     </div>
-  </section>
+
+    <!-- TARJETA LÍMITE Y JUSTO ANTES DE AVERÍA -->
+    <div style="background:rgba(239, 68, 68, 0.06); border:1px solid rgba(239, 68, 68, 0.3); border-radius:8px; padding:16px;">
+      <h4 style="color:#f87171; font-size:1rem; margin-bottom:8px; display:flex; align-items:center; gap:6px;">
+        <span>⚠️</span> Límite de Irreversibilidad y Fin de Vida
+      </h4>
+      <p style="font-size:0.87rem; color:var(--text-secondary); line-height:1.6; margin-bottom:10px;">
+        El <strong>Límite de Irreversibilidad</strong> es la frontera física del material donde la degradación se vuelve permanente. A partir de allí, el fallo funcional es ineludible.
+      </p>
+      <div style="background:rgba(0,0,0,0.3); padding:10px 12px; border-radius:6px; font-size:0.84rem; line-height:1.55; color:#cbd5e1;">
+        • <strong>¿Qué pasa justo antes de la avería?:</strong> Si la empresa no hizo proactivo ni predictivo, solo queda ejecutar un <strong>Mantenimiento Preventivo / Sustitutivo de emergencia</strong> a último momento con los sentidos humanos, con escasísimo tiempo de reacción y altísimo riesgo de rotura catastrófica en marcha.<br>
+        • <strong>Falla Funcional / Avería:</strong> El componente pierde definitivamente su capacidad para cumplir la función requerida.
+      </div>
+    </div>
+
+  </div>
+</section>
+
 <section id="sec-predictivo">
     <div class="section-title">
       <div class="section-icon ic-violet">🔮</div>
@@ -3330,23 +3653,26 @@
 
   
   /* ══════════════════════════════════════
-       RCM 6 COLUMNAS & PARCIALES RECIENTES
+       RCM 6 COLUMNAS (SIN DESLIZAMIENTO) & PARCIALES RECIENTES
   ══════════════════════════════════════ */
   function filterRCMColumns(filter) {
     const allBtns = document.querySelectorAll('.rcm-col-filter');
     allBtns.forEach(b => b.classList.remove('active'));
     if (window.event && window.event.target) window.event.target.classList.add('active');
 
-    const cols = document.querySelectorAll('.rcm-col-box');
-    cols.forEach(col => {
-      if (filter === 'all') {
-        col.style.display = 'flex';
-      } else if (filter === 'evidentes') {
-        col.style.display = (col.getAttribute('data-group') === 'evidentes') ? 'flex' : 'none';
-      } else if (filter === 'ocultas') {
-        col.style.display = (col.getAttribute('data-group') === 'ocultas') ? 'flex' : 'none';
-      }
-    });
+    const blockEv = document.getElementById('blockEvidentes');
+    const blockOc = document.getElementById('blockOcultas');
+
+    if (filter === 'all') {
+      if (blockEv) blockEv.style.display = 'block';
+      if (blockOc) blockOc.style.display = 'block';
+    } else if (filter === 'evidentes') {
+      if (blockEv) blockEv.style.display = 'block';
+      if (blockOc) blockOc.style.display = 'none';
+    } else if (filter === 'ocultas') {
+      if (blockEv) blockEv.style.display = 'none';
+      if (blockOc) blockOc.style.display = 'block';
+    }
   }
 
   function switchParcialTab(tabId) {
@@ -3490,7 +3816,45 @@
       li.classList.add('checked');
     });
     updateProgress();
-  })();
+  })();const graphData = {
+    z1: {
+      title: "Zona I: Operación Normal / Régimen de Diseño",
+      body: "El activo opera dentro de los límites y tolerancias del fabricante. Se aplica <strong>Mantenimiento Preventivo Sistemático</strong> (limpieza, lubricación periódica y rutinas dinámicas de inspección RID) o <strong>Mantenimiento Predictivo de base</strong> para establecer la línea de referencia histórica. <em>No se realiza proactivo</em> porque carece de sentido buscar la causa raíz de una anomalía que todavía no existe.",
+      tip: "📌 <strong>Criterio Cátedra:</strong> Mantiene el estado óptimo del activo. Toda intervención se rige por especificación técnica sin desarmes innecesarios."
+    },
+    ps: {
+      title: "Punto S: Punto de Quiebre (Aparición de Falla Sintomática Incipiente)",
+      body: "Momento exacto donde se manifiesta la primera anomalía física o mensurable por instrumental. Cuanto antes se detecte el punto S, más amplio será el intervalo hasta la rotura total (<strong>Mayor Vida Remanente de Seguridad</strong>).",
+      tip: "🔥 <strong>Clave de Examen:</strong> Aquí nace la falla sintomática incipiente, que en la Zona II sigue siendo 100% REVERSIBLE."
+    },
+    z2: {
+      title: "Zona II: ZONA DE REVERSIBILIDAD (Mantenimiento Proactivo)",
+      body: "La falla sintomática es incipiente y el daño permanente en el material todavía NO se produjo. Se aplica <strong>MANTENIMIENTO PROACTIVO</strong> mediante <strong>ACCIONES REACTIVAS RESTAURATIVAS</strong> (ajuste de holguras, reapriete de bornes flojos, alineación láser de ejes, balanceo dinámico, filtrado de aceite). <strong>SÍ PROLONGA Y RESTAURA LA VIDA ÚTIL</strong> del activo, regresándolo a la Zona I sin sustituir la pieza.",
+      tip: "⭐ <strong>Pregunta Frecuente Aprigliano:</strong> «La falla sintomática puede ser detectada en la zona de reversibilidad» ➔ VERDADERO."
+    },
+    lim: {
+      title: "Límite de Irreversibilidad (Frontera Metalúrgica / Física)",
+      body: "Línea crítica divisoria. A partir de este momento se produce el daño físico o metalúrgico permanente en la pieza (microfisuras por fatiga, desprendimiento de material en pistas de rodamientos, degradación de aislación). Se extingue la reversibilidad.",
+      tip: "⚠️ <strong>Clave Cátedra:</strong> Antes de la línea se hace Proactivo (restaurativo); después de la línea se hace Predictivo (sustitutivo)."
+    },
+    z3: {
+      title: "Zona III: ZONA DE IRREVERSIBILIDAD (Mantenimiento Predictivo)",
+      body: "El daño ya ocurrió y es irreversible. Se aplica <strong>MANTENIMIENTO PREDICTIVO INTENSIFICADO</strong> mediante seguimiento dinámico de la variable técnica. <em>NO alarga la vida útil de la pieza dañada</em>; su beneficio es <strong>aprovechar al 100% la vida útil remanente de seguridad (T)</strong> para programar la sustitución (<strong>ACCIÓN SUSTITUTIVA</strong>) un instante antes de la avería.",
+      tip: "🎯 <strong>Ventaja Detección Temprana:</strong> Mayor tiempo T para planificar compras de repuestos al costo más bajo y asignar mano de obra en horario normal diurno sin lucro cesante."
+    },
+    z4: {
+      title: "Zona IV: Fin de Vida Útil / Justo antes de la Avería",
+      body: "Degradación extrema próxima a la rotura catastrófica. Si la empresa no hizo proactivo ni predictivo, lo único que queda por hacer a último momento es un <strong>Mantenimiento Preventivo / Sustitutivo de emergencia</strong> con altísimo riesgo de rotura catastrófica y lucro cesante.",
+      tip: "🚨 <strong>Último Recurso:</strong> Margen de maniobra mínimo con los sentidos humanos."
+    },
+    ff: {
+      title: "Falla Funcional / Avería Total",
+      body: "Pérdida total o parcial de la capacidad para cumplir la función establecida. Parada intempestiva no programada de la máquina con máximo costo de lucro cesante y daño secundario.",
+      tip: "⛔ <strong>Costo Crítico:</strong> Aquí culmina la curva de estado paramétrico."
+    }
+  };
+
+  
 
 </script>
 </body>
