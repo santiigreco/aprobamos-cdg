@@ -98,8 +98,13 @@ export const SUBJECTS = [
         htmlFile: './manejo-materiales.html'
       },
       {
-        title: '2do Parcial',
-        description: 'Distribución en Planta y Layout.',
+        title: '2do Parcial — Respuestas',
+        description: '266 preguntas resueltas de parciales y finales con respuestas desplegables (U4, U3, U5, U6 y U11).',
+        htmlFile: './respuestas-2do-parcial-mmdp.html#u4'
+      },
+      {
+        title: '2do Parcial — Guía Teórica',
+        description: 'Distribución en Planta, Layout y Sistemas de Almacenaje (U7.5).',
         htmlFile: './manejo-materiales-2do-parcial.html'
       }
     ]
