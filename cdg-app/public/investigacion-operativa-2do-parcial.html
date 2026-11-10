@@ -1,0 +1,3219 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Estrategia & Dominio 2do Parcial — Investigación Operativa UTN FRBA</title>
+  <meta name="description" content="Guía Práctica Interactiva de Investigación Operativa UTN FRBA. 15 ejercicios reales con captura de parcial original y resolución completa paso a paso a mano, masterclass de Simplex, banco teórico y simulador." />
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:ital,wght@0,400;0,500;0,700;1,400&display=swap" rel="stylesheet" />
+
+  <!-- MathJax Configuration: Uses ONLY \(...\) for inline and $$...$$ for display to prevent ANY conflict with currency $ -->
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']],
+        processEscapes: true
+      },
+      options: {
+        skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    };
+  </script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+  <style>
+    :root {
+      --bg-primary: #0a0e1a;
+      --bg-secondary: #111827;
+      --bg-card: #161f38;
+      --bg-card-hover: #1e294b;
+      --bg-card-alt: #131b2e;
+      --accent-1: #6366f1;
+      --accent-2: #8b5cf6;
+      --accent-3: #06b6d4;
+      --accent-emerald: #10b981;
+      --accent-warn: #f59e0b;
+      --accent-danger: #ef4444;
+      --accent-glow: rgba(99, 102, 241, 0.25);
+      --text-primary: #f8fafc;
+      --text-secondary: #94a3b8;
+      --text-muted: #64748b;
+      --border: rgba(99, 102, 241, 0.2);
+      --border-focus: rgba(99, 102, 241, 0.55);
+      --border-danger: rgba(239, 68, 68, 0.4);
+      --border-emerald: rgba(16, 185, 129, 0.4);
+      --border-warn: rgba(245, 158, 11, 0.4);
+      --radius-sm: 8px;
+      --radius: 12px;
+      --radius-lg: 18px;
+      --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.3);
+      --shadow-lg: 0 20px 45px rgba(0, 0, 0, 0.5);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      line-height: 1.65;
+      overflow-x: hidden;
+    }
+
+    /* Ambient Glow Blobs */
+    body::before, body::after {
+      content: '';
+      position: fixed;
+      border-radius: 50%;
+      filter: blur(140px);
+      opacity: 0.12;
+      pointer-events: none;
+      z-index: 0;
+      animation: floatBlobs 16s ease-in-out infinite alternate;
+    }
+    body::before {
+      width: 650px; height: 650px;
+      background: var(--accent-1);
+      top: -200px; left: -200px;
+    }
+    body::after {
+      width: 550px; height: 550px;
+      background: var(--accent-2);
+      bottom: -200px; right: -200px;
+      animation-delay: -8s;
+    }
+    @keyframes floatBlobs {
+      from { transform: translate(0,0) scale(1); }
+      to   { transform: translate(50px, 40px) scale(1.1); }
+    }
+
+    /* Reading Progress Bar */
+    #progress-container {
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 3px;
+      background: transparent;
+      z-index: 1000;
+    }
+    #progress-bar {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--accent-3), var(--accent-1), var(--accent-2));
+      transition: width 0.1s ease;
+    }
+
+    /* Top Sticky Navigation */
+    nav.top-nav {
+      position: sticky;
+      top: 0;
+      z-index: 900;
+      background: rgba(10, 14, 26, 0.92);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+      padding: 12px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+    .nav-brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 700;
+      font-size: 0.95rem;
+      letter-spacing: -0.01em;
+      color: var(--text-primary);
+      text-decoration: none;
+      white-space: nowrap;
+    }
+    .nav-brand .brand-badge {
+      background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+      color: #fff;
+      padding: 3px 8px;
+      border-radius: 6px;
+      font-size: 0.72rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 700;
+    }
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+    .nav-links::-webkit-scrollbar { display: none; }
+    .nav-link {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 0.8rem;
+      font-weight: 500;
+      padding: 6px 12px;
+      border-radius: var(--radius-sm);
+      white-space: nowrap;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .nav-link:hover, .nav-link.active {
+      background: rgba(99, 102, 241, 0.15);
+      color: var(--text-primary);
+      border: 1px solid var(--border);
+    }
+    .nav-search-wrap {
+      display: flex;
+      align-items: center;
+      position: relative;
+      min-width: 220px;
+    }
+    .nav-search-input {
+      width: 100%;
+      background: rgba(22, 31, 56, 0.8);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      color: var(--text-primary);
+      font-size: 0.82rem;
+      padding: 7px 12px 7px 32px;
+      outline: none;
+      transition: all 0.2s ease;
+    }
+    .nav-search-input:focus {
+      border-color: var(--accent-1);
+      box-shadow: 0 0 0 3px var(--accent-glow);
+    }
+    .search-icon {
+      position: absolute;
+      left: 10px;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      pointer-events: none;
+    }
+
+    /* Main Container */
+    .container {
+      max-width: 1240px;
+      margin: 0 auto;
+      padding: 0 24px 80px;
+      position: relative;
+      z-index: 10;
+    }
+
+    /* Hero Section */
+    .hero {
+      text-align: center;
+      padding: 50px 20px 30px;
+      position: relative;
+    }
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(99, 102, 241, 0.12);
+      border: 1px solid var(--border);
+      color: #a5b4fc;
+      padding: 6px 16px;
+      border-radius: 999px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      margin-bottom: 20px;
+    }
+    .hero-badge .dot {
+      width: 8px; height: 8px;
+      background: var(--accent-3);
+      border-radius: 50%;
+      box-shadow: 0 0 10px var(--accent-3);
+      animation: pulseDot 2s infinite;
+    }
+    @keyframes pulseDot {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(0.85); }
+    }
+    .hero h1 {
+      font-size: clamp(2rem, 4.2vw, 3.2rem);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      line-height: 1.15;
+      margin-bottom: 16px;
+      background: linear-gradient(135deg, #ffffff 40%, #c7d2fe 70%, #818cf8 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .hero p {
+      max-width: 820px;
+      margin: 0 auto 28px;
+      color: var(--text-secondary);
+      font-size: 1.05rem;
+      line-height: 1.6;
+    }
+    .hero-metrics {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 16px;
+      margin-top: 28px;
+    }
+    .metric-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 18px 14px;
+      text-align: center;
+      transition: all 0.25s ease;
+    }
+    .metric-card:hover {
+      transform: translateY(-3px);
+      border-color: var(--accent-1);
+      box-shadow: var(--shadow-sm);
+    }
+    .metric-num {
+      font-size: 1.8rem;
+      font-weight: 800;
+      font-family: 'JetBrains Mono', monospace;
+      color: #fff;
+      line-height: 1.1;
+      margin-bottom: 6px;
+    }
+    .metric-label {
+      font-size: 0.78rem;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      font-weight: 600;
+    }
+
+    /* Quick Index Pills */
+    .hero-quick-index {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 26px;
+    }
+    .hero-pill {
+      background: var(--bg-card-alt);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 7px 15px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--text-secondary);
+      text-decoration: none;
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .hero-pill:hover {
+      background: var(--bg-card-hover);
+      color: #fff;
+      border-color: var(--accent-1);
+      transform: translateY(-2px);
+    }
+    .hero-pill.primary {
+      background: rgba(99, 102, 241, 0.15);
+      border-color: var(--accent-1);
+      color: #c7d2fe;
+    }
+    .hero-pill.emerald {
+      background: rgba(16, 185, 129, 0.15);
+      border-color: var(--accent-emerald);
+      color: #a7f3d0;
+    }
+
+    /* Section Headers */
+    .section-wrap {
+      margin-top: 65px;
+      scroll-margin-top: 85px;
+    }
+    .section-header {
+      margin-bottom: 24px;
+    }
+    .section-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.75rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--accent-3);
+      background: rgba(6, 182, 212, 0.1);
+      border: 1px solid rgba(6, 182, 212, 0.25);
+      padding: 4px 10px;
+      border-radius: 6px;
+      margin-bottom: 10px;
+    }
+    .section-title {
+      font-size: 1.85rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .section-desc {
+      color: var(--text-secondary);
+      font-size: 0.95rem;
+      margin-top: 6px;
+      max-width: 840px;
+    }
+
+    /* Grids & Cards */
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+      gap: 20px;
+    }
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+    }
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 24px;
+      position: relative;
+      transition: all 0.25s ease;
+      margin-bottom: 22px;
+    }
+    .card:hover {
+      border-color: var(--border-focus);
+      box-shadow: var(--shadow-sm);
+    }
+    .card-title {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    /* Badges */
+    .badge-critical {
+      background: rgba(239, 68, 68, 0.15);
+      color: #fca5a5;
+      border: 1px solid var(--border-danger);
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border-radius: 999px;
+      letter-spacing: 0.05em;
+    }
+    .badge-medium {
+      background: rgba(245, 158, 11, 0.15);
+      color: #fcd34d;
+      border: 1px solid var(--border-warn);
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border-radius: 999px;
+      letter-spacing: 0.05em;
+    }
+    .badge-low {
+      background: rgba(16, 185, 129, 0.15);
+      color: #6ee7b7;
+      border: 1px solid var(--border-emerald);
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border-radius: 999px;
+      letter-spacing: 0.05em;
+    }
+
+    /* Callouts & Alert Boxes */
+    .callout {
+      border-radius: var(--radius-sm);
+      padding: 16px 18px;
+      margin: 16px 0;
+      font-size: 0.9rem;
+      line-height: 1.6;
+      border-left: 4px solid;
+    }
+    .callout-info {
+      background: rgba(99, 102, 241, 0.08);
+      border-color: var(--accent-1);
+      color: #c7d2fe;
+    }
+    .callout-warn {
+      background: rgba(245, 158, 11, 0.08);
+      border-color: var(--accent-warn);
+      color: #fde68a;
+    }
+    .callout-danger {
+      background: rgba(239, 68, 68, 0.08);
+      border-color: var(--accent-danger);
+      color: #fecaca;
+    }
+    .callout-success {
+      background: rgba(16, 185, 129, 0.08);
+      border-color: var(--accent-emerald);
+      color: #a7f3d0;
+    }
+    .callout-title {
+      font-weight: 700;
+      font-size: 0.95rem;
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* Custom Tables */
+    .table-wrap {
+      overflow-x: auto;
+      margin: 16px 0;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border);
+      background: var(--bg-card-alt);
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.88rem;
+      text-align: left;
+    }
+    th {
+      background: rgba(22, 31, 56, 0.95);
+      color: #e2e8f0;
+      font-weight: 600;
+      padding: 12px 14px;
+      border-bottom: 1px solid var(--border);
+      white-space: nowrap;
+    }
+    td {
+      padding: 11px 14px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      color: var(--text-secondary);
+      vertical-align: middle;
+    }
+    tr:last-child td { border-bottom: none; }
+    tr:hover td {
+      background: rgba(99, 102, 241, 0.04);
+      color: var(--text-primary);
+    }
+    td strong { color: #f1f5f9; }
+
+    /* Formula Box */
+    .formula-box {
+      background: #0f1629;
+      border: 1px solid rgba(99, 102, 241, 0.35);
+      border-radius: var(--radius-sm);
+      padding: 16px 20px;
+      margin: 16px 0;
+      color: #e0e7ff;
+      font-size: 0.95rem;
+      overflow-x: auto;
+      box-shadow: inset 0 2px 6px rgba(0,0,0,0.4);
+    }
+    .formula-title {
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--accent-3);
+      margin-bottom: 8px;
+    }
+
+    /* EXAM PHOTO BOX */
+    .exam-screenshot-box {
+      background: #0d1222;
+      border: 1px solid rgba(99, 102, 241, 0.3);
+      border-radius: var(--radius);
+      padding: 14px;
+      margin: 18px 0;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      position: relative;
+    }
+    .exam-screenshot-box:hover {
+      border-color: var(--accent-1);
+      box-shadow: 0 8px 25px rgba(99, 102, 241, 0.2);
+      transform: translateY(-2px);
+    }
+    .screenshot-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 10px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .screenshot-tag {
+      font-size: 0.78rem;
+      font-family: 'JetBrains Mono', monospace;
+      color: #a5b4fc;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .zoom-pill {
+      background: rgba(99, 102, 241, 0.18);
+      border: 1px solid var(--border);
+      color: #c7d2fe;
+      font-size: 0.72rem;
+      font-weight: 600;
+      padding: 3px 10px;
+      border-radius: 999px;
+      transition: all 0.2s ease;
+    }
+    .exam-screenshot-box:hover .zoom-pill {
+      background: var(--accent-1);
+      color: #fff;
+    }
+    .screenshot-img-wrap {
+      width: 100%;
+      border-radius: var(--radius-sm);
+      overflow: hidden;
+      background: #080c18;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      max-height: 420px;
+    }
+    .screenshot-img-wrap img {
+      width: 100%;
+      max-height: 420px;
+      object-fit: contain;
+      display: block;
+      transition: transform 0.3s ease;
+    }
+    .exam-screenshot-box:hover .screenshot-img-wrap img {
+      transform: scale(1.015);
+    }
+
+    /* Step Card */
+    .solution-container {
+      margin: 18px 0;
+    }
+    .solution-heading {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: #e2e8f0;
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .step-card {
+      background: var(--bg-card-alt);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 16px 18px;
+      margin-bottom: 12px;
+      position: relative;
+    }
+    .step-card.highlight {
+      border-color: var(--border-emerald);
+      background: rgba(16, 185, 129, 0.05);
+    }
+    .step-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 8px;
+    }
+    .step-badge {
+      background: var(--accent-1);
+      color: #fff;
+      font-size: 0.72rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 6px;
+    }
+    .step-badge.success {
+      background: var(--accent-emerald);
+    }
+    .step-title {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: #f8fafc;
+    }
+
+    /* Animated Pipeline for Simplex */
+    .pipeline-container {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      margin: 22px 0;
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px 16px;
+    }
+    .pipeline-step {
+      flex: 1;
+      min-width: 140px;
+      text-align: center;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 12px 8px;
+      position: relative;
+      transition: all 0.25s ease;
+    }
+    .pipeline-step:hover {
+      border-color: var(--accent-1);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 15px var(--accent-glow);
+    }
+    .pipeline-num {
+      font-size: 0.72rem;
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--accent-3);
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+    .pipeline-name {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: #fff;
+    }
+    .pipeline-desc {
+      font-size: 0.75rem;
+      color: var(--text-secondary);
+      margin-top: 4px;
+    }
+    .pipeline-arrow {
+      color: var(--accent-1);
+      font-size: 1.2rem;
+      font-weight: 800;
+    }
+
+    /* Calculator and Simulator Styles */
+    .calc-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+      margin: 16px 0;
+    }
+    .calc-input-group label {
+      display: block;
+      font-size: 0.78rem;
+      color: var(--text-secondary);
+      font-weight: 600;
+      margin-bottom: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .calc-input-group input {
+      width: 100%;
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 9px 12px;
+      color: #fff;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.95rem;
+      outline: none;
+      transition: border 0.2s;
+    }
+    .calc-input-group input:focus {
+      border-color: var(--accent-1);
+      box-shadow: 0 0 0 2px var(--accent-glow);
+    }
+    .calc-res-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+      gap: 12px;
+      margin-top: 18px;
+    }
+    .calc-res-item {
+      background: var(--bg-card-alt);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 14px;
+      text-align: center;
+    }
+    .calc-res-val {
+      font-size: 1.45rem;
+      font-weight: 800;
+      font-family: 'JetBrains Mono', monospace;
+      color: #34d399;
+      line-height: 1.1;
+      margin-bottom: 4px;
+    }
+    .calc-res-lbl {
+      font-size: 0.75rem;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    /* Quiz Styles */
+    .quiz-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px;
+      margin-bottom: 16px;
+    }
+    .quiz-question {
+      font-size: 0.98rem;
+      font-weight: 600;
+      color: #fff;
+      margin-bottom: 14px;
+      line-height: 1.5;
+    }
+    .quiz-options {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 8px;
+    }
+    .quiz-opt {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 11px 16px;
+      font-size: 0.88rem;
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .quiz-opt:hover {
+      background: var(--bg-card-hover);
+      color: var(--text-primary);
+      border-color: var(--border-focus);
+    }
+    .quiz-opt.correct {
+      background: rgba(16, 185, 129, 0.2) !important;
+      border-color: var(--accent-emerald) !important;
+      color: #34d399 !important;
+      font-weight: 700;
+    }
+    .quiz-opt.wrong {
+      background: rgba(239, 68, 68, 0.2) !important;
+      border-color: var(--accent-danger) !important;
+      color: #f87171 !important;
+    }
+    .quiz-feedback {
+      margin-top: 10px;
+      padding: 10px 14px;
+      border-radius: var(--radius-sm);
+      font-size: 0.85rem;
+      line-height: 1.5;
+      display: none;
+    }
+    .quiz-feedback.show { display: block; }
+    .quiz-feedback.correct {
+      background: rgba(16, 185, 129, 0.1);
+      border: 1px solid var(--border-emerald);
+      color: #d1fae5;
+    }
+    .quiz-feedback.wrong {
+      background: rgba(239, 68, 68, 0.1);
+      border: 1px solid var(--border-danger);
+      color: #fee2e2;
+    }
+
+    /* Modal Viewer */
+    #image-modal {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; width: 100vw; height: 100vh;
+      background: rgba(4, 6, 14, 0.94);
+      backdrop-filter: blur(12px);
+      z-index: 2000;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+    #image-modal.active { display: flex; }
+    .modal-content {
+      background: var(--bg-card);
+      border: 1px solid var(--border-focus);
+      border-radius: var(--radius-lg);
+      max-width: 95vw;
+      max-height: 92vh;
+      width: 1100px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      box-shadow: var(--shadow-lg);
+    }
+    .modal-header {
+      padding: 14px 20px;
+      background: var(--bg-secondary);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .modal-title {
+      font-weight: 700;
+      font-size: 1rem;
+      color: #fff;
+    }
+    .modal-close {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      font-size: 1.6rem;
+      cursor: pointer;
+      line-height: 1;
+      transition: color 0.2s;
+    }
+    .modal-close:hover { color: #fff; }
+    .modal-body {
+      padding: 16px;
+      overflow: auto;
+      text-align: center;
+      background: #080c18;
+    }
+    .modal-body img {
+      max-width: 100%;
+      max-height: 80vh;
+      object-fit: contain;
+      border-radius: var(--radius-sm);
+    }
+
+    /* Filters */
+    .filter-tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 20px;
+    }
+    .filter-btn {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
+      color: var(--text-secondary);
+      padding: 7px 14px;
+      border-radius: 999px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .filter-btn:hover, .filter-btn.active {
+      background: rgba(99, 102, 241, 0.2);
+      border-color: var(--accent-1);
+      color: #fff;
+    }
+
+    @media (max-width: 768px) {
+      nav.top-nav { padding: 8px 12px; }
+      .nav-search-wrap { display: none; }
+      .hero { padding: 30px 10px 20px; }
+      .section-title { font-size: 1.4rem; }
+      .pipeline-arrow { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <!-- Progress Bar -->
+  <div id="progress-container"><div id="progress-bar"></div></div>
+
+  <!-- Sticky Top Nav -->
+  <nav class="top-nav">
+    <a href="#" class="nav-brand">
+      <span class="brand-badge">UTN FRBA</span>
+      <span>Investigación Operativa · 2P</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="#teoria-cero" class="nav-link">📖 Teoría desde Cero</a></li>
+      <li><a href="#simplex-masterclass" class="nav-link">🔢 Simplex a Mano</a></li>
+      <li><a href="#modulo-pl" class="nav-link">📐 PL, Big-M & Dualidad</a></li>
+      <li><a href="#modulo-transporte" class="nav-link">🚚 Transporte & Transbordo</a></li>
+      <li><a href="#modulo-asignacion" class="nav-link">🎯 Asignación (Húngaro)</a></li>
+      <li><a href="#modulo-inventarios" class="nav-link">📦 Inventarios (Wilson & Lagrange)</a></li>
+      <li><a href="#modulo-redes" class="nav-link">🌐 Redes & Set Covering</a></li>
+      <li><a href="#modulo-teoria" class="nav-link">🧠 Banco Teoría</a></li>
+      <li><a href="#modulo-tools" class="nav-link">🧮 Calculadoras & Quiz</a></li>
+    </ul>
+    <div class="nav-search-wrap">
+      <span class="search-icon">🔍</span>
+      <input type="text" id="global-search" class="nav-search-input" placeholder="Buscar ejercicio, tema, V/F..." onkeyup="filterContent()" />
+    </div>
+  </nav>
+
+  <div class="container">
+    <!-- Hero Section -->
+    <header class="hero">
+      <div class="hero-badge">
+        <span class="dot"></span>
+        Cátedra Palazzo / Maranzana · 2do Parcial Oficial
+      </div>
+      <h1>Estrategia & Dominio 2do Parcial: Investigación Operativa</h1>
+      <p>
+        Guía de estudio exhaustiva: 15 ejercicios resueltos paso a paso en papel con su captura oficial de examen, masterclass de Simplex desde cero, banco de teoría completo y simulador.
+      </p>
+
+      <!-- Metrics Row -->
+      <div class="hero-metrics">
+        <div class="metric-card">
+          <div class="metric-num">15</div>
+          <div class="metric-label">Ejercicios 100% Resueltos</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-num">100%</div>
+          <div class="metric-label">Con Foto Oficial de Parcial</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-num">Paso a Paso</div>
+          <div class="metric-label">Desarrollo Aritmético en Papel</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-num">10 Qs</div>
+          <div class="metric-label">Simulador Interactivo con Score</div>
+        </div>
+      </div>
+
+      <!-- Quick Navigation Pills -->
+      <div class="hero-quick-index">
+        <a href="#teoria-cero" class="hero-pill emerald">📖 Teoría Fundacional desde Cero</a>
+        <a href="#simplex-masterclass" class="hero-pill primary">🔢 Masterclass Simplex a Mano</a>
+        <a href="#modulo-pl" class="hero-pill">📐 PL, Big-M, Cremas & Dualidad</a>
+        <a href="#modulo-transporte" class="hero-pill">🚚 Transporte Vogel, MODI & Transbordo</a>
+        <a href="#modulo-asignacion" class="hero-pill">🎯 Asignación 4x4 Método Húngaro</a>
+        <a href="#modulo-inventarios" class="hero-pill">📦 Inventarios Paragolpes & Lagrange</a>
+        <a href="#modulo-redes" class="hero-pill">🌐 Dijkstra & Cuarteles Bomberos</a>
+        <a href="#modulo-teoria" class="hero-pill">🧠 Banco de Preguntas Teóricas</a>
+        <a href="#modulo-tools" class="hero-pill">🧮 Calculadoras & Simulador</a>
+      </div>
+    </header>
+
+
+    <!-- ========================================== -->
+    <!-- SECCIÓN 1: TEORÍA FUNDACIONAL DESDE CERO -->
+    <!-- ========================================== -->
+    <section id="teoria-cero" class="section-wrap">
+      <div class="section-header">
+        <div class="section-tag">Fundamentos · Nivel Cero a Experto</div>
+        <h2 class="section-title">📖 Teoría Fundacional: Entender la Materia desde Cero</h2>
+        <p class="section-desc">
+          Si sentís que no entendés nada, empezá acá. Todo el 2do parcial se basa en 5 modelos matemáticos elementales explicados con analogías cotidianas y rigor conceptual.
+        </p>
+      </div>
+
+      <!-- 1. Qué es PLC y las 4 Hipótesis -->
+      <div class="card">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+          <h3 class="card-title">1. ¿Qué es la Programación Lineal Continua (PLC) y cómo se formula?</h3>
+          <span class="badge-critical">Pregunta Fija de Parcial</span>
+        </div>
+        <p style="color:var(--text-secondary); margin-bottom:16px;">
+          La Programación Lineal es el método para tomar la <strong>mejor decisión económica</strong> (maximizar utilidades o minimizar costos) cuando tenés <strong>recursos limitados</strong> (horas hombre, capacidad de máquina, stock de insumos, capital de trabajo).
+        </p>
+
+        <div class="grid-2">
+          <div style="background:var(--bg-secondary); border:1px solid var(--border); border-radius:var(--radius-sm); padding:16px;">
+            <h4 style="color:#60a5fa; margin-bottom:8px;">Los 3 Componentes de TODO Modelo:</h4>
+            <ul style="margin: 0 0 0 18px; color:var(--text-secondary); font-size:0.9rem;">
+              <li><strong>Variables de Decisión (\(x_j\)):</strong> Lo que vos decidís (ej: <em>"cuántos litros de crema tipo A fabricar"</em>). <u>Siempre llevan unidad y período de tiempo</u>: [unidades/mes].</li>
+              <li><strong>Función Objetivo (FO):</strong> La meta matemática lineal: \(\text{Max (o Min) } Z = \sum c_j x_j\).</li>
+              <li><strong>Restricciones Técnicas:</strong> Los techos de la realidad: \(\sum a_{ij} x_j \le b_i\) con \(x_j \ge 0\).</li>
+            </ul>
+          </div>
+
+          <div style="background:var(--bg-secondary); border:1px solid var(--border); border-radius:var(--radius-sm); padding:16px;">
+            <h4 style="color:#34d399; margin-bottom:8px;">El Teorema Fundamental del Poliedro:</h4>
+            <p style="font-size:0.88rem; color:var(--text-secondary);">
+              El conjunto de todas las combinaciones que cumplen las restricciones forma una figura geométrica llamada <strong>Poliedro Convexo</strong>.<br>
+              <strong>La ley suprema:</strong> Si existe solución óptima, <u>está obligatoriamente en un VÉRTICE (esquina)</u> de ese poliedro. ¡Por eso Simplex no prueba infinitos puntos, sólo viaja de vértice en vértice!
+            </p>
+          </div>
+        </div>
+
+        <h4 style="color:#e2e8f0; margin:20px 0 10px;">Las 4 Hipótesis Obligatorias de PLC (Teoría que define nota):</h4>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th style="width:20%;">Hipótesis</th>
+                <th style="width:40%;">Definición Matemática Rigurosa</th>
+                <th style="width:40%;">Ejemplo Práctico de Fábrica</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>1. Proporcionalidad</strong></td>
+                <td>La contribución a la FO y el consumo de cada insumo es estrictamente proporcional a la actividad (\(c_j x_j\) y \(a_{ij} x_j\)).</td>
+                <td>Hacer 1 torta insume 2 huevos y deja $10; hacer 100 tortas insume exactamente 200 huevos y deja $1.000. <em>No hay descuentos por cantidad.</em></td>
+              </tr>
+              <tr>
+                <td><strong>2. Aditividad</strong></td>
+                <td>El valor total de la FO y el uso total de insumos es la suma directa de lo consumido por cada producto, sin sinergias.</td>
+                <td>La ganancia total de fabricar mesas y sillas es la ganancia de las mesas <strong>más</strong> la de las sillas. No hay efectos cruzados ni interferencias.</td>
+              </tr>
+              <tr>
+                <td><strong>3. Divisibilidad</strong></td>
+                <td>Las variables de decisión son continuas (\(x_j \in \mathbb{R}_{\ge 0}\)). Pueden adoptar cualquier valor fraccionario o decimal.</td>
+                <td>Podés fabricar 4.35 litros de pintura o 12.8 toneladas de cemento. <em>(Si exige enteros como autos o barcos, es Programación Entera).</em></td>
+              </tr>
+              <tr>
+                <td><strong>4. Certeza (Determinismo)</strong></td>
+                <td>Todos los coeficientes (\(c_j, a_{ij}, b_i\)) se conocen de antemano con 100% de certidumbre matemática y son constantes.</td>
+                <td>Se sabe exactamente el costo de la harina y las horas de torno; no hay inflación imprevista ni roturas aleatorias.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- 2. Variables de Holgura, Exceso y Artificiales -->
+      <div class="card">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+          <h3 class="card-title">2. Variables de Holgura, Exceso y Artificiales: ¿Por qué se usan?</h3>
+          <span class="badge-medium">Fundamento del Simplex</span>
+        </div>
+        <p style="color:var(--text-secondary); margin-bottom:16px;">
+          Para resolver algebraicamente en una tabla, <strong>las inecuaciones (\(\le, \ge\)) se deben transformar obligatoriamente en igualdades (\(=\))</strong>:
+        </p>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Signo Inecuación</th>
+                <th>Variable Auxiliar</th>
+                <th>Operación</th>
+                <th>Significado en la Vida Real</th>
+                <th>Costo en la FO</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>\(\le\) (Menor o igual)</strong></td>
+                <td><strong>Holgura (\(s_i\))</strong></td>
+                <td>Se <strong>SUMA</strong>: \(+ s_i\)</td>
+                <td>Representa la capacidad del recurso que <u>sobró sin usar</u> en el galpón.</td>
+                <td><strong>0</strong> (no aporta beneficio directo)</td>
+              </tr>
+              <tr>
+                <td><strong>\(\ge\) (Mayor o igual)</strong></td>
+                <td><strong>Exceso (\(e_i\))</strong></td>
+                <td>Se <strong>RESTA</strong>: \(- e_i\)</td>
+                <td>Representa la cantidad que se <u>superó por encima del mínimo exigido</u>.</td>
+                <td><strong>0</strong></td>
+              </tr>
+              <tr>
+                <td><strong>\(\ge\) o \(=\) (Igualdad)</strong></td>
+                <td><strong>Artificial (\(a_i\))</strong></td>
+                <td>Se <strong>SUMA</strong>: \(+ a_i\)</td>
+                <td><strong>Muleta matemática transitoria</strong> para arrancar la base identidad. <u>No existe en la realidad</u>.</td>
+                <td><strong>Penalización \(\pm M\)</strong> (\(M \to +\infty\))</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="callout callout-warn">
+          <div class="callout-title">⚠️ La Pregunta Clásica: ¿Por qué no alcanza con restar el exceso?</div>
+          Si tenés una restricción \(2x_1 + x_2 \ge 10\), al restar el exceso te queda \(2x_1 + x_2 - e_1 = 10\). En el punto inicial (\(x_1=0, x_2=0\)), te quedaría \(-e_1 = 10 \implies e_1 = -10 < 0\), ¡lo cual <strong>viola la ley de no-negatividad (\(e_1 \ge 0\))</strong> y destruye la matriz identidad del Simplex! Por eso se agrega una artificial \(+a_1\), quedando \(2x_1 + x_2 - e_1 + a_1 = 10\). Y para que desaparezca al final, se la castiga con un costo gigantesco (\(-M\) en Max, \(+M\) en Min).
+        </div>
+      </div>
+
+      <!-- 3. Dualidad y Precios Sombra -->
+      <div class="card">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+          <h3 class="card-title">3. Dualidad & Precios Sombra: La Parábola del Fabricante y el Comprador</h3>
+          <span class="badge-critical">El Concepto Más Tomado</span>
+        </div>
+
+        <div class="callout callout-info">
+          <div class="callout-title">🏭 La Intuición que te salva el parcial:</div>
+          - <strong>Problema Primal:</strong> Sos fabricante de muebles. Decidís cuántas mesas y sillas fabricar para <strong>maximizar tu ganancia</strong>, limitado por tu madera y tus horas de carpintero.<br>
+          - <strong>Problema Dual:</strong> Viene un inversor externo y te dice: <em>"No te gastes en fabricar nada. Vendeme a mí todos tus tablones de madera y horas de operario"</em>. El inversor quiere <strong>minimizar lo que te paga</strong>, pero vos no vas a aceptar menos de lo que ganarías usándolos para fabricar. El valor unitario que le cobrás por cada hora y por cada tablón son las <strong>Variables Duales (\(y_i\)) o Precios Sombra</strong>.
+        </div>
+
+        <div class="formula-box">
+          <div class="formula-title">Definición Matemática del Precio Sombra</div>
+          $$y_i^* = \frac{\partial Z^*}{\partial b_i}$$
+          <p style="font-size:0.88rem; color:#cbd5e1; margin-top:6px;">
+            El <strong>Precio Sombra (\(y_i^*\))</strong> es la variación que experimenta el beneficio óptimo (\(Z^*\)) cuando la disponibilidad del recurso \(b_i\) se incrementa en una unidad marginal. Representa el precio máximo que te convendría pagar por una unidad extra de ese insumo en el mercado.
+          </p>
+        </div>
+
+        <div class="grid-2">
+          <div style="background:var(--bg-secondary); border:1px solid var(--border); border-radius:var(--radius-sm); padding:16px;">
+            <h4 style="color:#60a5fa; margin-bottom:8px;">Teorema de Holgura Complementaria:</h4>
+            <p style="font-size:0.88rem; color:var(--text-secondary); margin-bottom:8px;">
+              $$s_i^* \times y_i^* = 0$$
+            </p>
+            <ul style="margin: 0 0 0 16px; color:var(--text-secondary); font-size:0.85rem;">
+              <li><strong>Si sobró recurso (\(s_i^* > 0\)):</strong> Su precio sombra es <strong>CERO (\(y_i^* = 0\))</strong>. ¿Por qué pagarías por más madera si tenés tablones tirados en el galpón sin usar?</li>
+              <li><strong>Si el precio sombra es positivo (\(y_i^* > 0\)):</strong> El recurso se agotó por completo (\(s_i^* = 0\)). Es un <u>cuello de botella activo</u>.</li>
+            </ul>
+          </div>
+
+          <div style="background:var(--bg-secondary); border:1px solid var(--border); border-radius:var(--radius-sm); padding:16px;">
+            <h4 style="color:#34d399; margin-bottom:8px;">Teorema Fuerte de Dualidad:</h4>
+            <p style="font-size:0.88rem; color:var(--text-secondary); margin-bottom:8px;">
+              $$Z_{\text{primal}}^* = W_{\text{dual}}^*$$
+            </p>
+            <p style="font-size:0.85rem; color:var(--text-secondary);">
+              En el punto óptimo, la ganancia máxima que el fabricante puede lograr (\(Z^*\)) coincide <strong>exactamente</strong> con el valor total de los insumos consumidos valorizados a sus precios sombra (\(W^*\)).
+            </p>
+          </div>
+        </div>
+
+        <h4 style="color:#e2e8f0; margin:20px 0 10px;">Tabla de Diagnósticos Cruzados de Examen (Primal vs Dual):</h4>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Situación Detectada en el PRIMAL</th>
+                <th>Correspondencia Obligatoria en el DUAL</th>
+                <th>Criterio Técnico de Corrección</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Solución Única Acotada</strong></td>
+                <td><strong>Solución Única Acotada</strong></td>
+                <td>\(Z^* = W^*\). Las variables básicas tienen costos reducidos nulos.</td>
+              </tr>
+              <tr>
+                <td><strong style="color:#ef4444;">Solución No Acotada (Poliedro Abierto)</strong></td>
+                <td><strong style="color:#ef4444;">INCOMPATIBLE (Sin región factible)</strong></td>
+                <td>Si \(Z \to +\infty\), el dual no puede acotar por arriba, por lo que no existe solución factible dual.</td>
+              </tr>
+              <tr>
+                <td><strong style="color:#60a5fa;">Soluciones Óptimas Múltiples (Alternativas)</strong></td>
+                <td><strong style="color:#60a5fa;">Solución DEGENERADA (variable básica en cero)</strong></td>
+                <td>\((z_j - c_j) = 0\) en variable no básica en el primal implica vértice compartido en el dual.</td>
+              </tr>
+              <tr>
+                <td><strong>Problema Incompatible</strong></td>
+                <td><strong>Incompatible o No Acotado</strong></td>
+                <td>Restricciones contradictorias en el primal impiden existencia de región factible.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- 4. Guía Rápida de Identificación de Problemas -->
+      <div class="card">
+        <h3 class="card-title">4. Guía Visual: ¿Cómo Identificar de qué Problema se Trata en 10 Segundos?</h3>
+        <p style="color:var(--text-secondary); margin-bottom:14px;">
+          En el parcial suelen preguntarte explícitamente: <em>"Indique a qué modelo matemático corresponde y justifique"</em>. Usá esta regla de reconocimiento infalible:
+        </p>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Modelo</th>
+                <th>Palabras Clave en el Enunciado</th>
+                <th>Estructura de Variables</th>
+                <th>Condición Distintiva</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong style="color:#60a5fa;">Programación Lineal (PLC)</strong></td>
+                <td>Mezcla, producción mensual, materias primas escasas, precios sombra, horas de torno, ración balanceada.</td>
+                <td>\(x_j \ge 0\) continuas [unidades/tiempo].</td>
+                <td>Restricciones con coeficientes variados (\(a_{ij}\)). Se resuelve por Simplex.</td>
+              </tr>
+              <tr>
+                <td><strong style="color:#f59e0b;">Transporte</strong></td>
+                <td>Fábricas/Plantas que envían a Mercados/Depósitos, costos por flete, capacidades de oferta y requerimientos de demanda.</td>
+                <td>\(x_{ij} \ge 0\) (unidades de origen \(i\) a destino \(j\)).</td>
+                <td>\(\sum O_i = \sum D_j\). Coeficientes en restricciones son estrictamente 1. <strong>Total Unimodularidad</strong>.</td>
+              </tr>
+              <tr>
+                <td><strong style="color:#34d399;">Asignación</strong></td>
+                <td>Personas a puestos, nadadores a estilos de relevo, máquinas a tareas, ingenieros a obras. <em>Relación 1 a 1</em>.</td>
+                <td><strong>Binarias puras:</strong> \(x_{ij} \in \{0, 1\}\).</td>
+                <td>Matriz <strong>estrictamente cuadrada (\(n \times n\))</strong>. Ofertas y demandas son todas 1. Método Húngaro.</td>
+              </tr>
+              <tr>
+                <td><strong style="color:#a78bfa;">Inventarios</strong></td>
+                <td>Lote económico, costo de emitir pedido/setup (\(k\)), costo de almacenamiento (\(c_1\)), demanda anual (\(D\)), galpón \(m^2\).</td>
+                <td>\(Q\) (tamaño de lote a pedir/fabricar).</td>
+                <td>Compromiso entre pedir muchas veces o almacenar. Modelo de Wilson (\(Q^* = \sqrt{2kD/c_1}\)) o Lagrange.</td>
+              </tr>
+              <tr>
+                <td><strong style="color:#ec4899;">Redes / Grafos</strong></td>
+                <td>Ruta más corta entre \(s\) y \(t\), tiempo mínimo de traslado, cuarteles de bomberos que cubran zonas en \(\le 15\) min.</td>
+                <td>Aristas con peso \(d_{ij} \ge 0\), o binarias de localización \(y_j \in \{0, 1\}\).</td>
+                <td>Dijkstra (caminos) o Set Covering (localización). Simplex <strong>NO se puede usar en Set Covering</strong> por ser entero.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ========================================== -->
+    <!-- SECCIÓN 2: MASTERCLASS DE SIMPLEX A MANO -->
+    <!-- ========================================== -->
+    <section id="simplex-masterclass" class="section-wrap">
+      <div class="section-header">
+        <div class="section-tag">Aprender desde Cero · Metodología Práctica</div>
+        <h2 class="section-title">🔢 Masterclass: El Algoritmo Simplex Explicado a Mano</h2>
+        <p class="section-desc">
+          Guía definitiva para entender el algoritmo sin frustraciones: cómo armar la tabla, cómo saber quién entra y quién sale, cómo hacer el pivoteo de Gauss-Jordan con lápiz y papel, y cómo leer la solución final.
+        </p>
+      </div>
+
+      <!-- Animated Visual Pipeline -->
+      <div class="pipeline-container">
+        <div class="pipeline-step">
+          <div class="pipeline-num">PASO 1</div>
+          <div class="pipeline-name">Estandarizar</div>
+          <div class="pipeline-desc">Sumar \(+s_i\) para \(\le\), restar \(-e_i\) y sumar \(+a_i\) para \(\ge\).</div>
+        </div>
+        <div class="pipeline-arrow">➔</div>
+        <div class="pipeline-step">
+          <div class="pipeline-num">PASO 2</div>
+          <div class="pipeline-name">Tabla Inicial</div>
+          <div class="pipeline-desc">Cargar coeficientes, calcular fila \(z_j\) y fila \((z_j - c_j)\).</div>
+        </div>
+        <div class="pipeline-arrow">➔</div>
+        <div class="pipeline-step">
+          <div class="pipeline-num">PASO 3</div>
+          <div class="pipeline-name">¿Quién Entra?</div>
+          <div class="pipeline-desc">En Max: el más negativo de \((z_j - c_j)\) (Columna Pivote).</div>
+        </div>
+        <div class="pipeline-arrow">➔</div>
+        <div class="pipeline-step">
+          <div class="pipeline-num">PASO 4</div>
+          <div class="pipeline-name">¿Quién Sale?</div>
+          <div class="pipeline-desc">Test \(\theta = b_i / y_{ik}\) (\(y_{ik} > 0\)). El menor gana (Fila Pivote).</div>
+        </div>
+        <div class="pipeline-arrow">➔</div>
+        <div class="pipeline-step">
+          <div class="pipeline-num">PASO 5</div>
+          <div class="pipeline-name">Gauss-Jordan</div>
+          <div class="pipeline-desc">Convertir pivote en 1 y hacer ceros en su columna.</div>
+        </div>
+        <div class="pipeline-arrow">➔</div>
+        <div class="pipeline-step" style="border-color:var(--accent-emerald);">
+          <div class="pipeline-num" style="color:#34d399;">PASO 6</div>
+          <div class="pipeline-name">¿Óptimo?</div>
+          <div class="pipeline-desc">Si todos \((z_j - c_j) \ge 0 \implies\) ¡FIN! Si no, repetir.</div>
+        </div>
+      </div>
+
+      <!-- Las 4 Reglas de Oro -->
+      <div class="grid-2">
+        <div class="card">
+          <h3 class="card-title">Regla A: ¿Quién Entra a la Base? (Criterio de Optimalidad)</h3>
+          <p style="font-size:0.9rem; color:var(--text-secondary); margin-bottom:12px;">
+            En cada tabla, mirás <strong>únicamente la fila de evaluación \((z_j - c_j)\)</strong> de las variables que no están en la base actual:
+          </p>
+          <div class="callout callout-info" style="margin:0;">
+            <div class="callout-title">En Problemas de MAXIMIZACIÓN:</div>
+            • Si hay valores negativos (\((z_j - c_j) < 0\)), el problema todavía puede mejorar.<br>
+            • <strong>Entra la variable con el valor MÁS NEGATIVO</strong>. Esa columna entera es la <strong>Columna Pivote</strong>.
+          </div>
+        </div>
+
+        <div class="card">
+          <h3 class="card-title">Regla B: ¿Quién Sale de la Base? (Test del Cociente \(\theta\))</h3>
+          <p style="font-size:0.9rem; color:var(--text-secondary); margin-bottom:12px;">
+            Para cada fila básica, dividís el lado derecho \(b_i\) por el número de la columna pivote (\(y_{ik}\)):
+          </p>
+          <div class="callout callout-warn" style="margin:0;">
+            <div class="callout-title">⚠️ Regla Estricta de Examen:</div>
+            $$\theta_i = \frac{b_i}{y_{ik}} \quad \text{SÓLO para elementos estrictamente positivos } (y_{ik} > 0)$$
+            Si \(y_{ik} \le 0\) (cero o negativo), <strong>NO SE DIVIDE</strong> (se pone una rayita o tachadura).<br>
+            • <strong>Sale la fila que tenga el MENOR valor positivo (\(\min \theta\))</strong>. Esa fila es la <strong>Fila Pivote</strong>.
+          </div>
+        </div>
+      </div>
+
+      <!-- Ejercicio Modelo Paso a Paso a Mano -->
+      <div class="card">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+          <h3 class="card-title">📝 Ejercicio Modelo Completo Resuelto Número por Número a Mano</h3>
+          <span class="badge-critical">Para Replicar en Papel</span>
+        </div>
+        <p style="color:var(--text-secondary); margin-bottom:14px;">
+          Resolvamos paso a paso el problema de examen clásico:
+        </p>
+
+        <div class="formula-box">
+          <div class="formula-title">Problema Canónico de Producción</div>
+          $$\text{Maximizar: } Z = 3 x_1 + 5 x_2$$
+          $$\text{Sujeto a:}$$
+          $$(1) \quad x_1 \le 4 \quad (\text{Materia Prima A})$$
+          $$(2) \quad 2 x_2 \le 12 \quad (\text{Materia Prima B})$$
+          $$(3) \quad 3 x_1 + 2 x_2 \le 18 \quad (\text{Horas de Torno})$$
+          $$x_1, x_2 \ge 0$$
+        </div>
+
+        <p style="font-size:0.9rem; color:var(--text-secondary); margin: 12px 0;">
+          <strong>Paso 0: Estandarización</strong>. Como son todas restricciones de menor o igual (\(\le\)), sumamos las variables de holgura \(+s_1, +s_2, +s_3\):<br>
+          \(x_1 + s_1 = 4\) | \(2x_2 + s_2 = 12\) | \(3x_1 + 2x_2 + s_3 = 18\).<br>
+          En la Función Objetivo las holguras entran con costo cero: \(\text{Max } Z = 3x_1 + 5x_2 + 0 s_1 + 0 s_2 + 0 s_3\).
+        </p>
+
+        <!-- TABLA 0 -->
+        <h4 style="color:#f59e0b; margin:20px 0 8px;">TABLA SIMPLEX 0 (Punto Inicial: \(x_1=0, x_2=0\) — Ganancia \(Z=0\)):</h4>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Base</th><th>\(C_B\)</th><th>\(x_1\) (\(c=3\))</th><th>\(x_2\) (\(c=5\))</th><th>\(s_1\) (\(c=0\))</th><th>\(s_2\) (\(c=0\))</th><th>\(s_3\) (\(c=0\))</th><th>\(b_i\) (LD)</th><th>Cociente \(\theta = b_i / y_{ik}\)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>\(s_1\)</td><td>0</td><td>1</td><td style="color:#60a5fa;">0</td><td>1</td><td>0</td><td>0</td><td>4</td><td>\(4 / 0 \to\) No aplica</td>
+              </tr>
+              <tr style="background:rgba(245, 158, 11, 0.12);">
+                <td><strong>\(s_2\)</strong></td><td>0</td><td>0</td><td style="color:#f59e0b; font-weight:800; font-size:1.1rem;">[2] PIVOTE</td><td>0</td><td>1</td><td>0</td><td>12</td><td><strong>\(\theta = 12 / 2 = 6\) (MENOR \(\implies\) SALE \(s_2\))</strong></td>
+              </tr>
+              <tr>
+                <td>\(s_3\)</td><td>0</td><td>3</td><td style="color:#60a5fa;">2</td><td>0</td><td>0</td><td>1</td><td>18</td><td>\(\theta = 18 / 2 = 9\)</td>
+              </tr>
+              <tr style="background:rgba(99, 102, 241, 0.08);">
+                <td colspan="2"><strong>Fila \(z_j\)</strong></td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td><strong>\(Z = 0\)</strong></td><td>—</td>
+              </tr>
+              <tr style="background:rgba(239, 68, 68, 0.12);">
+                <td colspan="2"><strong>Fila \((z_j - c_j)\)</strong></td>
+                <td>\(0 - 3 = -3\)</td>
+                <td style="color:#ef4444; font-weight:800;">\(0 - 5 = -5\) (MÁS NEG.)</td>
+                <td>0</td><td>0</td><td>0</td><td>—</td>
+                <td><strong style="color:#60a5fa;">ENTRA \(x_2\)</strong> a la Base</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="callout callout-info">
+          <div class="callout-title">Aritmética Exacta de Gauss-Jordan para Pasar a Tabla 1:</div>
+          <p style="font-size:0.88rem; margin:4px 0;">
+            1. <strong>Fila 2 Nueva (Fila Pivote):</strong> Dividimos toda la Fila 2 vieja por el elemento pivote (2):<br>
+            \([0/2, 2/2, 0/2, 1/2, 0/2, 12/2] \implies \mathbf{[0, 1, 0, 0.5, 0, 6]}\).<br>
+            2. <strong>Fila 1 Nueva:</strong> Como ya tenía un 0 en la columna \(x_2\), queda idéntica: \(\mathbf{[1, 0, 1, 0, 0, 4]}\).<br>
+            3. <strong>Fila 3 Nueva:</strong> Tenía un 2 en la columna \(x_2\). Restamos \(2 \times \text{Fila 2 Nueva}\):<br>
+            \([3, 2, 0, 0, 1, 18] - 2 \times [0, 1, 0, 0.5, 0, 6] = [3-0, 2-2, 0-0, 0-1, 1-0, 18-12] \implies \mathbf{[3, 0, 0, -1, 1, 6]}\).
+          </p>
+        </div>
+
+        <!-- TABLA 1 -->
+        <h4 style="color:#f59e0b; margin:20px 0 8px;">TABLA SIMPLEX 1 (Punto \(x_1=0, x_2=6\) — Ganancia \(Z=30\)):</h4>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Base</th><th>\(C_B\)</th><th>\(x_1\) (\(c=3\))</th><th>\(x_2\) (\(c=5\))</th><th>\(s_1\) (\(c=0\))</th><th>\(s_2\) (\(c=0\))</th><th>\(s_3\) (\(c=0\))</th><th>\(b_i\) (LD)</th><th>Cociente \(\theta = b_i / y_{ik}\)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>\(s_1\)</td><td>0</td><td style="color:#60a5fa;">1</td><td>0</td><td>1</td><td>0</td><td>0</td><td>4</td><td>\(\theta = 4 / 1 = 4\)</td>
+              </tr>
+              <tr>
+                <td>\(x_2\)</td><td>5</td><td style="color:#60a5fa;">0</td><td>1</td><td>0</td><td>0.5</td><td>0</td><td>6</td><td>\(6 / 0 \to\) No aplica</td>
+              </tr>
+              <tr style="background:rgba(245, 158, 11, 0.12);">
+                <td><strong>\(s_3\)</strong></td><td>0</td><td style="color:#f59e0b; font-weight:800; font-size:1.1rem;">[3] PIVOTE</td><td>0</td><td>0</td><td>-1</td><td>1</td><td>6</td><td><strong>\(\theta = 6 / 3 = 2\) (MENOR \(\implies\) SALE \(s_3\))</strong></td>
+              </tr>
+              <tr style="background:rgba(99, 102, 241, 0.08);">
+                <td colspan="2"><strong>Fila \(z_j\)</strong></td><td>0</td><td>5</td><td>0</td><td>2.5</td><td>0</td><td><strong>\(Z = 30\)</strong></td><td>—</td>
+              </tr>
+              <tr style="background:rgba(239, 68, 68, 0.12);">
+                <td colspan="2"><strong>Fila \((z_j - c_j)\)</strong></td>
+                <td style="color:#ef4444; font-weight:800;">\(0 - 3 = -3\) (NEGATIVO)</td>
+                <td>\(5 - 5 = 0\)</td><td>0</td><td>\(2.5 - 0 = +2.5\)</td><td>0</td><td>—</td>
+                <td><strong style="color:#60a5fa;">ENTRA \(x_1\)</strong> a la Base</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="callout callout-info">
+          <div class="callout-title">Aritmética Exacta de Gauss-Jordan para Pasar a Tabla 2:</div>
+          <p style="font-size:0.88rem; margin:4px 0;">
+            1. <strong>Fila 3 Nueva (Fila Pivote):</strong> Dividimos Fila 3 vieja por 3:<br>
+            \([3/3, 0/3, 0/3, -1/3, 1/3, 6/3] \implies \mathbf{[1, 0, 0, -1/3, 1/3, 2]}\).<br>
+            2. <strong>Fila 1 Nueva:</strong> Restamos \(1 \times \text{Fila 3 Nueva}\):<br>
+            \([1, 0, 1, 0, 0, 4] - [1, 0, 0, -1/3, 1/3, 2] \implies \mathbf{[0, 0, 1, 1/3, -1/3, 2]}\).<br>
+            3. <strong>Fila 2 Nueva:</strong> Ya tenía un 0 en la columna \(x_1\), queda intacta: \(\mathbf{[0, 1, 0, 1/2, 0, 6]}\).
+          </p>
+        </div>
+
+        <!-- TABLA 2 (TOP) -->
+        <h4 style="color:#34d399; margin:20px 0 8px;">TABLA SIMPLEX 2 (TABLA ÓPTIMA PRIMAL — TOP):</h4>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Base</th><th>\(C_B\)</th><th>\(x_1\) (\(c=3\))</th><th>\(x_2\) (\(c=5\))</th><th>\(s_1\) (\(c=0\))</th><th>\(s_2\) (\(c=0\))</th><th>\(s_3\) (\(c=0\))</th><th>\(b_i\) (LD)</th><th>Estado Físico del Recurso</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>\(s_1\)</strong></td><td>0</td><td>0</td><td>0</td><td>1</td><td>1/3</td><td>-1/3</td><td><strong>2</strong></td><td>Sobran 2 kg de Materia Prima A</td>
+              </tr>
+              <tr>
+                <td><strong>\(x_2\)</strong></td><td>5</td><td>0</td><td>1</td><td>0</td><td>1/2</td><td>0</td><td><strong>6</strong></td><td>Fabricar 6 unidades del Producto 2</td>
+              </tr>
+              <tr>
+                <td><strong>\(x_1\)</strong></td><td>3</td><td>1</td><td>0</td><td>0</td><td>-1/3</td><td>1/3</td><td><strong>2</strong></td><td>Fabricar 2 unidades del Producto 1</td>
+              </tr>
+              <tr style="background:rgba(99, 102, 241, 0.08);">
+                <td colspan="2"><strong>Fila \(z_j\)</strong></td><td>3</td><td>5</td><td>0</td><td>1.5</td><td>1.0</td><td><strong>\(Z^* = 36\)</strong></td><td>—</td>
+              </tr>
+              <tr style="background:rgba(16, 185, 129, 0.15);">
+                <td colspan="2"><strong>Fila \((z_j - c_j)\)</strong></td>
+                <td><strong>0</strong></td><td><strong>0</strong></td><td><strong>0</strong></td>
+                <td style="color:#34d399; font-weight:700;">+1.5</td>
+                <td style="color:#34d399; font-weight:700;">+1.0</td>
+                <td>—</td>
+                <td><strong style="color:#34d399;">¡TODOS \(\ge 0\)! CONDICIÓN DE ÓPTIMO CUMPLIDA</strong></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="callout callout-success">
+          <div class="callout-title">🎯 Cómo Redactar la Conclusión Final en el Examen:</div>
+          <ul style="margin: 0 0 0 16px; font-size:0.9rem;">
+            <li><strong>Plan Óptimo de Producción:</strong> Fabricar \(x_1^* = 2\) unidades del producto 1 y \(x_2^* = 6\) unidades del producto 2.</li>
+            <li><strong>Beneficio Máximo Alcanzado:</strong> \(Z^* = 3(2) + 5(6) = 6 + 30 = \mathbf{\$36}\).</li>
+            <li><strong>Lectura Directa de Precios Sombra (Variables Duales \(y_i^*\)):</strong> Se leen directamente de la fila \((z_j - c_j)\) bajo las columnas de holgura:<br>
+            • \(y_1^* = 0\) (como sobraron 2 unidades de MP A, su precio sombra es nulo; holgura complementaria).<br>
+            • \(y_2^* = \$1.50\) (cada unidad adicional de MP B incrementa el beneficio en $1.50).<br>
+            • \(y_3^* = \$1.00\) (cada hora adicional de torno incrementa el beneficio en $1.00).</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Diagnóstico de Trampas de Examen -->
+      <div class="card">
+        <h3 class="card-title">🚨 Guía de Diagnóstico Inmediato: Las 4 Trampas de Examen en Simplex</h3>
+        <p style="color:var(--text-secondary); margin-bottom:14px;">
+          En los parciales suelen darte una tabla intermedia y preguntarte: <em>"¿Qué caso especial se presenta aquí y cómo se refleja en el dual?"</em>:
+        </p>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Lo que Ves en la Tabla Simplex</th>
+                <th>Diagnóstico Técnico</th>
+                <th>Explicación en Papel</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Una variable no básica tiene \((z_j - c_j) < 0\), pero <strong>todos los números de su columna son \(\le 0\)</strong>.</td>
+                <td><strong style="color:#ef4444;">Solución No Acotada (Poliedro Abierto)</strong></td>
+                <td>No hay variable saliente porque no se puede calcular \(\theta\). La variable puede crecer al infinito haciendo \(Z \to +\infty\). En el dual, la región es <strong>INCOMPATIBLE</strong>.</td>
+              </tr>
+              <tr>
+                <td>En la tabla óptima (todos \(\ge 0\)), una variable <strong>NO BÁSICA tiene \((z_j - c_j) = 0\)</strong>.</td>
+                <td><strong style="color:#60a5fa;">Soluciones Óptimas Múltiples (Alternativas)</strong></td>
+                <td>Esa variable puede entrar a la base sin modificar \(Z^*\). La recta de la FO es paralela a una restricción activa. En el dual, hay <strong>solución degenerada</strong>.</td>
+              </tr>
+              <tr>
+                <td>En la columna \(b_i\), una variable básica tiene valor <strong>0</strong>.</td>
+                <td><strong style="color:#f59e0b;">Solución Degenerada</strong></td>
+                <td>Ocurre cuando tres o más restricciones se cortan en un mismo punto del plano. Puede generar bucles infinitos de pivoteo si no se aplican reglas especiales.</td>
+              </tr>
+              <tr>
+                <td>Todos los \((z_j - c_j) \ge 0\), pero <strong>queda una variable artificial \(a_i\) en la base con valor \(> 0\)</strong>.</td>
+                <td><strong style="color:#ef4444;">Problema Incompatible (Sin Región Factible)</strong></td>
+                <td>Las restricciones se contradicen entre sí (ej: \(x \le 2\) y a la vez \(x \ge 6\)). No existe ningún punto que satisfaga el sistema simultáneamente.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ========================================== -->
+    <!-- SECCIÓN 3: PROGRAMACIÓN LINEAL & DUALIDAD -->
+    <!-- ========================================== -->
+    <section id="modulo-pl" class="section-wrap">
+      <div class="section-header">
+        <div class="section-tag">Módulo 1 · Práctica Oficial de Examen</div>
+        <h2 class="section-title">📐 Programación Lineal, Big-M, Sensibilidad & Dualidad</h2>
+        <p class="section-desc">
+          5 ejercicios reales de parcial y cátedra completamente resueltos paso a paso en papel, con sus capturas oficiales originales y criterios de corrección.
+        </p>
+      </div>
+
+      <!-- EJERCICIO 1: REPASO 2 EJ 6 (SIMPLEX GRAN M Y GRÁFICO) -->
+      <div class="card">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+          <h3 class="card-title">📐 Ejercicio 1: Simplex con Gran M y Comprobación Gráfica (Repaso 2 · Ej 6)</h3>
+          <span class="badge-critical">Práctica Oficial Cátedra</span>
+        </div>
+
+        <div class="exam-screenshot-box" onclick="openModal('img/invo2p/pdf_repaso2_p2.png', 'Repaso 2 Ej 6 — Enunciado Simplex y Gráfico')">
+          <div class="screenshot-header">
+            <span class="screenshot-tag">📸 Captura: Enunciado Oficial del Ejercicio 6 de Cátedra</span>
+            <span class="zoom-pill">🔍 Zoom Pantalla Completa</span>
+          </div>
+          <div class="screenshot-img-wrap">
+            <img src="img/invo2p/pdf_repaso2_p2.png" alt="Repaso 2 Ej 6 Simplex" loading="lazy" />
+          </div>
+        </div>
+
+        <div class="callout callout-info">
+          <div class="callout-title">🔍 Cómo Identificar este Problema en el Parcial:</div>
+          • <strong>Enunciado:</strong> Te dan una función objetivo de minimización con restricciones mixtas (\(\le\) y \(\ge\)), y te piden explícitamente: 1) Clasificar, 2) Resolver por SIMPLEX, 3) Comprobar por método gráfico.<br>
+          • <strong>Clasificación:</strong> Problema de Programación Lineal Continua (PLC) de dos variables (\(x_1, x_2 \ge 0\)) con restricciones tecnológicas lineales de capacidad y cota mínima.
+        </div>
+
+        <div class="formula-box">
+          <div class="formula-title">Modelo Primal Original</div>
+          $$\text{Minimizar: } Z = 23 x_1 + 20 x_2$$
+          $$\text{Sujeto a:}$$
+          $$(1) \quad -6 x_1 + 16 x_2 \le 48$$
+          $$(2) \quad 12 x_1 - 6 x_2 \ge 42$$
+          $$x_1 \ge 0, \quad x_2 \ge 0$$
+        </div>
+
+        <div class="solution-container">
+          <h4 class="solution-heading">📝 Resolución Completa Paso a Paso a Mano (Lápiz y Papel):</h4>
+
+          <!-- Paso 1 -->
+          <div class="step-card">
+            <div class="step-header">
+              <span class="step-badge">Paso 1</span>
+              <span class="step-title">Estandarización y Método de la Gran M</span>
+            </div>
+            <p style="font-size:0.88rem; color:var(--text-secondary);">
+              • Restricción 1 (\(\le\)): Sumamos holgura \(+s_1\) con costo 0.<br>
+              • Restricción 2 (\(\ge\)): Restamos exceso \(-e_2\) (costo 0) y sumamos artificial \(+a_2\) con penalización \(+M\) (\(M \to +\infty\)):<br>
+              $$-6 x_1 + 16 x_2 + s_1 = 48$$
+              $$12 x_1 - 6 x_2 - e_2 + a_2 = 42$$
+              $$\text{FO: } \text{Min } Z = 23 x_1 + 20 x_2 + 0 s_1 + 0 e_2 + M a_2$$
+            </p>
+          </div>
+
+          <!-- Paso 2 -->
+          <div class="step-card">
+            <div class="step-header">
+              <span class="step-badge">Paso 2</span>
+              <span class="step-title">Tabla Simplex 0 (Limpieza de la fila de evaluación)</span>
+            </div>
+            <p style="font-size:0.88rem; color:var(--text-secondary);">
+              La base inicial es \(\{s_1, a_2\}\). Como \(a_2\) está en la base con costo \(M\), la fila \(z_j = M \times \text{Fila } a_2 = [12M, -6M, 0, -M, M]\).<br>
+              Fila de evaluación \((z_j - c_j)\):<br>
+              • \(x_1\): \(12M - 23\)<br>
+              • \(x_2\): \(-6M - 20\)<br>
+              • \(e_2\): \(-M\)<br>
+              En Minimización, entra la variable con el coeficiente <strong>MÁS POSITIVO</strong> de \((z_j - c_j)\): ¡Entra \(x_1\) (\(12M - 23\))!<br>
+              Test del cociente \(\theta\):<br>
+              • Fila 1 (\(s_1\)): \(y_{11} = -6 \le 0 \implies\) No se divide.<br>
+              • Fila 2 (\(a_2\)): \(\theta = 42 / 12 = 3.5 \implies\) <strong>Sale \(a_2\)</strong>. Elemento pivote = <strong>12</strong>.
+            </p>
+          </div>
+
+          <!-- Paso 3 -->
+          <div class="step-card">
+            <div class="step-header">
+              <span class="step-badge">Paso 3</span>
+              <span class="step-title">Pivoteo de Gauss-Jordan y Tabla 1 (TOP)</span>
+            </div>
+            <p style="font-size:0.88rem; color:var(--text-secondary);">
+              • Nueva Fila 2 (Pivote): Dividimos Fila 2 vieja por 12: \([12/12, -6/12, 0, -1/12, 1/12, 42/12] \implies \mathbf{[1, -0.5, 0, -1/12, 1/12, 3.5]}\).<br>
+              • Nueva Fila 1: Tenía \(-6\) en columna \(x_1\). Sumamos \(6 \times \text{Nueva Fila 2}\):<br>
+              \([-6 + 6(1), 16 + 6(-0.5), 1 + 0, 0 + 6(-1/12), 48 + 6(3.5)] \implies \mathbf{[0, 13, 1, -0.5, 69]}\).<br>
+              Base nueva: \(\{s_1, x_1\}\) con costos \(C_B = [0, 23]\).<br>
+              Fila \(z_j\): \(x_1 = 23\), \(x_2 = 23(-0.5) = -11.5\), \(s_1 = 0\), \(e_2 = -23/12\).<br>
+              Fila \((z_j - c_j)\):<br>
+              • \(x_2\): \(-11.5 - 20 = -31.5 \le 0\).<br>
+              • \(e_2\): \(-23/12 - 0 = -1.92 \le 0\).<br>
+              En Minimización, como <strong>todos los \((z_j - c_j) \le 0\)</strong>, <u>SE ALCANZÓ EL ÓPTIMO</u>.
+            </p>
+          </div>
+
+          <!-- Paso 4 -->
+          <div class="step-card highlight">
+            <div class="step-header">
+              <span class="step-badge success">Paso 4 y Comprobación Gráfica</span>
+              <span class="step-title">Solución Óptima y Validación por Vértices</span>
+            </div>
+            <div class="callout callout-success" style="margin:6px 0;">
+              • <strong>Punto Óptimo:</strong> \(x_1^* = 3.5\), \(x_2^* = 0\), \(s_1^* = 69\).<br>
+              • <strong>Valor Óptimo Mínimo:</strong> \(Z^* = 23(3.5) + 20(0) = \mathbf{80.5}\).<br>
+              • <strong>Validación Gráfica:</strong> Los vértices de la región factible son:<br>
+              - Vértice A: \((3.5, 0) \implies Z = 23(3.5) + 20(0) = \mathbf{80.5}\) <strong>(MÍNIMO GLOBAL)</strong>.<br>
+              - Vértice B (intersección de ambas rectas): Resolviendo \(-6x_1 + 16x_2 = 48\) y \(12x_1 - 6x_2 = 42\), da \(x_1 = 6.25, x_2 = 5.34 \implies Z \approx 250.55\).<br>
+              La recta de nivel \(23x_1 + 20x_2 = 80.5\) hace contacto primero en el Vértice A \((3.5, 0)\).
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- EJERCICIO 2: 2024 2R CREMAS Y SENSIBILIDAD -->
+      <div class="card">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+          <h3 class="card-title">🧪 Ejercicio 2: Mix de Cremas & Sensibilidad de Nueva Crema (Examen 2024 · 2R)</h3>
+          <span class="badge-critical">Examen 2024 Oficial</span>
+        </div>
+
+        <div class="exam-screenshot-box" onclick="openModal('img/invo2p/docx_2024_2R2P_img1.png', '2R 2024 — Enunciado Crema Base')">
+          <div class="screenshot-header">
+            <span class="screenshot-tag">📸 Captura 1: Enunciado Oficial del Parcial (Crema Base y Colágeno)</span>
+            <span class="zoom-pill">🔍 Zoom Pantalla Completa</span>
+          </div>
+          <div class="screenshot-img-wrap">
+            <img src="img/invo2p/docx_2024_2R2P_img1.png" alt="Enunciado Crema Base 2024" loading="lazy" />
+          </div>
+        </div>
+
+        <div class="exam-screenshot-box" onclick="openModal('img/invo2p/docx_2024_2R2P_img2.png', '2R 2024 — Tabla Óptima Primal')">
+          <div class="screenshot-header">
+            <span class="screenshot-tag">📸 Captura 2: Tabla Óptima Primal (TOP) Original del Examen</span>
+            <span class="zoom-pill">🔍 Zoom Pantalla Completa</span>
+          </div>
+          <div class="screenshot-img-wrap">
+            <img src="img/invo2p/docx_2024_2R2P_img2.png" alt="TOP Crema Base 2024" loading="lazy" />
+          </div>
+        </div>
+
+        <div class="exam-screenshot-box" onclick="openModal('img/invo2p/docx_2024_2R2P_img3.png', '2R 2024 — Nueva Crema')">
+          <div class="screenshot-header">
+            <span class="screenshot-tag">📸 Captura 3: Datos de Consumo de la Nueva Crema a Evaluar</span>
+            <span class="zoom-pill">🔍 Zoom Pantalla Completa</span>
+          </div>
+          <div class="screenshot-img-wrap">
+            <img src="img/invo2p/docx_2024_2R2P_img3.png" alt="Nueva Crema 2024" loading="lazy" />
+          </div>
+        </div>
+
+        <div class="solution-container">
+          <h4 class="solution-heading">📝 Resolución Completa Paso a Paso a Mano:</h4>
+
+          <div class="step-card">
+            <div class="step-header">
+              <span class="step-badge">Paso 1</span>
+              <span class="step-title">Extracción de los Precios Sombra (\(y_i^*\))</span>
+            </div>
+            <p style="font-size:0.88rem; color:var(--text-secondary);">
+              En la fila \((z_j - c_j)\) de la TOP (Captura 2), bajo las holguras leemos:<br>
+              • \(y_1^*\) (Crema Base): <strong>$20 / litro</strong> (recurso saturado).<br>
+              • \(y_2^*\) (Colágeno): <strong>$15 / gramo</strong> (recurso saturado).<br>
+              • \(y_3^*\) (Horas de Envasado): <strong>$0 / hora</strong> (\(s_3^* = 14\) horas sobrantes).
+            </p>
+          </div>
+
+          <div class="step-card">
+            <div class="step-header">
+              <span class="step-badge">Paso 2</span>
+              <span class="step-title">Cálculo del Costo de Oportunidad Dual (\(z_{\text{nueva}}\))</span>
+            </div>
+            <p style="font-size:0.88rem; color:var(--text-secondary);">
+              La nueva crema requiere 2 litros de crema base, 1.5 gramos de colágeno y 0.5 horas de máquina. Su precio de venta neto es \(c_{\text{nueva}} = \$85\):
+            </p>
+            <div class="formula-box">
+              $$z_{\text{nueva}} = \sum y_i^* a_{i,\text{nueva}} = (2 \times \$20) + (1.5 \times \$15) + (0.5 \times \$0) = \$40 + \$22.50 + \$0 = \mathbf{\$62.50}$$
+            </div>
+          </div>
+
+          <div class="step-card highlight">
+            <div class="step-header">
+              <span class="step-badge success">Paso 3</span>
+              <span class="step-title">Evaluación del Costo Reducido y Decisión Económica</span>
+            </div>
+            <div class="formula-box">
+              $$(z_{\text{nueva}} - c_{\text{nueva}}) = \$62.50 - \$85.00 = \mathbf{-\$22.50 / \text{litro}}$$
+            </div>
+            <div class="callout callout-success">
+              <div class="callout-title">🎯 Conclusión de Examen:</div>
+              Como el costo reducido es <strong>ESTRICTAMENTE NEGATIVO</strong> (\(-22.50 < 0\)) en un problema de maximización, <strong>SÍ ES CONVENIENTE FABRICAR LA NUEVA CREMA</strong>. Por cada litro que se incorpore al mix, la ganancia global de la fábrica aumentará netamente en <strong>$22.50</strong>. Dicha variable ingresaría a la base como variable entrante en una nueva iteración de Simplex.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- EJERCICIO 3: REPASO 1 EJ 4 CONVERSIÓN PRIMAL A DUAL -->
+      <div class="card">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+          <h3 class="card-title">🔄 Ejercicio 3: Conversión Formal de Primal a Dual (Repaso 1 Cátedra · Ej 4)</h3>
+          <span class="badge-critical">Tema Fijo de Examen</span>
+        </div>
+
+        <div class="exam-screenshot-box" onclick="openModal('img/invo2p/pdf_resuelto_dual_p2.png', 'Repaso 1 Ej 4 — Enunciado Primal Formal')">
+          <div class="screenshot-header">
+            <span class="screenshot-tag">📸 Captura: Enunciado Oficial Primal de Minimización con Restricciones Mixtas</span>
+            <span class="zoom-pill">🔍 Zoom Pantalla Completa</span>
+          </div>
+          <div class="screenshot-img-wrap">
+            <img src="img/invo2p/pdf_resuelto_dual_p2.png" alt="Enunciado Dual Repaso 1" loading="lazy" />
+          </div>
+        </div>
+
+        <div class="formula-box">
+          <div class="formula-title">Problema Primal de Examen</div>
+          $$\text{Minimizar: } Z = 34 x + 24 y + 28 z$$
+          $$\text{Sujeto a:}$$
+          $$(1) \quad 114 x + 65 y - 85 z \le 2000$$
+          $$(2) \quad 95 x - 53 y + 75 z \le 500$$
+          $$(3) \quad 14 x + 25 y - 5 z \ge 1300$$
+          $$x \ge 0, \quad y \ge 0, \quad z \ge 0$$
+        </div>
+
+        <div class="exam-screenshot-box" onclick="openModal('img/invo2p/pdf_resuelto_dual_p5.png', 'Repaso 1 Ej 4 — Resolución Dual de Cátedra')">
+          <div class="screenshot-header">
+            <span class="screenshot-tag">📸 Captura: Resolución Oficial de Cátedra de Conversión al Dual</span>
+            <span class="zoom-pill">🔍 Zoom Pantalla Completa</span>
+          </div>
+          <div class="screenshot-img-wrap">
+            <img src="img/invo2p/pdf_resuelto_dual_p5.png" alt="Resolución Dual Cátedra" loading="lazy" />
+          </div>
+        </div>
+
+        <div class="solution-container">
+          <h4 class="solution-heading">📝 Desarrollo Analítico de Pasaje al Dual:</h4>
+
+          <div class="step-card">
+            <div class="step-header">
+              <span class="step-badge">Paso 1</span>
+              <span class="step-title">Correspondencia de Variables y Restricciones</span>
+            </div>
+            <p style="font-size:0.88rem; color:var(--text-secondary);">
+              Asignamos una variable dual a cada restricción primal: \(u_1\) para (1), \(u_2\) para (2), \(u_3\) para (3).<br>
+              • Restricción (1) es \(\le\) en Min \(\implies\) Variable dual <strong>\(u_1 \le 0\)</strong>.<br>
+              • Restricción (2) es \(\le\) en Min \(\implies\) Variable dual <strong>\(u_2 \le 0\)</strong>.<br>
+              • Restricción (3) es \(\ge\) en Min \(\implies\) Variable dual <strong>\(u_3 \ge 0\)</strong>.
+            </p>
+          </div>
+
+          <div class="step-card highlight">
+            <div class="step-header">
+              <span class="step-badge success">Paso 2 y Resultado</span>
+              <span class="step-title">Formulación Completa del Problema Dual</span>
+            </div>
+            <div class="formula-box">
+              $$\text{Maximizar: } W = 2000 u_1 + 500 u_2 + 1300 u_3$$
+              $$\text{Sujeto a:}$$
+              $$\text{Asoc. a } x: \quad 114 u_1 + 95 u_2 + 14 u_3 \le 34$$
+              $$\text{Asoc. a } y: \quad 65 u_1 - 53 u_2 + 25 u_3 \le 24$$
+              $$\text{Asoc. a } z: \quad -85 u_1 + 75 u_2 - 5 u_3 \le 28$$
+              $$\text{Signos: } u_1 \le 0, \quad u_2 \le 0, \quad u_3 \ge 0$$
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- EJERCICIO 4: REPASO 2 EJ 8 PAPEL Y CARTULINA -->
+      <div class="card">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+          <h3 class="card-title">📦 Ejercicio 4: Precios Sombra Papel y Cartulina (Repaso 2 · Ej 8)</h3>
+          <span class="badge-medium">Pregunta Fija de Sensibilidad</span>
+        </div>
+
+        <div class="exam-screenshot-box" onclick="openModal('img/invo2p/pdf_repaso2_p4.png', 'Repaso 2 Ej 8 — Papel y Cartulina')">
+          <div class="screenshot-header">
+            <span class="screenshot-tag">📸 Captura: Enunciado Oficial del Ejercicio 8 de Cátedra</span>
+            <span class="zoom-pill">🔍 Zoom Pantalla Completa</span>
+          </div>
+          <div class="screenshot-img-wrap">
+            <img src="img/invo2p/pdf_repaso2_p4.png" alt="Papel y Cartulina Repaso 2" loading="lazy" />
+          </div>
+        </div>
+
+        <div class="solution-container">
+          <div class="step-card">
+            <div class="step-header">
+              <span class="step-badge">Datos</span>
+              <span class="step-title">Valores Duales de la Tabla Óptima</span>
+            </div>
+            <p style="font-size:0.88rem; color:var(--text-secondary);">
+              El problema dual arroja: \(y_1^* = 0.68\) (precio sombra del papel), \(y_2^* = 0.18\) (precio sombra de la cartulina).
+            </p>
+          </div>
+
+          <div class="step-card highlight">
+            <div class="step-header">
+              <span class="step-badge success">Respuestas a Preguntas 1 y 2</span>
+              <span class="step-title">Decisiones de Ampliación de Capacidad</span>
+            </div>
+            <p style="font-size:0.88rem; color:var(--text-secondary);">
+              • <strong>Pregunta 1: ¿Qué recurso debería aumentarse?</strong><br>
+              Debe aumentarse el <strong>PAPEL</strong>, ya que su precio sombra (\(y_1^* = 0.68\)) es casi 4 veces mayor al de la cartulina (\(y_2^* = 0.18\)), generando el mayor incremento en la función objetivo por unidad adicional incorporada.<br><br>
+              • <strong>Pregunta 2: ¿Qué pasa si el costo de ampliación por unidad es:</strong><br>
+              a) <strong>$0.20:</strong> Conviene aumentar el <u>papel</u> (beneficio neto: \(0.68 - 0.20 = +0.48\)). <u>No conviene la cartulina</u> (\(0.18 < 0.20 \implies\) pérdida neta).<br>
+              b) <strong>$0.05:</strong> <u>Conviene aumentar ambos</u> (papel aporta \(+0.63\) y cartulina aporta \(+0.13\)).<br>
+              c) <strong>$1.00:</strong> <u>No conviene aumentar ninguno</u> (el costo $1.00 supera los precios sombra de ambos recursos).
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- EJERCICIO 5: REPASO 2 EJ 7 CERVEZA Y BIG-M -->
+      <div class="card">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+          <h3 class="card-title">🍺 Ejercicio 5: Planificación de Producción de Cerveza & Big-M (Repaso 2 · Ej 7)</h3>
+          <span class="badge-medium">Modelo con Restricción Lógica</span>
+        </div>
+
+        <div class="exam-screenshot-box" onclick="openModal('img/invo2p/pdf_repaso2_p3.png', 'Repaso 2 Ej 7 — Cerveza y Big-M')">
+          <div class="screenshot-header">
+            <span class="screenshot-tag">📸 Captura: Enunciado Oficial de la Cerveza de Cátedra</span>
+            <span class="zoom-pill">🔍 Zoom Pantalla Completa</span>
+          </div>
+          <div class="screenshot-img-wrap">
+            <img src="img/invo2p/pdf_repaso2_p3.png" alt="Cerveza Big-M Repaso 2" loading="lazy" />
+          </div>
+        </div>
+
+        <div class="solution-container">
+          <div class="step-card">
+            <div class="step-header">
+              <span class="step-badge">Paso 1</span>
+              <span class="step-title">Formulación de Balance Intertemporal</span>
+            </div>
+            <p style="font-size:0.88rem; color:var(--text-secondary);">
+              Para cada mes \(t \in \{1, 2, 3, 4\}\):<br>
+              Variables: \(X_t\) = litros fabricados en el mes \(t\); \(I_t\) = litros almacenados al final del mes \(t\).<br>
+              Balance de stock: \(I_{t-1} + X_t - I_t = D_t\).
+            </p>
+          </div>
+
+          <div class="step-card highlight">
+            <div class="step-header">
+              <span class="step-badge success">Paso 2</span>
+              <span class="step-title">Modelado de la Penalización de 25 Millones si NO se Stockea</span>
+            </div>
+            <p style="font-size:0.88rem; color:var(--text-secondary);">
+              Definimos una variable binaria \(y_t \in \{0, 1\}\) tal que:<br>
+              • Si \(I_t > 0 \implies y_t = 1\) (se stockea, no hay penalización).<br>
+              • Si \(I_t = 0 \implies y_t = 0\) (no se stockea, se penaliza con 25 millones).<br>
+              Restricción con Big-M (\(M = \text{capacidad máxima de stock}\)):
+            </p>
+            <div class="formula-box">
+              $$I_t \le M \cdot y_t \quad \forall t$$
+              $$\text{Término en la Función Objetivo: } \text{Min } Z = \dots + 25.000.000 \cdot (1 - y_t)$$
+            </div>
+            <p style="font-size:0.85rem; color:var(--text-secondary);">
+              Si \(I_t > 0\), la restricción fuerza a que \(y_t = 1\), anulando la penalización (\(1-1=0\)). Si \(I_t = 0\), el modelo puede elegir \(y_t = 0\), activando la penalización de $25 millones.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ========================================== -->
+    <!-- SECCIÓN 4: MODELO DE TRANSPORTE & TRANSBORDO -->
+    <!-- ========================================== -->
+    <section id="modulo-transporte" class="section-wrap">
+      <div class="section-header">
+        <div class="section-tag">Módulo 2 · Redes Logísticas & Distribución</div>
+        <h2 class="section-title">🚚 Transporte, Transbordo & Quiebre de Stock</h2>
+        <p class="section-desc">
+          3 ejercicios reales de parcial y cátedra completamente resueltos paso a paso en papel: método de Vogel con penalizaciones, optimización con MODI, transbordo balanceado y penalización por déficit de stock.
+        </p>
+      </div>
+
+      <!-- EJERCICIO 6: TRANSPORTE 2024 2P -->
+      <div class="card">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+          <h3 class="card-title">🏭 Ejercicio 6: Transporte Plantas a Mercados con Vogel y MODI (Examen 2024 · 2P)</h3>
+          <span class="badge-critical">Examen 2024 Oficial</span>
+        </div>
+
+        <div class="exam-screenshot-box" onclick="openModal('img/invo2p/docx_2024_2P_img1.png', '2P 2024 — Enunciado Oficial Transporte')">
+          <div class="screenshot-header">
+            <span class="screenshot-tag">📸 Captura: Tabla Oficial del Examen (3 Plantas x 4 Mercados)</span>
+            <span class="zoom-pill">🔍 Zoom Pantalla Completa</span>
+          </div>
+          <div class="screenshot-img-wrap">
+            <img src="img/invo2p/docx_2024_2P_img1.png" alt="Enunciado Transporte 2P 2024" loading="lazy" />
+          </div>
+        </div>
+
+        <div class="solution-container">
+          <h4 class="solution-heading">📝 Resolución Completa Paso a Paso a Mano:</h4>
+
+          <!-- Paso 1 -->
+          <div class="step-card">
+            <div class="step-header">
+              <span class="step-badge">Paso 1</span>
+              <span class="step-title">Verificación de Balanceo</span>
+            </div>
+            <p style="font-size:0.88rem; color:var(--text-secondary);">
+              $$\sum \text{Oferta} = 50 + 60 + 70 = 180 \quad | \quad \sum \text{Demanda} = 30 + 50 + 40 + 60 = 180$$
+              La red está <strong>balanceada</strong> (\(\sum O_i = \sum D_j\)). No requiere nodos ficticios.
+            </p>
+          </div>
+
+          <!-- Paso 2 -->
+          <div class="step-card">
+            <div class="step-header">
+              <span class="step-badge">Paso 2</span>
+              <span class="step-title">Aproximación de Vogel (VAM) Paso a Paso</span>
+            </div>
+            <p style="font-size:0.88rem; color:var(--text-secondary);">
+              Calculamos las penalizaciones (diferencia entre los dos costos mínimos de cada línea):<br>
+              • Fila 1: \(6 - 4 = 2\) | Fila 2: \(3 - 2 = 1\) | Fila 3: \(5 - 4 = 1\)<br>
+              • Col 1: \(4 - 2 = 2\) | Col 2: \(6 - 5 = 1\) | Col 3: \(7 - 6 = 1\) | Col 4: \(4 - 3 = 1\)<br>
+              Empate de penalización máxima en 2 (Fila 1 y Col 1). Criterio: elegimos la celda de <strong>menor costo absoluto</strong>: celda \((2,1)\) con costo 2.<br>
+              1. Asignamos \(x_{21} = 30\) (satura M1). Queda Oferta P2 = 30.<br>
+              2. Asignamos \(x_{24} = 30\) (menor costo \(c=3\)). Satura Oferta P2 = 0.<br>
+              3. Asignamos \(x_{34} = 30\) (completa M4 con costo 4). Queda Oferta P3 = 40.<br>
+              4. Asignamos \(x_{33} = 40\) (satura M3 con costo 6). Satura Oferta P3 = 0.<br>
+              5. Asignamos \(x_{12} = 50\) (satura M2 y agota P1).
+            </p>
+          </div>
+
+          <!-- Paso 3 -->
+          <div class="step-card">
+            <div class="step-header">
+              <span class="step-badge">Paso 3</span>
+              <span class="step-title">No Degeneración & Multiplicadores MODI (\(u_i + v_j = c_{ij}\))</span>
+            </div>
+            <p style="font-size:0.88rem; color:var(--text-secondary);">
+              Número de básicas requerido: \(m + n - 1 = 3 + 4 - 1 = 6\) celdas.<br>
+              Como obtuvimos 5 asignaciones, colocamos un \(\varepsilon = 0\) en la celda \((1,1)\) para cerrar la base.<br>
+              Fijamos \(u_1 = 0\):<br>
+              • Celda básica (1,1): \(u_1 + v_1 = 4 \implies v_1 = 4\).<br>
+              • Celda básica (1,2): \(u_1 + v_2 = 6 \implies v_2 = 6\).<br>
+              • Celda básica (2,1): \(u_2 + v_1 = 2 \implies u_2 = 2 - 4 = -2\).<br>
+              • Celda básica (2,4): \(u_2 + v_4 = 3 \implies v_4 = 3 - (-2) = 5\).<br>
+              • Celda básica (3,4): \(u_3 + v_4 = 4 \implies u_3 = 4 - 5 = -1\).<br>
+              • Celda básica (3,3): \(u_3 + v_3 = 6 \implies v_3 = 6 - (-1) = 7\).<br>
+              Evaluación de no básicas (\(\Delta_{ij} = c_{ij} - u_i - v_j\)):<br>
+              • \(\Delta_{13} = 8 - 0 - 7 = +1 \ge 0\)<br>
+              • \(\Delta_{14} = 7 - 0 - 5 = +2 \ge 0\)<br>
+              • \(\Delta_{22} = 5 - (-2) - 6 = +1 \ge 0\)<br>
+              • \(\Delta_{23} = 7 - (-2) - 7 = +2 \ge 0\)<br>
+              • \(\Delta_{31} = 5 - (-1) - 4 = +2 \ge 0\)<br>
+              • \(\Delta_{32} = 8 - (-1) - 6 = +3 \ge 0\)<br>
+              Como todos los \(\Delta_{ij} \ge 0\), <u>LA SOLUCIÓN ES EL ÓPTIMO GLOBAL</u>.
+            </p>
+          </div>
+
+          <!-- Paso 4 -->
+          <div class="step-card highlight">
+            <div class="step-header">
+              <span class="step-badge success">Resultado</span>
+              <span class="step-title">Plan de Envíos Óptimo y Costo Mínimo Final</span>
+            </div>
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr><th>Tramo de Transporte</th><th>Cantidad Enviada</th><th>Costo Unitario</th><th>Subtotal</th></tr>
+                </thead>
+                <tbody>
+                  <tr><td>Planta 1 \(\to\) Mercado 2 (\(x_{12}\))</td><td>50 unidades</td><td>$6</td><td>$300</td></tr>
+                  <tr><td>Planta 2 \(\to\) Mercado 1 (\(x_{21}\))</td><td>30 unidades</td><td>$2</td><td>$60</td></tr>
+                  <tr><td>Planta 2 \(\to\) Mercado 4 (\(x_{24}\))</td><td>30 unidades</td><td>$3</td><td>$90</td></tr>
+                  <tr><td>Planta 3 \(\to\) Mercado 3 (\(x_{33}\))</td><td>40 unidades</td><td>$6</td><td>$240</td></tr>
+                  <tr><td>Planta 3 \(\to\) Mercado 4 (\(x_{34}\))</td><td>30 unidades</td><td>$4</td><td>$120</td></tr>
+                  <tr style="background:rgba(16, 185, 129, 0.15);">
+                    <td colspan="3"><strong>COSTO TOTAL MÍNIMO (\(Z^*\))</strong></td>
+                    <td><strong style="color:#34d399; font-size:1.15rem;">$810</strong></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- EJERCICIO 7: REPASO 1 EJ 2 TRANSBORDO -->
+      <div class="card">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+          <h3 class="card-title">🔀 Ejercicio 7: Red Logística de Transbordo y Almacenes (Repaso 1 · Ej 2)</h3>
+          <span class="badge-critical">Práctica Oficial Cátedra</span>
+        </div>
+
+        <div class="exam-screenshot-box" onclick="openModal('img/invo2p/pdf_repaso1_p3.png', 'Repaso 1 Ej 2 — Red de Transbordo')">
+          <div class="screenshot-header">
+            <span class="screenshot-tag">📸 Captura: Enunciado Oficial, Matriz de Costos y Ofertas/Demandas</span>
+            <span class="zoom-pill">🔍 Zoom Pantalla Completa</span>
+          </div>
+          <div class="screenshot-img-wrap">
+            <img src="img/invo2p/pdf_repaso1_p3.png" alt="Transbordo Repaso 1" loading="lazy" />
+          </div>
+        </div>
+
+        <div class="solution-container">
+          <h4 class="solution-heading">📝 Resolución Completa Paso a Paso a Mano:</h4>
+
+          <div class="step-card">
+            <div class="step-header">
+              <span class="step-badge">Paso 1</span>
+              <span class="step-title">Verificación de Balanceo & Destino Ficticio</span>
+            </div>
+            <p style="font-size:0.88rem; color:var(--text-secondary);">
+              • Oferta Total: Planta 1 (200) + Planta 2 (320) = <strong>520 unidades</strong>.<br>
+              • Demanda Total: Almacén 1 (220) + Almacén 2 (160) = <strong>380 unidades</strong>.<br>
+              Como \(\sum O_i (520) > \sum D_j (380)\), hay un <strong>exceso de oferta de 140 unidades</strong>.<br>
+              <u>Regla de Cátedra:</u> Se agrega un <strong>Almacén Ficticio (Destino Ficticio)</strong> con demanda igual a <strong>140 unidades</strong> y costos de transporte iguales a <strong>0</strong> desde todos los orígenes.
+            </p>
+          </div>
+
+          <div class="step-card highlight">
+            <div class="step-header">
+              <span class="step-badge success">Paso 2</span>
+              <span class="step-title">Modelo de Flujo de Mínimo Costo (MCF) Completo</span>
+            </div>
+            <p style="font-size:0.88rem; color:var(--text-secondary);">
+              Variables: \(x_{ij} \ge 0\) flujo desde el nodo \(i\) al nodo \(j\).<br>
+              $$\text{Min } Z = 10 x_{P1,T1} + 12 x_{P1,T2} + 105 x_{P1,A1} + 121 x_{P1,A2} + 5 x_{P2,T1} + 16 x_{P2,T2} + 90 x_{P2,A1} + 110 x_{P2,A2} + 6 x_{T1,T2} + 18 x_{T1,A1} + 22 x_{T1,A2} + 11 x_{T2,A1} + 19 x_{T2,A2} + 14 x_{A1,A2} + 18 x_{A2,A1}$$
+              Sujeto a restricciones de conservación de flujo (\(\text{Salidas} - \text{Entradas} = \text{Balance}\)):<br>
+              • Nodo P1 (Planta 1): \(x_{P1,T1} + x_{P1,T2} + x_{P1,A1} + x_{P1,A2} + x_{P1,\text{Fict}} = 200\)<br>
+              • Nodo P2 (Planta 2): \(x_{P2,T1} + x_{P2,T2} + x_{P2,A1} + x_{P2,A2} + x_{P2,\text{Fict}} = 320\)<br>
+              • Nodo T1 (Transbordo 1): \((x_{T1,T2} + x_{T1,A1} + x_{T1,A2}) - (x_{P1,T1} + x_{P2,T1}) = 0\)<br>
+              • Nodo T2 (Transbordo 2): \((x_{T2,A1} + x_{T2,A2}) - (x_{P1,T2} + x_{P2,T2} + x_{T1,T2}) = 0\)<br>
+              • Nodo A1 (Almacén 1): \((x_{P1,A1} + x_{P2,A1} + x_{T1,A1} + x_{T2,A1} + x_{A2,A1}) - x_{A1,A2} = 220\)<br>
+              • Nodo A2 (Almacén 2): \((x_{P1,A2} + x_{P2,A2} + x_{T1,A2} + x_{T2,A2} + x_{A1,A2}) - x_{A2,A1} = 160\)<br>
+              • Nodo Ficticio: \(x_{P1,\text{Fict}} + x_{P2,\text{Fict}} = 140\) con \(x_{ij} \ge 0\).
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- EJERCICIO 8: REPASO 1 EJ 3 QUIEBRE DE STOCK -->
+      <div class="card">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+          <h3 class="card-title">⚠️ Ejercicio 8: Cadena Logística con Quiebre de Stock ($190/ton) (Repaso 1 · Ej 3)</h3>
+          <span class="badge-critical">Trampa Clásica de Parcial</span>
+        </div>
+
+        <div class="exam-screenshot-box" onclick="openModal('img/invo2p/pdf_repaso1_p4.png', 'Repaso 1 Ej 3 — Quiebre de Stock $190')">
+          <div class="screenshot-header">
+            <span class="screenshot-tag">📸 Captura: Enunciado Oficial con Penalización de $190 por Quiebre</span>
+            <span class="zoom-pill">🔍 Zoom Pantalla Completa</span>
+          </div>
+          <div class="screenshot-img-wrap">
+            <img src="img/invo2p/pdf_repaso1_p4.png" alt="Quiebre de Stock Repaso 1" loading="lazy" />
+          </div>
+        </div>
+
+        <div class="solution-container">
+          <h4 class="solution-heading">📝 Resolución Completa Paso a Paso a Mano:</h4>
+
+          <div class="step-card">
+            <div class="step-header">
+              <span class="step-badge">Paso 1</span>
+              <span class="step-title">Detección de Déficit y Origen Ficticio</span>
+            </div>
+            <p style="font-size:0.88rem; color:var(--text-secondary);">
+              • Oferta Total (Proveedores 1, 2, 3, 4): \(150 + 60 + 50 + 85 = \mathbf{345 \text{ unidades}}\).<br>
+              • Demanda Total (Clientes 1, 2, 3, 4): \(70 + 110 + 120 + 85 = \mathbf{385 \text{ unidades}}\).<br>
+              Faltan 40 unidades para satisfacer la demanda del mercado (\(\text{Déficit} = 385 - 345 = 40\)).
+            </p>
+          </div>
+
+          <div class="step-card highlight">
+            <div class="step-header">
+              <span class="step-badge success">Paso 2 y Regla Clave</span>
+              <span class="step-title">Construcción de la Matriz Balanceada con Costo de Penalización</span>
+            </div>
+            <p style="font-size:0.88rem; color:var(--text-secondary);">
+              Se crea un <strong>Proveedor Ficticio (Origen Ficticio)</strong> con oferta = <strong>40</strong>.<br>
+              <strong style="color:#ef4444;">¡ALERTA DE EXAMEN!</strong> Como el enunciado establece que <em>"el costo de oportunidad del quiebre de stock es de $190 con cualquier destino"</em>, los costos de la fila ficticia <strong>NO SE PONEN EN CERO</strong>, sino que se asigna:
+              $$c_{\text{Fict}, 1} = 190, \quad c_{\text{Fict}, 2} = 190, \quad c_{\text{Fict}, 3} = 190, \quad c_{\text{Fict}, 4} = 190$$
+              De esta manera, el algoritmo MODI/Vogel buscará satisfacer primero aquellos clientes cuyas rutas tengan costos inferiores a $190, minimizando la penalización total incurrida por la empresa.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ========================================== -->
+    <!-- SECCIÓN 5: MODELO DE ASIGNACIÓN (HÚNGARO) -->
+    <!-- ========================================== -->
+    <section id="modulo-asignacion" class="section-wrap">
+      <div class="section-header">
+        <div class="section-tag">Módulo 3 · Optimización Combinatoria</div>
+        <h2 class="section-title">🎯 Asignación: Método Húngaro Paso a Paso</h2>
+        <p class="section-desc">
+          3 ejercicios reales de examen y cátedra completamente resueltos: reducción por filas y columnas, trazado de líneas mínimas, ajuste con constante \(k\), y variante de maximización.
+        </p>
+      </div>
+
+      <!-- EJERCICIO 9: ASIGNACIÓN 2024 2P -->
+      <div class="card">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+          <h3 class="card-title">👥 Ejercicio 9: Asignación 4 Tareas a 4 Empleados (Examen 2024 · 2P)</h3>
+          <span class="badge-critical">Examen 2024 Oficial</span>
+        </div>
+
+        <div class="exam-screenshot-box" onclick="openModal('img/invo2p/docx_2024_2P_img2.png', '2P 2024 — Matriz Original de Asignación')">
+          <div class="screenshot-header">
+            <span class="screenshot-tag">📸 Captura: Matriz 4x4 Oficial del Examen Original</span>
+            <span class="zoom-pill">🔍 Zoom Pantalla Completa</span>
+          </div>
+          <div class="screenshot-img-wrap">
+            <img src="img/invo2p/docx_2024_2P_img2.png" alt="Matriz Asignación 2P 2024" loading="lazy" />
+          </div>
+        </div>
+
+        <div class="solution-container">
+          <h4 class="solution-heading">📝 Resolución Completa Paso a Paso a Mano:</h4>
+
+          <!-- Paso 0 -->
+          <div class="step-card">
+            <div class="step-header">
+              <span class="step-badge">Paso 0</span>
+              <span class="step-title">Matriz Original de Costos (\(C\))</span>
+            </div>
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr><th>Empleado \ Tarea</th><th>T1</th><th>T2</th><th>T3</th><th>T4</th><th>Mínimo Fila</th></tr>
+                </thead>
+                <tbody>
+                  <tr><td><strong>E1</strong></td><td>14</td><td>10</td><td>8</td><td>12</td><td style="color:#f59e0b; font-weight:700;">8</td></tr>
+                  <tr><td><strong>E2</strong></td><td>11</td><td>15</td><td>12</td><td>10</td><td style="color:#f59e0b; font-weight:700;">10</td></tr>
+                  <tr><td><strong>E3</strong></td><td>9</td><td>12</td><td>14</td><td>11</td><td style="color:#f59e0b; font-weight:700;">9</td></tr>
+                  <tr><td><strong>E4</strong></td><td>13</td><td>11</td><td>10</td><td>14</td><td style="color:#f59e0b; font-weight:700;">10</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Paso 1 -->
+          <div class="step-card">
+            <div class="step-header">
+              <span class="step-badge">Paso 1</span>
+              <span class="step-title">Reducción por Filas (Restar mínimo de cada fila)</span>
+            </div>
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr><th>Empleado \ Tarea</th><th>T1</th><th>T2</th><th>T3</th><th>T4</th></tr>
+                </thead>
+                <tbody>
+                  <tr><td><strong>E1</strong> (resta 8)</td><td>6</td><td>2</td><td style="color:#34d399; font-weight:700;">0</td><td>4</td></tr>
+                  <tr><td><strong>E2</strong> (resta 10)</td><td>1</td><td>5</td><td>2</td><td style="color:#34d399; font-weight:700;">0</td></tr>
+                  <tr><td><strong>E3</strong> (resta 9)</td><td style="color:#34d399; font-weight:700;">0</td><td>3</td><td>5</td><td>2</td></tr>
+                  <tr><td><strong>E4</strong> (resta 10)</td><td>3</td><td>1</td><td style="color:#34d399; font-weight:700;">0</td><td>4</td></tr>
+                  <tr style="background:rgba(245, 158, 11, 0.08);">
+                    <td><strong>Mínimo Columna</strong></td><td>0</td><td style="color:#f59e0b; font-weight:700;">1</td><td>0</td><td>0</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Paso 2 -->
+          <div class="step-card">
+            <div class="step-header">
+              <span class="step-badge">Paso 2</span>
+              <span class="step-title">Reducción por Columnas (Restar mínimo de cada columna)</span>
+            </div>
+            <p style="font-size:0.88rem; color:var(--text-secondary);">
+              Restamos 1 en la columna T2 (las demás columnas ya tienen al menos un cero):
+            </p>
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr><th>Empleado \ Tarea</th><th>T1</th><th>T2</th><th>T3</th><th>T4</th></tr>
+                </thead>
+                <tbody>
+                  <tr><td><strong>E1</strong></td><td>6</td><td>1</td><td style="color:#34d399; font-weight:700;">0</td><td>4</td></tr>
+                  <tr><td><strong>E2</strong></td><td>1</td><td>4</td><td>2</td><td style="color:#34d399; font-weight:700;">0</td></tr>
+                  <tr><td><strong>E3</strong></td><td style="color:#34d399; font-weight:700;">0</td><td>2</td><td>5</td><td>2</td></tr>
+                  <tr><td><strong>E4</strong></td><td>3</td><td style="color:#34d399; font-weight:700;">0</td><td style="color:#34d399; font-weight:700;">0</td><td>4</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Paso 3 -->
+          <div class="step-card highlight">
+            <div class="step-header">
+              <span class="step-badge success">Paso 3 y Resultado</span>
+              <span class="step-title">Líneas de Cobertura y Asignación Óptima</span>
+            </div>
+            <p style="font-size:0.88rem; color:var(--text-secondary);">
+              Cubrimos todos los ceros con líneas rectas:<br>
+              • Línea 1: Columna T1 | Línea 2: Fila E4 | Línea 3: Columna T3 | Línea 4: Fila E2.<br>
+              Se requieren <strong>4 líneas rectas (igual a la dimensión \(n=4\))</strong> \(\implies\) <u>SE ALCANZÓ EL ÓPTIMO</u>.
+            </p>
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr><th>Asignación Óptima</th><th>Costo Original en Matriz</th></tr>
+                </thead>
+                <tbody>
+                  <tr><td>Empleado 1 \(\to\) Tarea 3</td><td>$8</td></tr>
+                  <tr><td>Empleado 2 \(\to\) Tarea 4</td><td>$10</td></tr>
+                  <tr><td>Empleado 3 \(\to\) Tarea 1</td><td>$9</td></tr>
+                  <tr><td>Empleado 4 \(\to\) Tarea 2</td><td>$11</td></tr>
+                  <tr style="background:rgba(16, 185, 129, 0.15);">
+                    <td><strong>COSTO TOTAL MÍNIMO (\(Z^*\))</strong></td>
+                    <td><strong style="color:#34d399; font-size:1.15rem;">$38</strong></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- EJERCICIO 10: RESOLUCIÓN OFICIAL DOCENTE 2021 -->
+      <div class="card">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+          <h3 class="card-title">📝 Ejercicio 10: Asignación con Ajuste de Líneas (Examen 2021 · 2P Cátedra)</h3>
+          <span class="badge-medium">Evidencia Oficial</span>
+        </div>
+
+        <div class="exam-screenshot-box" onclick="openModal('img/invo2p/docx_2021_2P_respuestas_img3.png', '2P 2021 — Resolución Húngaro Docente')">
+          <div class="screenshot-header">
+            <span class="screenshot-tag">📸 Captura: Resolución Oficial Docente con Trazado de Líneas</span>
+            <span class="zoom-pill">🔍 Zoom Pantalla Completa</span>
+          </div>
+          <div class="screenshot-img-wrap">
+            <img src="img/invo2p/docx_2021_2P_respuestas_img3.png" alt="Resolución Asignación 2021" loading="lazy" />
+          </div>
+        </div>
+
+        <div class="solution-container">
+          <div class="step-card">
+            <div class="step-header">
+              <span class="step-badge">Regla Clave</span>
+              <span class="step-title">Qué Hacer cuando el Número de Líneas es Menor a \(n\)</span>
+            </div>
+            <p style="font-size:0.88rem; color:var(--text-secondary);">
+              En la resolución oficial de la captura observamos que con 3 líneas se cubrían todos los ceros de una matriz \(4 \times 4\). En ese caso:<br>
+              1. Se busca el <strong>menor elemento no cubierto</strong> por ninguna línea: \(k = 1\).<br>
+              2. Se <strong>resta \(k\)</strong> a todos los elementos no cubiertos.<br>
+              3. Se <strong>suma \(k\)</strong> a los elementos que están en la intersección de dos líneas rectas.<br>
+              4. Los elementos cubiertos por una sola línea permanecen inalterados.<br>
+              Esto genera nuevos ceros independientes que permiten alcanzar la dimensión \(n=4\) y cerrar la asignación unívoca.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- EJERCICIO 11: MODO MAXIMIZACIÓN -->
+      <div class="card">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+          <h3 class="card-title">🚀 Ejercicio 11: Asignación en Modo MAXIMIZACIÓN (Relevos / Rendimiento)</h3>
+          <span class="badge-medium">Variante Típica</span>
+        </div>
+
+        <div class="callout callout-warn">
+          <div class="callout-title">Regla de Transformación Obligatoria:</div>
+          Cuando se busca maximizar (ej: puntajes de rendimiento o tiempos de natación donde se busca la mayor velocidad):<br>
+          1. Se ubica el elemento con el valor más alto de toda la matriz: \(M_{\max} = \max c_{ij}\).<br>
+          2. Se crea una nueva matriz restando cada valor original a ese máximo:
+          $$c_{ij}' = M_{\max} - c_{ij}$$
+          3. Se aplica el Método Húngaro estándar de minimización sobre la matriz \(C'\).<br>
+          4. La asignación resultante es la óptima; y el valor máximo alcanzado se calcula sumando los costos originales de la matriz inicial.
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ========================================== -->
+    <!-- SECCIÓN 6: MODELOS DE INVENTARIOS (WILSON & LAGRANGE) -->
+    <!-- ========================================== -->
+    <section id="modulo-inventarios" class="section-wrap">
+      <div class="section-header">
+        <div class="section-tag">Módulo 4 · Gestión de Stock & Lote Económico</div>
+        <h2 class="section-title">📦 Modelos de Inventarios: Lote Óptimo & Lagrange</h2>
+        <p class="section-desc">
+          2 ejercicios reales completamente resueltos: lote óptimo de Wilson con análisis de sensibilidad de desvíos (+20%), y el modelo multiproducto con restricción de bodega de 2.000 m² resuelto mediante multiplicadores de Lagrange.
+        </p>
+      </div>
+
+      <!-- EJERCICIO 12: PARAGOLPES 2024 2P -->
+      <div class="card">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+          <h3 class="card-title">🚗 Ejercicio 12: Fabricación de 16.000 Paragolpes & Sensibilidad (+20%) (Examen 2024 · 2P)</h3>
+          <span class="badge-critical">Examen 2024 Oficial</span>
+        </div>
+
+        <div class="exam-screenshot-box" onclick="openModal('img/invo2p/docx_2020_2P_correccion_img6.png', 'Inventarios — Curvas de Costos de Cátedra')">
+          <div class="screenshot-header">
+            <span class="screenshot-tag">📸 Captura: Curvas de Costo de Almacén, Pedido y Costo Total Esperado</span>
+            <span class="zoom-pill">🔍 Zoom Pantalla Completa</span>
+          </div>
+          <div class="screenshot-img-wrap">
+            <img src="img/invo2p/docx_2020_2P_correccion_img6.png" alt="Curvas Costos Inventarios" loading="lazy" />
+          </div>
+        </div>
+
+        <div class="solution-container">
+          <h4 class="solution-heading">📝 Resolución Completa Paso a Paso a Mano:</h4>
+
+          <!-- Paso 1 -->
+          <div class="step-card">
+            <div class="step-header">
+              <span class="step-badge">Paso 1</span>
+              <span class="step-title">Cálculo del Lote Económico Óptimo (\(Q^*\))</span>
+            </div>
+            <p style="font-size:0.88rem; color:var(--text-secondary);">
+              Datos: Demanda \(D = 16.000\) un/año, Setup \(k = \$100\) / orden, Almacenamiento \(c_1 = \$5\) / un \(\cdot\) año, Precio \(p = \$4.000\) / un:
+            </p>
+            <div class="formula-box">
+              $$Q^* = \sqrt{\frac{2 \cdot k \cdot D}{c_1}} = \sqrt{\frac{2 \times 100 \times 16.000}{5}} = \sqrt{\frac{3.200.000}{5}} = \sqrt{640.000} = \mathbf{800 \text{ unidades}}$$
+            </div>
+            <p style="font-size:0.88rem; color:var(--text-secondary);">
+              • Frecuencia anual: \(n^* = \frac{D}{Q^*} = \frac{16.000}{800} = \mathbf{20 \text{ órdenes/año}}\).<br>
+              • Ciclo entre pedidos: \(T^* = \frac{800}{16.000} \times 365 = \mathbf{18.25 \text{ días}}\).
+            </p>
+          </div>
+
+          <!-- Paso 2 -->
+          <div class="step-card">
+            <div class="step-header">
+              <span class="step-badge">Paso 2</span>
+              <span class="step-title">Cálculo de Costos de Gestión y Costo Total Esperado</span>
+            </div>
+            <div class="formula-box">
+              $$C_{\text{gestión}}^* = \sqrt{2 \cdot k \cdot D \cdot c_1} = \sqrt{2 \times 100 \times 16.000 \times 5} = \mathbf{\$4.000 / \text{año}}$$
+              $$C_{\text{adquisición}} = p \cdot D = \$4.000 \times 16.000 = \mathbf{\$64.000.000 / \text{año}}$$
+              $$\text{CTE}^* = \$64.000.000 + \$4.000 = \mathbf{\$64.004.000 / \text{año}}$$
+            </div>
+          </div>
+
+          <!-- Paso 3 -->
+          <div class="step-card highlight">
+            <div class="step-header">
+              <span class="step-badge success">Paso 3 y Respuesta</span>
+              <span class="step-title">Impacto Numérico del Desvío del +20%</span>
+            </div>
+            <p style="font-size:0.88rem; color:var(--text-secondary);">
+              Tamaño de lote real adoptado: \(Q_{\text{real}} = 1.20 \times 800 = \mathbf{960 \text{ unidades}}\).
+            </p>
+            <div class="formula-box">
+              $$C_{\text{pedir}} = 100 \times \left(\frac{16.000}{960}\right) = \$1.666,67 / \text{año}$$
+              $$C_{\text{almacén}} = 5 \times \left(\frac{960}{2}\right) = \$2.400,00 / \text{año}$$
+              $$C_{\text{gestión real}} = \$1.666,67 + \$2.400,00 = \mathbf{\$4.066,67 / \text{año}}$$
+            </div>
+            <div class="callout callout-success">
+              <div class="callout-title">🎯 Conclusiones Numéricas de Examen:</div>
+              • <strong>Variación en el Costo de Gestión:</strong> \(\$4.066,67 - \$4.000,00 = \mathbf{+\$66,67 / \text{año}}\) (un incremento de sólo <strong>+1,67%</strong>).<br>
+              • <strong>Variación en el Costo Total Esperado (CTE):</strong> Como el costo fabril es fijo ($64.000.000), el CTE pasa a $\$64.004.066,67$, lo que representa un aumento despreciable de <strong>+0,0001%</strong>.<br>
+              <em>Esto demuestra que el modelo de Wilson es extremadamente plano y robusto en el entorno del óptimo.</em>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- EJERCICIO 13: RESTRICCIÓN DE BODEGA LAGRANGE -->
+      <div class="card">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+          <h3 class="card-title">🏢 Ejercicio 13: Restricción de Bodega (2.000 m²) con Lagrange (Guía Oficial)</h3>
+          <span class="badge-critical">Guía Oficial de Cátedra</span>
+        </div>
+
+        <div class="exam-screenshot-box" onclick="openModal('img/invo2p/pdf_inv_restriccion_espacio_p1.png', 'Guía Cátedra — Restricción de Espacio')">
+          <div class="screenshot-header">
+            <span class="screenshot-tag">📸 Captura 1: Planteo Oficial de la Cátedra con Restricción de Bodega</span>
+            <span class="zoom-pill">🔍 Zoom Pantalla Completa</span>
+          </div>
+          <div class="screenshot-img-wrap">
+            <img src="img/invo2p/pdf_inv_restriccion_espacio_p1.png" alt="Restricción Espacio Cátedra P1" loading="lazy" />
+          </div>
+        </div>
+
+        <div class="exam-screenshot-box" onclick="openModal('img/invo2p/pdf_inv_restriccion_espacio_p2.png', 'Guía Cátedra — Función de Lagrange')">
+          <div class="screenshot-header">
+            <span class="screenshot-tag">📸 Captura 2: Formulación Analítica de la Función de Lagrange</span>
+            <span class="zoom-pill">🔍 Zoom Pantalla Completa</span>
+          </div>
+          <div class="screenshot-img-wrap">
+            <img src="img/invo2p/pdf_inv_restriccion_espacio_p2.png" alt="Lagrange Cátedra P2" loading="lazy" />
+          </div>
+        </div>
+
+        <div class="exam-screenshot-box" onclick="openModal('img/invo2p/pdf_inv_restriccion_espacio_p3.png', 'Guía Cátedra — Resolución Numérica')">
+          <div class="screenshot-header">
+            <span class="screenshot-tag">📸 Captura 3: Tabla de Ajuste Numérico y Saturación de Bodega</span>
+            <span class="zoom-pill">🔍 Zoom Pantalla Completa</span>
+          </div>
+          <div class="screenshot-img-wrap">
+            <img src="img/invo2p/pdf_inv_restriccion_espacio_p3.png" alt="Lagrange Cátedra P3" loading="lazy" />
+          </div>
+        </div>
+
+        <div class="solution-container">
+          <h4 class="solution-heading">📝 Desarrollo Analítico del Método de Lagrange:</h4>
+
+          <div class="step-card">
+            <div class="step-header">
+              <span class="step-badge">Paso 1</span>
+              <span class="step-title">Verificación de la Restricción de Capacidad de Bodega</span>
+            </div>
+            <p style="font-size:0.88rem; color:var(--text-secondary);">
+              Primero se calculan los lotes óptimos libres para cada producto \(i\): \(Q_i^0 = \sqrt{\frac{2 k_i D_i}{c_{1i}}}\).<br>
+              Al evaluar el espacio físico requerido: \(\sum f_i Q_i^0 > 2.000 \text{ m}^2\), la bodega queda desbordada. Por lo tanto, <strong>la restricción de espacio está activa</strong>.
+            </p>
+          </div>
+
+          <div class="step-card highlight">
+            <div class="step-header">
+              <span class="step-badge success">Paso 2 y Fórmula Ajustada</span>
+              <span class="step-title">Función de Lagrange y Lotes Ajustados</span>
+            </div>
+            <p style="font-size:0.88rem; color:var(--text-secondary);">
+              Formulamos la función de Lagrange con multiplicador \(\lambda > 0\):
+            </p>
+            <div class="formula-box">
+              $$L(Q_1, \dots, Q_n, \lambda) = \sum_{i=1}^n \left( k_i \frac{D_i}{Q_i} + c_{1i} \frac{Q_i}{2} \right) + \lambda \left( \sum_{i=1}^n f_i Q_i - 2000 \right)$$
+            </div>
+            <p style="font-size:0.88rem; color:var(--text-secondary);">
+              Derivando respecto a cada \(Q_i\) e igualando a cero:
+            </p>
+            <div class="formula-box">
+              $$\frac{\partial L}{\partial Q_i} = -\frac{k_i D_i}{Q_i^2} + \frac{c_{1i}}{2} + \lambda f_i = 0 \implies Q_i(\lambda) = \sqrt{\frac{2 k_i D_i}{c_{1i} + 2 \lambda f_i}}$$
+            </div>
+            <div class="callout callout-info">
+              <div class="callout-title">Interpretación Económica del Multiplicador \(\lambda\):</div>
+              El multiplicador de Lagrange \(\lambda\) representa el <strong>precio sombra del metro cuadrado de depósito</strong>. Al sumarse como \(2 \lambda f_i\), eleva el costo de almacenamiento aparente de cada producto proporcionalmente al volumen que ocupa (\(f_i\)), reduciendo los lotes de forma coordinada hasta saturar exactamente los 2.000 m².
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ========================================== -->
+    <!-- SECCIÓN 7: REDES, GRAFOS & LOCALIZACIÓN -->
+    <!-- ========================================== -->
+    <section id="modulo-redes" class="section-wrap">
+      <div class="section-header">
+        <div class="section-tag">Módulo 5 · Grafos & Optimización Entera</div>
+        <h2 class="section-title">🌐 Redes: Dijkstra & Cuarteles de Bomberos (Set Covering)</h2>
+        <p class="section-desc">
+          2 ejercicios reales de cátedra completamente resueltos: búsqueda del camino más corto mediante el algoritmo de Dijkstra y modelo de recubrimiento binario de cuarteles de emergencia con justificación de por qué Simplex no es aplicable.
+        </p>
+      </div>
+
+      <!-- EJERCICIO 14: DIJKSTRA REPASO 1 EJ 1 -->
+      <div class="card">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+          <h3 class="card-title">🗺️ Ejercicio 14: Algoritmo de Dijkstra en Grafo Valorado (Repaso 1 Cátedra · Ej 1)</h3>
+          <span class="badge-critical">Práctica Oficial Cátedra</span>
+        </div>
+
+        <div class="exam-screenshot-box" onclick="openModal('img/invo2p/pdf_repaso1_p2.png', 'Repaso 1 Ej 1 — Grafo de Dijkstra Oficial')">
+          <div class="screenshot-header">
+            <span class="screenshot-tag">📸 Captura: Grafo Valorado y Formulación de Cátedra de s a t</span>
+            <span class="zoom-pill">🔍 Zoom Pantalla Completa</span>
+          </div>
+          <div class="screenshot-img-wrap">
+            <img src="img/invo2p/pdf_repaso1_p2.png" alt="Grafo Dijkstra Repaso 1" loading="lazy" />
+          </div>
+        </div>
+
+        <div class="solution-container">
+          <h4 class="solution-heading">📝 Resolución Completa Paso a Paso a Mano:</h4>
+
+          <!-- Paso 1 -->
+          <div class="step-card">
+            <div class="step-header">
+              <span class="step-badge">Paso 1</span>
+              <span class="step-title">Modelo de Flujo de Mínimo Costo (MCF) Asociado</span>
+            </div>
+            <p style="font-size:0.88rem; color:var(--text-secondary);">
+              El problema de camino más corto puede formularse como un problema de transporte con 1 unidad saliendo de \(s\) y llegando a \(t\):<br>
+              $$\text{Min } Z = 4 x_{sa} + 2 x_{sb} + 2 x_{ac} + 3 x_{bc} + 6 x_{bd} + 1 x_{cd} + 7 x_{ct} + 3 x_{dt}$$
+              Sujeto a conservación de flujo:<br>
+              • Nodo \(s\): \(x_{sa} + x_{sb} = 1\)<br>
+              • Nodo \(a\): \(x_{ac} - x_{sa} = 0\)<br>
+              • Nodo \(b\): \(x_{bc} + x_{bd} - x_{sb} = 0\)<br>
+              • Nodo \(c\): \(x_{cd} + x_{ct} - (x_{ac} + x_{bc}) = 0\)<br>
+              • Nodo \(d\): \(x_{dt} - (x_{bd} + x_{cd}) = 0\)<br>
+              • Nodo \(t\): \(-(x_{ct} + x_{dt}) = -1\) con \(x_{ij} \in \{0, 1\}\).
+            </p>
+          </div>
+
+          <!-- Paso 2 -->
+          <div class="step-card highlight">
+            <div class="step-header">
+              <span class="step-badge success">Paso 2 y Resultado</span>
+              <span class="step-title">Tabla de Iteraciones de Dijkstra & Camino Óptimo</span>
+            </div>
+            <p style="font-size:0.88rem; color:var(--text-secondary);">
+              Cada etiqueta tiene el formato \([d_j, \text{predecesor}]\):
+            </p>
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr><th>Iteración</th><th>Nodo Fijado Permanente</th><th>Distancia Acumulada</th><th>Nodos Vecinos Actualizados</th></tr>
+                </thead>
+                <tbody>
+                  <tr><td>0</td><td><strong>Origen \(s\)</strong></td><td>0</td><td>\(a [4, s]\), \(b [2, s]\)</td></tr>
+                  <tr><td>1</td><td><strong>Nodo \(b\)</strong> (menor: 2)</td><td>2</td><td>\(c [2+3=5, b]\), \(d [2+6=8, b]\)</td></tr>
+                  <tr><td>2</td><td><strong>Nodo \(a\)</strong> (menor: 4)</td><td>4</td><td>\(c [\min(5, 4+2)=5, a]\)</td></tr>
+                  <tr><td>3</td><td><strong>Nodo \(c\)</strong> (menor: 5)</td><td>5</td><td>\(d [\min(8, 5+1)=6, c]\), \(t [5+7=12, c]\)</td></tr>
+                  <tr><td>4</td><td><strong>Nodo \(d\)</strong> (menor: 6)</td><td>6</td><td>\(t [\min(12, 6+3)=9, d]\)</td></tr>
+                  <tr style="background:rgba(16, 185, 129, 0.15);">
+                    <td>5</td><td><strong>Destino \(t\) (PERMANENTE)</strong></td><td><strong style="color:#34d399; font-size:1.1rem;">9</strong></td><td>Fin del algoritmo</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="callout callout-success">
+              <div class="callout-title">🎯 Resultado Óptimo:</div>
+              • <strong>Ruta de Camino Mínimo (reconstruida hacia atrás):</strong> \(s \to b \to c \to d \to t\).<br>
+              • <strong>Distancia / Costo Total Mínimo:</strong> <strong>9 unidades</strong>.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- EJERCICIO 15: CUARTELES DE BOMBEROS REPASO 1 EJ 5 -->
+      <div class="card">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+          <h3 class="card-title">🚒 Ejercicio 15: Cuarteles de Bomberos \(\le 15\) min (Repaso 1 Cátedra · Ej 5)</h3>
+          <span class="badge-critical">Pregunta Fija de Parcial</span>
+        </div>
+
+        <div class="exam-screenshot-box" onclick="openModal('img/invo2p/pdf_repaso1_p6.png', 'Repaso 1 Ej 5 — Cuarteles Bomberos')">
+          <div class="screenshot-header">
+            <span class="screenshot-tag">📸 Captura: Enunciado Oficial y Matriz de Tiempos entre las 6 Ciudades</span>
+            <span class="zoom-pill">🔍 Zoom Pantalla Completa</span>
+          </div>
+          <div class="screenshot-img-wrap">
+            <img src="img/invo2p/pdf_repaso1_p6.png" alt="Cuarteles Bomberos Repaso 1" loading="lazy" />
+          </div>
+        </div>
+
+        <div class="solution-container">
+          <h4 class="solution-heading">📝 Resolución Completa Paso a Paso a Mano:</h4>
+
+          <!-- Paso 1 -->
+          <div class="step-card">
+            <div class="step-header">
+              <span class="step-badge">Paso 1</span>
+              <span class="step-title">Matriz de Cobertura Binaria (\(t_{ij} \le 15\) minutos)</span>
+            </div>
+            <p style="font-size:0.88rem; color:var(--text-secondary);">
+              Revisamos en la matriz original cuáles ciudades están a 15 minutos o menos de cada distrito \(i\):<br>
+              • Zona 1: cubierta por ciudades \(\{1, 2, 4, 5\}\) (tiempos: 0, 14, 10, 15).<br>
+              • Zona 2: cubierta por ciudades \(\{1, 2, 5, 6\}\) (tiempos: 14, 0, 15, 3).<br>
+              • Zona 3: cubierta por ciudades \(\{3, 4, 5, 6\}\) (tiempos: 0, 12, 13, 5).<br>
+              • Zona 4: cubierta por ciudades \(\{1, 3, 4, 6\}\) (tiempos: 10, 12, 0, 13).<br>
+              • Zona 5: cubierta por ciudades \(\{1, 2, 3, 5, 6\}\) (tiempos: 15, 15, 13, 0, 5).<br>
+              • Zona 6: cubierta por ciudades \(\{2, 3, 4, 5, 6\}\) (tiempos: 3, 5, 13, 5, 0).
+            </p>
+          </div>
+
+          <!-- Paso 2 -->
+          <div class="step-card">
+            <div class="step-header">
+              <span class="step-badge">Paso 2</span>
+              <span class="step-title">Formulación Matemática Exacta (Set Covering)</span>
+            </div>
+            <div class="formula-box">
+              $$\text{Min } Z = \sum_{j=1}^6 x_j \quad (x_j \in \{0, 1\})$$
+              $$\text{Sujeto a:}$$
+              $$\text{Zona 1: } x_1 + x_2 + x_4 + x_5 \ge 1$$
+              $$\text{Zona 2: } x_1 + x_2 + x_5 + x_6 \ge 1$$
+              $$\text{Zona 3: } x_3 + x_4 + x_5 + x_6 \ge 1$$
+              $$\text{Zona 4: } x_1 + x_3 + x_4 + x_6 \ge 1$$
+              $$\text{Zona 5: } x_1 + x_2 + x_3 + x_5 + x_6 \ge 1$$
+              $$\text{Zona 6: } x_2 + x_3 + x_4 + x_5 + x_6 \ge 1$$
+            </div>
+            <p style="font-size:0.88rem; color:#34d399;">
+              <strong>Solución Óptima:</strong> Se logran cubrir las 6 ciudades con sólo <strong>2 cuarteles</strong>: por ejemplo, construyendo en <strong>Ciudad 1 y Ciudad 3</strong> (\(x_1=1, x_3=1 \implies Z^* = 2\)), o alternativamente en <strong>Ciudad 2 y Ciudad 4</strong> (\(Z^* = 2\)).
+            </p>
+          </div>
+
+          <!-- Paso 3 -->
+          <div class="step-card highlight">
+            <div class="step-header">
+              <span class="step-badge success">Pregunta Teórica de Parcial</span>
+              <span class="step-title">¿Podemos Aplicar SIMPLEX? (Justificación que da los puntos)</span>
+            </div>
+            <div class="callout callout-danger" style="margin:4px 0 0 0;">
+              <p style="font-size:0.9rem; line-height:1.6;">
+                <strong style="font-size:1.05rem;">NO, NO SE PUEDE APLICAR EL MÉTODO SIMPLEX.</strong><br><br>
+                <strong>Justificación Rigurosa de Cátedra:</strong><br>
+                1. <strong>Violación de la Hipótesis de Divisibilidad:</strong> El método Simplex requiere variables reales continuas (\(x_j \in \mathbb{R}_{\ge 0}\)). En este problema las decisiones son estrictamente binarias e indivisibles (\(x_j \in \{0, 1\}\)). No tiene sentido físico construir "0.33 cuarteles de bomberos".<br>
+                2. <strong>Invalidez del Redondeo:</strong> Si se resolviera la relajación lineal continua con Simplex y luego se intentara redondear, la solución obtenida podría ser <u>infactible</u> (dejando distritos desprotegidos) o <u>muy alejada del óptimo entero real</u>.<br>
+                3. <strong>Algoritmo Correcto:</strong> Se debe resolver mediante técnicas exactas de Programación Lineal Entera, principalmente el algoritmo de <strong>Branch & Bound (Ramificación y Acotamiento)</strong> o generación de planos de corte.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ========================================== -->
+    <!-- SECCIÓN 8: BANCO COMPLETO DE TEORÍA -->
+    <!-- ========================================== -->
+    <section id="modulo-teoria" class="section-wrap">
+      <div class="section-header">
+        <div class="section-tag">Banco de Examen · Cátedra Palazzo / Maranzana</div>
+        <h2 class="section-title">🧠 Banco de Preguntas Teóricas & V/F de Parcial</h2>
+        <p class="section-desc">
+          Colección completa de preguntas reales tomadas entre 2016 y 2024 con sus respuestas y justificaciones formales de cátedra.
+        </p>
+      </div>
+
+      <!-- Quick Filter Tabs -->
+      <div class="filter-tabs">
+        <button class="filter-btn active" onclick="filterTheoryV3('all', this)">Todas las Preguntas (10)</button>
+        <button class="filter-btn" onclick="filterTheoryV3('plc', this)">📐 PL & Simplex</button>
+        <button class="filter-btn" onclick="filterTheoryV3('dual', this)">🔄 Dualidad & Sensibilidad</button>
+        <button class="filter-btn" onclick="filterTheoryV3('transporte', this)">🚚 Transporte</button>
+        <button class="filter-btn" onclick="filterTheoryV3('asignacion', this)">🎯 Asignación</button>
+        <button class="filter-btn" onclick="filterTheoryV3('inventarios', this)">📦 Inventarios</button>
+      </div>
+
+      <div id="theory-v3-container">
+        <!-- Q1 -->
+        <div class="card theory-card-v3" data-cat="plc">
+          <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:10px;">
+            <h4 style="color:#fff; font-size:1.05rem;">Q1. ¿Cómo se identifica un Poliedro Abierto (Solución No Acotada) en el Primal y cuál es su correspondencia en el Dual?</h4>
+            <span class="badge-critical">2024 2P</span>
+          </div>
+          <div style="font-size:0.9rem; color:var(--text-secondary); line-height:1.6;">
+            <p><strong>Identificación en el Primal:</strong> En la tabla Simplex (en maximización), ocurre cuando una variable no básica es candidata a entrar a la base porque su costo reducido es negativo (\((z_j - c_j) < 0\)), pero <strong>todos los elementos de su columna en la tabla son menores o iguales a cero</strong> (\(y_{ik} \le 0, \forall i\)). En consecuencia, no se puede calcular el cociente \(\theta\) (no hay variable saliente que limite el crecimiento) y la variable puede aumentar al infinito haciendo que \(Z \to +\infty\).</p>
+            <p style="margin-top:8px;"><strong>Correspondencia en el Dual:</strong> Por el Teorema Fundamental de Dualidad, si el Primal posee solución no acotada, el <strong>Dual es obligatoriamente INCOMPATIBLE (no posee región factible)</strong>.</p>
+          </div>
+        </div>
+
+        <!-- Q2 -->
+        <div class="card theory-card-v3" data-cat="plc">
+          <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:10px;">
+            <h4 style="color:#fff; font-size:1.05rem;">Q2. ¿Cómo se identifica una Solución Óptima Alternativa (Múltiple) en el Primal y cómo repercute en el Dual?</h4>
+            <span class="badge-critical">2024 1R</span>
+          </div>
+          <div style="font-size:0.9rem; color:var(--text-secondary); line-height:1.6;">
+            <p><strong>Identificación en el Primal:</strong> En la Tabla Óptima Primal (TOP), ocurre cuando al menos una <strong>variable NO BÁSICA tiene costo reducido nulo (\((z_j - c_j) = 0\))</strong>. Esto indica que dicha variable puede entrar a la base sin modificar el valor óptimo de \(Z^*\), alcanzando un vértice alternativo con la misma ganancia máxima. Gráficamente, la recta de la Función Objetivo es paralela a una restricción activa.</p>
+            <p style="margin-top:8px;"><strong>Correspondencia en el Dual:</strong> Una solución óptima alternativa en el Primal corresponde a una <strong>Solución DEGENERADA en el Dual</strong> (al menos una variable básica del dual adopta valor cero en la tabla óptima).</p>
+          </div>
+        </div>
+
+        <!-- Q3 -->
+        <div class="card theory-card-v3" data-cat="dual">
+          <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:10px;">
+            <h4 style="color:#fff; font-size:1.05rem;">Q3. ¿Cómo se calcula la curva de oferta de un producto utilizando modelos de PLC?</h4>
+            <span class="badge-medium">2024 2R</span>
+          </div>
+          <div style="font-size:0.9rem; color:var(--text-secondary); line-height:1.6;">
+            <p><strong>Respuesta de Cátedra:</strong> La curva de oferta relaciona la cantidad óptima producida (\(x_j^*\)) en función de su precio de venta (\(c_j\)). Se obtiene realizando un <strong>Análisis de Sensibilidad Paramétrico sobre el coeficiente \(c_j\) en la Función Objetivo</strong>.</p>
+            <p style="margin-top:6px;">Al variar \(c_j\) desde 0 hacia \(+\infty\): mientras \(c_j < \text{costo de oportunidad dual } (\sum y_i^* a_{ij})\), la producción es cero (\(x_j^* = 0\)). Al alcanzar el umbral de rentabilidad (\(c_j = z_j\)), la variable entra a la base saltando al valor del vértice. A mayores precios se activan nuevos vértices, conformando una <strong>función de oferta escalonada no decreciente</strong>.</p>
+          </div>
+        </div>
+
+        <!-- Q4 -->
+        <div class="card theory-card-v3" data-cat="dual">
+          <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:10px;">
+            <h4 style="color:#fff; font-size:1.05rem;">Q4. ¿Es posible que el óptimo del Dual sea numéricamente distinto al del Primal?</h4>
+            <span class="badge-critical">2023 2P</span>
+          </div>
+          <div style="font-size:0.9rem; color:var(--text-secondary); line-height:1.6;">
+            <p><strong style="color:#ef4444;">NO, ES ABSOLUTAMENTE IMPOSIBLE.</strong></p>
+            <p style="margin-top:6px;"><strong>Justificación:</strong> Por el <strong>Teorema Fuerte de Dualidad</strong>, si uno de los problemas posee una solución factible óptima finita, el otro también posee solución óptima finita y los valores óptimos de sus funciones objetivo son <strong>rigurosamente idénticos</strong>:
+            $$Z_{\text{primal}}^* = W_{\text{dual}}^*$$
+            La única excepción ocurre cuando uno es no acotado y el otro incompatible, en cuyo caso ninguno posee óptimo finito.</p>
+          </div>
+        </div>
+
+        <!-- Q5 -->
+        <div class="card theory-card-v3" data-cat="dual">
+          <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:10px;">
+            <h4 style="color:#fff; font-size:1.05rem;">Q5. Definir con precisión: Precio Sombra, Costo de Oportunidad y Valor Marginal</h4>
+            <span class="badge-medium">2022 1R</span>
+          </div>
+          <div style="font-size:0.9rem; color:var(--text-secondary); line-height:1.6;">
+            <ul style="margin:0 0 0 16px;">
+              <li><strong>Precio Sombra (\(y_i^*\)):</strong> Es la tasa marginal de variación en el valor óptimo de la FO (\(Z^*\)) ante un incremento unitario del recurso limitante \(b_i\) (\(y_i^* = \partial Z^* / \partial b_i\)). Representa el valor económico máximo que conviene pagar por una unidad extra del insumo.</li>
+              <li><strong>Costo de Oportunidad (\(z_j\)):</strong> Es el valor total de los recursos escasos absorbidos al fabricar una unidad de la actividad \(j\), valorizados a sus respectivos precios sombra (\(z_j = \sum y_i^* a_{ij}\)).</li>
+              <li><strong>Valor Marginal / Costo Reducido (\(z_j - c_j\)):</strong> Es la diferencia neta entre el costo de oportunidad y el beneficio directo. Si \(z_j - c_j > 0\) en maximización, producir dicha variable disminuye la ganancia global en esa magnitud.</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Q6 -->
+        <div class="card theory-card-v3" data-cat="transporte">
+          <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:10px;">
+            <h4 style="color:#fff; font-size:1.05rem;">Q6. V/F: "¿Es obligatorio que la matriz de costos de Transporte sea estrictamente cuadrada (\(m = n\))?"</h4>
+            <span class="badge-critical">2024 2R</span>
+          </div>
+          <div style="font-size:0.9rem; color:var(--text-secondary); line-height:1.6;">
+            <p><strong style="color:#ef4444;">FALSA.</strong></p>
+            <p style="margin-top:6px;"><strong>Justificación:</strong> La matriz de transporte puede ser perfectamente rectangular (\(m\) orígenes y \(n\) destinos con \(m \ne n\)). El único requisito matemático es que esté <strong>balanceada en flujos (\(\sum O_i = \sum D_j\))</strong>. La exigencia de matriz cuadrada corresponde con exclusividad al <strong>Problema de Asignación</strong>.</p>
+          </div>
+        </div>
+
+        <!-- Q7 -->
+        <div class="card theory-card-v3" data-cat="transporte">
+          <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:10px;">
+            <h4 style="color:#fff; font-size:1.05rem;">Q7. V/F: "¿Un problema de transporte con ofertas y demandas enteras puede resolverse por Simplex continuo?"</h4>
+            <span class="badge-medium">2023 11.11</span>
+          </div>
+          <div style="font-size:0.9rem; color:var(--text-secondary); line-height:1.6;">
+            <p><strong style="color:#34d399;">VERDADERA.</strong></p>
+            <p style="margin-top:6px;"><strong>Justificación:</strong> El modelo de transporte es un caso particular de PLC. Su matriz de restricciones posee la propiedad matemática de <strong>Total Unimodularidad</strong> (todo determinante de base vale \(\pm 1\)), lo que asegura que todos los vértices del poliedro sean números enteros, por lo que Simplex continuo siempre arroja una solución entera natural sin requerir Branch & Bound.</p>
+          </div>
+        </div>
+
+        <!-- Q8 -->
+        <div class="card theory-card-v3" data-cat="asignacion">
+          <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:10px;">
+            <h4 style="color:#fff; font-size:1.05rem;">Q8. V/F: "¿En asignación, un empleado puede realizar dos tareas si eso minimiza los costos totales?"</h4>
+            <span class="badge-critical">2024 1R</span>
+          </div>
+          <div style="font-size:0.9rem; color:var(--text-secondary); line-height:1.6;">
+            <p><strong style="color:#ef4444;">FALSA.</strong></p>
+            <p style="margin-top:6px;"><strong>Justificación:</strong> Viola la restricción fundamental de <strong>unicidad y biyección</strong> (\(\sum_j x_{ij} = 1\) y \(\sum_i x_{ij} = 1\) con \(x_{ij} \in \{0, 1\}\)). Cada recurso debe asignarse a una y exactamente una tarea. Si un recurso pudiera repartirse, el problema dejaría de ser de asignación y pasaría a ser de transporte general.</p>
+          </div>
+        </div>
+
+        <!-- Q9 -->
+        <div class="card theory-card-v3" data-cat="inventarios">
+          <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:10px;">
+            <h4 style="color:#fff; font-size:1.05rem;">Q9. ¿Por qué es fundamental definir un período de análisis homogéneo en modelos de inventarios?</h4>
+            <span class="badge-medium">2023 2P</span>
+          </div>
+          <div style="font-size:0.9rem; color:var(--text-secondary); line-height:1.6;">
+            <p><strong>Respuesta:</strong> Para mantener la <strong>coherencia dimensional de las tasas</strong>. La tasa de demanda (\(D\)) y el costo unitario de almacenamiento (\(c_1\)) deben medirse en la misma escala temporal (usualmente anual). Si la demanda se ingresa anual y el almacenamiento mensual, el lote óptimo calculado quedará distorsionado por un factor de \(\sqrt{12} \approx 3.46\), arruinando la política de inventarios.</p>
+          </div>
+        </div>
+
+        <!-- Q10 -->
+        <div class="card theory-card-v3" data-cat="inventarios">
+          <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:10px;">
+            <h4 style="color:#fff; font-size:1.05rem;">Q10. En inventarios con restricción de espacio: ¿Por qué no se pueden calcular los productos de forma individual?</h4>
+            <span class="badge-critical">2023 2P</span>
+          </div>
+          <div style="font-size:0.9rem; color:var(--text-secondary); line-height:1.6;">
+            <p><strong>Respuesta:</strong> Porque comparten un recurso físico común y acotado (\(\sum f_i Q_i \le B\)). Al calcularlos por separado, cada producto adoptará su lote de Wilson libre saturando el galpón. Se debe resolver conjuntamente mediante <strong>Multiplicadores de Lagrange (\(\lambda > 0\))</strong>, donde el costo efectivo de almacenar pasa a ser \((c_{1i} + 2\lambda f_i)\), penalizando con mayor rigor a los productos que ocupan más metros cuadrados (\(f_i\)).</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ========================================== -->
+    <!-- SECCIÓN 9: CALCULADORAS & SIMULADOR -->
+    <!-- ========================================== -->
+    <section id="modulo-tools" class="section-wrap">
+      <div class="section-header">
+        <div class="section-tag">Laboratorio Interactivo · Simulador en Vivo</div>
+        <h2 class="section-title">🧮 Herramientas de Cálculo & Simulador de Examen</h2>
+        <p class="section-desc">
+          Calculá en tiempo real lotes óptimos con simulación de desvíos, verificá balances de transporte y autoevaluate con el test interactivo de 10 preguntas.
+        </p>
+      </div>
+
+      <!-- Calculadora EOQ -->
+      <div class="card">
+        <h3 class="card-title">📦 Calculadora Dinámica de Lote Óptimo EOQ & Sensibilidad de Desvío</h3>
+        <p style="color:var(--text-secondary); font-size:0.88rem; margin-bottom:14px;">
+          Ingresá los valores del problema para obtener automáticamente los parámetros óptimos y simular en tiempo real el impacto de un desvío porcentual:
+        </p>
+
+        <div class="calc-grid">
+          <div class="calc-input-group">
+            <label>Demanda Anual D (un/año)</label>
+            <input type="number" id="v3-calc-d" value="16000" oninput="runEoqCalcV3()" />
+          </div>
+          <div class="calc-input-group">
+            <label>Costo Pedido / Setup k ($/orden)</label>
+            <input type="number" id="v3-calc-k" value="100" oninput="runEoqCalcV3()" />
+          </div>
+          <div class="calc-input-group">
+            <label>Costo Almacén c1 ($/un*año)</label>
+            <input type="number" id="v3-calc-c1" value="5" oninput="runEoqCalcV3()" />
+          </div>
+          <div class="calc-input-group">
+            <label>Precio Unitario p ($/unidad)</label>
+            <input type="number" id="v3-calc-p" value="4000" oninput="runEoqCalcV3()" />
+          </div>
+          <div class="calc-input-group">
+            <label>Desvío de Producción Simulado (%)</label>
+            <input type="number" id="v3-calc-desvio" value="20" oninput="runEoqCalcV3()" />
+          </div>
+        </div>
+
+        <div class="calc-res-grid">
+          <div class="calc-res-item">
+            <div class="calc-res-val" id="v3-res-q">800</div>
+            <div class="calc-res-lbl">Lote Óptimo Q* (unidades)</div>
+          </div>
+          <div class="calc-res-item">
+            <div class="calc-res-val" id="v3-res-n">20.0</div>
+            <div class="calc-res-lbl">Frecuencia n* (pedidos/año)</div>
+          </div>
+          <div class="calc-res-item">
+            <div class="calc-res-val" id="v3-res-t">18.3</div>
+            <div class="calc-res-lbl">Ciclo T* (días entre órdenes)</div>
+          </div>
+          <div class="calc-res-item">
+            <div class="calc-res-val" id="v3-res-ctgest">$4.000</div>
+            <div class="calc-res-lbl">Costo Gestión Óptimo</div>
+          </div>
+          <div class="calc-res-item">
+            <div class="calc-res-val" id="v3-res-cte">$64.004.000</div>
+            <div class="calc-res-lbl">CTE Anual Total</div>
+          </div>
+          <div class="calc-res-item">
+            <div class="calc-res-val" id="v3-res-diff" style="color:#f59e0b;">+$66.67</div>
+            <div class="calc-res-lbl">Impacto Desvío (+20%)</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Verificador Transporte -->
+      <div class="card">
+        <h3 class="card-title">🚚 Verificador Rápido de Balanceo de Transporte</h3>
+        <p style="color:var(--text-secondary); font-size:0.88rem; margin-bottom:14px;">
+          Ingresá las ofertas y demandas separadas por comas para comprobar si la red requiere nodos ficticios:
+        </p>
+
+        <div class="calc-grid">
+          <div class="calc-input-group">
+            <label>Ofertas (ej: 50, 60, 70)</label>
+            <input type="text" id="v3-calc-ofertas" value="50, 60, 70" oninput="runTransBalanceV3()" />
+          </div>
+          <div class="calc-input-group">
+            <label>Demandas (ej: 30, 50, 40, 60)</label>
+            <input type="text" id="v3-calc-demandas" value="30, 50, 40, 60" oninput="runTransBalanceV3()" />
+          </div>
+        </div>
+
+        <div class="callout callout-success" id="v3-trans-result" style="margin-top:14px;">
+          <div class="callout-title">Estado: RED BALANCEADA</div>
+          Oferta Total = 180 | Demanda Total = 180. No se requiere ningún nodo ficticio.
+        </div>
+      </div>
+
+      <!-- Simulador de Examen (10 Preguntas) -->
+      <div class="card">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
+          <h3 class="card-title">📝 Simulador de Examen: Autoevaluación Interactiva (10 Preguntas Reales)</h3>
+          <span class="badge-critical">Puntaje en Vivo</span>
+        </div>
+        <p style="color:var(--text-secondary); font-size:0.88rem; margin-bottom:18px;">
+          Seleccioná tu opción en cada pregunta. Recibirás retroalimentación instantánea con la justificación técnica de cátedra.
+        </p>
+
+        <div id="quiz-v3-container">
+          <!-- Q1 -->
+          <div class="quiz-card" data-q="1">
+            <div class="quiz-question">1. Si en la Tabla Óptima Primal (TOP) de un problema de maximización encontramos que una variable NO BÁSICA tiene costo reducido nulo (\((z_j - c_j) = 0\)), ¿qué situación se presenta?</div>
+            <div class="quiz-options">
+              <div class="quiz-opt" onclick="checkAnswerV3(1, 0, false)">A) El problema es Incompatible (sin solución factible).</div>
+              <div class="quiz-opt" onclick="checkAnswerV3(1, 1, false)">B) La solución es No Acotada (Poliedro Abierto).</div>
+              <div class="quiz-opt" onclick="checkAnswerV3(1, 2, true)">C) Existen Soluciones Óptimas Múltiples (Vértices Alternativos).</div>
+              <div class="quiz-opt" onclick="checkAnswerV3(1, 3, false)">D) Hubo un error en el pivoteo de Gauss-Jordan.</div>
+            </div>
+            <div class="quiz-feedback" id="qfb3-1"></div>
+          </div>
+
+          <!-- Q2 -->
+          <div class="quiz-card" data-q="2">
+            <div class="quiz-question">2. En el problema de localización de cuarteles de bomberos (Repaso 1 Ej 5), ¿por qué NO se puede aplicar el método Simplex continuo directamente?</div>
+            <div class="quiz-options">
+              <div class="quiz-opt" onclick="checkAnswerV3(2, 0, false)">A) Porque la función objetivo es no lineal.</div>
+              <div class="quiz-opt" onclick="checkAnswerV3(2, 1, true)">B) Porque las decisiones son binarias ({0, 1}), violando la hipótesis de divisibilidad de Simplex.</div>
+              <div class="quiz-opt" onclick="checkAnswerV3(2, 2, false)">C) Porque la matriz de distancias no está balanceada.</div>
+              <div class="quiz-opt" onclick="checkAnswerV3(2, 3, false)">D) Porque solo se puede resolver por el algoritmo de Dijkstra.</div>
+            </div>
+            <div class="quiz-feedback" id="qfb3-2"></div>
+          </div>
+
+          <!-- Q3 -->
+          <div class="quiz-card" data-q="3">
+            <div class="quiz-question">3. ¿Qué ocurre obligatoriamente en el problema Dual si el problema Primal posee un Poliedro Abierto en la dirección de optimización (solución no acotada)?</div>
+            <div class="quiz-options">
+              <div class="quiz-opt" onclick="checkAnswerV3(3, 0, true)">A) El problema Dual es Incompatible (sin región factible).</div>
+              <div class="quiz-opt" onclick="checkAnswerV3(3, 1, false)">B) El problema Dual también es no acotado hacia el infinito.</div>
+              <div class="quiz-opt" onclick="checkAnswerV3(3, 2, false)">C) El problema Dual tiene solución única con Z* = 0.</div>
+              <div class="quiz-opt" onclick="checkAnswerV3(3, 3, false)">D) El problema Dual tiene infinitas soluciones factibles acotadas.</div>
+            </div>
+            <div class="quiz-feedback" id="qfb3-3"></div>
+          </div>
+
+          <!-- Q4 -->
+          <div class="quiz-card" data-q="4">
+            <div class="quiz-question">4. En un modelo de transporte con 3 plantas y 4 mercados, ¿cuántas celdas básicas ocupadas debe tener la solución para que no sea degenerada?</div>
+            <div class="quiz-options">
+              <div class="quiz-opt" onclick="checkAnswerV3(4, 0, false)">A) 12 celdas (m * n).</div>
+              <div class="quiz-opt" onclick="checkAnswerV3(4, 1, true)">B) 6 celdas (m + n - 1 = 3 + 4 - 1).</div>
+              <div class="quiz-opt" onclick="checkAnswerV3(4, 2, false)">C) 7 celdas (m + n).</div>
+              <div class="quiz-opt" onclick="checkAnswerV3(4, 3, false)">D) 4 celdas.</div>
+            </div>
+            <div class="quiz-feedback" id="qfb3-4"></div>
+          </div>
+
+          <!-- Q5 -->
+          <div class="quiz-card" data-q="5">
+            <div class="quiz-question">5. Si un fabricante decide producir un 20% por encima del lote óptimo de Wilson (Q = 1.20 * Q*), ¿en qué porcentaje aproximado se incrementa su costo anual de gestión?</div>
+            <div class="quiz-options">
+              <div class="quiz-opt" onclick="checkAnswerV3(5, 0, false)">A) Aumenta exactamente un 20%.</div>
+              <div class="quiz-opt" onclick="checkAnswerV3(5, 1, false)">B) Aumenta un 10%.</div>
+              <div class="quiz-opt" onclick="checkAnswerV3(5, 2, true)">C) Aumenta solo un 1.67% (debido a la planicie de la curva en el entorno del óptimo).</div>
+              <div class="quiz-opt" onclick="checkAnswerV3(5, 3, false)">D) Disminuye un 5%.</div>
+            </div>
+            <div class="quiz-feedback" id="qfb3-5"></div>
+          </div>
+
+          <!-- Q6 -->
+          <div class="quiz-card" data-q="6">
+            <div class="quiz-question">6. En un modelo de Asignación, ¿por qué NO se puede asignar un empleado a dos tareas a la vez para minimizar costos globales?</div>
+            <div class="quiz-options">
+              <div class="quiz-opt" onclick="checkAnswerV3(6, 0, false)">A) Porque el método Húngaro no admite matrices cuadradas.</div>
+              <div class="quiz-opt" onclick="checkAnswerV3(6, 1, true)">B) Porque viola la biyección y unicidad (cada fila y columna debe sumar exactamente 1 con variables binarias).</div>
+              <div class="quiz-opt" onclick="checkAnswerV3(6, 2, false)">C) Porque las tareas no son independientes.</div>
+              <div class="quiz-opt" onclick="checkAnswerV3(6, 3, false)">D) Porque la cota superior del costo marginal es nula.</div>
+            </div>
+            <div class="quiz-feedback" id="qfb3-6"></div>
+          </div>
+
+          <!-- Q7 -->
+          <div class="quiz-card" data-q="7">
+            <div class="quiz-question">7. ¿Cuál es la definición económica y matemática exacta de un Precio Sombra (y_i*)?</div>
+            <div class="quiz-options">
+              <div class="quiz-opt" onclick="checkAnswerV3(7, 0, false)">A) El costo de adquisición de una tonelada de insumo en el mercado.</div>
+              <div class="quiz-opt" onclick="checkAnswerV3(7, 1, true)">B) La tasa de variación del óptimo (Z*) ante un incremento marginal del recurso limitante (dZ*/dbi).</div>
+              <div class="quiz-opt" onclick="checkAnswerV3(7, 2, false)">C) El margen de ganancia neto del producto con mayor precio de venta.</div>
+              <div class="quiz-opt" onclick="checkAnswerV3(7, 3, false)">D) El valor de la holgura asociada al recurso saturado.</div>
+            </div>
+            <div class="quiz-feedback" id="qfb3-7"></div>
+          </div>
+
+          <!-- Q8 -->
+          <div class="quiz-card" data-q="8">
+            <div class="quiz-question">8. V/F: "¿Es obligatorio que la matriz de costos de un problema de Transporte sea cuadrada (m = n)?"</div>
+            <div class="quiz-options">
+              <div class="quiz-opt" onclick="checkAnswerV3(8, 0, false)">A) VERDADERO: Si no es cuadrada no se puede aplicar el algoritmo.</div>
+              <div class="quiz-opt" onclick="checkAnswerV3(8, 1, true)">B) FALSO: Puede ser rectangular (m != n); el único requisito es el balance de oferta y demanda.</div>
+              <div class="quiz-opt" onclick="checkAnswerV3(8, 2, false)">C) VERDADERO: Salvo que se use Vogel.</div>
+              <div class="quiz-opt" onclick="checkAnswerV3(8, 3, false)">D) FALSO: Solo debe ser cuadrada si hay orígenes ficticios.</div>
+            </div>
+            <div class="quiz-feedback" id="qfb3-8"></div>
+          </div>
+
+          <!-- Q9 -->
+          <div class="quiz-card" data-q="9">
+            <div class="quiz-question">9. ¿Por qué el método Simplex aplicado a un modelo de transporte con ofertas y demandas enteras arroja SIEMPRE soluciones enteras?</div>
+            <div class="quiz-options">
+              <div class="quiz-opt" onclick="checkAnswerV3(9, 0, false)">A) Por la regla de la Esquina Noroeste.</div>
+              <div class="quiz-opt" onclick="checkAnswerV3(9, 1, false)">B) Por la ausencia de costos ficticios.</div>
+              <div class="quiz-opt" onclick="checkAnswerV3(9, 2, true)">C) Por la propiedad de Total Unimodularidad de la matriz de coeficientes tecnológicos.</div>
+              <div class="quiz-opt" onclick="checkAnswerV3(9, 3, false)">D) Porque la función objetivo siempre minimiza.</div>
+            </div>
+            <div class="quiz-feedback" id="qfb3-9"></div>
+          </div>
+
+          <!-- Q10 -->
+          <div class="quiz-card" data-q="10">
+            <div class="quiz-question">10. Al resolver un problema de inventarios multiproducto con restricción de espacio activa mediante Lagrange, ¿cuál es el costo efectivo de almacenamiento?</div>
+            <div class="quiz-options">
+              <div class="quiz-opt" onclick="checkAnswerV3(10, 0, false)">A) Permanece inalterado en c1i.</div>
+              <div class="quiz-opt" onclick="checkAnswerV3(10, 1, true)">B) Aumenta a (c1i + 2 * lambda * fi), penalizando proporcionalmente los m2 ocupados.</div>
+              <div class="quiz-opt" onclick="checkAnswerV3(10, 2, false)">C) Se divide por el multiplicador lambda.</div>
+              <div class="quiz-opt" onclick="checkAnswerV3(10, 3, false)">D) Se iguala al costo de pedido k_i.</div>
+            </div>
+            <div class="quiz-feedback" id="qfb3-10"></div>
+          </div>
+        </div>
+
+        <div style="background:var(--bg-secondary); border:1px solid var(--border); border-radius:var(--radius-sm); padding:16px; text-align:center; margin-top:20px;">
+          <h4 style="font-size:1.15rem; color:#fff; margin-bottom:6px;">Tu Puntaje en el Simulador: <span id="quiz-v3-score" style="color:#34d399; font-family:'JetBrains Mono'; font-size:1.5rem; font-weight:800;">0 / 10</span></h4>
+          <p style="font-size:0.88rem; color:var(--text-secondary);" id="quiz-v3-status">Respondé las 10 preguntas para ver tu evaluación final.</p>
+        </div>
+      </div>
+    </section>
+  </div> <!-- Fin container -->
+
+  <!-- Fullscreen Image Modal Viewer -->
+  <div id="image-modal" onclick="closeModal(event)">
+    <div class="modal-content" onclick="event.stopPropagation()">
+      <div class="modal-header">
+        <span class="modal-title" id="modal-img-title">Captura Oficial de Examen</span>
+        <button class="modal-close" onclick="closeModal(event)">&times;</button>
+      </div>
+      <div class="modal-body">
+        <img id="modal-img-src" src="" alt="Captura de Parcial" />
+      </div>
+    </div>
+  </div>
+
+  <!-- JavaScript Interaction -->
+  <script>
+    // 1. Reading Progress Bar
+    window.addEventListener('scroll', () => {
+      const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+      const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+      const scrolled = (winScroll / height) * 100;
+      const pBar = document.getElementById('progress-bar');
+      if (pBar) pBar.style.width = scrolled + '%';
+    });
+
+    // 2. Global Search
+    function filterContent() {
+      const q = document.getElementById('global-search').value.toLowerCase();
+      const cards = document.querySelectorAll('.card, .quiz-card');
+      cards.forEach(c => {
+        const text = c.innerText.toLowerCase();
+        if (text.includes(q)) {
+          c.style.display = '';
+        } else {
+          c.style.display = 'none';
+        }
+      });
+    }
+
+    // 3. Image Modal
+    function openModal(src, title) {
+      document.getElementById('modal-img-src').src = src;
+      document.getElementById('modal-img-title').innerText = title;
+      document.getElementById('image-modal').classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeModal(e) {
+      document.getElementById('image-modal').classList.remove('active');
+      document.body.style.overflow = '';
+    }
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeModal();
+    });
+
+    // 4. Theory Filters
+    function filterTheoryV3(cat, btn) {
+      document.querySelectorAll('#modulo-teoria .filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const cards = document.querySelectorAll('#theory-v3-container .theory-card-v3');
+      cards.forEach(c => {
+        if (cat === 'all' || c.dataset.cat === cat) {
+          c.style.display = '';
+        } else {
+          c.style.display = 'none';
+        }
+      });
+    }
+
+    // 5. Interactive EOQ Calculator
+    function runEoqCalcV3() {
+      const D = parseFloat(document.getElementById('v3-calc-d').value) || 0;
+      const k = parseFloat(document.getElementById('v3-calc-k').value) || 0;
+      const c1 = parseFloat(document.getElementById('v3-calc-c1').value) || 0;
+      const p = parseFloat(document.getElementById('v3-calc-p').value) || 0;
+      const desvio = (parseFloat(document.getElementById('v3-calc-desvio').value) || 0) / 100;
+
+      if (D <= 0 || k <= 0 || c1 <= 0) return;
+
+      const Q = Math.sqrt((2 * k * D) / c1);
+      const n = D / Q;
+      const T = (Q / D) * 365;
+      const c_ped = k * (D / Q);
+      const c_alm = 0.5 * c1 * Q;
+      const c_gest = c_ped + c_alm;
+      const c_adq = p * D;
+      const cte = c_adq + c_gest;
+
+      const Q_desv = Q * (1 + desvio);
+      const c_ped_d = k * (D / Q_desv);
+      const c_alm_d = 0.5 * c1 * Q_desv;
+      const c_gest_d = c_ped_d + c_alm_d;
+      const diff = c_gest_d - c_gest;
+
+      document.getElementById('v3-res-q').innerText = Math.round(Q).toLocaleString();
+      document.getElementById('v3-res-n').innerText = n.toFixed(1);
+      document.getElementById('v3-res-t').innerText = T.toFixed(1);
+      document.getElementById('v3-res-ctgest').innerText = '$' + Math.round(c_gest).toLocaleString();
+      document.getElementById('v3-res-cte').innerText = '$' + Math.round(cte).toLocaleString();
+      document.getElementById('v3-res-diff').innerText = (diff >= 0 ? '+$' : '-$') + Math.abs(diff).toFixed(2);
+    }
+
+    // 6. Transport Balance
+    function runTransBalanceV3() {
+      const ofs = document.getElementById('v3-calc-ofertas').value.split(',').map(s => parseFloat(s.trim()) || 0);
+      const dems = document.getElementById('v3-calc-demandas').value.split(',').map(s => parseFloat(s.trim()) || 0);
+      const totOf = ofs.reduce((a,b) => a+b, 0);
+      const totDem = dems.reduce((a,b) => a+b, 0);
+      const resBox = document.getElementById('v3-trans-result');
+
+      if (totOf === totDem) {
+        resBox.className = 'callout callout-success';
+        resBox.innerHTML = `<div class="callout-title">Estado: RED BALANCEADA</div>Oferta Total = ${totOf} | Demanda Total = ${totDem}. No se requiere nodo ficticio.`;
+      } else if (totOf > totDem) {
+        const diff = totOf - totDem;
+        resBox.className = 'callout callout-warn';
+        resBox.innerHTML = `<div class="callout-title">Estado: EXCESO DE OFERTA</div>Oferta = ${totOf} > Demanda = ${totDem} (Diferencia: ${diff}). Requiere <strong>Destino Ficticio</strong> con Demanda = ${diff} y costos = $0.`;
+      } else {
+        const diff = totDem - totOf;
+        resBox.className = 'callout callout-danger';
+        resBox.innerHTML = `<div class="callout-title">Estado: EXCESO DE DEMANDA</div>Demanda = ${totDem} > Oferta = ${totOf} (Diferencia: ${diff}). Requiere <strong>Origen Ficticio</strong> con Oferta = ${diff} y costos = $0 (o costo de quiebre).`;
+      }
+    }
+
+    // 7. Quiz Engine (10 Questions)
+    let quizV3Score = 0;
+    const answeredV3 = {};
+    const feedbackTextsV3 = {
+      1: "¡Correcto! Cuando una variable no básica tiene (z_j - c_j) = 0 en la TOP, puede ingresar a la base sin variar Z*, lo que genera una solución óptima alternativa (vértice múltiple).",
+      2: "¡Correcto! Simplex asume variables reales continuas (divisibilidad). Para decisiones enteras o binarias de localización se debe usar Branch & Bound.",
+      3: "¡Correcto! Por el Teorema Fundamental de Dualidad, solución no acotada en el Primal implica necesariamente región incompatible en el Dual.",
+      4: "¡Correcto! La condición para solución básica no degenerada es m + n - 1 (3 + 4 - 1 = 6 celdas básicas).",
+      5: "¡Correcto! La fórmula de sensibilidad CT(Q)/CT* = 0.5 * (1.2 + 1/1.2) = 1.0167, es decir un aumento de apenas 1.67%.",
+      6: "¡Correcto! La biyección obliga a que cada recurso se asigne a 1 sola tarea. Si se divide, se convierte en un problema de transporte.",
+      7: "¡Correcto! El precio sombra y_i* es la derivada parcial de Z* respecto al recurso limitante b_i.",
+      8: "¡Correcto! El transporte puede tener cualquier dimensión m x n. Solo la asignación requiere matriz estrictamente cuadrada.",
+      9: "¡Correcto! La total unimodularidad garantiza que todos los vértices del poliedro de transporte sean puntos de coordenadas enteras.",
+      10: "¡Correcto! El multiplicador lambda actúa penalizando cada producto proporcionalmente a su volumen unitario: c1i + 2*lambda*fi."
+    };
+    const wrongTextsV3 = {
+      1: "Incorrecto. Un (z_j - c_j) = 0 en una variable no básica significa que la recta de la FO es paralela a una restricción activa, originando infinitas soluciones óptimas alternativas.",
+      2: "Incorrecto. Simplex no se puede aplicar porque las variables son binarias {0, 1}. La relajación continua arrojaría fracciones absurdas.",
+      3: "Incorrecto. Poliedro abierto en el Primal tiene como correspondencia obligatoria Incompatibilidad en el Dual.",
+      4: "Incorrecto. El número de celdas básicas es exactamente m + n - 1 = 6.",
+      5: "Incorrecto. La curva de costos de Wilson es cuadrática y muy plana alrededor del óptimo; un 20% de desvío solo incrementa el costo un 1.67%.",
+      6: "Incorrecto. El modelo de asignación exige sum(x_ij) = 1. Repartir el recurso entre varias tareas rompe la formulación.",
+      7: "Incorrecto. El precio sombra es el valor marginal de una unidad extra del recurso limitante (dZ*/dbi).",
+      8: "Incorrecto. En transporte m y n pueden ser distintos; el único requisito es sum(Oi) = sum(Dj).",
+      9: "Incorrecto. La propiedad fundamental es la Total Unimodularidad de la matriz de transporte.",
+      10: "Incorrecto. El costo efectivo de inventario pasa a ser c1i + 2*lambda*fi, penalizando los metros cuadrados consumidos."
+    };
+
+    function checkAnswerV3(qNum, optIdx, isCorrect) {
+      if (answeredV3[qNum]) return;
+      answeredV3[qNum] = true;
+
+      const qCard = document.querySelector(`.quiz-card[data-q="${qNum}"]`);
+      const opts = qCard.querySelectorAll('.quiz-opt');
+      const fb = document.getElementById(`qfb3-${qNum}`);
+
+      if (isCorrect) {
+        opts[optIdx].classList.add('correct');
+        fb.className = 'quiz-feedback show correct';
+        fb.innerText = feedbackTextsV3[qNum];
+        quizV3Score++;
+      } else {
+        opts[optIdx].classList.add('wrong');
+        fb.className = 'quiz-feedback show wrong';
+        fb.innerText = wrongTextsV3[qNum];
+      }
+
+      document.getElementById('quiz-v3-score').innerText = `${quizV3Score} / 10`;
+      if (Object.keys(answeredV3).length === 10) {
+        const status = document.getElementById('quiz-v3-status');
+        if (quizV3Score >= 8) {
+          status.innerHTML = `<strong style="color:#34d399;">¡Excelente dominio! Obtuviste ${quizV3Score}/10. Estás listo para promocionar el 2do parcial.</strong>`;
+        } else if (quizV3Score >= 6) {
+          status.innerHTML = `<strong style="color:#f59e0b;">Aprobado con ${quizV3Score}/10. Repasá los conceptos de las preguntas erradas para asegurar la promoción.</strong>`;
+        } else {
+          status.innerHTML = `<strong style="color:#ef4444;">Puntaje: ${quizV3Score}/10. Repasá los módulos teóricos y prácticos con las fichas de arriba.</strong>`;
+        }
+      }
+    }
+  </script>
+</body>
+</html>

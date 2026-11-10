@@ -23,8 +23,8 @@ export const SUBJECTS = [
       },
       {
         title: '2do Parcial',
-        description: 'Próximamente se habilitará el contenido.',
-        htmlFile: null
+        description: 'Banco Maestro de Teoría (Unidades A a X, 285 preguntas con esquemas, gráficos y notas de corrección).',
+        htmlFile: './control-gestion-2do-parcial.html'
       }
     ]
   },
