@@ -98,6 +98,11 @@ export const SUBJECTS = [
         htmlFile: './manejo-materiales.html'
       },
       {
+        title: '2do Parcial — Guía Maestra',
+        description: 'Banco integral: 207 preguntas de examen, teoría de filminas y diagramas técnicos (U3, U4, U5, U6, U7.5, U11 y U12).',
+        htmlFile: './guia-2do-parcial-manmat.html#U4'
+      },
+      {
         title: '2do Parcial — Respuestas',
         description: '266 preguntas resueltas de parciales y finales con respuestas desplegables (U4, U3, U5, U6 y U11).',
         htmlFile: './respuestas-2do-parcial-mmdp.html#u4'

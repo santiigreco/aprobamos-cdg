@@ -30,7 +30,14 @@ export default function SubjectHub({ subject, setHtmlFile }) {
         <p className="subtitle">Seleccioná la guía que querés estudiar</p>
       </div>
 
-      <div className="pdf-grid" style={{ marginTop: '2.5rem', maxWidth: '700px', margin: '2.5rem auto 0' }}>
+      <div
+        className="pdf-grid"
+        style={{
+          marginTop: '2.5rem',
+          maxWidth: subject.guides && subject.guides.length > 2 ? '1050px' : '720px',
+          margin: '2.5rem auto 0',
+        }}
+      >
         {subject.guides && subject.guides.map((guide, index) => {
           const isAvailable = Boolean(guide.htmlFile);
           
