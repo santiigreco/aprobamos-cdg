@@ -98,19 +98,14 @@ export const SUBJECTS = [
         htmlFile: './manejo-materiales.html'
       },
       {
-        title: '2do Parcial — Guía Maestra',
-        description: 'Banco integral: 207 preguntas de examen, teoría de filminas y diagramas técnicos (U3, U4, U5, U6, U7.5, U11 y U12).',
-        htmlFile: './guia-2do-parcial-manmat.html#U4'
-      },
-      {
-        title: '2do Parcial — Respuestas',
-        description: '266 preguntas resueltas de parciales y finales con respuestas desplegables (U4, U3, U5, U6 y U11).',
-        htmlFile: './respuestas-2do-parcial-mmdp.html#u4'
-      },
-      {
-        title: '2do Parcial — Guía Teórica',
-        description: 'Distribución en Planta, Layout y Sistemas de Almacenaje (U7.5).',
+        title: '2do Parcial — Banco Consolidado',
+        description: '356 preguntas de parciales y finales ordenadas por probabilidad (U3 a U12), con 28 diagramas SVG, modo examen y números clave.',
         htmlFile: './manejo-materiales-2do-parcial.html'
+      },
+      {
+        title: '2do Parcial — Guía Maestra',
+        description: 'Teoría de filminas, 207 preguntas y 60 diagramas técnicos oficiales (U3, U4, U5, U6, U7.5, U11 y U12).',
+        htmlFile: './guia-2do-parcial-manmat.html#U4'
       }
     ]
   },
