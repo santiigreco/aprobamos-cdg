@@ -25,6 +25,12 @@ export const SUBJECTS = [
         title: '2do Parcial',
         description: 'Banco Maestro de Teoría (Unidades A a X, 285 preguntas con esquemas, gráficos y notas de corrección).',
         htmlFile: './control-gestion-2do-parcial.html'
+      },
+      {
+        title: '2do Parcial — Teoría y Práctica',
+        author: 'L.C.',
+        description: 'Ciclos y NOF, balance corto, ratios, WACC y EVA, CMV, costeo estándar, pronósticos y análisis marginal. Teoría, V/F y 23 ejercicios resueltos.',
+        htmlFile: './control-de-gestion-2do-parcial.html'
       }
     ]
   },

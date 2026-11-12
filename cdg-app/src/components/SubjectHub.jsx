@@ -67,6 +67,23 @@ export default function SubjectHub({ subject, setHtmlFile }) {
                 <FileText size={40} color={isAvailable ? subject.color : 'var(--text-secondary)'} />
               </div>
               <h2 style={{ fontSize: '1.5rem', margin: '0.5rem 0 0.25rem' }}>{guide.title}</h2>
+              {guide.author && (
+                <span
+                  style={{
+                    display: 'inline-block',
+                    padding: '0.2rem 0.7rem',
+                    borderRadius: '999px',
+                    background: `${subject.color}22`,
+                    border: `1px solid ${subject.color}44`,
+                    color: subject.color,
+                    fontSize: '0.78rem',
+                    fontWeight: 600,
+                    letterSpacing: '0.02em',
+                  }}
+                >
+                  Por {guide.author}
+                </span>
+              )}
               <p style={{ color: 'var(--text-secondary)', textAlign: 'center', marginBottom: '1.5rem' }}>
                 {guide.description}
               </p>
