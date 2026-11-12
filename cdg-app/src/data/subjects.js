@@ -3,7 +3,7 @@
  *
  * Para agregar una materia nueva o una guía nueva:
  * 1. Agregar un objeto a este array con la estructura de abajo
- * 2. Agregar un objeto dentro de 'guides' con el título y el HTML a mostrar.
+ * 2. Agregar un objeto dentro de 'guides' con id (slug para la URL), título y el HTML a mostrar.
  */
 
 export const SUBJECTS = [
@@ -17,18 +17,21 @@ export const SUBJECTS = [
     icon: 'BookOpen',
     guides: [
       {
+        id: '1er-parcial',
         title: '1er Parcial',
         author: 'S.G.',
         description: 'Presupuestos, Ajuste por Inflación, Leasing y más.',
         htmlFile: './guia-cdg.html'
       },
       {
+        id: '2do-parcial',
         title: '2do Parcial',
         author: 'S.G.',
         description: 'Banco Maestro de Teoría (Unidades A a X, 285 preguntas con esquemas, gráficos y notas de corrección).',
         htmlFile: './control-gestion-2do-parcial.html'
       },
       {
+        id: '2do-parcial-teoria-practica',
         title: '2do Parcial — Teoría y Práctica',
         author: 'L.C.',
         description: 'Ciclos y NOF, balance corto, ratios, WACC y EVA, CMV, costeo estándar, pronósticos y análisis marginal. Teoría, V/F y 23 ejercicios resueltos.',
@@ -47,12 +50,14 @@ export const SUBJECTS = [
     icon: 'Globe',
     guides: [
       {
+        id: '1er-parcial',
         title: '1er Parcial',
         author: 'S.G.',
         description: 'INCOTERMS, territorio aduanero, logística y más.',
         htmlFile: './comercio-exterior.html'
       },
       {
+        id: '2do-parcial',
         title: '2do Parcial',
         author: 'S.G.',
         description: 'Exportación, contratos, medios de pago, costos FOB y más.',
@@ -71,18 +76,21 @@ export const SUBJECTS = [
     icon: 'Wrench',
     guides: [
       {
+        id: '1er-parcial',
         title: '1er Parcial',
         author: 'S.G.',
         description: 'Teoría general de Mantenimiento.',
         htmlFile: './mantenimiento.html'
       },
       {
+        id: '2do-parcial',
         title: '2do Parcial',
         author: 'S.G.',
         description: 'Predictivo, Servicios y Tercerización (U4, U5 y U6). Parciales reales 10/10, simulador y flashcards.',
         htmlFile: './mantenimiento-2do-parcial.html'
       },
       {
+        id: 'recuperatorio',
         title: 'Recuperatorio',
         author: 'S.G.',
         description: 'Guía del Recuperatorio reconstruida del examen real 2026 (Temas 1 a 4).',
@@ -101,24 +109,28 @@ export const SUBJECTS = [
     icon: 'Package',
     guides: [
       {
+        id: 'guia-maestra',
         title: 'Guía Maestra',
         author: 'S.G.',
         description: 'Guía de estudio exhaustiva de parciales ordenada por frecuencia.',
         htmlFile: './guia-maestra-manejo-materiales.html'
       },
       {
+        id: '1er-parcial',
         title: '1er Parcial',
         author: 'S.G.',
         description: 'Manejo de Materiales y equipos.',
         htmlFile: './manejo-materiales.html'
       },
       {
+        id: '2do-parcial-banco',
         title: '2do Parcial — Banco Consolidado',
         author: 'M.A.',
         description: '356 preguntas de parciales y finales ordenadas por probabilidad (U3 a U12), con 28 diagramas SVG, modo examen y números clave.',
         htmlFile: './manejo-materiales-2do-parcial.html'
       },
       {
+        id: '2do-parcial-guia-maestra',
         title: '2do Parcial — Guía Maestra',
         author: 'S.G.',
         description: 'Teoría de filminas, 207 preguntas y 60 diagramas técnicos oficiales (U3, U4, U5, U6, U7.5, U11 y U12).',
@@ -137,6 +149,7 @@ export const SUBJECTS = [
     icon: 'Brain',
     guides: [
       {
+        id: 'guia-final',
         title: 'Guía Final',
         author: 'S.G.',
         description: 'Análisis Numérico',
@@ -155,13 +168,15 @@ export const SUBJECTS = [
     icon: 'Cpu',
     guides: [
       {
+        id: '1er-parcial',
         title: '1er Parcial',
         description: 'Próximamente se habilitará el contenido.',
         htmlFile: null
       },
       {
-        title: '2do Parcial',
+        id: '2do-parcial',
         author: 'L.C.',
+        title: '2do Parcial',
         description: 'Mecanizado, tratamientos superficiales, utilajes y plásticos. Ejercicios y teoría ordenados por frecuencia.',
         htmlFile: './procesos-industriales-2do-parcial.html'
       }
@@ -176,4 +191,14 @@ export const SUBJECTS = [
  */
 export function getSubjectById(id) {
   return SUBJECTS.find(s => s.id === id);
+}
+
+/**
+ * Devuelve una guía dentro de una materia por su ID.
+ * @param {object} subject
+ * @param {string} guideId
+ * @returns {object|undefined}
+ */
+export function getGuideById(subject, guideId) {
+  return subject?.guides?.find(g => g.id === guideId);
 }

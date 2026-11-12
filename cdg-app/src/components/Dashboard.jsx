@@ -13,7 +13,7 @@ const CARD_PALETTE = [
   { border: 'rgba(239,68,68,0.35)',   bg: 'rgba(239,68,68,0.06)'   },
 ];
 
-export default function Dashboard({ subjects, onSelect }) {
+export default function Dashboard({ subjects }) {
   return (
     <div className="animate-fade-in">
       <div className="text-center mb-4">
@@ -27,15 +27,17 @@ export default function Dashboard({ subjects, onSelect }) {
           const palette = CARD_PALETTE[index % CARD_PALETTE.length];
 
           return (
-            <div
+            <a
               key={subject.id}
+              href={`#/${subject.id}`}
               className="glass-panel pdf-card"
-              onClick={() => onSelect(subject)}
               style={{
                 borderColor: palette.border,
                 background: palette.bg,
                 cursor: 'pointer',
                 transition: 'all 0.3s ease',
+                textDecoration: 'none',
+                color: 'inherit',
               }}
             >
               <div
@@ -71,7 +73,7 @@ export default function Dashboard({ subjects, onSelect }) {
               >
                 {subject.shortName}
               </div>
-            </div>
+            </a>
           );
         })}
       </div>

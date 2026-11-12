@@ -1,39 +1,86 @@
-import React, { useState } from 'react';
-import { SUBJECTS } from './data/subjects.js';
+import React, { useEffect, useState } from 'react';
+import { SUBJECTS, getGuideById, getSubjectById } from './data/subjects.js';
 import Dashboard from './components/Dashboard';
 import SubjectHub from './components/SubjectHub';
 import HtmlGuide from './components/HtmlGuide';
 import { ArrowLeft } from 'lucide-react';
 
+/**
+ * Parsea rutas hash del estilo `#/`, `#/<subjectId>` y `#/<subjectId>/<guideId>`.
+ * @param {string} hash
+ * @returns {{ subjectId: string|null, guideId: string|null }}
+ */
+function parseHashRoute(hash) {
+  const raw = hash.replace(/^#\/?/, '').trim();
+  if (!raw) return { subjectId: null, guideId: null };
+
+  const [subjectId, guideId] = raw
+    .split('/')
+    .filter(Boolean)
+    .map((segment) => {
+      try {
+        return decodeURIComponent(segment);
+      } catch {
+        return segment;
+      }
+    });
+
+  return {
+    subjectId: subjectId || null,
+    guideId: guideId || null,
+  };
+}
+
 function App() {
-  const [currentSubject, setCurrentSubject] = useState(null);
-  const [currentView, setCurrentView] = useState('dashboard'); // 'dashboard' | 'subject-hub' | 'html-guide'
-  const [currentHtmlFile, setCurrentHtmlFile] = useState(null);
+  const [route, setRoute] = useState(() => parseHashRoute(window.location.hash));
 
-  const handleSelectSubject = (subject) => {
-    setCurrentSubject(subject);
-    setCurrentView('subject-hub');
+  useEffect(() => {
+    const handleHashChange = () => {
+      setRoute(parseHashRoute(window.location.hash));
+      window.scrollTo(0, 0);
+    };
+
+    window.addEventListener('hashchange', handleHashChange);
+    return () => window.removeEventListener('hashchange', handleHashChange);
+  }, []);
+
+  const currentSubject = route.subjectId ? getSubjectById(route.subjectId) : null;
+  const matchedGuide = currentSubject && route.guideId
+    ? getGuideById(currentSubject, route.guideId)
+    : null;
+  const activeGuide = matchedGuide?.htmlFile ? matchedGuide : null;
+
+  // Normaliza URLs inválidas o guías aún no disponibles sin ensuciar el historial.
+  useEffect(() => {
+    if (route.subjectId && !currentSubject) {
+      window.location.replace('#/');
+      return;
+    }
+    if (currentSubject && route.guideId && !activeGuide) {
+      window.location.replace(`#/${currentSubject.id}`);
+    }
+  }, [route.subjectId, route.guideId, currentSubject, activeGuide]);
+
+  useEffect(() => {
+    if (activeGuide && currentSubject) {
+      document.title = `${activeGuide.title} · ${currentSubject.shortName} — Aprobamos UTN`;
+    } else if (currentSubject) {
+      document.title = `${currentSubject.shortName} — Aprobamos UTN`;
+    } else {
+      document.title = 'Aprobamos UTN';
+    }
+  }, [currentSubject, activeGuide]);
+
+  const navigateTo = (path) => {
+    const targetHash = path.startsWith('#') ? path : `#${path}`;
+    if (window.location.hash !== targetHash) {
+      window.location.hash = targetHash;
+    }
   };
 
-  const handleBackToDashboard = () => {
-    setCurrentView('dashboard');
-    setCurrentSubject(null);
-    setCurrentHtmlFile(null);
-  };
-
-  const handleSelectHtmlFile = (file) => {
-    setCurrentHtmlFile(file);
-    setCurrentView('html-guide');
-  };
-
-  const handleBackToHub = () => {
-    setCurrentView('subject-hub');
-    setCurrentHtmlFile(null);
-  };
-
-  const isDashboard = currentView === 'dashboard';
-  const isSubjectHub = currentView === 'subject-hub';
-  const isHtmlGuide = currentView === 'html-guide';
+  const isDashboard = !currentSubject;
+  const isSubjectHub = Boolean(currentSubject && !activeGuide);
+  const isHtmlGuide = Boolean(currentSubject && activeGuide);
 
   return (
     <div className="app-container">
@@ -42,9 +89,13 @@ function App() {
         <nav className="navbar animate-fade-in">
           <div className="flex align-center gap-4">
             {isSubjectHub && (
-              <button className="btn btn-outline" onClick={handleBackToDashboard}>
+              <a
+                href="#/"
+                className="btn btn-outline"
+                style={{ textDecoration: 'none' }}
+              >
                 <ArrowLeft size={18} /> Materias
-              </button>
+              </a>
             )}
             <h2 className="title" style={{ fontSize: '1.5rem', marginBottom: 0 }}>
               {currentSubject ? (
@@ -59,22 +110,19 @@ function App() {
 
       {/* ── VISTAS ── */}
       {isDashboard && (
-        <Dashboard subjects={SUBJECTS} onSelect={handleSelectSubject} />
+        <Dashboard subjects={SUBJECTS} />
       )}
 
       {currentSubject && (
         <>
           {isSubjectHub && (
-            <SubjectHub 
-              subject={currentSubject} 
-              setHtmlFile={handleSelectHtmlFile} 
-            />
+            <SubjectHub subject={currentSubject} />
           )}
 
-          {isHtmlGuide && currentHtmlFile && (
-            <HtmlGuide 
-              htmlFile={currentHtmlFile} 
-              onBack={handleBackToHub} 
+          {isHtmlGuide && (
+            <HtmlGuide
+              htmlFile={activeGuide.htmlFile}
+              onBack={() => navigateTo(`/${currentSubject.id}`)}
             />
           )}
         </>

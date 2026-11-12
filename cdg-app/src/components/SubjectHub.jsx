@@ -5,7 +5,7 @@ const ICON_MAP = {
   BookOpen, Brain, Globe, Wrench, Package, FileText, Cpu
 };
 
-export default function SubjectHub({ subject, setHtmlFile }) {
+export default function SubjectHub({ subject }) {
   return (
     <div className="animate-fade-in pb-8">
       <div className="text-center mb-4">
@@ -38,23 +38,22 @@ export default function SubjectHub({ subject, setHtmlFile }) {
           margin: '2.5rem auto 0',
         }}
       >
-        {subject.guides && subject.guides.map((guide, index) => {
+        {subject.guides && subject.guides.map((guide) => {
           const isAvailable = Boolean(guide.htmlFile);
-          
+          const CardTag = isAvailable ? 'a' : 'div';
+
           return (
-            <div
-              key={index}
+            <CardTag
+              key={guide.id}
+              {...(isAvailable ? { href: `#/${subject.id}/${guide.id}` } : {})}
               className="glass-panel pdf-card"
-              onClick={() => {
-                if (isAvailable) {
-                  setHtmlFile(guide.htmlFile);
-                }
-              }}
               style={{
                 cursor: isAvailable ? 'pointer' : 'not-allowed',
                 opacity: isAvailable ? 1 : 0.6,
                 borderColor: isAvailable ? `${subject.color}55` : 'var(--surface-border)',
                 transition: 'all 0.3s ease',
+                textDecoration: 'none',
+                color: 'inherit',
               }}
             >
               <div style={{ 
@@ -105,7 +104,7 @@ export default function SubjectHub({ subject, setHtmlFile }) {
                   'Próximamente'
                 )}
               </div>
-            </div>
+            </CardTag>
           );
         })}
       </div>
