@@ -1,5 +1,5 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react';
-import { ArrowUpRight, Search, ChevronRight } from 'lucide-react';
+import React, { useMemo, useState } from 'react';
+import { ArrowRight, Search, X } from 'lucide-react';
 
 function normalize(str = '') {
   return str
@@ -10,287 +10,111 @@ function normalize(str = '') {
 
 export default function Dashboard({ subjects, onSelect, onSelectGuide }) {
   const [query, setQuery] = useState('');
-  const searchRef = useRef(null);
-
-  useEffect(() => {
-    const onKeyDown = (e) => {
-      if ((e.key === '/' && document.activeElement !== searchRef.current) ||
-          ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k')) {
-        e.preventDefault();
-        searchRef.current?.focus();
-      } else if (e.key === 'Escape' && document.activeElement === searchRef.current) {
-        setQuery('');
-        searchRef.current?.blur();
-      }
-    };
-    window.addEventListener('keydown', onKeyDown);
-    return () => window.removeEventListener('keydown', onKeyDown);
-  }, []);
-
-  const stats = useMemo(() => {
-    const totalGuides = subjects.reduce(
-      (acc, s) => acc + (s.guides ? s.guides.filter((g) => Boolean(g.htmlFile)).length : 0),
-      0
-    );
-    return {
-      subjectsCount: String(subjects.length).padStart(2, '0'),
-      guidesCount: String(totalGuides).padStart(2, '0'),
-    };
-  }, [subjects]);
-
   const normalizedQuery = normalize(query.trim());
 
-  const { matchedSubjects, matchedGuides } = useMemo(() => {
-    if (!normalizedQuery) {
-      return { matchedSubjects: subjects, matchedGuides: [] };
-    }
+  const totalGuides = useMemo(
+    () =>
+      subjects.reduce(
+        (acc, s) => acc + (s.guides ? s.guides.filter((g) => Boolean(g.htmlFile)).length : 0),
+        0
+      ),
+    [subjects]
+  );
 
-    const guidesFound = [];
-    const subjectsFound = subjects.filter((subject) => {
-      const subjectText = normalize(
-        `${subject.name} ${subject.shortName} ${subject.code || ''} ${subject.description}`
+  const filteredSubjects = useMemo(() => {
+    if (!normalizedQuery) return subjects;
+    return subjects.filter((subject) => {
+      const subjectMatch = normalize(`${subject.name} ${subject.shortName}`).includes(normalizedQuery);
+      const guideMatch = (subject.guides || []).some((g) =>
+        normalize(`${g.title} ${g.description}`).includes(normalizedQuery)
       );
-      const subjectMatches = subjectText.includes(normalizedQuery);
-
-      let anyGuideMatches = false;
-      (subject.guides || []).forEach((guide, guideIndex) => {
-        const guideText = normalize(`${guide.title} ${guide.description}`);
-        if (guideText.includes(normalizedQuery) || subjectMatches) {
-          anyGuideMatches = true;
-          if (guideText.includes(normalizedQuery)) {
-            guidesFound.push({ subject, guide, guideIndex });
-          }
-        }
-      });
-
-      return subjectMatches || anyGuideMatches;
+      return subjectMatch || guideMatch;
     });
-
-    return { matchedSubjects: subjectsFound, matchedGuides: guidesFound };
   }, [subjects, normalizedQuery]);
 
   return (
-    <div className="animate-fade-in">
-      {/* ── HERO EDITORIAL ── */}
-      <header className="hero-header">
-        <div className="hero-top-row">
-          <span className="univ-tag">
-            <span className="univ-tag-dot" />
-            UTN FRBA · Ingeniería Industrial
-          </span>
-
-          <div className="stats-row">
-            <div className="stat-pill">
-              <span className="num">{stats.subjectsCount}</span>
-              <span className="label">materias</span>
-            </div>
-            <div className="stat-pill">
-              <span className="num">{stats.guidesCount}</span>
-              <span className="label">guías activas</span>
-            </div>
-          </div>
+    <div>
+      <header className="landing-header">
+        <div>
+          <h1 className="landing-title">Aprobamos UTN</h1>
+          <p className="landing-subtitle">
+            {subjects.length} materias · {totalGuides} guías
+          </p>
         </div>
 
-        <h1 className="hero-title">
-          Aprobamos <span className="hero-title-accent">UTN</span>
-        </h1>
-        <p className="hero-desc">
-          Guías maestras, bancos de parciales reales, diagramas técnicos y simuladores
-          interactivos para estudiar directo al grano.
-        </p>
-
-        <div className="search-bar-wrap">
+        <div className="search-wrap">
           <span className="search-icon">
-            <Search size={17} />
+            <Search size={15} />
           </span>
           <input
-            ref={searchRef}
             type="text"
             className="search-input"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            placeholder="Buscar materia, parcial o tema (ej: INCOTERMS, U4, Leasing, Recuperatorio)..."
-            aria-label="Buscar materia o guía"
+            placeholder="Buscar materia o tema..."
+            aria-label="Buscar materia o tema"
           />
-          <div className="search-right-hint">
-            {query ? (
-              <button
-                type="button"
-                className="search-clear-btn"
-                onClick={() => setQuery('')}
-              >
-                ESC · Limpiar
-              </button>
-            ) : (
-              <span className="kbd-hint">/ o ⌘K</span>
-            )}
-          </div>
+          {query && (
+            <button
+              type="button"
+              className="search-clear"
+              onClick={() => setQuery('')}
+              aria-label="Limpiar búsqueda"
+            >
+              <X size={14} />
+            </button>
+          )}
         </div>
       </header>
 
-      {/* ── RESULTADOS DIRECTOS DE GUÍAS (cuando hay búsqueda) ── */}
-      {normalizedQuery && matchedGuides.length > 0 && (
-        <section style={{ marginBottom: '26px' }}>
-          <div className="section-head">
-            <span className="section-label">
-              Acceso directo a guías ({matchedGuides.length})
-            </span>
-          </div>
-          <div className="search-results-stack">
-            {matchedGuides.map(({ subject, guide, guideIndex }) => {
-              const isAvailable = Boolean(guide.htmlFile);
-              return (
-                <div
-                  key={`${subject.id}-${guideIndex}`}
-                  className={`search-result-row ${!isAvailable ? 'is-disabled' : ''}`}
-                  style={{ '--row-color': subject.color }}
-                  onClick={() => {
-                    if (isAvailable) onSelectGuide(subject, guideIndex);
-                  }}
-                >
-                  <div style={{ minWidth: 0 }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap', marginBottom: '4px' }}>
-                      <span
-                        className="sb-code"
-                        style={{
-                          '--card-color': subject.color,
-                          '--card-accent': subject.accentColor,
-                          fontSize: '11px',
-                          padding: '3px 8px',
+      {filteredSubjects.length === 0 ? (
+        <div className="empty-state">
+          No hay resultados para "{query}".
+        </div>
+      ) : (
+        <div className="subjects-grid">
+          {filteredSubjects.map((subject) => {
+            const guides = subject.guides || [];
+
+            return (
+              <section key={subject.id} className="subject-card">
+                <div className="subject-head" onClick={() => onSelect(subject)}>
+                  <div className="subject-title-row">
+                    <span
+                      className="subject-dot"
+                      style={{ backgroundColor: subject.color }}
+                    />
+                    <h2 className="subject-name">{subject.name}</h2>
+                  </div>
+                  <span className="subject-short">{subject.shortName}</span>
+                </div>
+
+                <div className="guide-list">
+                  {guides.map((guide, guideIndex) => {
+                    const isAvailable = Boolean(guide.htmlFile);
+                    return (
+                      <button
+                        key={guideIndex}
+                        type="button"
+                        className="guide-row"
+                        disabled={!isAvailable}
+                        onClick={() => {
+                          if (isAvailable) onSelectGuide(subject, guideIndex);
                         }}
                       >
-                        {subject.code || subject.shortName}
-                      </span>
-                      <span className="search-result-title">
-                        {subject.name} · {guide.title}
-                      </span>
-                    </div>
-                    <p className="search-result-desc">{guide.description}</p>
-                  </div>
-                  <span className="guide-chip-tag">
-                    {isAvailable ? <ChevronRight size={18} /> : 'Próx.'}
-                  </span>
+                        <span className="guide-row-title">{guide.title}</span>
+                        <span className="guide-row-meta">
+                          {isAvailable ? <ArrowRight size={14} /> : 'Próx.'}
+                        </span>
+                      </button>
+                    );
+                  })}
                 </div>
-              );
-            })}
-          </div>
-        </section>
-      )}
-
-      {/* ── BENTO GRID DE MATERIAS ── */}
-      <section>
-        <div className="section-head">
-          <span className="section-label">
-            {normalizedQuery
-              ? `Materias coincidentes (${matchedSubjects.length})`
-              : 'Catálogo de materias'}
-          </span>
-          {!normalizedQuery && (
-            <span className="section-label" style={{ color: 'var(--text-dim)' }}>
-              Clic en chip para abrir directo
-            </span>
-          )}
+              </section>
+            );
+          })}
         </div>
-
-        {matchedSubjects.length === 0 ? (
-          <div
-            className="hero-header"
-            style={{ textAlign: 'center', padding: '42px 24px', marginBottom: 0 }}
-          >
-            <p style={{ color: 'var(--text-main)', fontWeight: 700, fontSize: '17px' }}>
-              No hay coincidencias para "{query}"
-            </p>
-            <p style={{ color: 'var(--text-muted)', fontSize: '14px', marginTop: '6px' }}>
-              Probá con otra materia o tema, o limpiá el filtro para ver todo el catálogo.
-            </p>
-            <button
-              type="button"
-              className="btn-back"
-              style={{ marginTop: '16px' }}
-              onClick={() => setQuery('')}
-            >
-              Ver todas las materias
-            </button>
-          </div>
-        ) : (
-          <div className="bento-grid">
-            {matchedSubjects.map((subject) => {
-              const guides = subject.guides || [];
-              const activeCount = guides.filter((g) => Boolean(g.htmlFile)).length;
-              const isWide = !normalizedQuery && (Boolean(subject.featured) || guides.length >= 3);
-
-              return (
-                <article
-                  key={subject.id}
-                  className={`bento-card ${isWide ? 'is-wide' : ''}`}
-                  style={{
-                    '--card-color': subject.color,
-                    '--card-accent': subject.accentColor || subject.color,
-                  }}
-                  onClick={() => onSelect(subject)}
-                >
-                  <div className="bento-card-top">
-                    <div className="bento-code-group">
-                      <span className="sb-code">{subject.code || subject.shortName}</span>
-                      <span className="bento-meta">
-                        {activeCount} {activeCount === 1 ? 'guía' : 'guías'}
-                      </span>
-                    </div>
-                    <span className="bento-arrow" aria-hidden="true">
-                      <ArrowUpRight size={16} />
-                    </span>
-                  </div>
-
-                  <div>
-                    <h2 className="bento-title">{subject.name}</h2>
-                    <p className="bento-desc" style={{ marginTop: '6px' }}>
-                      {subject.description}
-                    </p>
-                  </div>
-
-                  {guides.length > 0 && (
-                    <div className="bento-guides">
-                      {guides.map((guide, guideIndex) => {
-                        const isAvailable = Boolean(guide.htmlFile);
-                        return (
-                          <button
-                            key={guideIndex}
-                            type="button"
-                            className="guide-chip"
-                            disabled={!isAvailable}
-                            title={isAvailable ? `Abrir ${guide.title}` : 'Próximamente'}
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              if (isAvailable) {
-                                onSelectGuide(subject, guideIndex);
-                              }
-                            }}
-                          >
-                            <span className="guide-chip-text">
-                              <span
-                                className="guide-chip-dot"
-                                style={{
-                                  background: isAvailable ? subject.color : 'var(--text-dim)',
-                                }}
-                              />
-                              <span style={{ overflow: 'hidden', textOverflow: 'ellipsis' }}>
-                                {guide.title}
-                              </span>
-                            </span>
-                            <span className="guide-chip-tag">
-                              {isAvailable ? '↗' : 'PRÓX'}
-                            </span>
-                          </button>
-                        );
-                      })}
-                    </div>
-                  )}
-                </article>
-              );
-            })}
-          </div>
-        )}
-      </section>
+      )}
     </div>
   );
 }

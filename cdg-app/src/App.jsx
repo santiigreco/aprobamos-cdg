@@ -3,7 +3,6 @@ import { SUBJECTS, getSubjectById } from './data/subjects.js';
 import Dashboard from './components/Dashboard';
 import SubjectHub from './components/SubjectHub';
 import HtmlGuide from './components/HtmlGuide';
-import { ArrowLeft } from 'lucide-react';
 
 function parseHash() {
   const raw = window.location.hash.replace(/^#\/?/, '');
@@ -76,23 +75,6 @@ function App() {
 
   return (
     <div className="app-shell">
-      {isSubjectHub && route.subject && (
-        <nav className="topbar animate-fade-in">
-          <div className="topbar-left">
-            <button type="button" className="btn-back" onClick={handleBackToDashboard}>
-              <ArrowLeft size={16} /> Materias
-            </button>
-            <div className="breadcrumb">
-              <span className="breadcrumb-brand" onClick={handleBackToDashboard}>
-                aprobamos.utn
-              </span>
-              <span>/</span>
-              <span className="breadcrumb-current">{route.subject.name}</span>
-            </div>
-          </div>
-        </nav>
-      )}
-
       {isDashboard && (
         <Dashboard
           subjects={SUBJECTS}
@@ -104,19 +86,13 @@ function App() {
       {route.subject && isSubjectHub && (
         <SubjectHub
           subject={route.subject}
+          onBack={handleBackToDashboard}
           onSelectGuide={(guideIndex) => handleSelectGuide(route.subject, guideIndex)}
         />
       )}
 
       {isHtmlGuide && currentHtmlFile && (
         <HtmlGuide htmlFile={currentHtmlFile} onBack={handleBackToHub} />
-      )}
-
-      {!isHtmlGuide && (
-        <footer className="app-footer">
-          <span>aprobamos.utn · guías interactivas de estudio</span>
-          <span>#/{route.subject ? route.subject.id : 'catalogo'}</span>
-        </footer>
       )}
     </div>
   );
