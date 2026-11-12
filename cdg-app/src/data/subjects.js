@@ -11,7 +11,9 @@ export const SUBJECTS = [
     id: 'control-gestion',
     name: 'Control de Gestión',
     shortName: 'CDG',
-    description: 'Guías de estudio interactivo.',
+    code: 'CDG',
+    featured: true,
+    description: 'Presupuestos, ajuste por inflación, leasing y banco maestro de teoría por unidades.',
     color: '#3b82f6',
     accentColor: '#8b5cf6',
     icon: 'BookOpen',
@@ -33,7 +35,8 @@ export const SUBJECTS = [
     id: 'comercio-exterior',
     name: 'Comercio Exterior',
     shortName: 'CE',
-    description: 'Guías de estudio interactivo.',
+    code: 'COMEX',
+    description: 'INCOTERMS, territorio aduanero, contratos de exportación, medios de pago y costos FOB.',
     color: '#10b981',
     accentColor: '#06b6d4',
     icon: 'Globe',
@@ -52,37 +55,12 @@ export const SUBJECTS = [
   },
 
   {
-    id: 'mantenimiento',
-    name: 'Mantenimiento',
-    shortName: 'Mant.',
-    description: 'Guías de estudio interactivo.',
-    color: '#f59e0b',
-    accentColor: '#ef4444',
-    icon: 'Wrench',
-    guides: [
-      {
-        title: '1er Parcial',
-        description: 'Teoría general de Mantenimiento.',
-        htmlFile: './mantenimiento.html'
-      },
-      {
-        title: '2do Parcial',
-        description: 'Predictivo, Servicios y Tercerización (U4, U5 y U6). Parciales reales 10/10, simulador y flashcards.',
-        htmlFile: './mantenimiento-2do-parcial.html'
-      },
-      {
-        title: 'Recuperatorio',
-        description: 'Guía del Recuperatorio reconstruida del examen real 2026 (Temas 1 a 4).',
-        htmlFile: './mantenimiento-recuperatorio.html'
-      }
-    ]
-  },
-
-  {
     id: 'manejo-materiales',
     name: 'Manejo de Materiales y Distribución en Planta',
     shortName: 'Man. Mat.',
-    description: 'Guías de estudio interactivo.',
+    code: 'MMDP',
+    featured: true,
+    description: 'Equipos de elevación y transporte, almacenes, layout en planta, logística y supply chain.',
     color: '#8b5cf6',
     accentColor: '#d946ef',
     icon: 'Package',
@@ -111,27 +89,11 @@ export const SUBJECTS = [
   },
 
   {
-    id: 'analisis-numerico',
-    name: 'Análisis Numérico y Cálculo Avanzado',
-    shortName: 'AN',
-    description: 'Guías de estudio interactivo.',
-    color: '#0ea5e9',
-    accentColor: '#0284c7',
-    icon: 'Brain',
-    guides: [
-      {
-        title: 'Guía Final',
-        description: 'Análisis Numérico',
-        htmlFile: './guia-final-an.html'
-      }
-    ]
-  },
-
-  {
     id: 'procesos-industriales',
     name: 'Procesos Industriales',
     shortName: 'PI',
-    description: 'Guías de estudio interactivo.',
+    code: 'PROC',
+    description: 'Mecanizado, tratamientos superficiales, utilajes, plásticos y ejercicios por frecuencia.',
     color: '#ef4444',
     accentColor: '#f97316',
     icon: 'Cpu',
@@ -145,6 +107,53 @@ export const SUBJECTS = [
         title: '2do Parcial',
         description: 'Mecanizado, tratamientos superficiales, utilajes y plásticos. Ejercicios y teoría ordenados por frecuencia.',
         htmlFile: './procesos-industriales-2do-parcial.html'
+      }
+    ]
+  },
+
+  {
+    id: 'mantenimiento',
+    name: 'Mantenimiento',
+    shortName: 'Mant.',
+    code: 'MANT',
+    featured: true,
+    description: 'Mantenimiento preventivo y predictivo, servicios, tercerización y simuladores de examen.',
+    color: '#f59e0b',
+    accentColor: '#ef4444',
+    icon: 'Wrench',
+    guides: [
+      {
+        title: '1er Parcial',
+        description: 'Teoría general de Mantenimiento.',
+        htmlFile: './mantenimiento.html'
+      },
+      {
+        title: '2do Parcial',
+        description: 'Predictivo, Servicios y Tercerización (U4, U5 y U6). Parciales reales 10/10, simulador y flashcards.',
+        htmlFile: './mantenimiento-2do-parcial.html'
+      },
+      {
+        title: 'Recuperatorio',
+        description: 'Guía del Recuperatorio reconstruida del examen real 2026 (Temas 1 a 4).',
+        htmlFile: './mantenimiento-recuperatorio.html'
+      }
+    ]
+  },
+
+  {
+    id: 'analisis-numerico',
+    name: 'Análisis Numérico y Cálculo Avanzado',
+    shortName: 'AN',
+    code: 'ANCA',
+    description: 'Métodos numéricos, resolución de sistemas, interpolación y preparación integral para final.',
+    color: '#0ea5e9',
+    accentColor: '#0284c7',
+    icon: 'Brain',
+    guides: [
+      {
+        title: 'Guía Final',
+        description: 'Análisis Numérico',
+        htmlFile: './guia-final-an.html'
       }
     ]
   },

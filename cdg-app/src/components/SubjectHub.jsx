@@ -1,94 +1,104 @@
 import React from 'react';
-import { BookOpen, Brain, FileText, Globe, Wrench, Package, Cpu, ArrowRight } from 'lucide-react';
+import { ArrowRight, Clock } from 'lucide-react';
 
-const ICON_MAP = {
-  BookOpen, Brain, Globe, Wrench, Package, FileText, Cpu
-};
+export default function SubjectHub({ subject, onSelectGuide }) {
+  const guides = subject.guides || [];
+  const activeCount = guides.filter((g) => Boolean(g.htmlFile)).length;
+  const upcomingCount = guides.length - activeCount;
 
-export default function SubjectHub({ subject, setHtmlFile }) {
   return (
-    <div className="animate-fade-in pb-8">
-      <div className="text-center mb-4">
+    <div className="animate-fade-in">
+      <header
+        className="hero-header"
+        style={{ marginBottom: '22px' }}
+      >
         <div
           style={{
-            display: 'inline-flex',
-            alignItems: 'center',
-            background: `${subject.color}22`,
-            border: `1px solid ${subject.color}44`,
-            color: subject.color,
-            padding: '0.35rem 1.1rem',
-            borderRadius: '999px',
-            fontSize: '0.85rem',
-            fontWeight: 600,
-            marginBottom: '1rem',
-            letterSpacing: '0.04em',
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            right: 0,
+            height: '4px',
+            background: `linear-gradient(90deg, ${subject.color}, ${subject.accentColor || subject.color})`,
+            zIndex: 1,
           }}
-        >
-          {subject.shortName}
+        />
+
+        <div className="hero-top-row">
+          <span
+            className="sb-code"
+            style={{
+              '--card-color': subject.color,
+              '--card-accent': subject.accentColor || subject.color,
+              fontSize: '13px',
+              padding: '6px 12px',
+            }}
+          >
+            {subject.code || subject.shortName}
+          </span>
+
+          <div className="stats-row">
+            <div className="stat-pill">
+              <span className="num">{String(activeCount).padStart(2, '0')}</span>
+              <span className="label">{activeCount === 1 ? 'guía activa' : 'guías activas'}</span>
+            </div>
+            {upcomingCount > 0 && (
+              <div className="stat-pill">
+                <span className="num">{String(upcomingCount).padStart(2, '0')}</span>
+                <span className="label">próximamente</span>
+              </div>
+            )}
+          </div>
         </div>
-        <h1 className="title" style={{ fontSize: '2.5rem' }}>{subject.name}</h1>
-        <p className="subtitle">Seleccioná la guía que querés estudiar</p>
+
+        <h1 className="hero-title" style={{ fontSize: 'clamp(24px, 3.6vw, 34px)' }}>
+          {subject.name}
+        </h1>
+        <p className="hero-desc">{subject.description}</p>
+      </header>
+
+      <div className="section-head">
+        <span className="section-label">Guías disponibles</span>
       </div>
 
-      <div
-        className="pdf-grid"
-        style={{
-          marginTop: '2.5rem',
-          maxWidth: subject.guides && subject.guides.length > 2 ? '1050px' : '720px',
-          margin: '2.5rem auto 0',
-        }}
-      >
-        {subject.guides && subject.guides.map((guide, index) => {
+      <div className="guides-grid">
+        {guides.map((guide, index) => {
           const isAvailable = Boolean(guide.htmlFile);
-          
+          const indexLabel = String(index + 1).padStart(2, '0');
+
           return (
-            <div
+            <article
               key={index}
-              className="glass-panel pdf-card"
+              className={`guide-card ${!isAvailable ? 'is-disabled' : ''}`}
+              style={{ '--card-color': subject.color }}
               onClick={() => {
                 if (isAvailable) {
-                  setHtmlFile(guide.htmlFile);
+                  onSelectGuide(index);
                 }
               }}
-              style={{
-                cursor: isAvailable ? 'pointer' : 'not-allowed',
-                opacity: isAvailable ? 1 : 0.6,
-                borderColor: isAvailable ? `${subject.color}55` : 'var(--surface-border)',
-                transition: 'all 0.3s ease',
-              }}
             >
-              <div style={{ 
-                background: isAvailable ? `${subject.color}22` : 'var(--surface-border)', 
-                padding: '1.1rem', 
-                borderRadius: '14px', 
-                marginBottom: '0.5rem',
-                display: 'inline-block'
-              }}>
-                <FileText size={40} color={isAvailable ? subject.color : 'var(--text-secondary)'} />
+              <div className="guide-card-head">
+                <span className="guide-index">{indexLabel}</span>
+                <span className="guide-status">
+                  {isAvailable ? 'INTERACTIVA' : 'PRÓXIMAMENTE'}
+                </span>
               </div>
-              <h2 style={{ fontSize: '1.5rem', margin: '0.5rem 0 0.25rem' }}>{guide.title}</h2>
-              <p style={{ color: 'var(--text-secondary)', textAlign: 'center', marginBottom: '1.5rem' }}>
-                {guide.description}
-              </p>
-              
-              <div
-                style={{
-                  marginTop: 'auto',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '0.5rem',
-                  color: isAvailable ? subject.color : 'var(--text-secondary)',
-                  fontWeight: 600,
-                  fontSize: '0.9rem'
-                }}
-              >
+
+              <h2 className="guide-card-title">{guide.title}</h2>
+              <p className="guide-card-desc">{guide.description}</p>
+
+              <div className="guide-card-cta">
                 {isAvailable ? (
-                  <>Abrir Guía <ArrowRight size={18} /></>
+                  <>
+                    Abrir guía <ArrowRight size={16} />
+                  </>
                 ) : (
-                  'Próximamente'
+                  <>
+                    <Clock size={15} /> En preparación
+                  </>
                 )}
               </div>
-            </div>
+            </article>
           );
         })}
       </div>
