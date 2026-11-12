@@ -1,51 +1,94 @@
 import React from 'react';
-import { ArrowLeft, ArrowRight } from 'lucide-react';
+import { BookOpen, Brain, FileText, Globe, Wrench, Package, Cpu, ArrowRight } from 'lucide-react';
 
-export default function SubjectHub({ subject, onBack, onSelectGuide }) {
-  const guides = subject.guides || [];
+const ICON_MAP = {
+  BookOpen, Brain, Globe, Wrench, Package, FileText, Cpu
+};
 
+export default function SubjectHub({ subject, setHtmlFile }) {
   return (
-    <div>
-      <button type="button" className="back-btn" onClick={onBack}>
-        <ArrowLeft size={15} /> Materias
-      </button>
-
-      <header className="hub-header">
-        <div className="hub-title-row">
-          <span
-            className="subject-dot"
-            style={{ backgroundColor: subject.color, width: '11px', height: '11px' }}
-          />
-          <h1 className="hub-title">{subject.name}</h1>
+    <div className="animate-fade-in pb-8">
+      <div className="text-center mb-4">
+        <div
+          style={{
+            display: 'inline-flex',
+            alignItems: 'center',
+            background: `${subject.color}22`,
+            border: `1px solid ${subject.color}44`,
+            color: subject.color,
+            padding: '0.35rem 1.1rem',
+            borderRadius: '999px',
+            fontSize: '0.85rem',
+            fontWeight: 600,
+            marginBottom: '1rem',
+            letterSpacing: '0.04em',
+          }}
+        >
+          {subject.shortName}
         </div>
-      </header>
+        <h1 className="title" style={{ fontSize: '2.5rem' }}>{subject.name}</h1>
+        <p className="subtitle">Seleccioná la guía que querés estudiar</p>
+      </div>
 
-      <div className="hub-grid">
-        {guides.map((guide, index) => {
+      <div
+        className="pdf-grid"
+        style={{
+          marginTop: '2.5rem',
+          maxWidth: subject.guides && subject.guides.length > 2 ? '1050px' : '720px',
+          margin: '2.5rem auto 0',
+        }}
+      >
+        {subject.guides && subject.guides.map((guide, index) => {
           const isAvailable = Boolean(guide.htmlFile);
-
+          
           return (
-            <button
+            <div
               key={index}
-              type="button"
-              className="hub-card"
-              disabled={!isAvailable}
+              className="glass-panel pdf-card"
               onClick={() => {
-                if (isAvailable) onSelectGuide(index);
+                if (isAvailable) {
+                  setHtmlFile(guide.htmlFile);
+                }
+              }}
+              style={{
+                cursor: isAvailable ? 'pointer' : 'not-allowed',
+                opacity: isAvailable ? 1 : 0.6,
+                borderColor: isAvailable ? `${subject.color}55` : 'var(--surface-border)',
+                transition: 'all 0.3s ease',
               }}
             >
-              <h2 className="hub-card-title">{guide.title}</h2>
-              <p className="hub-card-desc">{guide.description}</p>
-              <span className="hub-card-action">
+              <div style={{ 
+                background: isAvailable ? `${subject.color}22` : 'var(--surface-border)', 
+                padding: '1.1rem', 
+                borderRadius: '14px', 
+                marginBottom: '0.5rem',
+                display: 'inline-block'
+              }}>
+                <FileText size={40} color={isAvailable ? subject.color : 'var(--text-secondary)'} />
+              </div>
+              <h2 style={{ fontSize: '1.5rem', margin: '0.5rem 0 0.25rem' }}>{guide.title}</h2>
+              <p style={{ color: 'var(--text-secondary)', textAlign: 'center', marginBottom: '1.5rem' }}>
+                {guide.description}
+              </p>
+              
+              <div
+                style={{
+                  marginTop: 'auto',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '0.5rem',
+                  color: isAvailable ? subject.color : 'var(--text-secondary)',
+                  fontWeight: 600,
+                  fontSize: '0.9rem'
+                }}
+              >
                 {isAvailable ? (
-                  <>
-                    Abrir guía <ArrowRight size={14} />
-                  </>
+                  <>Abrir Guía <ArrowRight size={18} /></>
                 ) : (
                   'Próximamente'
                 )}
-              </span>
-            </button>
+              </div>
+            </div>
           );
         })}
       </div>

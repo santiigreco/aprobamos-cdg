@@ -11,7 +11,10 @@ export const SUBJECTS = [
     id: 'control-gestion',
     name: 'Control de Gestión',
     shortName: 'CDG',
+    description: 'Guías de estudio interactivo.',
     color: '#3b82f6',
+    accentColor: '#8b5cf6',
+    icon: 'BookOpen',
     guides: [
       {
         title: '1er Parcial',
@@ -30,7 +33,10 @@ export const SUBJECTS = [
     id: 'comercio-exterior',
     name: 'Comercio Exterior',
     shortName: 'CE',
+    description: 'Guías de estudio interactivo.',
     color: '#10b981',
+    accentColor: '#06b6d4',
+    icon: 'Globe',
     guides: [
       {
         title: '1er Parcial',
@@ -49,7 +55,10 @@ export const SUBJECTS = [
     id: 'mantenimiento',
     name: 'Mantenimiento',
     shortName: 'Mant.',
+    description: 'Guías de estudio interactivo.',
     color: '#f59e0b',
+    accentColor: '#ef4444',
+    icon: 'Wrench',
     guides: [
       {
         title: '1er Parcial',
@@ -73,7 +82,10 @@ export const SUBJECTS = [
     id: 'manejo-materiales',
     name: 'Manejo de Materiales y Distribución en Planta',
     shortName: 'Man. Mat.',
+    description: 'Guías de estudio interactivo.',
     color: '#8b5cf6',
+    accentColor: '#d946ef',
+    icon: 'Package',
     guides: [
       {
         title: 'Guía Maestra',
@@ -102,7 +114,10 @@ export const SUBJECTS = [
     id: 'analisis-numerico',
     name: 'Análisis Numérico y Cálculo Avanzado',
     shortName: 'AN',
+    description: 'Guías de estudio interactivo.',
     color: '#0ea5e9',
+    accentColor: '#0284c7',
+    icon: 'Brain',
     guides: [
       {
         title: 'Guía Final',
@@ -116,7 +131,10 @@ export const SUBJECTS = [
     id: 'procesos-industriales',
     name: 'Procesos Industriales',
     shortName: 'PI',
+    description: 'Guías de estudio interactivo.',
     color: '#ef4444',
+    accentColor: '#f97316',
+    icon: 'Cpu',
     guides: [
       {
         title: '1er Parcial',

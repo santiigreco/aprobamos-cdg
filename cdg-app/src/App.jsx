@@ -1,98 +1,83 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import { SUBJECTS, getSubjectById } from './data/subjects.js';
+import React, { useState } from 'react';
+import { SUBJECTS } from './data/subjects.js';
 import Dashboard from './components/Dashboard';
 import SubjectHub from './components/SubjectHub';
 import HtmlGuide from './components/HtmlGuide';
-
-function parseHash() {
-  const raw = window.location.hash.replace(/^#\/?/, '');
-  if (!raw) {
-    return { view: 'dashboard', subject: null, guideIndex: null };
-  }
-  const [subjectId, guideIdxStr] = raw.split('/');
-  const subject = getSubjectById(subjectId);
-  if (!subject) {
-    return { view: 'dashboard', subject: null, guideIndex: null };
-  }
-  if (guideIdxStr !== undefined && guideIdxStr !== '') {
-    const idx = Number(guideIdxStr);
-    const guide = subject.guides?.[idx];
-    if (Number.isInteger(idx) && guide?.htmlFile) {
-      return { view: 'html-guide', subject, guideIndex: idx };
-    }
-  }
-  return { view: 'subject-hub', subject, guideIndex: null };
-}
+import { ArrowLeft } from 'lucide-react';
 
 function App() {
-  const [route, setRoute] = useState(parseHash);
-
-  useEffect(() => {
-    const onHashChange = () => setRoute(parseHash());
-    window.addEventListener('hashchange', onHashChange);
-    return () => window.removeEventListener('hashchange', onHashChange);
-  }, []);
-
-  const navigate = useCallback((nextHash) => {
-    const target = nextHash.startsWith('#') ? nextHash : `#${nextHash}`;
-    if (window.location.hash !== target) {
-      window.location.hash = target;
-    } else {
-      setRoute(parseHash());
-    }
-  }, []);
+  const [currentSubject, setCurrentSubject] = useState(null);
+  const [currentView, setCurrentView] = useState('dashboard'); // 'dashboard' | 'subject-hub' | 'html-guide'
+  const [currentHtmlFile, setCurrentHtmlFile] = useState(null);
 
   const handleSelectSubject = (subject) => {
-    navigate(`/${subject.id}`);
-  };
-
-  const handleSelectGuide = (subject, guideIndex) => {
-    const guide = subject.guides?.[guideIndex];
-    if (guide?.htmlFile) {
-      navigate(`/${subject.id}/${guideIndex}`);
-    }
+    setCurrentSubject(subject);
+    setCurrentView('subject-hub');
   };
 
   const handleBackToDashboard = () => {
-    navigate('/');
+    setCurrentView('dashboard');
+    setCurrentSubject(null);
+    setCurrentHtmlFile(null);
+  };
+
+  const handleSelectHtmlFile = (file) => {
+    setCurrentHtmlFile(file);
+    setCurrentView('html-guide');
   };
 
   const handleBackToHub = () => {
-    if (route.subject) {
-      navigate(`/${route.subject.id}`);
-    } else {
-      navigate('/');
-    }
+    setCurrentView('subject-hub');
+    setCurrentHtmlFile(null);
   };
 
-  const isDashboard = route.view === 'dashboard';
-  const isSubjectHub = route.view === 'subject-hub';
-  const isHtmlGuide = route.view === 'html-guide';
-  const currentHtmlFile =
-    isHtmlGuide && route.subject && route.guideIndex !== null
-      ? route.subject.guides?.[route.guideIndex]?.htmlFile
-      : null;
+  const isDashboard = currentView === 'dashboard';
+  const isSubjectHub = currentView === 'subject-hub';
+  const isHtmlGuide = currentView === 'html-guide';
 
   return (
-    <div className="app-shell">
+    <div className="app-container">
+      {/* ── NAVBAR (oculto en vistas directas que usan pantalla completa) ── */}
+      {!isHtmlGuide && (
+        <nav className="navbar animate-fade-in">
+          <div className="flex align-center gap-4">
+            {isSubjectHub && (
+              <button className="btn btn-outline" onClick={handleBackToDashboard}>
+                <ArrowLeft size={18} /> Materias
+              </button>
+            )}
+            <h2 className="title" style={{ fontSize: '1.5rem', marginBottom: 0 }}>
+              {currentSubject ? (
+                <>{currentSubject.shortName} — Aprobamos <span className="emoji">🎯</span></>
+              ) : (
+                <>Aprobamos <span className="emoji">🎯</span></>
+              )}
+            </h2>
+          </div>
+        </nav>
+      )}
+
+      {/* ── VISTAS ── */}
       {isDashboard && (
-        <Dashboard
-          subjects={SUBJECTS}
-          onSelect={handleSelectSubject}
-          onSelectGuide={handleSelectGuide}
-        />
+        <Dashboard subjects={SUBJECTS} onSelect={handleSelectSubject} />
       )}
 
-      {route.subject && isSubjectHub && (
-        <SubjectHub
-          subject={route.subject}
-          onBack={handleBackToDashboard}
-          onSelectGuide={(guideIndex) => handleSelectGuide(route.subject, guideIndex)}
-        />
-      )}
+      {currentSubject && (
+        <>
+          {isSubjectHub && (
+            <SubjectHub 
+              subject={currentSubject} 
+              setHtmlFile={handleSelectHtmlFile} 
+            />
+          )}
 
-      {isHtmlGuide && currentHtmlFile && (
-        <HtmlGuide htmlFile={currentHtmlFile} onBack={handleBackToHub} />
+          {isHtmlGuide && currentHtmlFile && (
+            <HtmlGuide 
+              htmlFile={currentHtmlFile} 
+              onBack={handleBackToHub} 
+            />
+          )}
+        </>
       )}
     </div>
   );
