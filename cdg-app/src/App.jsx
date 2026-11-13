@@ -121,6 +121,7 @@ function App() {
 
           {isHtmlGuide && (
             <HtmlGuide
+              guide={activeGuide}
               htmlFile={activeGuide.htmlFile}
               onBack={() => navigateTo(`/${currentSubject.id}`)}
             />

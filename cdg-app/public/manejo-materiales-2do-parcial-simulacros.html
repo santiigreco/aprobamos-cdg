@@ -1,0 +1,872 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Simulacros 2° Parcial · Manejo de Materiales</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&family=Source+Sans+3:wght@400;600;700&display=swap">
+<style>[hidden]{display:none!important}body{margin:0}img{max-width:100%}/* Layout: columna de lectura de ~880px; barra fija con unidades y filtros; tarjetas por pregunta agrupadas por probabilidad. */
+:root{
+  --bg:#F3F5F8; --surface:#FFFFFF; --ink:#16213A; --muted:#5B6579; --line:#DCE2EA; --soft:#EEF2F7;
+  --t1:#C8243A; --t1s:#FCE9EC; --t2:#C96A05; --t2s:#FFF1E2; --t3:#2C64A8; --t3s:#E7EFF9;
+  --ok:#0F7A45; --oks:#E2F3E9; --warn:#9A5B00;
+  --d-fill:#EBF0F6; --d-acc:#3A73B8; --d-acc2:#CFE0F3; --d-amber:#F2B451;
+  --f-head:"Montserrat",ui-sans-serif,system-ui,sans-serif;
+  --f-body:"Source Sans 3","Source Sans Pro",ui-sans-serif,system-ui,sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0E1420; --surface:#161F30; --ink:#E6EBF4; --muted:#9BA7BC; --line:#28344B; --soft:#1C273B;
+  --t1:#FF7083; --t1s:#3A1A22; --t2:#FFAA50; --t2s:#372816; --t3:#76AEEF; --t3s:#192B45;
+  --ok:#55CF92; --oks:#13301F; --warn:#F2B451;
+  --d-fill:#22304A; --d-acc:#6EA8EC; --d-acc2:#2C4467; --d-amber:#C98B2D; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0E1420; --surface:#161F30; --ink:#E6EBF4; --muted:#9BA7BC; --line:#28344B; --soft:#1C273B;
+  --t1:#FF7083; --t1s:#3A1A22; --t2:#FFAA50; --t2s:#372816; --t3:#76AEEF; --t3s:#192B45;
+  --ok:#55CF92; --oks:#13301F; --warn:#F2B451;
+  --d-fill:#22304A; --d-acc:#6EA8EC; --d-acc2:#2C4467; --d-amber:#C98B2D; color-scheme:dark}
+*{box-sizing:border-box}
+html{scroll-padding-top:150px}
+body{background:var(--bg);color:var(--ink);font:400 16.5px/1.5 var(--f-body);-webkit-font-smoothing:antialiased}
+.wrap{max-width:900px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+h1,h2,h3,h4,.eyebrow,.ucode,.qn{font-family:var(--f-head)}
+h1,h2,h3{text-wrap:balance}
+strong{font-weight:700}
+
+.hero{padding-block:36px 20px}
+.eyebrow{font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:0 0 10px}
+.hero h1{font-size:clamp(26px,4.4vw,38px);line-height:1.12;font-weight:800;margin:0 0 12px;letter-spacing:-.01em}
+.lede{color:var(--muted);max-width:62ch;margin:0 0 20px;font-size:17.5px}
+.legend{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-bottom:16px}
+.lg{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:12px 14px;display:grid;grid-template-columns:auto 1fr auto;column-gap:8px;align-items:center}
+.lg b{font-family:var(--f-head);font-weight:700;font-size:14px}
+.lg em{font-style:normal;font-family:var(--f-head);font-weight:800;font-size:20px;font-variant-numeric:tabular-nums}
+.lg small{grid-column:1/-1;color:var(--muted);font-size:13px;margin-top:2px}
+.dot{display:inline-block;width:10px;height:10px;border-radius:50%;flex:none}
+.d1{background:var(--t1)}.d2{background:var(--t2)}.d3{background:var(--t3)}
+.plan{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:12px 16px}
+.plan summary{font-family:var(--f-head);font-weight:700;cursor:pointer;font-size:15px}
+.plan ol{list-style:none;margin:12px 0 4px;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.plan li{display:flex;flex-direction:column;gap:2px;padding:10px 12px;background:var(--soft);border-radius:8px;min-width:0}
+.plan li b{font-family:var(--f-head);font-size:12px;letter-spacing:.04em;text-transform:uppercase;color:var(--muted)}
+.plan li span{font-weight:700}
+.plan li small{color:var(--muted);font-size:13.5px;line-height:1.35}
+
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--surface)}
+.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--surface);border-block:1px solid var(--line)}
+.bar-in{max-width:900px;margin:0 auto;padding-block:8px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:flex;flex-direction:column;gap:8px}
+.units{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;padding-bottom:2px}
+.units::-webkit-scrollbar{display:none}
+.un{display:flex;align-items:baseline;gap:6px;flex:none;text-decoration:none;color:var(--ink);padding:5px 10px;border:1px solid var(--line);border-radius:999px;font-size:13.5px;white-space:nowrap}
+.un b{font-family:var(--f-head);font-weight:800;font-size:12.5px}
+.un span{color:var(--muted)}
+.un:hover,.un:focus-visible{border-color:var(--ink)}
+.ctrls{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center}
+.seg{display:flex;border:1px solid var(--line);border-radius:8px;overflow:hidden}
+.seg button{white-space:nowrap;font:600 13.5px var(--f-body);background:transparent;color:var(--ink);border:0;padding:6px 10px;display:flex;align-items:center;gap:6px;cursor:pointer}
+.seg button+button{border-left:1px solid var(--line)}
+.seg button.on{background:var(--ink);color:var(--surface)}
+.sw{display:flex;align-items:center;gap:6px;font-size:14px;font-weight:600;cursor:pointer;user-select:none}
+.sw input{width:16px;height:16px;accent-color:var(--t3)}
+.prog{margin-left:auto;font:700 13px var(--f-head);color:var(--ok);font-variant-numeric:tabular-nums}
+button:focus-visible,a:focus-visible,input:focus-visible{outline:2px solid var(--t3);outline-offset:2px}
+
+.unit{padding-block:34px 8px}
+.uh{display:flex;align-items:center;gap:14px;padding-bottom:12px;border-bottom:2px solid var(--ink);margin-bottom:18px}
+.ucode{font-weight:800;font-size:30px;line-height:1;min-width:64px;letter-spacing:-.02em}
+.ut{flex:1;min-width:0}
+.ut h2{margin:0;font-size:22px;font-weight:800;line-height:1.15}
+.ut p{margin:2px 0 0;color:var(--muted);font-size:14.5px}
+.ucount{display:flex;align-items:center;gap:5px;font:700 14px var(--f-head);font-variant-numeric:tabular-nums}
+.ucount .dot{margin-left:6px}
+
+.tier{margin-bottom:22px}
+.th{display:flex;flex-wrap:wrap;align-items:center;gap:8px;font-size:15px;font-weight:800;margin:18px 0 10px;text-transform:uppercase;letter-spacing:.05em}
+.th em{font-style:normal;font-variant-numeric:tabular-nums;padding:1px 8px;border-radius:999px;font-size:13px}
+.th1{color:var(--t1)}.th1 em{background:var(--t1s)}
+.th2{color:var(--t2)}.th2 em{background:var(--t2s)}
+.th3{color:var(--t3)}.th3 em{background:var(--t3s)}
+.th small{font-family:var(--f-body);text-transform:none;letter-spacing:0;font-weight:600;color:var(--muted);font-size:13.5px}
+
+.card{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px 16px 12px;margin-bottom:10px}
+.card.t1{border-color:color-mix(in srgb,var(--t1) 38%,var(--line))}
+.ch{display:flex;align-items:center;gap:10px;font-size:12.5px}
+.qn{font-weight:800;font-size:12px;letter-spacing:.02em;font-variant-numeric:tabular-nums}
+.t1 .qn{color:var(--t1)}.t2 .qn{color:var(--t2)}.t3 .qn{color:var(--t3)}
+.sec{color:var(--muted);flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.know{display:flex;align-items:center;gap:5px;font-weight:600;color:var(--muted);cursor:pointer;flex:none}
+.know input{width:16px;height:16px;accent-color:var(--ok)}
+.card.known{opacity:.62}
+.card.known .know{color:var(--ok)}
+.tags{display:flex;flex-wrap:wrap;gap:5px;margin-top:6px}
+.tags:empty{display:none}
+.chip{font-size:12px;font-weight:700;padding:1px 8px;border-radius:999px;line-height:1.6}
+.c-p{background:var(--t1s);color:var(--t1)}
+.c-f{background:var(--t2s);color:var(--t2)}
+.c-mc{background:var(--soft);color:var(--muted)}
+.c-c{background:var(--t3s);color:var(--t3)}
+.c-w{background:transparent;color:var(--warn);border:1px dashed currentColor}
+.q{font-family:var(--f-body);font-size:17.5px;font-weight:700;line-height:1.35;margin:8px 0 8px}
+.ans ul{margin:4px 0 2px;padding-left:20px}
+.ans li{margin:3px 0;padding-left:2px}
+.ans li::marker{color:var(--muted)}
+.ans li.warn{color:var(--warn);list-style:none;margin-left:-20px}
+.ans p{margin:6px 0}
+.ans p.sub{font:800 12px var(--f-head);letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin:12px 0 2px}
+.ans p.sub:first-child{margin-top:4px}
+.ans li ul{margin:2px 0 4px;padding-left:18px}
+.ans li li{margin:2px 0}
+.ans li li::marker{content:"– "}
+.ok{display:flex;flex-wrap:wrap;align-items:baseline;gap:8px;background:var(--oks);color:var(--ok);font-weight:700;padding:7px 12px;border-radius:8px;margin:4px 0 8px!important}
+.ok-k{font:800 11px var(--f-head);letter-spacing:.08em;text-transform:uppercase;opacity:.85}
+.fx{font-weight:700;background:var(--soft);padding:1px 7px;border-radius:5px;white-space:normal;box-decoration-break:clone;-webkit-box-decoration-break:clone;font-variant-numeric:tabular-nums}
+.tw{overflow-x:auto;margin:8px 0}
+table{border-collapse:collapse;width:100%;font-size:15px;font-variant-numeric:tabular-nums}
+th,td{text-align:left;padding:6px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font:700 12.5px var(--f-head);color:var(--muted);text-transform:uppercase;letter-spacing:.04em;background:var(--soft)}
+.fig{margin:10px 0 8px;padding:10px;background:var(--soft);border-radius:10px;overflow-x:auto}
+.fig svg{display:block;width:100%;max-width:560px;height:auto;margin:0 auto;min-width:300px}
+.fig figcaption{font-size:13.5px;color:var(--muted);text-align:center;margin-top:6px}
+.reveal{display:none;font:700 14px var(--f-body);background:transparent;color:var(--t3);border:1px dashed var(--t3);border-radius:8px;padding:6px 12px;cursor:pointer}
+body.exam .card:not(.open) .ans{display:none}
+body.exam .card .reveal{display:inline-block}
+body.exam .card.open .reveal{color:var(--muted);border-color:var(--line);margin-bottom:6px}
+
+/* filtros */
+body[data-f="1"] [data-tier="2"],body[data-f="1"] [data-tier="3"],
+body[data-f="2"] [data-tier="1"],body[data-f="2"] [data-tier="3"],
+body[data-f="3"] [data-tier="1"],body[data-f="3"] [data-tier="2"]{display:none}
+body.hideknown .card.known{display:none}
+
+/* diagramas */
+.fig .ln{stroke:var(--ink);stroke-width:1.8;fill:none}
+.fig .lnm{stroke:var(--muted);stroke-width:1.3;fill:none}
+.fig .fl{fill:var(--d-fill);stroke:var(--ink);stroke-width:1.4}
+.fig .whl{fill:var(--surface);stroke:var(--ink);stroke-width:1.4}
+.fig .ac{fill:var(--d-acc)}
+.fig .ac2{fill:var(--d-acc2)}
+.fig .am{fill:var(--d-amber)}
+.fig .lnf{fill:var(--surface);stroke:var(--ink);stroke-width:1.4}
+.fig .bgc{fill:var(--soft)}
+.fig .acs{stroke:var(--d-acc);stroke-width:2.4;fill:none}
+.fig .ams{stroke:var(--t2);stroke-width:2.4;fill:none}
+.fig .ar{fill:var(--ink)}
+.fig .grid{stroke:var(--line);stroke-width:1}
+.fig .tx{fill:var(--ink);font:600 13px var(--f-body)}
+.fig .ts{fill:var(--muted);font:400 12px var(--f-body)}
+.fig .tf{fill:var(--d-acc);font:700 13.5px var(--f-body)}
+
+.nums{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.nb{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px 16px;min-width:0}
+.nb h4{margin:0 0 6px;font-size:14px;font-weight:800;text-transform:uppercase;letter-spacing:.05em}
+.nb ul{margin:0;padding-left:18px;font-size:15px}
+.nb li{margin:3px 0}
+.foot{color:var(--muted);font-size:13.5px;padding-block:28px 40px;border-top:1px solid var(--line);margin-top:20px}
+
+@media (max-width:700px){
+  .legend,.plan ol,.nums{grid-template-columns:1fr}
+  .ucode{font-size:24px;min-width:48px}
+  .ucount{display:none}
+  .q{font-size:17px}
+  .prog{margin-left:0}
+  .seg button{padding:6px 8px;font-size:13px}
+  .sw{font-size:13.5px}
+}
+@media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
+
+/* exámenes */
+.tabs{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;padding-block:8px}
+.tabs::-webkit-scrollbar{display:none}
+.tab{flex:none;display:flex;align-items:center;gap:8px;font:600 14px var(--f-body);background:var(--surface);color:var(--ink);border:1px solid var(--line);border-radius:999px;padding:7px 14px;cursor:pointer}
+.tab b{font-family:var(--f-head);font-weight:800;font-size:13.5px}
+.tab .tsc{font:700 12px var(--f-head);color:var(--muted);font-variant-numeric:tabular-nums}
+.tab.on{background:var(--ink);color:var(--surface);border-color:var(--ink)}
+.tab.on .tsc{color:var(--surface);opacity:.75}
+.eh{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:14px;padding-block:26px 14px;border-bottom:2px solid var(--ink);margin-bottom:18px}
+.eh h2{margin:0;font-size:26px;font-weight:800;line-height:1.1}
+.eh .eyebrow{margin:0 0 6px}
+.emeta{margin:6px 0 0;color:var(--muted);font-size:14.5px}
+.eact{display:flex;flex-wrap:wrap;align-items:center;gap:8px}
+.btn{font:700 13.5px var(--f-body);background:var(--surface);color:var(--ink);border:1px solid var(--line);border-radius:8px;padding:7px 12px;cursor:pointer}
+.btn:hover{border-color:var(--ink)}
+.escore{font:600 14px var(--f-body);color:var(--muted);padding-left:6px}
+.escore b{font:800 22px var(--f-head);color:var(--ok);font-variant-numeric:tabular-nums}
+.xq{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px 18px 14px;margin-bottom:12px}
+.xh{display:flex;gap:12px;align-items:flex-start}
+.xn{flex:none;width:32px;height:32px;border-radius:50%;background:var(--ink);color:var(--surface);display:grid;place-items:center;font:800 15px var(--f-head)}
+.xmeta{display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px;font-size:13px;min-width:0;padding-top:5px}
+.xu{font-weight:700}
+.xk{font-size:12px;font-weight:700;padding:1px 8px;border-radius:999px}
+.k-mc{background:var(--soft);color:var(--muted)}
+.k-dev{background:var(--t2s);color:var(--t2)}
+.k-calc{background:var(--t3s);color:var(--t3)}
+.xp{display:flex;align-items:center;gap:5px;color:var(--muted)}
+.xt{text-wrap:pretty;font-family:var(--f-body);font-size:18px;font-weight:700;line-height:1.35;margin:10px 0 8px}
+.opts{list-style:none;margin:6px 0 10px;padding:0;display:grid;gap:6px}
+.opts li{margin:0}
+.opt{display:block;width:100%;text-align:left;font:400 16px/1.4 var(--f-body);color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:8px 12px;cursor:pointer}
+.opt:hover{border-color:var(--ink)}
+.opt[aria-pressed="true"]{border-color:var(--t3);background:var(--t3s);font-weight:700}
+.xq.open .opt{cursor:default}
+.xq.open li.right .opt{border-color:var(--ok);background:var(--oks);color:var(--ok);font-weight:700}
+.xq.open li:not(.right) .opt[aria-pressed="true"]{border-color:var(--t1);background:var(--t1s);color:var(--t1);text-decoration:line-through}
+.verdict{font:800 13px var(--f-head);letter-spacing:.03em;padding:3px 10px;border-radius:999px}
+.verdict.good{background:var(--oks);color:var(--ok)}
+.verdict.bad{background:var(--t1s);color:var(--t1)}
+.tmc{font:700 11px var(--f-head);text-transform:uppercase;letter-spacing:.05em;padding:1px 7px;border-radius:999px;background:var(--t3s);color:var(--t3)}
+.tab.on .tmc{background:transparent;color:var(--surface);border:1px solid currentColor}
+.opts li b{font-family:var(--f-head);margin-right:4px}
+
+.multi{margin:0 0 4px;font-size:13.5px;color:var(--muted)}
+.xbar{display:flex;flex-wrap:wrap;align-items:center;gap:12px;margin-top:4px}
+.xq .reveal{display:inline-block}
+.xq.open .reveal{color:var(--muted);border-color:var(--line)}
+.xq:not(.open) .ans{display:none}
+.xq.open .ans{margin-top:10px;padding-top:10px;border-top:1px dashed var(--line)}
+.score{display:flex;align-items:center;gap:6px;font-weight:700;font-size:14px;color:var(--ok);cursor:pointer}
+.score input{width:17px;height:17px;accent-color:var(--ok)}
+@media (max-width:700px){.eh h2{font-size:22px}.xt{font-size:17px}.xq{padding:14px 14px 12px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="hero">
+<p class="eyebrow">UTN · Manejo de Materiales y Distribución en Planta · Hecho por M.A. ⭐</p>
+<h1>7 exámenes de práctica para el 2° parcial</h1>
+<p class="lede">Los exámenes 1 a 5 tienen 10 preguntas de U3, U4, U5, U6, U7.5 y U11, con la mezcla de un parcial real: multiple choice, desarrollo y un cálculo. Los exámenes 6 y 7 son solo de multiple choice. Están armados con las preguntas que más se toman y ninguna se repite entre exámenes.</p>
+<p class="lede">En los multiple choice tocá tu opción y después <b>Ver respuesta</b>: se corrige sola. En las de desarrollo, respondé en papel, abrí la respuesta y marcá <b>La respondí bien</b> para sumar al puntaje.</p>
+</header>
+</div>
+<nav class="bar" aria-label="Exámenes"><div class="bar-in"><div class="tabs" role="tablist"><button type="button" class="tab on" data-ex="1" role="tab" aria-selected="true"><b>Examen 1</b><span class="tsc" id="tsc-1">0/10</span></button><button type="button" class="tab" data-ex="2" role="tab" aria-selected="false"><b>Examen 2</b><span class="tsc" id="tsc-2">0/10</span></button><button type="button" class="tab" data-ex="3" role="tab" aria-selected="false"><b>Examen 3</b><span class="tsc" id="tsc-3">0/10</span></button><button type="button" class="tab" data-ex="4" role="tab" aria-selected="false"><b>Examen 4</b><span class="tsc" id="tsc-4">0/10</span></button><button type="button" class="tab" data-ex="5" role="tab" aria-selected="false"><b>Examen 5</b><span class="tsc" id="tsc-5">0/10</span></button><button type="button" class="tab" data-ex="6" role="tab" aria-selected="false"><b>Examen 6</b><span class="tmc">Choice</span><span class="tsc" id="tsc-6">0/10</span></button><button type="button" class="tab" data-ex="7" role="tab" aria-selected="false"><b>Examen 7</b><span class="tmc">Choice</span><span class="tsc" id="tsc-7">0/10</span></button></div></div></nav>
+<main class="wrap">
+<section class="exam" id="exam-1" data-ex="1">
+<header class="eh"><div><p class="eyebrow">Examen 1 de 7</p><h2>2° Parcial · Modelo 1</h2>
+<p class="emeta">10 preguntas · 3 multiple choice · 6 desarrollo · 1 cálculo · U3 · U4 · U5 · U6 · U7.5 · U11</p></div>
+<div class="eact"><button type="button" class="btn all">Mostrar todas las respuestas</button><button type="button" class="btn reset">Reiniciar</button>
+<div class="escore">Puntaje <b id="sc-1">0</b>/10</div></div></header>
+<article class="xq" id="e1-1">
+<div class="xh"><span class="xn">1</span><div class="xmeta"><span class="xu">U3 · Características de los graneles</span><span class="xk k-dev">Desarrollo</span><span class="xp"><span class="dot d1"></span>Muy probable: salió en parcial</span></div></div>
+<h3 class="xt">Defina el número Mesh y qué implica un Mesh elevado respecto al tamaño de grano.</h3>
+
+<div class="xbar"><button type="button" class="reveal" aria-expanded="false">Ver respuesta</button><label class="score" hidden><input type="checkbox" id="ok-e1-1" data-k="e1-1"><span>La respondí bien</span></label></div>
+<div class="ans"><figure class="fig">
+<svg viewBox="0 0 560 190" role="img" aria-label="Malla Mesh"><defs><marker id="a-me" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="ar"/></marker></defs>
+<rect x="60" y="30" width="8" height="120" class="ac"/><rect x="100" y="30" width="8" height="120" class="ac"/><rect x="140" y="30" width="8" height="120" class="ac"/><rect x="180" y="30" width="8" height="120" class="ac"/><rect x="220" y="30" width="8" height="120" class="ac"/><rect x="56" y="30" width="172" height="8" class="ac"/><rect x="56" y="70" width="172" height="8" class="ac"/><rect x="56" y="110" width="172" height="8" class="ac"/><rect x="56" y="150" width="172" height="8" class="ac"/>
+<line x1="68" y1="165" x2="100" y2="165" class="ln" marker-start="url(#a-me)" marker-end="url(#a-me)"/><text x="84" y="182" class="tx" text-anchor="middle">a</text>
+<line x1="100" y1="165" x2="108" y2="165" class="ln"/><text x="110" y="182" class="tx">d</text>
+<text x="270" y="50" class="tf">25,4 mm = Mesh·a + Mesh·d</text>
+<text x="270" y="78" class="ts">Mesh alto → abertura chica → grano fino</text>
+<text x="270" y="102" class="ts">"por pulgada CUADRADA" → sacar raíz</text>
+<text x="270" y="120" class="ts">(9 por pulg² → Mesh 3)</text>
+</svg><figcaption>Mesh = aberturas por pulgada lineal. 1 pulgada = Mesh·a + Mesh·d.</figcaption></figure><ul><li><strong>Mesh</strong> (número de malla, escala <strong>Tyler</strong>): cantidad de <strong>aberturas por pulgada lineal</strong> de una malla de alambre tejido.</li><li>Depende de la <strong>abertura</strong> (a) y del <strong>diámetro del alambre</strong> (d):</li><li><span class="fx">25,4 mm = Mesh × a + Mesh × d</span></li><li><strong>Mesh elevado</strong> → más aberturas por pulgada → aberturas <strong>más chicas</strong> → grano <strong>más fino</strong>.</li><li>A mayor Mesh, <strong>menor tamaño de grano</strong>.</li><li>Se usa para medir la granulometría con <strong>tamices normalizados</strong>: <strong>IRAM 1501</strong>, ASTM E11, ISO 3310, BS 410.</li><li>Ejemplo: Mesh 4, a = 4,76 mm → 25,4 = 4 × 4,76 + 4 × d → <strong>d = 1,59 mm</strong>.</li></ul></div>
+</article><article class="xq" id="e1-2">
+<div class="xh"><span class="xn">2</span><div class="xmeta"><span class="xu">U3 · Elevadores a cangilones</span><span class="xk k-dev">Desarrollo</span><span class="xp"><span class="dot d1"></span>Muy probable: salió en parcial · 3 veces en finales</span></div></div>
+<h3 class="xt">Describa los tipos de elevadores a cangilones y qué materiales transporta cada uno.</h3>
+
+<div class="xbar"><button type="button" class="reveal" aria-expanded="false">Ver respuesta</button><label class="score" hidden><input type="checkbox" id="ok-e1-2" data-k="e1-2"><span>La respondí bien</span></label></div>
+<div class="ans"><ul><li>Son los equipos <strong>más comunes y económicos</strong> para el transporte <strong>vertical</strong> de graneles: cangilones sobre <strong>correa o cadena</strong>.</li></ul><div class="tw"><table><tr><th></th><th>Centrífugo</th><th>Continuo (descarga positiva)</th></tr><tr><td>Material</td><td>Alto escurrimiento, seco, no abrasivo (<strong>granos, azúcar</strong>)</td><td>Frágil, húmedo o grueso (<strong>café, arcilla, minerales</strong>)</td></tr><tr><td>Velocidad</td><td><strong>Alta: 1,2 a 4 m/s</strong></td><td><strong>Baja: 0,5 a 1 m/s</strong></td></tr><tr><td>Paso</td><td><strong>2 a 3 veces</strong> la proyección del cangilón</td><td><strong>Sin espacio</strong> o mínimo</td></tr><tr><td>Carga</td><td>Por <strong>dragado</strong> en el pie</td><td><strong>Directa</strong> desde tolva</td></tr><tr><td>Descarga</td><td>Por <strong>fuerza centrífuga</strong> al girar en el tambor</td><td>Por <strong>gravedad</strong> (libre o dirigida)</td></tr></table></div><ul><li>Variante centrífuga con cangilones "<strong>sin fondo</strong>" muy juntos: forma una columna de material y permite equipos más chicos.</li></ul></div>
+</article><article class="xq mcq" id="e1-3">
+<div class="xh"><span class="xn">3</span><div class="xmeta"><span class="xu">U4 · Colchón de aire</span><span class="xk k-mc">Multiple choice</span><span class="xp"><span class="dot d1"></span>Muy probable: salió en parcial</span></div></div>
+<h3 class="xt">Para el cálculo, en el transporte con colchón de aire, el número índice de consumo se utiliza para…</h3>
+<ol class="opts"><li><button type="button" class="opt" aria-pressed="false"><b>a)</b> Definir el material de las polleras del sistema inflable</button></li><li class="right"><button type="button" class="opt" aria-pressed="false"><b>b)</b> Definir la presión neumática del sistema</button></li><li><button type="button" class="opt" aria-pressed="false"><b>c)</b> Definir el tipo de piso a utilizar en el trabajo</button></li><li><button type="button" class="opt" aria-pressed="false"><b>d)</b> Definir el tipo y cantidad de colchones para realizar el trabajo</button></li></ol>
+<div class="xbar"><button type="button" class="reveal" aria-expanded="false">Ver respuesta</button><label class="score" hidden><input type="checkbox" id="ok-e1-3" data-k="e1-3"><span>La respondí bien</span></label></div>
+<div class="ans"><figure class="fig">
+<svg viewBox="0 0 560 210" role="img" aria-label="Esquema de colchón de aire"><defs><marker id="a-col" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="ar"/></marker></defs>
+<rect x="170" y="20" width="220" height="56" class="fl"/><text x="280" y="53" class="tx" text-anchor="middle">CARGA (peso W)</text>
+<rect x="190" y="76" width="180" height="12" class="ac"/>
+<path d="M200 88 L180 150 L380 150 L360 88" class="ln"/>
+<text x="280" y="124" class="tf" text-anchor="middle">p (presión en campana)</text>
+<line x1="60" y1="162" x2="500" y2="162" class="ln"/><path d="M60 162 l10 10 M90 162 l10 10 M120 162 l10 10 M150 162 l10 10 M400 162 l10 10 M430 162 l10 10 M460 162 l10 10 M490 162 l10 10" class="lnm"/>
+<line x1="175" y1="156" x2="110" y2="156" class="acs" marker-end="url(#a-col)"/><line x1="385" y1="156" x2="450" y2="156" class="acs" marker-end="url(#a-col)"/>
+<text x="110" y="146" class="ts">aire que fuga</text><text x="400" y="146" class="ts">aire que fuga</text>
+<line x1="395" y1="150" x2="395" y2="162" class="ln"/><text x="402" y="178" class="ts">h = luz de fuga (0,08–0,13 mm)</text>
+<text x="280" y="200" class="tf" text-anchor="middle">F = p × S      ·      S fuga = h × perímetro</text>
+</svg><figcaption>Colchón de aire: la presión en la campana sostiene la carga; el aire fuga por el perímetro (h).</figcaption></figure><p class="ok"><span class="ok-k">Correcta</span>b) Definir la presión neumática del sistema</p><ul><li>El <strong>índice de consumo</strong> mide cuánto aire hace falta para mover una carga sobre ese piso.</li><li>Se compara contra la superficie de referencia: <strong>cristal plano pulido = índice 1</strong>.</li><li><strong>Índice 3</strong> = hace falta <strong>3 veces el caudal</strong> de aire de la superficie base (caso típico: <strong>hormigón</strong>).</li><li>Con ese dato se dimensiona la <strong>alimentación neumática</strong>: caudal y presión a proveer.</li><li>Respuesta aceptada en el parcial del <strong>10/11/2023</strong>.</li></ul><p class="sub">Por qué no las otras</p><ul><li>a) No define el material de las polleras.</li><li>c) No define el piso: el piso ya existe, el índice lo <strong>caracteriza</strong>.</li><li>d) La cantidad de colchones sale de la <strong>carga y la estabilidad</strong>.</li></ul></div>
+</article><article class="xq" id="e1-4">
+<div class="xh"><span class="xn">4</span><div class="xmeta"><span class="xu">U4 · Transportadores aéreos (Power, Power &amp; Free, EOM)</span><span class="xk k-dev">Desarrollo</span><span class="xp"><span class="dot d1"></span>Muy probable: salió en parcial · 2 veces en finales</span></div></div>
+<h3 class="xt">El perfil de sustentación es clave en el diseño de Power y Power &amp; Free: indicar las diferencias entre ambos y esquematizar los dos perfiles.</h3>
+
+<div class="xbar"><button type="button" class="reveal" aria-expanded="false">Ver respuesta</button><label class="score" hidden><input type="checkbox" id="ok-e1-4" data-k="e1-4"><span>La respondí bien</span></label></div>
+<div class="ans"><figure class="fig">
+<svg viewBox="0 0 560 230" role="img" aria-label="Perfiles Power y Power and Free">
+<text x="140" y="18" class="tx" text-anchor="middle">POWER</text>
+<path d="M95 30 h90 v8 h-40 v44 h40 v8 h-90 v-8 h40 v-44 h-40 z" class="fl"/>
+<circle cx="112" cy="96" r="9" class="ac"/><circle cx="168" cy="96" r="9" class="ac"/>
+<path d="M140 100 v40 M126 140 h28 v20 h-28 z" class="ln"/><text x="140" y="178" class="ts" text-anchor="middle">trolley + cadena</text>
+<path d="M140 160 v14 a8 8 0 1 0 8 8" class="ln"/><text x="140" y="212" class="ts" text-anchor="middle">carga colgada</text>
+<text x="410" y="18" class="tx" text-anchor="middle">POWER &amp; FREE</text>
+<path d="M365 30 h90 v8 h-40 v30 h40 v8 h-90 v-8 h40 v-30 h-40 z" class="fl"/>
+<circle cx="382" cy="84" r="7" class="ac"/><circle cx="438" cy="84" r="7" class="ac"/>
+<path d="M410 88 v18" class="ln"/><text x="470" y="96" class="ts">cadena + "perro" empujador</text>
+<path d="M360 112 h32 v50 h-32 v-8 h24 v-34 h-24 z" class="fl"/><path d="M460 112 h-32 v50 h32 v-8 h-24 v-34 h24 z" class="fl"/>
+<circle cx="398" cy="137" r="8" class="am"/><circle cx="422" cy="137" r="8" class="am"/>
+<path d="M410 145 v40" class="ln"/><text x="470" y="140" class="ts">2 perfiles U:</text><text x="470" y="154" class="ts">trolley de carga</text>
+<path d="M410 185 v6 a8 8 0 1 0 8 8" class="ln"/><text x="410" y="222" class="ts" text-anchor="middle">la carga se puede desenganchar y acumular</text>
+</svg><figcaption>Power: un perfil doble T lleva cadena y carga. Power &amp; Free: arriba doble T con la cadena; abajo dos U enfrentadas con el trolley de carga.</figcaption></figure><ul><li><strong>Power</strong>: <strong>un solo perfil doble T</strong> especial.<ul><li>Por su ala inferior ruedan los <strong>trolleys</strong>.</li><li>Los trolleys sostienen <strong>la cadena y la carga</strong> a la vez.</li></ul></li><li><strong>Power &amp; Free</strong>: <strong>dos vías</strong> superpuestas.<ul><li>Arriba: perfil <strong>doble T</strong> (vía de arrastre) con la cadena y sus trolleys <strong>empujadores</strong>.</li><li>Abajo: <strong>dos perfiles U (C) enfrentados</strong>, pista de los trolleys <strong>porta carga</strong>.</li><li>La cadena <strong>solo empuja</strong>; la carga cuelga de la vía inferior.</li><li>Por eso la carga puede <strong>desengancharse, acumularse o desviarse</strong>.</li></ul></li><li>Esquema: Power = una I con trolley y gancho. P&amp;F = una I arriba (cadena con "perros") + dos U enfrentadas abajo con el trolley de carga.</li><li>Perfiles <strong>no normalizados</strong>: acero de alto carbono, alas <strong>endurecidas hasta +40%</strong> contra el desgaste.</li></ul></div>
+</article><article class="xq" id="e1-5">
+<div class="xh"><span class="xn">5</span><div class="xmeta"><span class="xu">U4 · Izaje: puentes grúa, cables, cadenas y accesorios</span><span class="xk k-calc">Cálculo</span><span class="xp"><span class="dot d1"></span>Muy probable: 9 veces en finales</span></div></div>
+<h3 class="xt">Ejercicio de izaje: σ = 15 kg/mm², carga 942 kg, coeficiente según Decreto 351/79. Calcular el diámetro.</h3>
+
+<div class="xbar"><button type="button" class="reveal" aria-expanded="false">Ver respuesta</button><label class="score" hidden><input type="checkbox" id="ok-e1-5" data-k="e1-5"><span>La respondí bien</span></label></div>
+<div class="ans"><ul><li>Con coeficiente de <strong>cuerdas = 10</strong> (lo que pide el enunciado de finales):</li><li><span class="fx">S = (Cs × Q) / σ = (10 × 942) / 15 = 628 mm²</span></li><li><span class="fx">S = π · D² / 4 → D = √(4 × 628 / π) = √799,6 ≈ 28,3 mm</span></li><li>Si fuera <strong>cable (Cs = 6)</strong>: S = 376,8 mm² → <strong>D ≈ 21,9 mm</strong>.</li><li>Si fuera <strong>cadena (Cs = 5)</strong>: S = 314 mm² → <strong>D ≈ 20 mm</strong>.</li><li>Clave: identificar el elemento para elegir el <strong>coeficiente correcto</strong> y <strong>redondear al Ø comercial superior</strong>.</li></ul></div>
+</article><article class="xq" id="e1-6">
+<div class="xh"><span class="xn">6</span><div class="xmeta"><span class="xu">U5 · Schedule</span><span class="xk k-dev">Desarrollo</span><span class="xp"><span class="dot d1"></span>Muy probable: salió en parcial · 6 veces en finales</span></div></div>
+<h3 class="xt">Defina el número Schedule (SCH): qué es, qué representa, fórmula y parámetros de cálculo.</h3>
+
+<div class="xbar"><button type="button" class="reveal" aria-expanded="false">Ver respuesta</button><label class="score" hidden><input type="checkbox" id="ok-e1-6" data-k="e1-6"><span>La respondí bien</span></label></div>
+<div class="ans"><ul><li><strong>Qué es</strong>: número <strong>adimensional</strong> que, junto con el DN, define el <strong>espesor</strong> de un caño.<ul><li>Lo crearon ASTM/API después de los pesos <strong>STD, XS y XXS</strong> de ASA/ANSI.</li></ul></li><li><strong>Qué representa</strong>: un conjunto de caños con <strong>igual relación entre presión interior y resistencia mecánica</strong>.</li><li><span class="fx">SCH = 1000 × P / S</span><ul><li><strong>P</strong> = presión interior (psi).</li><li><strong>S</strong> = tensión admisible del material (psi).</li></ul></li><li><strong>Objetivo</strong>: condiciones de servicio <strong>similares</strong> con distintos DN.</li><li>A <strong>mayor SCH → mayor espesor</strong>.</li><li><strong>Acero al carbono (ANSI B36.10)</strong>: 5, 10, 20, 30, <strong>40</strong>, 60, <strong>80</strong>, 100, 120, 140, <strong>160</strong> (+ STD, XS, XXS).</li><li><strong>Inoxidable (ANSI B36.19)</strong>: <strong>5S, 10S, 40S, 80S</strong>.</li></ul></div>
+</article><article class="xq mcq multi" id="e1-7">
+<div class="xh"><span class="xn">7</span><div class="xmeta"><span class="xu">U5 · Accesorios, válvulas y bombas</span><span class="xk k-mc">Multiple choice</span><span class="xp"><span class="dot d1"></span>Muy probable: salió en parcial</span></div></div>
+<h3 class="xt">¿Con cuáles de estas válvulas se puede regular el flujo?</h3>
+<p class="multi">Puede haber más de una correcta.</p><ol class="opts"><li><button type="button" class="opt" aria-pressed="false"><b>a)</b> Esclusa</button></li><li class="right"><button type="button" class="opt" aria-pressed="false"><b>b)</b> Globo</button></li><li class="right"><button type="button" class="opt" aria-pressed="false"><b>c)</b> Aguja</button></li><li class="right"><button type="button" class="opt" aria-pressed="false"><b>d)</b> Mariposa</button></li></ol>
+<div class="xbar"><button type="button" class="reveal" aria-expanded="false">Ver respuesta</button><label class="score" hidden><input type="checkbox" id="ok-e1-7" data-k="e1-7"><span>La respondí bien</span></label></div>
+<div class="ans"><p class="ok"><span class="ok-k">Correcta</span>b), c) y d): Globo, aguja y mariposa</p><ul><li>La <strong>esclusa</strong> es de <strong>obturación</strong> (todo o nada): estrangularla la daña y no da control fino.</li></ul></div>
+</article><article class="xq" id="e1-8">
+<div class="xh"><span class="xn">8</span><div class="xmeta"><span class="xu">U6 · Residuos peligrosos</span><span class="xk k-dev">Desarrollo</span><span class="xp"><span class="dot d1"></span>Muy probable: 15 veces en finales</span></div></div>
+<h3 class="xt">Generadores de RP en CABA: categorías y fórmula de cálculo (qué es cada ítem), tiempo máximo de almacenamiento y condiciones edilicias.</h3>
+
+<div class="xbar"><button type="button" class="reveal" aria-expanded="false">Ver respuesta</button><label class="score" hidden><input type="checkbox" id="ok-e1-8" data-k="e1-8"><span>La respondí bien</span></label></div>
+<div class="ans"><p class="sub">Categorías (Ley 2.214)</p><ul><li><strong>Pequeños, medianos y grandes</strong> generadores, según la declaración jurada.</li><li>Puntaje del banco: pequeños <strong>2–10</strong> · medianos <strong>11–15</strong> · grandes <strong>≥ 16</strong>.</li></ul><p class="sub">Fórmula polinómica</p><ul><li><span class="fx">CG = Σ (RGi × Pi) + CIA</span></li><li><strong>CG</strong>: categoría de generador.</li><li><strong>RG</strong>: residuos generados (<strong>kg/mes</strong>).</li><li><strong>P</strong>: <strong>peligrosidad</strong> del residuo según su categoría de control.</li><li><strong>CIA</strong>: <strong>coeficiente de impacto ambiental</strong> (según la categorización de la <strong>Ley 123</strong>).</li></ul><p class="sub">Tiempo máximo en el predio</p><ul><li><strong>Pequeños: 2 años</strong> · <strong>medianos y grandes: 1 año</strong> (PBA: máximo 1 año).</li><li>El local debe tener capacidad <strong>1/3 mayor</strong> que el volumen almacenado.</li></ul><p class="sub">Condiciones edilicias</p><ul><li><strong>Canaleta ciega</strong> colectora de líquidos (contención de derrames).</li><li><strong>Zócalos y ángulos sanitarios</strong>; pisos y paredes <strong>anticorrosivos, impermeables y lavables</strong>.</li><li><strong>Ventilación</strong> y <strong>extintores</strong> según el riesgo.</li><li><strong>Plan de contingencia</strong> accesible.</li><li>Residuos <strong>distintos no se mezclan</strong>; los iguales sí, controlando cantidades.</li><li>Contenedores <strong>inertes, resistentes, antivuelco</strong>, identificados con la categoría de control (Anexos I y II, Ley 2.214).</li><li>Bolsas <strong>amarillas de ≥ 100 µm</strong>.</li><li>Etiqueta "<strong>RESIDUOS PELIGROSOS</strong>" con datos del generador, fecha de envasado y riesgos.</li></ul></div>
+</article><article class="xq" id="e1-9">
+<div class="xh"><span class="xn">9</span><div class="xmeta"><span class="xu">U7.5 · Clasificación y almacenamiento en bloque</span><span class="xk k-dev">Desarrollo</span><span class="xp"><span class="dot d1"></span>Muy probable: 3 veces en finales</span></div></div>
+<h3 class="xt">Describa el funcionamiento de las estanterías tipo Drive, la gestión de inventario y sus variantes.</h3>
+
+<div class="xbar"><button type="button" class="reveal" aria-expanded="false">Ver respuesta</button><label class="score" hidden><input type="checkbox" id="ok-e1-9" data-k="e1-9"><span>La respondí bien</span></label></div>
+<div class="ans"><ul><li>Almacenamiento <strong>en bloque de base fija</strong>.</li><li>El <strong>autoelevador entra</strong> al pasillo interior del bloque con la carga <strong>elevada</strong> por encima del nivel de apoyo.</li><li>Es el <strong>más económico</strong> de los sistemas de base fija.</li><li><strong>Drive-In</strong>: <strong>un solo acceso</strong> (contra la pared) → gestión <strong>LIFO</strong> (último en entrar, primero en salir).</li><li><strong>Drive-Through</strong>: en <strong>isla</strong>, con <strong>acceso por ambos extremos</strong> (uno carga, otro extrae) → gestión <strong>FIFO</strong>.</li></ul></div>
+</article><article class="xq mcq" id="e1-10">
+<div class="xh"><span class="xn">10</span><div class="xmeta"><span class="xu">U11 · Transporte marítimo y puertos</span><span class="xk k-mc">Multiple choice</span><span class="xp"><span class="dot d1"></span>Muy probable: salió en parcial</span></div></div>
+<h3 class="xt">Recepción o despacho de líquidos de/a buques tanque: ¿cuándo se usa el amarre Monoboya?</h3>
+<ol class="opts"><li><button type="button" class="opt" aria-pressed="false"><b>a)</b> Sólo con aguas calmas</button></li><li class="right"><button type="button" class="opt" aria-pressed="false"><b>b)</b> Sólo con aguas con mucha turbulencia</button></li><li><button type="button" class="opt" aria-pressed="false"><b>c)</b> Sólo si la carga/descarga supera las 24 hs</button></li><li><button type="button" class="opt" aria-pressed="false"><b>d)</b> Sólo si no supera las 20–24 hs</button></li></ol>
+<div class="xbar"><button type="button" class="reveal" aria-expanded="false">Ver respuesta</button><label class="score" hidden><input type="checkbox" id="ok-e1-10" data-k="e1-10"><span>La respondí bien</span></label></div>
+<div class="ans"><p class="ok"><span class="ok-k">Correcta</span>b) Sólo con aguas con mucha turbulencia</p><ul><li>Amarrado en <strong>un solo punto</strong>, el buque <strong>gira libre</strong> alrededor de la boya (<strong>veleta</strong>) y acompaña viento, olas y corrientes.</li><li>Así <strong>no se rompen las amarras</strong> → aguas turbulentas y clima severo.</li><li>Respuesta del parcial <strong>07/11/2023</strong>.</li></ul></div>
+</article>
+</section><section class="exam" id="exam-2" data-ex="2" hidden>
+<header class="eh"><div><p class="eyebrow">Examen 2 de 7</p><h2>2° Parcial · Modelo 2</h2>
+<p class="emeta">10 preguntas · 3 multiple choice · 7 desarrollo · U3 · U4 · U5 · U6 · U7.5 · U11</p></div>
+<div class="eact"><button type="button" class="btn all">Mostrar todas las respuestas</button><button type="button" class="btn reset">Reiniciar</button>
+<div class="escore">Puntaje <b id="sc-2">0</b>/10</div></div></header>
+<article class="xq mcq" id="e2-1">
+<div class="xh"><span class="xn">1</span><div class="xmeta"><span class="xu">U3 · Características de los graneles</span><span class="xk k-mc">Multiple choice</span><span class="xp"><span class="dot d1"></span>Muy probable: salió en parcial</span></div></div>
+<h3 class="xt">Malla normalizada de 4 aberturas por pulgada CUADRADA, abertura de 11,05 mm. Diámetro del alambre:</h3>
+<ol class="opts"><li><button type="button" class="opt" aria-pressed="false"><b>a)</b> 0,825 mm</button></li><li class="right"><button type="button" class="opt" aria-pressed="false"><b>b)</b> 1,65 mm</button></li><li><button type="button" class="opt" aria-pressed="false"><b>c)</b> 2,475 mm</button></li><li><button type="button" class="opt" aria-pressed="false"><b>d)</b> Ninguna de las respuestas es correcta</button></li></ol>
+<div class="xbar"><button type="button" class="reveal" aria-expanded="false">Ver respuesta</button><label class="score" hidden><input type="checkbox" id="ok-e2-1" data-k="e2-1"><span>La respondí bien</span></label></div>
+<div class="ans"><p class="ok"><span class="ok-k">Correcta</span>b) 1,65 mm</p><ul><li class="warn">⚠ Trampa: dice <strong>por pulgada cuadrada</strong>.</li><li>4 aberturas en 1 pulg² = 2 × 2 → <strong>Mesh 2</strong> (2 por pulgada lineal).</li><li><span class="fx">25,4 = 2 × 11,05 + 2 × d → 25,4 = 22,10 + 2d → d = 1,65 mm</span></li><li>Si usás Mesh 4 da <strong>negativo</strong> (4 × 11,05 = 44,2 &gt; 25,4): señal de que había que sacar la raíz.</li><li>Variante del 2do Parcial 6 (a = 11,04 mm) → <strong>d = 1,66 mm</strong>.</li></ul></div>
+</article><article class="xq" id="e2-2">
+<div class="xh"><span class="xn">2</span><div class="xmeta"><span class="xu">U3 · Cintas transportadoras</span><span class="xk k-dev">Desarrollo</span><span class="xp"><span class="dot d1"></span>Muy probable: salió en parcial · 3 veces en finales</span></div></div>
+<h3 class="xt">Elementos de limpieza de una banda: cuáles son y dónde se colocan respecto de las caras y de los tambores principal y de retorno.</h3>
+
+<div class="xbar"><button type="button" class="reveal" aria-expanded="false">Ver respuesta</button><label class="score" hidden><input type="checkbox" id="ok-e2-2" data-k="e2-2"><span>La respondí bien</span></label></div>
+<div class="ans"><p class="sub">Cara activa (la que lleva material), en el tambor motriz</p><ul><li><strong>Rascador primario</strong>: sobre el tambor motriz, <strong>justo debajo de la caída</strong> del material. <strong>Poca presión</strong>.</li><li><strong>Rascador secundario</strong>: un poco más atrás, donde la banda <strong>sale del tambor</strong> motriz. <strong>Más presión</strong>: saca lo más adherido (polvo fino, barro).</li><li>Láminas de goma o poliuretano sin insertos, con agujeros ovalados para regular; pueden llevar contrapeso.</li></ul><p class="sub">Cara no activa (interna), cerca del tambor de retorno</p><ul><li><strong>Rascador en V</strong> (deflector/arado): en el ramal inferior, <strong>antes del tambor de reenvío</strong>, graduable.</li><li>Desvía piedras para que <strong>no queden atrapadas</strong> entre banda y tambor (perforarían la tela).</li><li>También hay <strong>rodillos de retorno limpiadores</strong>.</li></ul></div>
+</article><article class="xq mcq" id="e2-3">
+<div class="xh"><span class="xn">3</span><div class="xmeta"><span class="xu">U4 · Ruedas industriales y omnidireccionales</span><span class="xk k-mc">Multiple choice</span><span class="xp"><span class="dot d1"></span>Muy probable: salió en parcial</span></div></div>
+<h3 class="xt">Omnidireccionales: movimiento de las ruedas para un deslizamiento transversal hacia la DERECHA (vista en planta).</h3>
+<ol class="opts"><li><button type="button" class="opt" aria-pressed="false"><b>a)</b> Las 4 ruedas en sentido horario</button></li><li><button type="button" class="opt" aria-pressed="false"><b>b)</b> Delantera derecha y trasera derecha horario, y viceversa</button></li><li class="right"><button type="button" class="opt" aria-pressed="false"><b>c)</b> Delantera derecha y trasera izquierda horario, y viceversa</button></li><li><button type="button" class="opt" aria-pressed="false"><b>d)</b> Ninguna de las respuestas es correcta</button></li></ol>
+<div class="xbar"><button type="button" class="reveal" aria-expanded="false">Ver respuesta</button><label class="score" hidden><input type="checkbox" id="ok-e2-3" data-k="e2-3"><span>La respondí bien</span></label></div>
+<div class="ans"><p class="ok"><span class="ok-k">Correcta</span>c) Delantera derecha y trasera izquierda horario, y viceversa</p><ul><li>Para ir de costado las ruedas trabajan por <strong>pares diagonales</strong>: un par en un sentido, el otro al revés.</li><li>Hacia la derecha: <strong>delantera izquierda y trasera derecha hacia adelante</strong>; delantera derecha y trasera izquierda hacia atrás (lo pedido en 2022).</li><li>Las 4 en el mismo sentido → <strong>avanza o retrocede</strong>.</li><li>Izquierdas vs. derechas → <strong>rota</strong>.</li></ul></div>
+</article><article class="xq" id="e2-4">
+<div class="xh"><span class="xn">4</span><div class="xmeta"><span class="xu">U4 · Transportadores aéreos (Power, Power &amp; Free, EOM)</span><span class="xk k-dev">Desarrollo</span><span class="xp"><span class="dot d1"></span>Muy probable: 11 veces en finales</span></div></div>
+<h3 class="xt">Fuerza de tiro total (vertical y horizontal) en Power y Power &amp; Free: fórmula, parámetros y particularidades del cálculo.</h3>
+
+<div class="xbar"><button type="button" class="reveal" aria-expanded="false">Ver respuesta</button><label class="score" hidden><input type="checkbox" id="ok-e2-4" data-k="e2-4"><span>La respondí bien</span></label></div>
+<div class="ans"><ul><li><span class="fx">Tiro total = Tiro horizontal + Tiro por elevación</span></li></ul><p class="sub">Tiro horizontal (rozamiento)</p><ul><li><span class="fx">Th = Cf × Carga normal</span></li><li><strong>Carga normal</strong> = peso cadena (lb/ft × longitud rectificada) + trolleys (+ load bars) + porta cargas + cargas.</li><li><strong>Cf</strong> = coeficiente de fricción de los trolleys (típico <strong>0,025 a 0,030</strong>).</li></ul><p class="sub">Tiro por elevación</p><ul><li><span class="fx">Tv = (desnivel máximo × peso unitario de la carga) / paso de la carga</span></li></ul><p class="sub">Verificación</p><ul><li><strong>Tiro admisible de la cadena (catálogo) ≥ tiro total</strong>.</li><li>Si <strong>no verifica</strong> → cadena de paso <strong>mayor</strong> y recalcular.</li><li>Si sobra <strong>más de 30%</strong> → probar una cadena <strong>menor</strong> (no sobredimensionar).</li></ul><p class="sub">Pasos</p><ul><li>1) Paso de cadena tentativo · 2) carga normal · 3) tiro por elevación · 4) tiro total y verificación.</li></ul><p class="sub">Particularidades</p><ul><li>Cadena, trolleys y porta cargas van en <strong>toda la longitud</strong>; las cargas solo en la <strong>zona útil</strong>.</li><li>El desnivel se toma <strong>solo bajo carga</strong>.</li><li>Verificar que <strong>carga + porta carga ≤ capacidad del trolley</strong> (si supera → <strong>load bar</strong>).</li><li>En P&amp;F se suma la <strong>fricción de los carros porta carga</strong>.</li></ul></div>
+</article><article class="xq" id="e2-5">
+<div class="xh"><span class="xn">5</span><div class="xmeta"><span class="xu">U4 · Izaje: puentes grúa, cables, cadenas y accesorios</span><span class="xk k-dev">Desarrollo</span><span class="xp"><span class="dot d1"></span>Muy probable: salió en parcial · 3 veces en finales</span></div></div>
+<h3 class="xt">¿A qué se denomina alma de un cable de acero y cuántos tipos se usan? Componentes del cable.</h3>
+
+<div class="xbar"><button type="button" class="reveal" aria-expanded="false">Ver respuesta</button><label class="score" hidden><input type="checkbox" id="ok-e2-5" data-k="e2-5"><span>La respondí bien</span></label></div>
+<div class="ans"><figure class="fig">
+<svg viewBox="0 0 560 200" role="img" aria-label="Corte de cable de acero">
+<circle cx="180" cy="100" r="80" class="lnm"/>
+<circle cx="180" cy="100" r="24" class="am"/>
+<g transform="rotate(0 180 100)"><circle cx="180" cy="48" r="24" class="fl"/><circle cx="180" cy="48" r="5" class="ac"/><circle cx="180" cy="36" r="5" class="ac"/><circle cx="190" cy="42" r="5" class="ac"/><circle cx="190" cy="54" r="5" class="ac"/><circle cx="180" cy="60" r="5" class="ac"/><circle cx="170" cy="54" r="5" class="ac"/><circle cx="170" cy="42" r="5" class="ac"/></g><g transform="rotate(60 180 100)"><circle cx="180" cy="48" r="24" class="fl"/><circle cx="180" cy="48" r="5" class="ac"/><circle cx="180" cy="36" r="5" class="ac"/><circle cx="190" cy="42" r="5" class="ac"/><circle cx="190" cy="54" r="5" class="ac"/><circle cx="180" cy="60" r="5" class="ac"/><circle cx="170" cy="54" r="5" class="ac"/><circle cx="170" cy="42" r="5" class="ac"/></g><g transform="rotate(120 180 100)"><circle cx="180" cy="48" r="24" class="fl"/><circle cx="180" cy="48" r="5" class="ac"/><circle cx="180" cy="36" r="5" class="ac"/><circle cx="190" cy="42" r="5" class="ac"/><circle cx="190" cy="54" r="5" class="ac"/><circle cx="180" cy="60" r="5" class="ac"/><circle cx="170" cy="54" r="5" class="ac"/><circle cx="170" cy="42" r="5" class="ac"/></g><g transform="rotate(180 180 100)"><circle cx="180" cy="48" r="24" class="fl"/><circle cx="180" cy="48" r="5" class="ac"/><circle cx="180" cy="36" r="5" class="ac"/><circle cx="190" cy="42" r="5" class="ac"/><circle cx="190" cy="54" r="5" class="ac"/><circle cx="180" cy="60" r="5" class="ac"/><circle cx="170" cy="54" r="5" class="ac"/><circle cx="170" cy="42" r="5" class="ac"/></g><g transform="rotate(240 180 100)"><circle cx="180" cy="48" r="24" class="fl"/><circle cx="180" cy="48" r="5" class="ac"/><circle cx="180" cy="36" r="5" class="ac"/><circle cx="190" cy="42" r="5" class="ac"/><circle cx="190" cy="54" r="5" class="ac"/><circle cx="180" cy="60" r="5" class="ac"/><circle cx="170" cy="54" r="5" class="ac"/><circle cx="170" cy="42" r="5" class="ac"/></g><g transform="rotate(300 180 100)"><circle cx="180" cy="48" r="24" class="fl"/><circle cx="180" cy="48" r="5" class="ac"/><circle cx="180" cy="36" r="5" class="ac"/><circle cx="190" cy="42" r="5" class="ac"/><circle cx="190" cy="54" r="5" class="ac"/><circle cx="180" cy="60" r="5" class="ac"/><circle cx="170" cy="54" r="5" class="ac"/><circle cx="170" cy="42" r="5" class="ac"/></g>
+<line x1="200" y1="100" x2="330" y2="150" class="lnm"/><text x="336" y="154" class="tx">alma (fibra AF o acero AA/IWRC)</text>
+<line x1="200" y1="40" x2="330" y2="50" class="lnm"/><text x="336" y="54" class="tx">cordón (6)</text>
+<line x1="190" y1="32" x2="330" y2="100" class="lnm"/><text x="336" y="104" class="tx">alambres por cordón (7, 19, 36…)</text>
+<text x="336" y="180" class="tf">6 × 19 + 1AT → 6 cordones · 19 alambres · alma textil</text>
+</svg><figcaption>Corte de un cable 6 cordones: alambres forman cordones, que se arrollan sobre el alma.</figcaption></figure><ul><li><strong>Componentes</strong>: <strong>alambres</strong> (acero estirado en frío, 180–220 kg/mm²) → <strong>cordones</strong> → <strong>alma</strong>.</li><li><strong>Alma</strong>: núcleo central sobre el que se arrollan los cordones. Les da apoyo y mantiene la sección circular.</li></ul><p class="sub">Tipos de alma</p><ul><li><strong>De fibra</strong> sintética (polipropileno) o natural (sisal) — <strong>AF / FC</strong>.<ul><li>Lubricada: reduce desgaste interno y protege de la corrosión.</li><li>Más <strong>flexible</strong>, absorbe choques. No resiste aplastamiento ni <strong>&gt; 100 °C</strong>.</li></ul></li><li><strong>De acero de un cordón</strong>: cables de hasta <strong>6 mm</strong>.</li><li><strong>De acero de cable independiente — AA / IWRC</strong>.<ul><li>Cuando los cordones hacen grandes esfuerzos sobre el alma: evita el <strong>aplastamiento</strong>.</li><li><strong>+7–10%</strong> de resistencia y soporta <strong>alta temperatura</strong>.</li></ul></li></ul></div>
+</article><article class="xq" id="e2-6">
+<div class="xh"><span class="xn">6</span><div class="xmeta"><span class="xu">U5 · Espesor de pared (fórmula ASME-ANSI)</span><span class="xk k-dev">Desarrollo</span><span class="xp"><span class="dot d1"></span>Muy probable: salió en parcial · 5 veces en finales</span></div></div>
+<h3 class="xt">Significado de cada parámetro de la fórmula ASME de espesor de pared: tm = [P·Do / 2(S·E + P·y)] + A.</h3>
+
+<div class="xbar"><button type="button" class="reveal" aria-expanded="false">Ver respuesta</button><label class="score" hidden><input type="checkbox" id="ok-e2-6" data-k="e2-6"><span>La respondí bien</span></label></div>
+<div class="ans"><ul><li><span class="fx">tm = P·Do / 2(S·E + P·y) + A</span></li><li><strong>tm</strong>: espesor <strong>mínimo</strong> de pared (pulgadas o mm).</li><li><strong>P</strong>: presión interior <strong>de diseño</strong> (psig). Incluye la estática y sobrepresiones como el <strong>golpe de ariete</strong>.</li><li><strong>Do</strong>: diámetro <strong>exterior</strong> del caño.</li><li><strong>S</strong>: tensión admisible del material <strong>a la temperatura de servicio</strong> (ANSI B31.1 / B31.3).</li><li><strong>E</strong>: <strong>eficiencia de junta</strong>: 1 sin costura; 0,6 a 0,85 con costura.</li><li><strong>y</strong>: coeficiente según <strong>material y temperatura</strong> (aceros ferríticos &lt; 482 °C: y = 0,4).</li><li><strong>A</strong>: espesor adicional por <strong>roscado</strong> (material que se saca) y por <strong>corrosión/erosión</strong> (típico 1,5–3 mm).</li><li>Al resultado se le suma <strong>12,5%</strong> por tolerancia de fabricación y se elige el espesor de <strong>tabla inmediato superior</strong>.</li></ul></div>
+</article><article class="xq mcq" id="e2-7">
+<div class="xh"><span class="xn">7</span><div class="xmeta"><span class="xu">U5 · Schedule</span><span class="xk k-mc">Multiple choice</span><span class="xp"><span class="dot d1"></span>Muy probable: salió en parcial</span></div></div>
+<h3 class="xt">Los Schedules 5S y 10S se usan para:</h3>
+<ol class="opts"><li><button type="button" class="opt" aria-pressed="false"><b>a)</b> Aceros al carbono para alta temperatura</button></li><li class="right"><button type="button" class="opt" aria-pressed="false"><b>b)</b> Sólo aceros inoxidables</button></li><li><button type="button" class="opt" aria-pressed="false"><b>c)</b> Todo tipo de materiales</button></li><li><button type="button" class="opt" aria-pressed="false"><b>d)</b> Ninguna es exacta</button></li></ol>
+<div class="xbar"><button type="button" class="reveal" aria-expanded="false">Ver respuesta</button><label class="score" hidden><input type="checkbox" id="ok-e2-7" data-k="e2-7"><span>La respondí bien</span></label></div>
+<div class="ans"><p class="ok"><span class="ok-k">Correcta</span>b) Sólo aceros inoxidables</p><ul><li>La <strong>"S"</strong> indica <strong>acero inoxidable</strong> (ANSI B36.19: 5S, 10S, 40S, 80S).</li><li>Respuesta del parcial <strong>10/11/2023</strong>.</li></ul></div>
+</article><article class="xq" id="e2-8">
+<div class="xh"><span class="xn">8</span><div class="xmeta"><span class="xu">U6 · Conceptos generales y legislación</span><span class="xk k-dev">Desarrollo</span><span class="xp"><span class="dot d1"></span>Muy probable: salió en parcial · 3 veces en finales</span></div></div>
+<h3 class="xt">Defina desperdicio y explique la diferencia con residuo.</h3>
+
+<div class="xbar"><button type="button" class="reveal" aria-expanded="false">Ver respuesta</button><label class="score" hidden><input type="checkbox" id="ok-e2-8" data-k="e2-8"><span>La respondí bien</span></label></div>
+<div class="ans"><ul><li><strong>Residuo</strong>: material, elemento o sustancia (sólida, semisólida, líquida o gaseosa) <strong>sobrante o subproducto</strong> de los procesos.<ul><li><strong>Sin utilidad directa</strong>.</li><li>Debe <strong>externalizarse</strong> cumpliendo la normativa vigente.</li></ul></li><li><strong>Desperdicio</strong>: <strong>uso ineficiente</strong> de recursos.<ul><li>A diferencia del residuo, es <strong>evitable</strong>.</li><li>Señala una <strong>falla</strong> de planificación, tecnología o procesos.</li></ul></li><li><strong>Diferencia clave</strong>: el residuo es <strong>inherente</strong> al proceso y se <strong>gestiona</strong>; el desperdicio se puede y se debe <strong>eliminar en el origen</strong> mejorando el proceso.</li><li>(En el banco de finales hay otra versión: desperdicios = sobrantes que no pueden tratarse como residuos, como efluentes líquidos y gaseosos. Para el parcial usá la de tu resumen.)</li></ul></div>
+</article><article class="xq" id="e2-9">
+<div class="xh"><span class="xn">9</span><div class="xmeta"><span class="xu">U7.5 · Clasificación y almacenamiento en bloque</span><span class="xk k-dev">Desarrollo</span><span class="xp"><span class="dot d1"></span>Muy probable: 3 veces en finales</span></div></div>
+<h3 class="xt">Nombrar los 3 grandes grupos de almacenamiento. ¿Cuáles son? Ejemplos de cada uno.</h3>
+
+<div class="xbar"><button type="button" class="reveal" aria-expanded="false">Ver respuesta</button><label class="score" hidden><input type="checkbox" id="ok-e2-9" data-k="e2-9"><span>La respondí bien</span></label></div>
+<div class="ans"><figure class="fig">
+<svg viewBox="0 0 560 190" role="img" aria-label="Clasificación de almacenes">
+<rect x="200" y="10" width="160" height="34" rx="8" class="am"/><text x="280" y="32" class="tx" text-anchor="middle">ALMACENAMIENTO</text>
+<path d="M280 44 v16 M95 60 h370 M95 60 v14 M280 60 v14 M465 60 v14" class="ln"/>
+<rect x="10" y="74" width="170" height="106" rx="8" class="fl"/><text x="95" y="96" class="tx" text-anchor="middle">1 · PERMANENCIA</text><text x="95" y="118" class="ts" text-anchor="middle">Cross Docking</text><text x="95" y="134" class="ts" text-anchor="middle">directo</text><text x="95" y="150" class="ts" text-anchor="middle">con preclasificación</text><rect x="195" y="74" width="170" height="106" rx="8" class="fl"/><text x="280" y="96" class="tx" text-anchor="middle">2 · EN BLOQUE</text><text x="280" y="118" class="ts" text-anchor="middle">sobre piso · Drive</text><text x="280" y="134" class="ts" text-anchor="middle">Push-Back · Dinámicas</text><text x="280" y="150" class="ts" text-anchor="middle">Pallet Shuttle</text><rect x="380" y="74" width="170" height="106" rx="8" class="fl"/><text x="465" y="96" class="tx" text-anchor="middle">3 · ACCESO DIRECTO</text><text x="465" y="118" class="ts" text-anchor="middle">base fija · base móvil</text><text x="465" y="134" class="ts" text-anchor="middle">Cantilever</text><text x="465" y="150" class="ts" text-anchor="middle">piezas pequeñas</text>
+</svg><figcaption>Los 3 grandes grupos de sistemas de almacenamiento.</figcaption></figure><ul><li><strong>1. Por tiempo de permanencia</strong> (residencia nula o mínima):<ul><li><strong>Cross Docking directo</strong> y <strong>con preclasificación</strong>.</li><li>Ej.: centro de distribución regional de <strong>bebidas</strong>; plataforma de <strong>e-commerce</strong> (Mercado Libre).</li></ul></li><li><strong>2. En bloque (alta densidad)</strong>: agrupa pallets compactos, <strong>sacrificando selectividad</strong> para ganar volumen.<ul><li><strong>Sobre piso</strong> · <strong>Drive-In / Drive-Through</strong> · <strong>Push-Back</strong> · <strong>Dinámicas a rodillos</strong> · <strong>Pallet Shuttle</strong>.</li><li>Ej.: pocas referencias con mucho volumen, cámaras de frío, bebidas.</li></ul></li><li><strong>3. De acceso directo (selectivos)</strong>: acceso a <strong>cualquier</strong> unidad (100% selectividad) o piezas chicas.<ul><li><strong>Base fija</strong> (convencional, doble profundidad) · <strong>base móvil</strong> · <strong>Cantilever</strong> · <strong>piezas pequeñas</strong>.</li><li>Ej.: depósitos <strong>multirreferencia</strong>, repuestos, caños y perfiles, farmacia.</li></ul></li></ul></div>
+</article><article class="xq" id="e2-10">
+<div class="xh"><span class="xn">10</span><div class="xmeta"><span class="xu">U11 · Transporte por carretera</span><span class="xk k-dev">Desarrollo</span><span class="xp"><span class="dot d1"></span>Muy probable: salió en parcial · 6 veces en finales</span></div></div>
+<h3 class="xt">¿A qué equipamiento se lo denomina Rodotren? ¿Cuál es la versión permitida por ley en Argentina? Bitren.</h3>
+
+<div class="xbar"><button type="button" class="reveal" aria-expanded="false">Ver respuesta</button><label class="score" hidden><input type="checkbox" id="ok-e2-10" data-k="e2-10"><span>La respondí bien</span></label></div>
+<div class="ans"><figure class="fig">
+<svg viewBox="0 0 560 150" role="img" aria-label="Bitren"><defs><marker id="a-bt" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="ar"/></marker></defs>
+<rect x="440" y="40" width="80" height="56" rx="6" class="am"/><rect x="230" y="50" width="200" height="46" class="fl"/><rect x="30" y="50" width="190" height="46" class="fl"/>
+<circle cx="60" cy="106" r="10" class="ac"/><circle cx="85" cy="106" r="10" class="ac"/><circle cx="110" cy="106" r="10" class="ac"/><circle cx="260" cy="106" r="10" class="ac"/><circle cx="285" cy="106" r="10" class="ac"/><circle cx="310" cy="106" r="10" class="ac"/><circle cx="460" cy="106" r="10" class="ac"/><circle cx="500" cy="106" r="10" class="ac"/>
+<line x1="30" y1="135" x2="520" y2="135" class="ln" marker-start="url(#a-bt)" marker-end="url(#a-bt)"/><text x="275" y="128" class="tf" text-anchor="middle">≤ 25,5 m · PBTC 75 t · ABS/EBS · 80 km/h</text>
+</svg><figcaption>Bitren: tractora + 2 semirremolques. Hasta 25,5 m y 75 t por corredores habilitados; 8,5 t por eje.</figcaption></figure><ul><li><strong>Rodotren</strong>: vehículo de carga por carretera con <strong>una unidad motora y al menos dos unidades articuladas</strong> de arrastre; puede llegar a <strong>42 m</strong>.<ul><li>Usa un carro intermedio (<strong>dolly</strong>) con lanza → <strong>efecto latigazo</strong>, menos estable.</li></ul></li><li><strong>En Argentina</strong>: se permite el <strong>bitren</strong> = <strong>unidad motora + dos semirremolques</strong>.<ul><li>El segundo semirremolque apoya en una <strong>quinta rueda</strong> del primero (sin dolly) → <strong>sin latigazo</strong>, mucho más estable.</li><li>Regulado por <strong>Decreto 574/2014</strong> y luego <strong>Decreto 32/2018</strong> (17 provincias adheridas).</li></ul></li></ul><p class="sub">Circulación</p><ul><li>Hasta <strong>22,4 m y 60 t</strong> → circula <strong>libre</strong>.</li><li>Hasta <strong>25,5 m y 75 t</strong> → por <strong>corredores habilitados</strong>.</li><li>Hasta <strong>30,25 m</strong> → <strong>con permiso</strong>.</li></ul><p class="sub">Ventajas</p><ul><li><strong>Reduce costos 25% a 35%</strong>.</li><li>Lleva <strong>40% a 75% más</strong> de carga neta (hasta <strong>51 t</strong> netas, PBTC <strong>75 t</strong>).</li><li><strong>Daña menos el pavimento</strong>: <strong>8,5 t por eje</strong> vs 10,5 t del convencional (reparte en 7 a 9 ejes).</li></ul><p class="sub">Exigencias</p><ul><li>Potencia mínima <strong>6,75 CV por tonelada</strong> (motores de 450–550 CV).</li><li><strong>ABS/EBS</strong>, <strong>control de estabilidad (ESP)</strong>, suspensión neumática, <strong>80 km/h máximo</strong>, <strong>GPS</strong>.</li></ul></div>
+</article>
+</section><section class="exam" id="exam-3" data-ex="3" hidden>
+<header class="eh"><div><p class="eyebrow">Examen 3 de 7</p><h2>2° Parcial · Modelo 3</h2>
+<p class="emeta">10 preguntas · 3 multiple choice · 6 desarrollo · 1 cálculo · U3 · U4 · U5 · U6 · U7.5 · U11</p></div>
+<div class="eact"><button type="button" class="btn all">Mostrar todas las respuestas</button><button type="button" class="btn reset">Reiniciar</button>
+<div class="escore">Puntaje <b id="sc-3">0</b>/10</div></div></header>
+<article class="xq" id="e3-1">
+<div class="xh"><span class="xn">1</span><div class="xmeta"><span class="xu">U3 · Cintas transportadoras</span><span class="xk k-dev">Desarrollo</span><span class="xp"><span class="dot d1"></span>Muy probable: salió en parcial · 5 veces en finales</span></div></div>
+<h3 class="xt">Parámetros que definen la capacidad de transporte de una cinta y su unidad de medida.</h3>
+
+<div class="xbar"><button type="button" class="reveal" aria-expanded="false">Ver respuesta</button><label class="score" hidden><input type="checkbox" id="ok-e3-1" data-k="e3-1"><span>La respondí bien</span></label></div>
+<div class="ans"><ul><li><strong>Ancho</strong> de la banda: base de la sección.</li><li><strong>Velocidad</strong> de la banda: <strong>1,6 a 5,1 m/s</strong> (según humedad, granulometría y ancho).</li><li><strong>Disposición de la cuna / artesa</strong>: 1 rodillo plano, 2 a 20°, 3 a 20°/30°/45°. La de <strong>3 rodillos a 35–45°</strong> es la de <strong>mayor capacidad</strong>.</li><li><strong>Inclinación</strong> del equipo: coeficiente <strong>K</strong> (más inclinación → menos capacidad).</li><li><strong>Material</strong>: peso específico, ángulo de reacomodamiento, granulometría.</li><li><span class="fx">C = C tabla × K × V [m³/h]</span></li><li><span class="fx">Q = C × Pe [t/h]</span> → unidad: <strong>toneladas por hora</strong>.</li></ul></div>
+</article><article class="xq mcq" id="e3-2">
+<div class="xh"><span class="xn">2</span><div class="xmeta"><span class="xu">U3 · Cintas transportadoras</span><span class="xk k-mc">Multiple choice</span><span class="xp"><span class="dot d1"></span>Muy probable: salió en parcial</span></div></div>
+<h3 class="xt">Sin interferencias, el mando motriz conviene que alimente directamente al:</h3>
+<ol class="opts"><li><button type="button" class="opt" aria-pressed="false"><b>a)</b> Tambor de reenvío en tolva receptora</button></li><li class="right"><button type="button" class="opt" aria-pressed="false"><b>b)</b> Tambor en tolva colectora del material</button></li><li><button type="button" class="opt" aria-pressed="false"><b>c)</b> Tambor tensor</button></li><li><button type="button" class="opt" aria-pressed="false"><b>d)</b> Ninguna de las respuestas es correcta</button></li></ol>
+<div class="xbar"><button type="button" class="reveal" aria-expanded="false">Ver respuesta</button><label class="score" hidden><input type="checkbox" id="ok-e3-2" data-k="e3-2"><span>La respondí bien</span></label></div>
+<div class="ans"><p class="ok"><span class="ok-k">Correcta</span>b) Tambor en tolva colectora del material</p><ul><li>El mando va al <strong>tambor de accionamiento</strong> en la <strong>cabeza de descarga</strong> (donde está la tolva colectora).</li><li>Así el motor <strong>tira del ramal cargado</strong>: trabaja traccionado y el ramal cargado queda tenso, en vez de empujar.</li><li>El tambor de la zona de carga es el de <strong>reenvío</strong>.</li><li>Respuesta del parcial <strong>10/11/2023</strong>.</li></ul></div>
+</article><article class="xq" id="e3-3">
+<div class="xh"><span class="xn">3</span><div class="xmeta"><span class="xu">U4 · Colchón de aire</span><span class="xk k-dev">Desarrollo</span><span class="xp"><span class="dot d1"></span>Muy probable: salió en parcial · 1 vez en finales</span></div></div>
+<h3 class="xt">Defina la fuerza de sustentación y la sección de fuga de un colchón de aire, indicando el significado de cada parámetro.</h3>
+
+<div class="xbar"><button type="button" class="reveal" aria-expanded="false">Ver respuesta</button><label class="score" hidden><input type="checkbox" id="ok-e3-3" data-k="e3-3"><span>La respondí bien</span></label></div>
+<div class="ans"><p class="sub">Fuerza de sustentación</p><ul><li><span class="fx">F = p × S</span> → p: presión efectiva en la campana · S: superficie del colchón.</li></ul><p class="sub">Sección de fuga</p><ul><li><span class="fx">S fuga = h × l</span></li><li><strong>h</strong> = altura de fuga: luz entre el borde inferior de la campana y el suelo. Depende del <strong>caudal</strong> de aire.</li><li><strong>l</strong> = longitud del <strong>perímetro</strong> del colchón (circular: l = π · D).</li></ul><p class="sub">Claves</p><ul><li>Si el piso tiene rugosidades <strong>mayores que h</strong>, el aire se escapa y el sistema <strong>falla</strong>.</li><li>La <strong>calidad del piso</strong> define la altura de fuga posible.</li><li>Los colchones <strong>circulares</strong> minimizan h y tienen la mejor relación <strong>superficie/perímetro</strong> (S/L = D/4).</li><li>La potencia neumática es proporcional a la carga y a h.</li></ul></div>
+</article><article class="xq" id="e3-4">
+<div class="xh"><span class="xn">4</span><div class="xmeta"><span class="xu">U4 · Transportadores aéreos (Power, Power &amp; Free, EOM)</span><span class="xk k-calc">Cálculo</span><span class="xp"><span class="dot d1"></span>Muy probable: salió en parcial</span></div></div>
+<h3 class="xt">Ejercicio de verificación de un sistema Power (cadenas X348 / X458 / X678): ¿satisface el proceso? ¿qué % de aumento de carga permite? Si no es apto, razones y solución.</h3>
+
+<div class="xbar"><button type="button" class="reveal" aria-expanded="false">Ver respuesta</button><label class="score" hidden><input type="checkbox" id="ok-e3-4" data-k="e3-4"><span>La respondí bien</span></label></div>
+<div class="ans"><p class="sub">Método</p><ul><li>1) Trolley: carga + porta carga ≤ capacidad (si no, load bar).</li><li>2) Carga normal · 3) × Cf · 4) + elevación · 5) comparar con el admisible.</li></ul><p class="sub">Ejemplo 1° parcial 07/07/2025 — X348</p><ul><li>Datos: admisible <strong>1.500 lb</strong>, cadena 2,2 lb/ft, trolley 4,5 lb y <strong>200 lb</strong> de capacidad, Cf 0,03, paso armada 2 ft, paso carga 4 ft. L = 560 ft, carga 165 lb, porta carga 30 lb, zona cargada 500 ft, H1 = 6 ft, H3 = 14 ft.</li><li>Trolley: 165 + 30 = <strong>195 ≤ 200</strong> → sin load bar.</li><li>Cadena 560 × 2,2 = <strong>1.232</strong> · trolleys (560/2) × 4,5 = <strong>1.260</strong> · porta cargas (560/4) × 30 = <strong>4.200</strong> · cargas (500/4) × 165 = <strong>20.625</strong></li><li>Carga normal ≈ <strong>27.317 lb</strong></li><li>Th = 0,03 × 27.317 ≈ <strong>820 lb</strong> · Tv = (14 − 6) × 165 / 4 = <strong>330 lb</strong></li><li>Total ≈ <strong>1.150 lb &lt; 1.500 → APTO</strong>. Margen ≈ <strong>30%</strong>.</li></ul><p class="sub">Recuperatorio 21/11/2023 — Power 3" (X348)</p><ul><li>160 + 50 = <strong>210 lb &gt; 200</strong> → load bar en cada carga.</li><li>L 800 ft, útil 600 ft, desnivel 10,5 ft.</li><li>Normal = 1.760 (cadena) + 1.640 (400 trolleys) + 820 (200 barras) + 10.000 (porta cargas) + 24.000 (cargas) = <strong>38.220 lb</strong></li><li>Th ≈ <strong>1.147 lb</strong> · Tv = 10,5 × 160 / 4 = <strong>420 lb</strong> → total ≈ <strong>1.567 lb &gt; 1.500 → NO APTO</strong>.</li><li>Razón: el tiro supera el admisible.</li><li>Solución: pasar a <strong>X458</strong> (4"): trolley de 400 lb (sin load bar), Cf 0,025 → ≈ 983 + 420 ≈ <strong>1.400 lb ≪ 2.500 lb</strong>.</li><li>Otras opciones: <strong>subir el paso de la carga</strong> o partir el circuito con un <strong>segundo mando</strong>.</li></ul><p class="sub">% de aumento posible</p><ul><li><span class="fx">(admisible − tiro actual) / tiro de las cargas</span> · verificar también la capacidad del trolley.</li><li class="warn">⚠ Declarar en el examen qué tramo va cargado y si el desnivel se toma con carga sola o con porta carga.</li></ul></div>
+</article><article class="xq mcq" id="e3-5">
+<div class="xh"><span class="xn">5</span><div class="xmeta"><span class="xu">U4 · Izaje: puentes grúa, cables, cadenas y accesorios</span><span class="xk k-mc">Multiple choice</span><span class="xp"><span class="dot d1"></span>Muy probable: salió en parcial</span></div></div>
+<h3 class="xt">Cadenas de acero forjado para izaje: factor de seguridad mínimo legal y norma:</h3>
+<ol class="opts"><li><button type="button" class="opt" aria-pressed="false"><b>a)</b> 20 – Ley 24.051</button></li><li><button type="button" class="opt" aria-pressed="false"><b>b)</b> 15 – Decreto 351/79</button></li><li class="right"><button type="button" class="opt" aria-pressed="false"><b>c)</b> 5 – Decreto 351/79</button></li><li><button type="button" class="opt" aria-pressed="false"><b>d)</b> 10 – Ley 24.051</button></li></ol>
+<div class="xbar"><button type="button" class="reveal" aria-expanded="false">Ver respuesta</button><label class="score" hidden><input type="checkbox" id="ok-e3-5" data-k="e3-5"><span>La respondí bien</span></label></div>
+<div class="ans"><p class="ok"><span class="ok-k">Correcta</span>c) 5 – Decreto 351/79</p><ul><li>Dto. 351/79, art. 122: factor <strong>≥ 5</strong> para la carga máxima admisible.</li><li>La <strong>Ley 24.051</strong> es de <strong>residuos peligrosos</strong>: descarte inmediato.</li><li>Otros coeficientes del Decreto: cables de izaje <strong>6</strong> · cuerdas <strong>10</strong> · ganchos a mano <strong>3</strong>, a motor <strong>4</strong>, materiales peligrosos <strong>5</strong> · partes estructurales <strong>4</strong>.</li></ul></div>
+</article><article class="xq" id="e3-6">
+<div class="xh"><span class="xn">6</span><div class="xmeta"><span class="xu">U5 · Accesorios, válvulas y bombas</span><span class="xk k-dev">Desarrollo</span><span class="xp"><span class="dot d1"></span>Muy probable: 3 veces en finales</span></div></div>
+<h3 class="xt">Cavitación: concepto, daños, causas y criterio NPSH</h3>
+
+<div class="xbar"><button type="button" class="reveal" aria-expanded="false">Ver respuesta</button><label class="score" hidden><input type="checkbox" id="ok-e3-6" data-k="e3-6"><span>La respondí bien</span></label></div>
+<div class="ans"><ul><li>La presión en el <strong>ojo del impulsor</strong> baja por debajo de la <strong>presión de vapor</strong> del líquido.</li><li>El líquido <strong>hierve</strong> y forma <strong>burbujas</strong>; al llegar a zonas de más presión <strong>implosionan</strong>.</li></ul><p class="sub">Daños</p><ul><li><strong>Erosión y picado</strong> de los álabes (aspecto esponjoso).</li><li><strong>Ruido</strong> "a piedras" y <strong>vibraciones</strong>.</li><li><strong>Cae el rendimiento</strong>; se rompen sellos y rodamientos.</li></ul><p class="sub">Condición de diseño</p><ul><li><span class="fx">NPSH disponible ≥ NPSH requerido + 0,5 a 1 m</span></li></ul><p class="sub">Cómo evitarla</p><ul><li><strong>Agrandar el diámetro</strong> de la aspiración (menos pérdidas).</li><li>Bomba <strong>cerca</strong> del tanque; tanque <strong>por encima</strong> de la bomba (carga positiva).</li><li>Pocos codos y válvulas antes de la aspiración.</li></ul></div>
+</article><article class="xq mcq" id="e3-7">
+<div class="xh"><span class="xn">7</span><div class="xmeta"><span class="xu">U5 · Espesor de pared (fórmula ASME-ANSI)</span><span class="xk k-mc">Multiple choice</span><span class="xp"><span class="dot d1"></span>Muy probable: salió en parcial</span></div></div>
+<h3 class="xt">Por la tolerancia de fabricación, el espesor de cálculo se incrementa en:</h3>
+<ol class="opts"><li><button type="button" class="opt" aria-pressed="false"><b>a)</b> 11%</button></li><li><button type="button" class="opt" aria-pressed="false"><b>b)</b> 11,5%</button></li><li><button type="button" class="opt" aria-pressed="false"><b>c)</b> 12%</button></li><li class="right"><button type="button" class="opt" aria-pressed="false"><b>d)</b> 12,5%</button></li></ol>
+<div class="xbar"><button type="button" class="reveal" aria-expanded="false">Ver respuesta</button><label class="score" hidden><input type="checkbox" id="ok-e3-7" data-k="e3-7"><span>La respondí bien</span></label></div>
+<div class="ans"><p class="ok"><span class="ok-k">Correcta</span>d) 12,5%</p><ul><li>La tolerancia de fabricación del espesor es de <strong>−12,5%</strong> (ASTM A53 / A106) → se agrega ese margen.</li></ul></div>
+</article><article class="xq" id="e3-8">
+<div class="xh"><span class="xn">8</span><div class="xmeta"><span class="xu">U6 · Patogénicos, PCB y radiactivos</span><span class="xk k-dev">Desarrollo</span><span class="xp"><span class="dot d1"></span>Muy probable: salió en parcial · 3 veces en finales</span></div></div>
+<h3 class="xt">¿A qué se llama residuos de salud o patogénicos? Defínalos.</h3>
+
+<div class="xbar"><button type="button" class="reveal" aria-expanded="false">Ver respuesta</button><label class="score" hidden><input type="checkbox" id="ok-e3-8" data-k="e3-8"><span>La respondí bien</span></label></div>
+<div class="ans"><ul><li><strong>Residuo patogénico</strong>: todo desecho (sólido, semisólido, líquido o gaseoso) con características de <strong>infecciosidad, toxicidad o actividad biológica</strong> que pueda afectar directa o indirectamente a los <strong>seres vivos o al ambiente</strong>.</li></ul><p class="sub">Incluye</p><ul><li><strong>Cultivos</strong> de laboratorio · <strong>sangre</strong> y derivados.</li><li>Restos de <strong>quirófano</strong>, hemodiálisis, hemoterapia, anatomía patológica y morgue.</li><li><strong>Algodones, gasas, vendas</strong> · <strong>jeringas y cortopunzantes</strong>.</li><li><strong>Animales</strong> de experimentación y de veterinarias.</li><li>Todo lo de áreas de alto riesgo infectocontagioso.</li></ul><p class="sub">Residuos de salud</p><ul><li><strong>Tipo A</strong>: comunes · <strong>Tipo B</strong>: <strong>patogénicos</strong> · <strong>Tipo C</strong>: peligrosos/especiales (radiactivos y químicos).</li></ul><p class="sub">Normas y generadores</p><ul><li>Nación <strong>Ley 24.051</strong> · CABA <strong>Ley 154</strong> · PBA <strong>Ley 11.347</strong>.</li><li>CABA distingue <strong>generador</strong> y <strong>pequeño generador (&lt; 10 kg/día)</strong>; PBA tiene categoría única.</li></ul><p class="sub">Manejo</p><ul><li>Segregación en <strong>bolsas rojas</strong> y <strong>descartadores</strong> para cortopunzantes.</li><li>Almacenamiento transitorio <strong>≤ 72 h</strong> (o <strong>7 días refrigerado a ≤ 4 °C</strong>).</li><li>Transporte habilitado <strong>con manifiesto</strong> (mínimo 2 vehículos).</li><li><strong>Tratamiento obligatorio</strong>: autoclave, incineración, microondas.</li><li>Disposición en <strong>relleno sanitario</strong>.</li></ul></div>
+</article><article class="xq" id="e3-9">
+<div class="xh"><span class="xn">9</span><div class="xmeta"><span class="xu">U7.5 · Clasificación y almacenamiento en bloque</span><span class="xk k-dev">Desarrollo</span><span class="xp"><span class="dot d1"></span>Muy probable: 3 veces en finales</span></div></div>
+<h3 class="xt">Almacén Push-Back: funcionamiento y tipos de soportes por canal.</h3>
+
+<div class="xbar"><button type="button" class="reveal" aria-expanded="false">Ver respuesta</button><label class="score" hidden><input type="checkbox" id="ok-e3-9" data-k="e3-9"><span>La respondí bien</span></label></div>
+<div class="ans"><ul><li>Bloque de base fija con <strong>una referencia por canal</strong>; la máquina <strong>no entra</strong> al pasillo.</li><li><strong>Funcionamiento</strong>:<ul><li>El canal tiene una leve <strong>inclinación de 2° a 3°</strong> hacia el pasillo.</li><li>Al <strong>cargar</strong>, el pallet nuevo <strong>empuja</strong> al anterior hacia atrás.</li><li>Al <strong>retirar</strong>, los demás <strong>avanzan por gravedad</strong>.</li></ul></li><li><strong>Soportes</strong>:<ul><li><strong>Carros anidados (cunas)</strong>: hasta <strong>4 pallets</strong> por canal.</li><li><strong>Rodillos</strong>: hasta <strong>6 pallets</strong> por canal (según el peso).</li></ul></li><li>Gestión <strong>LIFO</strong>, rotación media, utilización <strong>&gt; 85%</strong>, alta seguridad.</li></ul></div>
+</article><article class="xq" id="e3-10">
+<div class="xh"><span class="xn">10</span><div class="xmeta"><span class="xu">U11 · Transporte marítimo y puertos</span><span class="xk k-dev">Desarrollo</span><span class="xp"><span class="dot d1"></span>Muy probable: salió en parcial · 4 veces en finales</span></div></div>
+<h3 class="xt">¿Qué es un hub? ¿Qué es el sistema Hub &amp; Spoke? Ventajas y desventajas.</h3>
+
+<div class="xbar"><button type="button" class="reveal" aria-expanded="false">Ver respuesta</button><label class="score" hidden><input type="checkbox" id="ok-e3-10" data-k="e3-10"><span>La respondí bien</span></label></div>
+<div class="ans"><figure class="fig">
+<svg viewBox="0 0 560 200" role="img" aria-label="Modelo Hub and Spoke">
+<line x1="150" y1="100" x2="225.0" y2="100.0" class="lnm"/><circle cx="225.0" cy="100.0" r="9" class="fl"/><line x1="150" y1="100" x2="187.51283059478027" y2="160.61486279014758" class="lnm"/><circle cx="187.51283059478027" cy="160.61486279014758" r="9" class="fl"/><line x1="150" y1="100" x2="112.52566557953818" y2="160.63560211660416" class="lnm"/><circle cx="112.52566557953818" cy="160.63560211660416" r="9" class="fl"/><line x1="150" y1="100" x2="75.00001317143501" y2="100.04148574885696" class="lnm"/><circle cx="75.00001317143501" cy="100.04148574885696" r="9" class="fl"/><line x1="150" y1="100" x2="112.44868640684291" y2="39.40589782656835" class="lnm"/><circle cx="112.44868640684291" cy="39.40589782656835" r="9" class="fl"/><line x1="150" y1="100" x2="187.43582508372307" y2="39.34367985448307" class="lnm"/><circle cx="187.43582508372307" cy="39.34367985448307" r="9" class="fl"/><line x1="410" y1="100" x2="475.81869214177794" y2="133.55978770229422" class="lnm"/><circle cx="475.81869214177794" cy="133.55978770229422" r="9" class="fl"/><line x1="410" y1="100" x2="411.7845560764986" y2="169.98018165431716" class="lnm"/><circle cx="411.7845560764986" cy="169.98018165431716" r="9" class="fl"/><line x1="410" y1="100" x2="345.96647451914407" y2="136.4443376147818" class="lnm"/><circle cx="345.96647451914407" cy="136.4443376147818" r="9" class="fl"/><line x1="410" y1="100" x2="344.1600094235043" y2="66.47662536121047" class="lnm"/><circle cx="344.1600094235043" cy="66.47662536121047" r="9" class="fl"/><line x1="410" y1="100" x2="408.1710078046423" y2="30.02081775081116" class="lnm"/><circle cx="408.1710078046423" cy="30.02081775081116" r="9" class="fl"/><line x1="410" y1="100" x2="474.01037259293224" y2="63.52024906878752" class="lnm"/><circle cx="474.01037259293224" cy="63.52024906878752" r="9" class="fl"/>
+<line x1="150" y1="100" x2="410" y2="100" class="acs" stroke-width="5"/>
+<circle cx="150" cy="100" r="22" class="am"/><text x="150" y="105" class="tx" text-anchor="middle">HUB</text>
+<circle cx="410" cy="100" r="22" class="am"/><text x="410" y="105" class="tx" text-anchor="middle">HUB</text>
+<text x="280" y="92" class="ts" text-anchor="middle">buque madre</text><text x="150" y="194" class="ts" text-anchor="middle">spokes con Feeder</text>
+</svg><figcaption>Hub &amp; Spoke: los puertos menores se conectan al hub con buques Feeder; los hubs entre sí con buques oceánicos.</figcaption></figure><ul><li><strong>Hub</strong>: puerto (o aeropuerto) <strong>central de gran capacidad</strong> que concentra la carga oceánica y la <strong>redistribuye</strong> a su zona con buques <strong>Feeder</strong> y a otros puertos con buques oceánicos.</li><li><strong>Hub &amp; Spoke</strong>: red <strong>radial</strong>. Los <strong>spokes</strong> (puertos menores) se conectan a los hubs, y los hubs entre sí, en lugar de unir todos con todos.<ul><li>Se usa en el marítimo, la aviación comercial y el transporte en general.</li></ul></li></ul><p class="sub">Para ser hub</p><ul><li><strong>Capacidad</strong> de movimiento de contenedores · <strong>calado</strong> profundo (&gt; 15 m) y <strong>muelles</strong> grandes · grúas de alta productividad.</li><li><strong>Ubicación geográfica</strong> sobre las grandes rutas · buenos <strong>accesos</strong> terrestres, fluviales, aéreos.</li><li><strong>Mercado</strong> y servicios · <strong>multimodalidad</strong> · economía de escala buque madre → feeder.</li><li>Ej.: Shanghai, Singapur, Rotterdam, Algeciras · en Sudamérica: <strong>Santos</strong>, San Antonio, Callao.</li></ul><p class="sub">Ventajas</p><ul><li><strong>Menos rutas</strong>; buques grandes bien aprovechados → <strong>menor costo por TEU</strong>; control centralizado.</li></ul><p class="sub">Desventajas</p><ul><li>Si el <strong>hub falla</strong>, se afecta <strong>toda la red</strong>.</li><li>Más <strong>transbordos</strong> y posible mayor <strong>tiempo de tránsito</strong>.</li><li><strong>Congestión</strong> en el hub.</li></ul></div>
+</article>
+</section><section class="exam" id="exam-4" data-ex="4" hidden>
+<header class="eh"><div><p class="eyebrow">Examen 4 de 7</p><h2>2° Parcial · Modelo 4</h2>
+<p class="emeta">10 preguntas · 2 multiple choice · 7 desarrollo · 1 cálculo · U3 · U4 · U5 · U6 · U7.5 · U11</p></div>
+<div class="eact"><button type="button" class="btn all">Mostrar todas las respuestas</button><button type="button" class="btn reset">Reiniciar</button>
+<div class="escore">Puntaje <b id="sc-4">0</b>/10</div></div></header>
+<article class="xq" id="e4-1">
+<div class="xh"><span class="xn">1</span><div class="xmeta"><span class="xu">U3 · Características de los graneles</span><span class="xk k-dev">Desarrollo</span><span class="xp"><span class="dot d1"></span>Muy probable: salió en parcial · 3 veces en finales</span></div></div>
+<h3 class="xt">Ángulo de reposo: ¿hasta cuántos grados puede varíar en un mismo material? ¿Qué factores provocan la variación?</h3>
+
+<div class="xbar"><button type="button" class="reveal" aria-expanded="false">Ver respuesta</button><label class="score" hidden><input type="checkbox" id="ok-e4-1" data-k="e4-1"><span>La respondí bien</span></label></div>
+<div class="ans"><figure class="fig">
+<svg viewBox="0 0 560 180" role="img" aria-label="Ángulo de reposo y de reacomodamiento">
+<line x1="30" y1="140" x2="250" y2="140" class="ln"/><path d="M50 140 L140 70 L230 140 z" class="am"/>
+<path d="M90 140 A40 40 0 0 0 82 116" class="ln"/><text x="96" y="132" class="tx">α</text>
+<text x="140" y="172" class="tx" text-anchor="middle">Reposo (quieto)</text>
+<line x1="310" y1="140" x2="530" y2="140" class="ln"/><path d="M330 140 L420 100 L510 140 z" class="am"/>
+<path d="M370 140 A40 40 0 0 0 366 124" class="ln"/><text x="378" y="134" class="tx">δ</text>
+<text x="420" y="172" class="tx" text-anchor="middle">Dinámico: δ = α − (10° a 15°)</text>
+<circle cx="350" cy="146" r="5" class="lnm"/><circle cx="420" cy="146" r="5" class="lnm"/><circle cx="490" cy="146" r="5" class="lnm"/>
+</svg><figcaption>Reposo (α) con el material quieto; reacomodamiento dinámico (δ) sobre la cinta en marcha: 10–15° menor.</figcaption></figure><ul><li><strong>Ángulo de reposo (α)</strong>: el que forma la pendiente de la <strong>pila</strong> de material volcado sobre un plano horizontal.</li><li>Indica la <strong>capacidad de derrame</strong>.</li><li>Para un mismo material puede variar <strong>hasta 15°</strong>, según cómo se presente.</li></ul><p class="sub">Los 5 factores (los que aumentan el escurrimiento y bajan α)</p><ul><li><strong>Menor tamaño</strong> de partícula.</li><li><strong>Menor rugosidad</strong> superficial.</li><li><strong>Mayor esfericidad</strong>.</li><li><strong>Menor humedad</strong> de la pila.</li><li><strong>Mayor homogeneidad</strong> de la pila.</li></ul></div>
+</article><article class="xq" id="e4-2">
+<div class="xh"><span class="xn">2</span><div class="xmeta"><span class="xu">U3 · Transportador a cadena (Redler) y a rosca</span><span class="xk k-dev">Desarrollo</span><span class="xp"><span class="dot d1"></span>Muy probable: 4 veces en finales</span></div></div>
+<h3 class="xt">Rosca transportadora: principio, componentes, cuna circular, ángulos máximos; beneficios y costos de la tubular vs. en U.</h3>
+
+<div class="xbar"><button type="button" class="reveal" aria-expanded="false">Ver respuesta</button><label class="score" hidden><input type="checkbox" id="ok-e4-2" data-k="e4-2"><span>La respondí bien</span></label></div>
+<div class="ans"><figure class="fig">
+<svg viewBox="0 0 560 170" role="img" aria-label="Rosca en U y tubular">
+<path d="M70 40 v50 a70 70 0 0 0 140 0 v-50" class="ln"/><path d="M78 100 a62 62 0 0 0 124 0 z" class="am"/>
+<circle cx="140" cy="90" r="50" class="lnm"/><circle cx="140" cy="90" r="6" class="ac"/>
+<text x="140" y="158" class="tx" text-anchor="middle">Cuna en U · horizontal</text>
+<circle cx="400" cy="90" r="60" class="ln"/><path d="M345 105 a56 56 0 0 0 110 0 z" class="am"/><circle cx="400" cy="90" r="50" class="lnm"/><circle cx="400" cy="90" r="6" class="ac"/>
+<text x="400" y="168" class="tx" text-anchor="middle">Tubular · &gt; 30° a 90°</text>
+</svg><figcaption>Cuna en U: horizontal, máxima eficiencia. Cuna tubular: de 30° a vertical, con pérdida de eficiencia.</figcaption></figure><ul><li><strong>Principio</strong>: una <strong>hélice sobre un eje</strong> gira dentro de un canal (U) o un tubo, movida por un motorreductor, y <strong>arrastra</strong> el material.</li><li>También sirve como <strong>dosificador o mezclador</strong>.</li></ul><p class="sub">Componentes</p><ul><li>Tornillo (acero aleado o inox) · conector al motorreductor · <strong>soporte intermedio</strong> con rodamiento · soportes extremos · carcasa U · tolvas de alimentación y descarga · soportes.</li></ul><p class="sub">Llenado de la sección</p><ul><li><strong>45%</strong>: livianos, fluidos, no abrasivos.</li><li><strong>15–30%</strong>: densos, lentos, abrasivos.</li></ul><p class="sub">Ángulos</p><ul><li><strong>En U</strong>: máxima eficiencia en <strong>horizontal</strong>.</li><li><strong>Tubular</strong>: de <strong>&gt; 30° a 90°</strong>, perdiendo eficiencia: <strong>−25 a 30% a 45°</strong> y hasta <strong>−60% a 90°</strong>.</li></ul><p class="sub">Tubular vs. en U</p><ul><li>Tubular <strong>consume 15–20% más</strong> energía (fricción en todo el perímetro).</li><li>Pero a igual rendimiento requiere <strong>20–25% menos inversión</strong>.</li><li><strong>Maltrata más el grano</strong> (riesgo de romperlo).</li><li>Su relación costo/prestación la hace atractiva.</li></ul></div>
+</article><article class="xq" id="e4-3">
+<div class="xh"><span class="xn">3</span><div class="xmeta"><span class="xu">U4 · Transportadores aéreos (Power, Power &amp; Free, EOM)</span><span class="xk k-dev">Desarrollo</span><span class="xp"><span class="dot d1"></span>Muy probable: salió en parcial · 3 veces en finales</span></div></div>
+<h3 class="xt">Load bar: qué es, para qué y cuándo se usa, cómo y dónde se monta.</h3>
+
+<div class="xbar"><button type="button" class="reveal" aria-expanded="false">Ver respuesta</button><label class="score" hidden><input type="checkbox" id="ok-e4-3" data-k="e4-3"><span>La respondí bien</span></label></div>
+<div class="ans"><ul><li><strong>Qué es</strong>: barra de carga que <strong>une dos trolleys</strong> y cuelga la carga en su centro.</li><li><strong>Para qué</strong>: reparte la carga entre los dos → <strong>duplica la capacidad</strong> portante.<ul><li>Ej.: trolley de 400 lb y pieza de 700 lb → 350 lb por trolley.</li></ul></li><li><strong>Cuándo</strong>: <strong>carga + porta carga &gt; capacidad del trolley</strong>. También para <strong>cargas largas</strong> (evita cabeceo en curvas).</li><li><strong>Montaje</strong>: se vincula con un eslabón a <strong>dos trolleys consecutivos</strong> (o se agrega un trolley al lado en cada punto de carga).<ul><li>Si hacen falta 4 trolleys → dos load bars unidas por una <strong>load bar mayor</strong>.</li></ul></li><li class="warn">⚠ Cambia el <strong>radio de giro</strong>: considerarlo en las curvas.</li></ul></div>
+</article><article class="xq mcq" id="e4-4">
+<div class="xh"><span class="xn">4</span><div class="xmeta"><span class="xu">U4 · Transportadores aéreos (Power, Power &amp; Free, EOM)</span><span class="xk k-mc">Multiple choice</span><span class="xp"><span class="dot d1"></span>Muy probable: salió en parcial</span></div></div>
+<h3 class="xt">Power &amp; Free con tres carros se usan únicamente cuando…</h3>
+<ol class="opts"><li><button type="button" class="opt" aria-pressed="false"><b>a)</b> El peso excede la capacidad de un sistema de dos carros</button></li><li class="right"><button type="button" class="opt" aria-pressed="false"><b>b)</b> La longitud de la pieza no permite resolverlo con dos carros</button></li><li><button type="button" class="opt" aria-pressed="false"><b>c)</b> Las piezas deben cambiar de nivel</button></li><li><button type="button" class="opt" aria-pressed="false"><b>d)</b> Ninguna de las respuestas es correcta</button></li></ol>
+<div class="xbar"><button type="button" class="reveal" aria-expanded="false">Ver respuesta</button><label class="score" hidden><input type="checkbox" id="ok-e4-4" data-k="e4-4"><span>La respondí bien</span></label></div>
+<div class="ans"><p class="ok"><span class="ok-k">Correcta</span>b) La longitud de la pieza no permite resolverlo con dos carros</p><ul><li>El tercer carro (intermedio) se agrega si la pieza es <strong>muy larga</strong>: con dos quedaría mal sostenida o con flecha excesiva.</li><li>Respuesta del parcial <strong>07/11/2023</strong>.</li></ul></div>
+</article><article class="xq" id="e4-5">
+<div class="xh"><span class="xn">5</span><div class="xmeta"><span class="xu">U4 · Izaje: puentes grúa, cables, cadenas y accesorios</span><span class="xk k-dev">Desarrollo</span><span class="xp"><span class="dot d1"></span>Muy probable: 8 veces en finales</span></div></div>
+<h3 class="xt">Izaje: normativa, revisiones y ensayos para un equipo de izar nuevo (y cuál es la ley en CABA).</h3>
+
+<div class="xbar"><button type="button" class="reveal" aria-expanded="false">Ver respuesta</button><label class="score" hidden><input type="checkbox" id="ok-e4-5" data-k="e4-5"><span>La respondí bien</span></label></div>
+<div class="ans"><ul><li><strong>Normativa</strong>: <strong>Ley 19.587 + Decreto 351/79</strong>, arts. <strong>114 a 137</strong> (construcción: Dto. 911/96).</li><li>Rige en <strong>todo el país, también en CABA</strong>. Otras normas aplican si son iguales o más exigentes.</li></ul><p class="sub">Art. 116</p><ul><li><strong>Equipo nuevo</strong>: revisado y <strong>ensayado</strong> por personal competente <strong>antes de usarlo</strong>.</li><li><strong>Diario</strong>: el <strong>operador</strong> verifica todos los elementos sometidos a esfuerzo.</li><li><strong>Trimestral</strong>: <strong>personal especializado</strong> hace una revisión a fondo (cables, cadenas, fin de carrera, límites, poleas, frenos, controles).</li></ul><p class="sub">Art. 122 y 114</p><ul><li>Cadenas ensayadas al <strong>doble</strong> de la nominal; FS <strong>≥ 5</strong>; reemplazo con desgaste <strong>&gt; 20%</strong>.</li><li>Carga máxima admisible <strong>marcada</strong> en el equipo y <strong>legible desde el piso</strong>.</li></ul></div>
+</article><article class="xq" id="e4-6">
+<div class="xh"><span class="xn">6</span><div class="xmeta"><span class="xu">U5 · Caños y tubos</span><span class="xk k-calc">Cálculo</span><span class="xp"><span class="dot d1"></span>Muy probable: salió en parcial</span></div></div>
+<h3 class="xt">Valor de tabla (mm) del diámetro interior de un caño DN = 14" con espesor de pared de ¼". Justificar.</h3>
+
+<div class="xbar"><button type="button" class="reveal" aria-expanded="false">Ver respuesta</button><label class="score" hidden><input type="checkbox" id="ok-e4-6" data-k="e4-6"><span>La respondí bien</span></label></div>
+<div class="ans"><ul><li>Desde 14", <strong>De = DN</strong> → De = 14 × 25,4 = <strong>355,6 mm</strong>.</li><li>t = ¼" = <strong>6,35 mm</strong>.</li><li><span class="fx">Di = De − 2t = 355,6 − 2 × 6,35 = 342,9 mm</span></li><li class="warn">⚠ Error común: restar el espesor <strong>una sola vez</strong> (349,25 mm). Se resta de <strong>los dos lados</strong>.</li></ul></div>
+</article><article class="xq mcq" id="e4-7">
+<div class="xh"><span class="xn">7</span><div class="xmeta"><span class="xu">U5 · Fluidos gaseosos: aire comprimido</span><span class="xk k-mc">Multiple choice</span><span class="xp"><span class="dot d1"></span>Muy probable: salió en parcial</span></div></div>
+<h3 class="xt">La Atmósfera Normal de Referencia (ANR) según ISO R554 está dada por:</h3>
+<ol class="opts"><li><button type="button" class="opt" aria-pressed="false"><b>a)</b> 20 °C, 1,013 bar y humedad absoluta 65%</button></li><li><button type="button" class="opt" aria-pressed="false"><b>b)</b> 18 °C, 1,103 bar y humedad relativa 50%</button></li><li><button type="button" class="opt" aria-pressed="false"><b>c)</b> 0 °C, 1,013 bar y humedad relativa 65%</button></li><li class="right"><button type="button" class="opt" aria-pressed="false"><b>d)</b> 20 °C, 1,013 bar y humedad relativa 65%</button></li></ol>
+<div class="xbar"><button type="button" class="reveal" aria-expanded="false">Ver respuesta</button><label class="score" hidden><input type="checkbox" id="ok-e4-7" data-k="e4-7"><span>La respondí bien</span></label></div>
+<div class="ans"><p class="ok"><span class="ok-k">Correcta</span>d) 20 °C, 1,013 bar y HR 65%</p><ul><li><strong>Tres</strong> parámetros (ISO R554):<ul><li><strong>Temperatura 20 °C</strong>.</li><li><strong>Presión 1,013 bar</strong> (= 1 atm = 1,033 kg/cm² = 760 mm Hg).</li><li><strong>Humedad relativa 65%</strong>.</li></ul></li><li>Existe porque las propiedades del aire libre varían con P y T.</li><li>Los caudales de compresores se dan como aire aspirado en esas condiciones (<strong>Nm³/min</strong>).</li><li class="warn">⚠ Trampa de la a): dice humedad <strong>absoluta</strong>.</li></ul></div>
+</article><article class="xq" id="e4-8">
+<div class="xh"><span class="xn">8</span><div class="xmeta"><span class="xu">U6 · Residuos peligrosos</span><span class="xk k-dev">Desarrollo</span><span class="xp"><span class="dot d1"></span>Muy probable: 4 veces en finales</span></div></div>
+<h3 class="xt">Manifiesto de residuos peligrosos: definición, circuito y valor legal</h3>
+
+<div class="xbar"><button type="button" class="reveal" aria-expanded="false">Ver respuesta</button><label class="score" hidden><input type="checkbox" id="ok-e4-8" data-k="e4-8"><span>La respondí bien</span></label></div>
+<div class="ans"><figure class="fig">
+<svg viewBox="0 0 560 150" role="img" aria-label="Circuito del manifiesto"><defs><marker id="a-mf" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="ar"/></marker></defs>
+<rect x="20" y="40" width="140" height="50" rx="8" class="fl"/><text x="90" y="62" class="tx" text-anchor="middle">GENERADOR</text><text x="90" y="80" class="ts" text-anchor="middle">completa y firma</text>
+<rect x="210" y="40" width="140" height="50" rx="8" class="fl"/><text x="280" y="62" class="tx" text-anchor="middle">TRANSPORTISTA</text><text x="280" y="80" class="ts" text-anchor="middle">firma al recibir</text>
+<rect x="400" y="40" width="140" height="50" rx="8" class="fl"/><text x="470" y="62" class="tx" text-anchor="middle">OPERADOR</text><text x="470" y="80" class="ts" text-anchor="middle">verifica y firma</text>
+<line x1="160" y1="65" x2="206" y2="65" class="ln" marker-end="url(#a-mf)"/><line x1="350" y1="65" x2="396" y2="65" class="ln" marker-end="url(#a-mf)"/>
+<path d="M470 92 v30 H90 v-28" class="acs" marker-end="url(#a-mf)"/><text x="280" y="140" class="tf" text-anchor="middle">certificado de tratamiento (≤ 30 días)</text>
+</svg><figcaption>El manifiesto acompaña cada traslado; el operador devuelve el certificado de tratamiento.</figcaption></figure><ul><li><strong>Documento oficial, numerado</strong>, que acompaña <strong>cada traslado</strong> de RP desde el generador hasta el operador.</li></ul><p class="sub">Circuito</p><ul><li><strong>1) Carga</strong>: el <strong>generador</strong> completa residuo, cantidad, envases y riesgos. El <strong>transportista</strong> firma al recibir. El generador se queda una copia.</li><li><strong>2) Recepción</strong>: el <strong>operador</strong> inspecciona, analiza muestras y <strong>firma</strong> la recepción.</li><li><strong>3) Cierre</strong>: el operador envía al generador y a la autoridad el original firmado + <strong>certificado de tratamiento/disposición</strong> en <strong>≤ 30 días</strong>.</li></ul><p class="sub">Valor legal</p><ul><li>Es la <strong>única prueba legal</strong> de que el generador <strong>cumplió</strong> y transfirió el residuo a un operador habilitado.</li></ul></div>
+</article><article class="xq" id="e4-9">
+<div class="xh"><span class="xn">9</span><div class="xmeta"><span class="xu">U7.5 · Selectivos, piezas pequeñas y equipos</span><span class="xk k-dev">Desarrollo</span><span class="xp"><span class="dot d2"></span>Probable: 2 veces en finales</span></div></div>
+<h3 class="xt">Indique al menos 2 diferencias entre un transelevador y un elevador trilateral.</h3>
+
+<div class="xbar"><button type="button" class="reveal" aria-expanded="false">Ver respuesta</button><label class="score" hidden><input type="checkbox" id="ok-e4-9" data-k="e4-9"><span>La respondí bien</span></label></div>
+<div class="ans"><div class="tw"><table><tr><th></th><th>Elevador trilateral</th><th>Transelevador (AS/RS)</th></tr><tr><td>Altura</td><td>Hasta <strong>15 m</strong></td><td>Supera los <strong>40 m</strong></td></tr><tr><td>Operación</td><td>Con <strong>operador</strong> humano (man-up o man-down)</td><td><strong>100% automático</strong> (comandado por el WMS)</td></tr><tr><td>Ancho de pasillo</td><td>Angostos, <strong>1,5 a 1,8 m</strong></td><td>Ultra estrechos: ancho de la carga <strong>+ 100 mm por lado</strong></td></tr><tr><td>Cambio de pasillo</td><td><strong>Cambia</strong> de pasillo solo</td><td><strong>Fijo</strong> a su pasillo (o carro de transferencia)</td></tr></table></div></div>
+</article><article class="xq" id="e4-10">
+<div class="xh"><span class="xn">10</span><div class="xmeta"><span class="xu">U11 · Transporte marítimo y puertos</span><span class="xk k-dev">Desarrollo</span><span class="xp"><span class="dot d1"></span>Muy probable: 4 veces en finales</span></div></div>
+<h3 class="xt">Buques petroleros vs. buques de carga convencional: 4 diferencias.</h3>
+
+<div class="xbar"><button type="button" class="reveal" aria-expanded="false">Ver respuesta</button><label class="score" hidden><input type="checkbox" id="ok-e4-10" data-k="e4-10"><span>La respondí bien</span></label></div>
+<div class="ans"><ul><li><strong>1. Resistencia estructural</strong>: el líquido presiona directo sobre <strong>fondo, costados y mamparos</strong> (superficie libre) → casco y mamparos <strong>mucho más robustos</strong>, <strong>doble casco</strong> obligatorio. En el convencional el peso apoya en cubiertas y bodegas.</li><li><strong>2. Estanqueidad</strong>: tanques estancos al líquido y, sobre todo, a los <strong>gases inflamables</strong> → sistemas de <strong>gas inerte</strong>. El convencional solo es estanco a la lluvia y las olas.</li><li><strong>3. Variación de volumen</strong>: el petróleo se <strong>dilata ~1% cada 10 °C</strong> → los tanques <strong>nunca se llenan al 100%</strong> (espacio de expansión). La carga seca no cambia de volumen.</li><li><strong>4. Carga y descarga</strong>: <strong>sin grúas</strong>; con <strong>bombas</strong> propias, cañerías y el <strong>manifold</strong> en cubierta (se conectan mangueras o brazos). El convencional usa <strong>plumas y grúas</strong>.</li></ul></div>
+</article>
+</section><section class="exam" id="exam-5" data-ex="5" hidden>
+<header class="eh"><div><p class="eyebrow">Examen 5 de 7</p><h2>2° Parcial · Modelo 5</h2>
+<p class="emeta">10 preguntas · 2 multiple choice · 7 desarrollo · 1 cálculo · U3 · U4 · U5 · U6 · U7.5 · U11</p></div>
+<div class="eact"><button type="button" class="btn all">Mostrar todas las respuestas</button><button type="button" class="btn reset">Reiniciar</button>
+<div class="escore">Puntaje <b id="sc-5">0</b>/10</div></div></header>
+<article class="xq" id="e5-1">
+<div class="xh"><span class="xn">1</span><div class="xmeta"><span class="xu">U3 · Transporte neumático y equipos de minería</span><span class="xk k-dev">Desarrollo</span><span class="xp"><span class="dot d1"></span>Muy probable: 3 veces en finales</span></div></div>
+<h3 class="xt">Fase densa vs. fase fluida: concentración de sólido (%), velocidad del gas (m/s) y cuál tiene mayor pérdida de carga.</h3>
+
+<div class="xbar"><button type="button" class="reveal" aria-expanded="false">Ver respuesta</button><label class="score" hidden><input type="checkbox" id="ok-e5-1" data-k="e5-1"><span>La respondí bien</span></label></div>
+<div class="ans"><div class="tw"><table><tr><th></th><th>Fase densa</th><th>Fase fluida (diluida)</th></tr><tr><td>Concentración de sólidos</td><td><strong>&gt; 30%</strong> en volumen</td><td><strong>&lt; 1%</strong> en volumen</td></tr><tr><td>Velocidad del gas</td><td><strong>1 a 5 m/s</strong></td><td><strong>&gt; 20 m/s</strong></td></tr><tr><td>Pérdida de carga</td><td><strong>Mayor</strong>: &gt; 20 mbar/m</td><td><strong>Menor</strong>: &lt; 5 mbar/m</td></tr><tr><td>Presión</td><td>3–7 bar</td><td>~1 bar</td></tr><tr><td>Otros</td><td>Sólidos no suspendidos, poco aire</td><td>Partículas suspendidas; distancias cortas, &lt; 10 t/h; <strong>único que opera con vacío</strong></td></tr></table></div><ul><li>El límite entre ambas <strong>no es marcado</strong> ni universalmente aceptado.</li></ul></div>
+</article><article class="xq" id="e5-2">
+<div class="xh"><span class="xn">2</span><div class="xmeta"><span class="xu">U3 · Codificación ANSI-CEMA 550</span><span class="xk k-dev">Desarrollo</span><span class="xp"><span class="dot d1"></span>Muy probable: 3 veces en finales</span></div></div>
+<h3 class="xt">Codificación de graneles sólidos: cómo se arma el código. Dar un ejemplo.</h3>
+
+<div class="xbar"><button type="button" class="reveal" aria-expanded="false">Ver respuesta</button><label class="score" hidden><input type="checkbox" id="ok-e5-2" data-k="e5-2"><span>La respondí bien</span></label></div>
+<div class="ans"><ul><li>Código <strong>alfanumérico</strong> de al menos 4 símbolos (<strong>ANSI/CEMA 550</strong>, desde 2003):<ul><li><strong>1) Número</strong> (hasta 3 dígitos): <strong>densidad media en lb/ft³</strong>.</li><li><strong>2) Letra</strong> con subíndice: <strong>tamaño de grano</strong>.</li><li><strong>3) Número</strong>: <strong>escurrimiento/fluidez</strong> (1 a 4).</li><li><strong>4) Número</strong>: <strong>abrasividad</strong> (5 media, 6 moderada, 7 extrema).</li><li><strong>5) Letras</strong> (ninguna, una o más): <strong>características secundarias</strong>.</li></ul></li></ul><p class="sub">Ejemplo</p><ul><li>Peso específico 0,241 t/m³ = <strong>15 lb/ft³</strong> → 15</li><li>Grano 2,7 mm (0,106") → <strong>B6</strong></li><li>Reposo 25° (fluidez alta) → <strong>2</strong></li><li>Abrasividad moderada → <strong>6</strong></li><li>Muy polvoriento → <strong>L</strong> · explosivo → <strong>N</strong></li><li><span class="fx">15 B6 2 6 L N</span></li><li>Sin este código el proveedor <strong>no puede dimensionar ni cotizar</strong> el equipo.</li></ul></div>
+</article><article class="xq" id="e5-3">
+<div class="xh"><span class="xn">3</span><div class="xmeta"><span class="xu">U4 · Transportadores de piso y AGV</span><span class="xk k-dev">Desarrollo</span><span class="xp"><span class="dot d1"></span>Muy probable: salió en parcial · 4 veces en finales</span></div></div>
+<h3 class="xt">¿Cómo funciona y cómo se instala un Flat-Top Conveyor?</h3>
+
+<div class="xbar"><button type="button" class="reveal" aria-expanded="false">Ver respuesta</button><label class="score" hidden><input type="checkbox" id="ok-e5-3" data-k="e5-3"><span>La respondí bien</span></label></div>
+<div class="ans"><ul><li><strong>Funcionamiento</strong>:<ul><li>Cadenas con placas <strong>soldadas o abulonadas</strong> que forman una <strong>superficie continua</strong>: no se ven cadenas, solo placas.</li><li>Lleva un producto pesado (típico: <strong>auto terminado</strong> en control de calidad y alineación).</li><li>Se puede <strong>trabajar sobre él mientras avanza</strong>.</li><li>Trayectoria <strong>recta</strong>; generalmente <strong>dos hileras</strong> de placas.</li></ul></li><li><strong>Instalación</strong>: <strong>soterrado</strong>. Se hace una <strong>fosa</strong> (gran obra civil) para que las placas queden al ras y se pueda caminar y operar alrededor.</li><li><strong>Ventajas</strong>: varias velocidades, amplia gama de productos, acceso ilimitado, ambientes secos o húmedos.</li></ul></div>
+</article><article class="xq" id="e5-4">
+<div class="xh"><span class="xn">4</span><div class="xmeta"><span class="xu">U4 · Transportadores aéreos (Power, Power &amp; Free, EOM)</span><span class="xk k-dev">Desarrollo</span><span class="xp"><span class="dot d1"></span>Muy probable: salió en parcial · 3 veces en finales</span></div></div>
+<h3 class="xt">Tres diferencias entre Power (y P&amp;F) y EOM. Ventajas del EOM.</h3>
+
+<div class="xbar"><button type="button" class="reveal" aria-expanded="false">Ver respuesta</button><label class="score" hidden><input type="checkbox" id="ok-e5-4" data-k="e5-4"><span>La respondí bien</span></label></div>
+<div class="ans"><div class="tw"><table><tr><th></th><th>Power / P&amp;F</th><th>EOM</th></tr><tr><td>Tracción</td><td>Cadena + mando central</td><td><strong>Motor en cada carro</strong></td></tr><tr><td>Trayectoria</td><td>Fija, circuito cerrado</td><td><strong>Variable y múltiple</strong></td></tr><tr><td>Velocidad</td><td>Baja y constante (9–21 m/min)</td><td><strong>Alta y variable</strong> (150–300 m/min)</td></tr><tr><td>Control</td><td>Sin inteligencia a bordo</td><td><strong>Control box + PLC central</strong></td></tr><tr><td>Riel</td><td>Doble T de acero, pesado</td><td><strong>Aluminio electrificado</strong>, liviano</td></tr><tr><td>Ruido</td><td>Golpes de cadena y levas</td><td><strong>Silencioso</strong> (ruedas de poliuretano)</td></tr><tr><td>Limpieza</td><td>Puede gotear grasa</td><td><strong>Sin cadena, sin goteo</strong></td></tr></table></div><ul><li><strong>Ventajas del EOM</strong>: cambia de altura sin perder traza (elevadores o pendientes), velocidad regulable, menos ruido y vibración, automatización total, menos peso por metro.</li><li><strong>Ventajas del Power</strong>: más <strong>simple, robusto y barato</strong>, un solo mando, menos mantenimiento.</li></ul></div>
+</article><article class="xq mcq" id="e5-5">
+<div class="xh"><span class="xn">5</span><div class="xmeta"><span class="xu">U4 · Transportadores aéreos (Power, Power &amp; Free, EOM)</span><span class="xk k-mc">Multiple choice</span><span class="xp"><span class="dot d1"></span>Muy probable: salió en parcial</span></div></div>
+<h3 class="xt">EOM con control box de 3 ejes refleja que…</h3>
+<ol class="opts"><li><button type="button" class="opt" aria-pressed="false"><b>a)</b> Puede ir adelante, atrás y a la vez hacer otra operación motorizada</button></li><li><button type="button" class="opt" aria-pressed="false"><b>b)</b> Un control box sólo puede ser, como máximo, de 2 ejes</button></li><li><button type="button" class="opt" aria-pressed="false"><b>c)</b> Tiene variador de velocidad para desplazarse</button></li><li class="right"><button type="button" class="opt" aria-pressed="false"><b>d)</b> Gestiona tres mandos motrices diferentes</button></li></ol>
+<div class="xbar"><button type="button" class="reveal" aria-expanded="false">Ver respuesta</button><label class="score" hidden><input type="checkbox" id="ok-e5-5" data-k="e5-5"><span>La respondí bien</span></label></div>
+<div class="ans"><p class="ok"><span class="ok-k">Correcta</span>d) Gestiona tres mandos motrices diferentes</p><ul><li>El control box es un <strong>PLC a bordo</strong> de cada carro.</li><li>Su "grado" en ejes = <strong>cantidad de motores</strong> que controla (1, 2, 3 o más).</li><li>3 ejes, por ejemplo:<ul><li><strong>X traslación</strong> por el riel.</li><li><strong>Y izaje</strong> (polipasto a bordo, sin elevadores fijos).</li><li><strong>Z giro</strong> o desplazamiento transversal de la pinza.</li></ul></li><li>Todos responden a un <strong>PLC central</strong>.</li></ul></div>
+</article><article class="xq" id="e5-6">
+<div class="xh"><span class="xn">6</span><div class="xmeta"><span class="xu">U5 · Espesor de pared (fórmula ASME-ANSI)</span><span class="xk k-dev">Desarrollo</span><span class="xp"><span class="dot d1"></span>Muy probable: salió en parcial · 5 veces en finales</span></div></div>
+<h3 class="xt">Factor de eficiencia de junta: qué es, de qué depende, dónde se usa, valor máximo y valores según el diseño (con o sin costura).</h3>
+
+<div class="xbar"><button type="button" class="reveal" aria-expanded="false">Ver respuesta</button><label class="score" hidden><input type="checkbox" id="ok-e5-6" data-k="e5-6"><span>La respondí bien</span></label></div>
+<div class="ans"><ul><li><strong>Qué es</strong>: número <strong>adimensional</strong> que expresa la <strong>calidad de la unión soldada</strong> del fleje al conformar el caño: cuánto resiste la costura respecto del material base.</li><li>La costura es el <strong>punto más débil</strong> frente a la presión interna.</li><li><strong>De qué depende</strong>: del <strong>proceso de soldadura</strong> (ERW, RSAW, HSAW), los materiales, el <strong>control de calidad</strong> (radiografiado) y la habilidad del operador.</li><li><strong>Dónde se usa</strong>: en la fórmula de <strong>espesor de pared</strong> (término S·E).</li></ul><p class="sub">Valores</p><ul><li><strong>Sin costura: E = 1</strong> (máximo, estructura homogénea). También soldados con 100% radiografiado.</li><li><strong>ERW</strong>: ≈ <strong>0,85</strong>.</li><li><strong>Con costura por fusión</strong> sin radiografiar: <strong>0,6 a 0,8</strong>.</li></ul></div>
+</article><article class="xq mcq" id="e5-7">
+<div class="xh"><span class="xn">7</span><div class="xmeta"><span class="xu">U5 · Fluidos gaseosos: aire comprimido</span><span class="xk k-mc">Multiple choice</span><span class="xp"><span class="dot d1"></span>Muy probable: salió en parcial</span></div></div>
+<h3 class="xt">Para obtener aire comprimido de "Clase cero" es suficiente contar con:</h3>
+<ol class="opts"><li><button type="button" class="opt" aria-pressed="false"><b>a)</b> Compresores que no usen aceite lubricante</button></li><li><button type="button" class="opt" aria-pressed="false"><b>b)</b> Compresores alternativos y filtrado efectivo</button></li><li><button type="button" class="opt" aria-pressed="false"><b>c)</b> Compresores rotativos y filtrado efectivo</button></li><li class="right"><button type="button" class="opt" aria-pressed="false"><b>d)</b> Ninguna</button></li></ol>
+<div class="xbar"><button type="button" class="reveal" aria-expanded="false">Ver respuesta</button><label class="score" hidden><input type="checkbox" id="ok-e5-7" data-k="e5-7"><span>La respondí bien</span></label></div>
+<div class="ans"><p class="ok"><span class="ok-k">Correcta</span>d) Ninguna</p><ul><li><strong>Ninguno alcanza</strong> por sí solo.</li><li><strong>Clase 0</strong> (ISO 8573-1:2010) <strong>no</strong> significa contaminación cero.<ul><li>Es un nivel <strong>acordado por escrito</strong> entre usuario y fabricante, <strong>más estricto que la clase 1</strong>.</li><li>Debe figurar en toda la documentación y ser <strong>medible</strong> con los métodos de la ISO 8573 (partes 2 a 9).</li></ul></li><li>Un compresor "<strong>libre de aceite</strong>" en entorno urbano <strong>aspira contaminantes</strong> → además hacen falta equipos de <strong>purificación</strong> en la sala y en el punto de uso.</li><li>Para aplicaciones críticas (respirable, clínico, alimentos) suele bastar clase <strong>2.2.1 o 2.1.1</strong>.</li></ul></div>
+</article><article class="xq" id="e5-8">
+<div class="xh"><span class="xn">8</span><div class="xmeta"><span class="xu">U6 · Contaminantes atmosféricos</span><span class="xk k-dev">Desarrollo</span><span class="xp"><span class="dot d1"></span>Muy probable: salió en parcial · 2 veces en finales</span></div></div>
+<h3 class="xt">¿Cómo se clasifican los contaminantes atmosféricos (3 grupos y sus subrubros)? Un ejemplo de cada clase.</h3>
+
+<div class="xbar"><button type="button" class="reveal" aria-expanded="false">Ver respuesta</button><label class="score" hidden><input type="checkbox" id="ok-e5-8" data-k="e5-8"><span>La respondí bien</span></label></div>
+<div class="ans"><ul><li><strong>Químicos</strong>:<ul><li><strong>Primarios</strong>: se vierten <strong>directo</strong> a la atmósfera → <strong>SO₂</strong> de la quema de combustibles fósiles, CO, NOx.</li><li><strong>Secundarios</strong>: se forman por <strong>reacciones</strong> químicas y fotoquímicas de los primarios → <strong>smog fotoquímico</strong>, ozono troposférico, <strong>lluvia ácida</strong>.</li></ul></li><li><strong>Biológicos</strong>: bacterias, virus, hongos, <strong>polen</strong> y partículas de plantas o animales.</li><li><strong>Físicos</strong>:<ul><li><strong>Ruidos y vibraciones</strong> → rotopercutora, agujereadora.</li><li><strong>Radiaciones ionizantes</strong> → rayos X, gamma.</li><li><strong>Radiaciones no ionizantes</strong> → microondas, radiofrecuencia, UV.</li></ul></li><li>También: <strong>naturales y antropogénicos</strong>; categorías especiales: prioritarios (EPA/OMS), cancerígenos (Unidad de Riesgo), no cancerígenos (Niveles Guía) y <strong>material particulado</strong>.</li></ul></div>
+</article><article class="xq" id="e5-9">
+<div class="xh"><span class="xn">9</span><div class="xmeta"><span class="xu">U7.5 · Operación del almacén</span><span class="xk k-dev">Desarrollo</span><span class="xp"><span class="dot d2"></span>Probable: 2 veces en finales</span></div></div>
+<h3 class="xt">Zonas del almacén y porcentaje del costo operativo total.</h3>
+
+<div class="xbar"><button type="button" class="reveal" aria-expanded="false">Ver respuesta</button><label class="score" hidden><input type="checkbox" id="ok-e5-9" data-k="e5-9"><span>La respondí bien</span></label></div>
+<div class="ans"><figure class="fig"><svg viewBox="0 0 560 120" role="img" aria-label="Costo operativo del almacén"><rect x="20" y="20" width="286" height="44" class="am"/><text x="163" y="47" class="tx" text-anchor="middle">50–55%</text><text x="163" y="84" class="ts" text-anchor="middle">Picking</text><rect x="306" y="20" width="94" height="44" class="ac"/><text x="353" y="47" class="tx" text-anchor="middle">18%</text><text x="353" y="84" class="ts" text-anchor="middle">Despacho</text><rect x="400" y="20" width="78" height="44" class="fl"/><text x="439" y="47" class="tx" text-anchor="middle">15%</text><text x="439" y="84" class="ts" text-anchor="middle">Almacenaje</text><rect x="478" y="20" width="62" height="44" class="lnf"/><text x="509" y="47" class="tx" text-anchor="middle">12%</text><text x="509" y="84" class="ts" text-anchor="middle">Recepción</text><text x="20" y="110" class="ts">El picking es lo más caro: el 60% de su tiempo se va en recorridos.</text></svg><figcaption>Distribución del costo operativo del almacén.</figcaption></figure><ul><li><strong>6 zonas</strong>:<ul><li>1) <strong>Carga y descarga</strong> · 2) <strong>Recepción</strong> y logística inversa · 3) <strong>Almacenaje</strong> · 4) <strong>Preparación de pedidos (picking)</strong> · 5) <strong>Expedición</strong> (despacho) · 6) <strong>Oficinas y servicios</strong>.</li></ul></li><li><strong>Costo operativo</strong>:<ul><li><strong>Picking: 50–55%</strong> → la tarea <strong>más cara</strong>; el <strong>60%</strong> de su tiempo se va en <strong>recorridos</strong>.</li><li><strong>Despacho: 18%</strong>.</li><li><strong>Almacenaje: 15%</strong>.</li><li><strong>Recepción: 12%</strong> → la <strong>menos costosa</strong>.</li></ul></li></ul></div>
+</article><article class="xq" id="e5-10">
+<div class="xh"><span class="xn">10</span><div class="xmeta"><span class="xu">U11 · Transporte marítimo y puertos</span><span class="xk k-calc">Cálculo</span><span class="xp"><span class="dot d1"></span>Muy probable: salió en parcial</span></div></div>
+<h3 class="xt">El armado de un buque interoceánico es USD 955.000 (en 2022: USD 450.000). ¿Qué monto corresponde, en conjunto, a cargas portuarias, combustible y mano de obra?</h3>
+
+<div class="xbar"><button type="button" class="reveal" aria-expanded="false">Ver respuesta</button><label class="score" hidden><input type="checkbox" id="ok-e5-10" data-k="e5-10"><span>La respondí bien</span></label></div>
+<div class="ans"><ul><li>Estructura de la tarifa marítima:<ul><li><strong>Combustible 35%</strong> · <strong>tripulación (MO) 18,5%</strong> · <strong>cargas portuarias 10%</strong> → en conjunto <strong>63,5%</strong>.</li></ul></li><li><span class="fx">955.000 × 0,635 = USD 606.425</span><ul><li>Combustible <strong>334.250</strong> + MO <strong>176.675</strong> + portuarias <strong>95.500</strong>.</li></ul></li><li><span class="fx">450.000 × 0,635 = USD 285.750</span><ul><li>Combustible <strong>157.500</strong> + MO <strong>83.250</strong> + portuarias <strong>45.000</strong>.</li></ul></li><li>Resto: reparación y mantenimiento <strong>6,5%</strong> · comisiones <strong>6,25%</strong> · amortización <strong>5%</strong> · gestión <strong>4%</strong> · seguros <strong>2,75%</strong> · clasificación <strong>2%</strong> · financiación <strong>2%</strong> · beneficio <strong>8%</strong>.</li></ul></div>
+</article>
+</section><section class="exam" id="exam-6" data-ex="6" hidden>
+<header class="eh"><div><p class="eyebrow">Examen 6 de 7</p><h2>2° Parcial · Modelo 6 · Multiple choice</h2>
+<p class="emeta">10 preguntas · 10 multiple choice · U3 · U4 · U5 · U11</p></div>
+<div class="eact"><button type="button" class="btn all">Mostrar todas las respuestas</button><button type="button" class="btn reset">Reiniciar</button>
+<div class="escore">Puntaje <b id="sc-6">0</b>/10</div></div></header>
+<article class="xq mcq" id="e6-1">
+<div class="xh"><span class="xn">1</span><div class="xmeta"><span class="xu">U3 · Características de los graneles</span><span class="xk k-mc">Multiple choice</span><span class="xp"><span class="dot d1"></span>Muy probable: salió en parcial</span></div></div>
+<h3 class="xt">Malla normalizada de 9 aberturas por pulgada cuadrada, abertura de 7,216 mm. Diámetro del alambre:</h3>
+<ol class="opts"><li><button type="button" class="opt" aria-pressed="false"><b>a)</b> 1,025 mm</button></li><li class="right"><button type="button" class="opt" aria-pressed="false"><b>b)</b> 1,25 mm</button></li><li><button type="button" class="opt" aria-pressed="false"><b>c)</b> 0,625 mm</button></li><li><button type="button" class="opt" aria-pressed="false"><b>d)</b> Ninguna de las respuestas es correcta</button></li></ol>
+<div class="xbar"><button type="button" class="reveal" aria-expanded="false">Ver respuesta</button><label class="score" hidden><input type="checkbox" id="ok-e6-1" data-k="e6-1"><span>La respondí bien</span></label></div>
+<div class="ans"><p class="ok"><span class="ok-k">Correcta</span>b) 1,25 mm</p><ul><li>9 aberturas por pulg² → √9 = <strong>Mesh 3</strong>.</li><li><span class="fx">25,4 = 3 × 7,216 + 3 × d → 25,4 = 21,648 + 3d → d = 1,25 mm</span></li></ul></div>
+</article><article class="xq mcq" id="e6-2">
+<div class="xh"><span class="xn">2</span><div class="xmeta"><span class="xu">U3 · Cintas transportadoras</span><span class="xk k-mc">Multiple choice</span><span class="xp"><span class="dot d1"></span>Muy probable: salió en parcial</span></div></div>
+<h3 class="xt">Componente de la banda cuya misión es soportar mecánicamente el estiramiento:</h3>
+<ol class="opts"><li><button type="button" class="opt" aria-pressed="false"><b>a)</b> Todos en conjunto</button></li><li><button type="button" class="opt" aria-pressed="false"><b>b)</b> Las coberturas superior e inferior</button></li><li class="right"><button type="button" class="opt" aria-pressed="false"><b>c)</b> La carcaza o tejido</button></li><li><button type="button" class="opt" aria-pressed="false"><b>d)</b> Ninguna</button></li></ol>
+<div class="xbar"><button type="button" class="reveal" aria-expanded="false">Ver respuesta</button><label class="score" hidden><input type="checkbox" id="ok-e6-2" data-k="e6-2"><span>La respondí bien</span></label></div>
+<div class="ans"><p class="ok"><span class="ok-k">Correcta</span>c) La carcaza o tejido</p><ul><li>Las <strong>telas</strong> son el elemento resistente a la <strong>tracción</strong>: absorben los esfuerzos longitudinales y transversales.</li><li>Las coberturas solo <strong>protegen</strong> y dan <strong>rozamiento</strong>.</li></ul></div>
+</article><article class="xq mcq" id="e6-3">
+<div class="xh"><span class="xn">3</span><div class="xmeta"><span class="xu">U3 · Transportador a cadena (Redler) y a rosca</span><span class="xk k-mc">Multiple choice</span><span class="xp"><span class="dot d1"></span>Muy probable: salió en parcial</span></div></div>
+<h3 class="xt">Los Redler normalmente tienen el mando motriz sobre:</h3>
+<ol class="opts"><li><button type="button" class="opt" aria-pressed="false"><b>a)</b> La tolva de carga</button></li><li class="right"><button type="button" class="opt" aria-pressed="false"><b>b)</b> La tolva de descarga</button></li><li><button type="button" class="opt" aria-pressed="false"><b>c)</b> Cualquiera de las tolvas</button></li><li><button type="button" class="opt" aria-pressed="false"><b>d)</b> Únicamente la tolva de descarga</button></li></ol>
+<div class="xbar"><button type="button" class="reveal" aria-expanded="false">Ver respuesta</button><label class="score" hidden><input type="checkbox" id="ok-e6-3" data-k="e6-3"><span>La respondí bien</span></label></div>
+<div class="ans"><p class="ok"><span class="ok-k">Correcta</span>b) La tolva de descarga</p><ul><li>El accionamiento va al <strong>final</strong>, sobre la descarga: la cadena <strong>tira del ramal cargado</strong>.</li><li>"<strong>Únicamente</strong>" (d) es demasiado absoluto: puede haber descargas múltiples.</li><li>Si no es horizontal necesita <strong>dispositivo antirretorno</strong>.</li></ul></div>
+</article><article class="xq mcq" id="e6-4">
+<div class="xh"><span class="xn">4</span><div class="xmeta"><span class="xu">U4 · Ruedas industriales y omnidireccionales</span><span class="xk k-mc">Multiple choice</span><span class="xp"><span class="dot d1"></span>Muy probable: salió en parcial</span></div></div>
+<h3 class="xt">¿En qué caso el esfuerzo de tiro (ruedas de igual diámetro) será el menor?</h3>
+<ol class="opts"><li><button type="button" class="opt" aria-pressed="false"><b>a)</b> Banda de nylon y piso de acero</button></li><li class="right"><button type="button" class="opt" aria-pressed="false"><b>b)</b> Banda de acero y piso de acero</button></li><li><button type="button" class="opt" aria-pressed="false"><b>c)</b> Banda de caucho y piso de hormigón</button></li><li><button type="button" class="opt" aria-pressed="false"><b>d)</b> Banda de nylon y piso de hormigón</button></li></ol>
+<div class="xbar"><button type="button" class="reveal" aria-expanded="false">Ver respuesta</button><label class="score" hidden><input type="checkbox" id="ok-e6-4" data-k="e6-4"><span>La respondí bien</span></label></div>
+<div class="ans"><p class="ok"><span class="ok-k">Correcta</span>b) Banda de acero y piso de acero</p><ul><li><strong>Acero sobre acero</strong>: menor resistencia a la rodadura. Ambas superficies rígidas casi no se deforman.</li><li>Bandas <strong>rígidas</strong> → ruedan más fácil, pero transmiten más <strong>vibración</strong> a la carga.</li><li>Bandas <strong>blandas</strong> (caucho) → más esfuerzo, <strong>protegen</strong> la carga.</li><li>A igual material: <strong>mayor diámetro → menor esfuerzo</strong>.</li></ul></div>
+</article><article class="xq mcq" id="e6-5">
+<div class="xh"><span class="xn">5</span><div class="xmeta"><span class="xu">U4 · Transportadores de piso y AGV</span><span class="xk k-mc">Multiple choice</span><span class="xp"><span class="dot d1"></span>Muy probable: salió en parcial</span></div></div>
+<h3 class="xt">AGV con tecnología de "cables soterrados":</h3>
+<ol class="opts"><li class="right"><button type="button" class="opt" aria-pressed="false"><b>a)</b> En general, los más económicos y menos flexibles</button></li><li><button type="button" class="opt" aria-pressed="false"><b>b)</b> Los más económicos y flexibles</button></li><li><button type="button" class="opt" aria-pressed="false"><b>c)</b> Junto a los de imanes soterrados, los más usados por su flexibilidad</button></li><li><button type="button" class="opt" aria-pressed="false"><b>d)</b> Ninguna de las respuestas es correcta</button></li></ol>
+<div class="xbar"><button type="button" class="reveal" aria-expanded="false">Ver respuesta</button><label class="score" hidden><input type="checkbox" id="ok-e6-5" data-k="e6-5"><span>La respondí bien</span></label></div>
+<div class="ans"><p class="ok"><span class="ok-k">Correcta</span>a) En general, los más económicos y menos flexibles</p><ul><li>El cable empotrado emite un <strong>campo magnético</strong> que el AGV sigue (<strong>filoguiado</strong>).</li><li>Barato, pero el recorrido queda <strong>fijo en el piso</strong>: cambiarlo implica <strong>obra civil</strong>.</li><li>Imanes soterrados: idem.</li></ul></div>
+</article><article class="xq mcq" id="e6-6">
+<div class="xh"><span class="xn">6</span><div class="xmeta"><span class="xu">U4 · Izaje: puentes grúa, cables, cadenas y accesorios</span><span class="xk k-mc">Multiple choice</span><span class="xp"><span class="dot d1"></span>Muy probable: salió en parcial</span></div></div>
+<h3 class="xt">Función principal del "alma" de un cable de acero:</h3>
+<ol class="opts"><li><button type="button" class="opt" aria-pressed="false"><b>a)</b> Apoyo a los alambres para mantener su diseño circular</button></li><li><button type="button" class="opt" aria-pressed="false"><b>b)</b> Elemento principal para el tiro máximo</button></li><li class="right"><button type="button" class="opt" aria-pressed="false"><b>c)</b> Proveer apoyo adecuado a los cordones</button></li><li><button type="button" class="opt" aria-pressed="false"><b>d)</b> Dar capacidad de izaje a los cordones</button></li></ol>
+<div class="xbar"><button type="button" class="reveal" aria-expanded="false">Ver respuesta</button><label class="score" hidden><input type="checkbox" id="ok-e6-6" data-k="e6-6"><span>La respondí bien</span></label></div>
+<div class="ans"><p class="ok"><span class="ok-k">Correcta</span>c) Proveer apoyo adecuado a los cordones</p><ul><li>El alma es el núcleo sobre el que se arrollan los cordones; su función es <strong>darles apoyo</strong>.</li><li>Así el cable mantiene la <strong>sección circular</strong> y los cordones bien posicionados.</li><li class="warn">⚠ Ojo con la a: el alma apoya <strong>cordones</strong>, no alambres.</li></ul></div>
+</article><article class="xq mcq" id="e6-7">
+<div class="xh"><span class="xn">7</span><div class="xmeta"><span class="xu">U4 · Izaje: puentes grúa, cables, cadenas y accesorios</span><span class="xk k-mc">Multiple choice</span><span class="xp"><span class="dot d1"></span>Muy probable: salió en parcial</span></div></div>
+<h3 class="xt">Desgaste máximo admitido en eslabones de cadenas de izaje antes del corte y reemplazo:</h3>
+<ol class="opts"><li><button type="button" class="opt" aria-pressed="false"><b>a)</b> 45%</button></li><li><button type="button" class="opt" aria-pressed="false"><b>b)</b> 25%</button></li><li class="right"><button type="button" class="opt" aria-pressed="false"><b>c)</b> 20%</button></li><li><button type="button" class="opt" aria-pressed="false"><b>d)</b> 5%</button></li></ol>
+<div class="xbar"><button type="button" class="reveal" aria-expanded="false">Ver respuesta</button><label class="score" hidden><input type="checkbox" id="ok-e6-7" data-k="e6-7"><span>La respondí bien</span></label></div>
+<div class="ans"><p class="ok"><span class="ok-k">Correcta</span>c) 20%</p><ul><li>Dto. 351/79, art. 122: eslabones con <strong>más de 20%</strong> de desgaste, <strong>doblados o agrietados</strong> se cortan y reemplazan <strong>de inmediato</strong>.</li><li>Los elementos de los aparejos se revisan <strong>diariamente</strong>.</li><li>(Algunos respondieron "no se admite desgaste": la norma fija el 20%.)</li></ul></div>
+</article><article class="xq mcq" id="e6-8">
+<div class="xh"><span class="xn">8</span><div class="xmeta"><span class="xu">U5 · Caños y tubos</span><span class="xk k-mc">Multiple choice</span><span class="xp"><span class="dot d1"></span>Muy probable: salió en parcial</span></div></div>
+<h3 class="xt">¿Qué diferencia a los caños de los tubos?</h3>
+<ol class="opts"><li><button type="button" class="opt" aria-pressed="false"><b>a)</b> La relación espesor / diámetro externo</button></li><li><button type="button" class="opt" aria-pressed="false"><b>b)</b> La relación espesor / diámetro interno</button></li><li><button type="button" class="opt" aria-pressed="false"><b>c)</b> La calidad de la soldadura en las conducciones con costura</button></li><li class="right"><button type="button" class="opt" aria-pressed="false"><b>d)</b> Se construyen para usos diferentes</button></li></ol>
+<div class="xbar"><button type="button" class="reveal" aria-expanded="false">Ver respuesta</button><label class="score" hidden><input type="checkbox" id="ok-e6-8" data-k="e6-8"><span>La respondí bien</span></label></div>
+<div class="ans"><p class="ok"><span class="ok-k">Correcta</span>d) Se construyen para usos diferentes</p><ul><li>La diferencia de fondo es el <strong>uso</strong>; de él salen sus normas y tolerancias.</li><li><strong>Caño (pipe)</strong>:<ul><li>Para <strong>conducir fluidos</strong> a presión en instalaciones industriales.</li><li>Se designa por <strong>DN + Schedule</strong> (ANSI B36.10 / B36.19).</li><li>Baja/media presión y <strong>altos caudales</strong>. Puede ser elemento estructural.</li><li>Tolerancias estándar: se rosca, suelda o embrida.</li></ul></li><li><strong>Tubo (tube)</strong>:<ul><li>Para <strong>intercambio de calor</strong> (calderas, intercambiadores, condensadores), instrumentación o usos mecánicos.</li><li>Se define por <strong>diámetro exterior real + espesor</strong> (mm o calibre <strong>BWG</strong>).</li><li><strong>Tolerancias estrictas</strong>; alta presión/temperatura y bajos caudales.</li></ul></li></ul></div>
+</article><article class="xq mcq" id="e6-9">
+<div class="xh"><span class="xn">9</span><div class="xmeta"><span class="xu">U5 · Schedule</span><span class="xk k-mc">Multiple choice</span><span class="xp"><span class="dot d1"></span>Muy probable: salió en parcial</span></div></div>
+<h3 class="xt">Parámetros que se usan conjuntamente en el cálculo del Schedule:</h3>
+<ol class="opts"><li><button type="button" class="opt" aria-pressed="false"><b>a)</b> Presión de diseño, módulo de elasticidad y eficiencia de junta</button></li><li><button type="button" class="opt" aria-pressed="false"><b>b)</b> Presión de trabajo, límite elástico y eficiencia de junta</button></li><li class="right"><button type="button" class="opt" aria-pressed="false"><b>c)</b> Presión interior y tensión admisible del material</button></li><li><button type="button" class="opt" aria-pressed="false"><b>d)</b> Ninguna es exacta</button></li></ol>
+<div class="xbar"><button type="button" class="reveal" aria-expanded="false">Ver respuesta</button><label class="score" hidden><input type="checkbox" id="ok-e6-9" data-k="e6-9"><span>La respondí bien</span></label></div>
+<div class="ans"><p class="ok"><span class="ok-k">Correcta</span>c) Presión interior y tensión admisible del material</p><ul><li><span class="fx">SCH = 1000 · P / S</span>: solo <strong>presión interior</strong> y <strong>tensión admisible</strong>.</li><li>La <strong>eficiencia de junta</strong> está en la fórmula del <strong>espesor</strong>, no en la del Schedule.</li></ul></div>
+</article><article class="xq mcq" id="e6-10">
+<div class="xh"><span class="xn">10</span><div class="xmeta"><span class="xu">U11 · Transporte marítimo y puertos</span><span class="xk k-mc">Multiple choice</span><span class="xp"><span class="dot d1"></span>Muy probable: salió en parcial</span></div></div>
+<h3 class="xt">Definir TEU. ¿Cuál es la definición correcta del acrónimo?</h3>
+<ol class="opts"><li><button type="button" class="opt" aria-pressed="false"><b>a)</b> La capacidad volumétrica de almacenaje del TEU</button></li><li><button type="button" class="opt" aria-pressed="false"><b>b)</b> Ninguna de las respuestas es correcta</button></li><li><button type="button" class="opt" aria-pressed="false"><b>c)</b> Una unidad de medida interna volumétrica</button></li><li class="right"><button type="button" class="opt" aria-pressed="false"><b>d)</b> El volumen que ocupa en el espacio un contenedor de 20 pies</button></li></ol>
+<div class="xbar"><button type="button" class="reveal" aria-expanded="false">Ver respuesta</button><label class="score" hidden><input type="checkbox" id="ok-e6-10" data-k="e6-10"><span>La respondí bien</span></label></div>
+<div class="ans"><p class="ok"><span class="ok-k">Correcta</span>d) El volumen que ocupa en el espacio un contenedor de 20 pies</p><ul><li><strong>TEU = Twenty-foot Equivalent Unit</strong>.</li><li>Unidad <strong>adimensional</strong>: el <strong>volumen exterior</strong> que ocupa un contenedor estándar de <strong>20 pies</strong> (20' × 8' × 8'6").</li><li>Se usa para dimensionar <strong>buques, puertos, terminales y depósitos</strong>.</li><li><strong>No</strong> es una capacidad interna.</li></ul></div>
+</article>
+</section><section class="exam" id="exam-7" data-ex="7" hidden>
+<header class="eh"><div><p class="eyebrow">Examen 7 de 7</p><h2>2° Parcial · Modelo 7 · Multiple choice</h2>
+<p class="emeta">10 preguntas · 10 multiple choice · U3 · U4 · U5 · U11</p></div>
+<div class="eact"><button type="button" class="btn all">Mostrar todas las respuestas</button><button type="button" class="btn reset">Reiniciar</button>
+<div class="escore">Puntaje <b id="sc-7">0</b>/10</div></div></header>
+<article class="xq mcq" id="e7-1">
+<div class="xh"><span class="xn">1</span><div class="xmeta"><span class="xu">U3 · Características de los graneles</span><span class="xk k-mc">Multiple choice</span><span class="xp"><span class="dot d1"></span>Muy probable: salió en parcial</span></div></div>
+<h3 class="xt">Diferencia en grados entre el ángulo de reposo y el de reacomodamiento dinámico en algunos graneles:</h3>
+<ol class="opts"><li><button type="button" class="opt" aria-pressed="false"><b>a)</b> Hasta 10</button></li><li class="right"><button type="button" class="opt" aria-pressed="false"><b>b)</b> De 10 a 15</button></li><li><button type="button" class="opt" aria-pressed="false"><b>c)</b> Más de 18</button></li><li><button type="button" class="opt" aria-pressed="false"><b>d)</b> Hasta un máximo de 30</button></li></ol>
+<div class="xbar"><button type="button" class="reveal" aria-expanded="false">Ver respuesta</button><label class="score" hidden><input type="checkbox" id="ok-e7-1" data-k="e7-1"><span>La respondí bien</span></label></div>
+<div class="ans"><p class="ok"><span class="ok-k">Correcta</span>b) De 10 a 15</p><ul><li>Las opciones dicen "%" por error de tipeo: son <strong>grados</strong>.</li><li>En el parcial de 2022 se respondió <strong>15°</strong>.</li></ul></div>
+</article><article class="xq mcq" id="e7-2">
+<div class="xh"><span class="xn">2</span><div class="xmeta"><span class="xu">U3 · Codificación ANSI-CEMA 550</span><span class="xk k-mc">Multiple choice</span><span class="xp"><span class="dot d1"></span>Muy probable: salió en parcial</span></div></div>
+<h3 class="xt">¿Cuántas características mixtas o propiedades diversas permite incluir, como máximo?</h3>
+<ol class="opts"><li><button type="button" class="opt" aria-pressed="false"><b>a)</b> 1</button></li><li><button type="button" class="opt" aria-pressed="false"><b>b)</b> 2</button></li><li><button type="button" class="opt" aria-pressed="false"><b>c)</b> 3</button></li><li class="right"><button type="button" class="opt" aria-pressed="false"><b>d)</b> No existe límite</button></li></ol>
+<div class="xbar"><button type="button" class="reveal" aria-expanded="false">Ver respuesta</button><label class="score" hidden><input type="checkbox" id="ok-e7-2" data-k="e7-2"><span>La respondí bien</span></label></div>
+<div class="ans"><p class="ok"><span class="ok-k">Correcta</span>d) No existe límite</p><ul><li>El código termina con <strong>todas las letras</strong> de características secundarias que tenga el material (polvoriento, explosivo, pegajoso…).</li><li>Respuesta del parcial <strong>07/11/2023</strong>.</li></ul></div>
+</article><article class="xq mcq" id="e7-3">
+<div class="xh"><span class="xn">3</span><div class="xmeta"><span class="xu">U3 · Elevadores a cangilones</span><span class="xk k-mc">Multiple choice</span><span class="xp"><span class="dot d3"></span>Posible: banco de preguntas</span></div></div>
+<h3 class="xt">Elevadores tipo continuo y tipo centrífugo se usan, respectivamente, en:</h3>
+<ol class="opts"><li class="right"><button type="button" class="opt" aria-pressed="false"><b>a)</b> Minería y granos</button></li><li><button type="button" class="opt" aria-pressed="false"><b>b)</b> Granos y minería</button></li><li><button type="button" class="opt" aria-pressed="false"><b>c)</b> Indistintamente</button></li><li><button type="button" class="opt" aria-pressed="false"><b>d)</b> Ninguna</button></li></ol>
+<div class="xbar"><button type="button" class="reveal" aria-expanded="false">Ver respuesta</button><label class="score" hidden><input type="checkbox" id="ok-e7-3" data-k="e7-3"><span>La respondí bien</span></label></div>
+<div class="ans"><figure class="fig">
+<svg viewBox="0 0 560 220" role="img" aria-label="Elevadores a cangilones"><defs><marker id="a-cg" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="ar"/></marker></defs>
+<circle cx="140" cy="40" r="24" class="fl"/><circle cx="140" cy="190" r="24" class="fl"/><line x1="116" y1="40" x2="116" y2="190" class="ln"/><line x1="164" y1="40" x2="164" y2="190" class="ln"/>
+<path d="M164 60 h14 v10 h-14" class="ac"/><path d="M164 96 h14 v10 h-14" class="ac"/><path d="M164 132 h14 v10 h-14" class="ac"/><path d="M164 168 h14 v10 h-14" class="ac"/>
+<path d="M150 18 q40 -10 60 20" class="acs" marker-end="url(#a-cg)"/><text x="215" y="50" class="ts">lanza</text>
+<text x="140" y="214" class="tx" text-anchor="middle">CENTRÍFUGO 1,2–4 m/s</text>
+<circle cx="400" cy="40" r="24" class="fl"/><circle cx="400" cy="190" r="24" class="fl"/><line x1="376" y1="40" x2="376" y2="190" class="ln"/><line x1="424" y1="40" x2="424" y2="190" class="ln"/>
+<path d="M424 58 h14 v12 h-14" class="am"/><path d="M424 74 h14 v12 h-14" class="am"/><path d="M424 90 h14 v12 h-14" class="am"/><path d="M424 106 h14 v12 h-14" class="am"/><path d="M424 122 h14 v12 h-14" class="am"/><path d="M424 138 h14 v12 h-14" class="am"/><path d="M424 154 h14 v12 h-14" class="am"/><path d="M424 170 h14 v12 h-14" class="am"/>
+<path d="M378 30 q-20 10 -30 40" class="acs" marker-end="url(#a-cg)"/><text x="340" y="90" class="ts" text-anchor="end">cae</text>
+<text x="400" y="214" class="tx" text-anchor="middle">CONTINUO 0,5–1 m/s</text>
+</svg><figcaption>Centrífugo: rápido, cangilones separados, descarga por fuerza centrífuga (granos). Continuo: lento, cangilones juntos, descarga por gravedad (minería).</figcaption></figure><p class="ok"><span class="ok-k">Correcta</span>a) Minería y granos</p><ul><li><strong>Continuo</strong>: materiales <strong>frágiles, muy húmedos o gruesos</strong> que no se pueden dragar → <strong>minería</strong> (minerales, arcilla).</li><li><strong>Centrífugo</strong>: materiales de <strong>alto escurrimiento, secos, no abrasivos</strong> → <strong>granos</strong> (cereales, azúcar).</li></ul></div>
+</article><article class="xq mcq" id="e7-4">
+<div class="xh"><span class="xn">4</span><div class="xmeta"><span class="xu">U4 · Ruedas industriales y omnidireccionales</span><span class="xk k-mc">Multiple choice</span><span class="xp"><span class="dot d1"></span>Muy probable: salió en parcial</span></div></div>
+<h3 class="xt">Motivo principal por el que se colocan los anti-hilos en las ruedas industriales:</h3>
+<ol class="opts"><li><button type="button" class="opt" aria-pressed="false"><b>a)</b> Para evitar la lubricación de ruedas</button></li><li><button type="button" class="opt" aria-pressed="false"><b>b)</b> Para evitar la resbaladura sobre pisos con falta de limpieza</button></li><li class="right"><button type="button" class="opt" aria-pressed="false"><b>c)</b> Para evitar la traba de ruedas</button></li><li><button type="button" class="opt" aria-pressed="false"><b>d)</b> Ninguna de las respuestas es correcta</button></li></ol>
+<div class="xbar"><button type="button" class="reveal" aria-expanded="false">Ver respuesta</button><label class="score" hidden><input type="checkbox" id="ok-e7-4" data-k="e7-4"><span>La respondí bien</span></label></div>
+<div class="ans"><p class="ok"><span class="ok-k">Correcta</span>c) Para evitar la traba de ruedas</p><ul><li>Protegen el eje: hilos sueltos y suciedad del piso se <strong>enrollan</strong> y lo <strong>traban</strong>.</li><li>Otros accesorios:<ul><li><strong>Freno</strong>: mantener el equipo parado.</li><li><strong>Traba de dirección</strong>: trayectos largos o maniobras en espacios reducidos (bloquea a 0° o 90°).</li></ul></li></ul></div>
+</article><article class="xq mcq" id="e7-5">
+<div class="xh"><span class="xn">5</span><div class="xmeta"><span class="xu">U4 · Transportadores aéreos (Power, Power &amp; Free, EOM)</span><span class="xk k-mc">Multiple choice</span><span class="xp"><span class="dot d1"></span>Muy probable: salió en parcial</span></div></div>
+<h3 class="xt">Cadenas forjadas y livianas tipo Unibilt: ¿para qué transportadores aéreos se usan?</h3>
+<ol class="opts"><li><button type="button" class="opt" aria-pressed="false"><b>a)</b> Forjadas para Power &amp; Free, livianas para Power</button></li><li class="right"><button type="button" class="opt" aria-pressed="false"><b>b)</b> Ambas para Power y para Power &amp; Free</button></li><li><button type="button" class="opt" aria-pressed="false"><b>c)</b> Forjadas sólo Power, livianas sólo Power &amp; Free</button></li><li><button type="button" class="opt" aria-pressed="false"><b>d)</b> Ninguna de las respuestas es correcta</button></li></ol>
+<div class="xbar"><button type="button" class="reveal" aria-expanded="false">Ver respuesta</button><label class="score" hidden><input type="checkbox" id="ok-e7-5" data-k="e7-5"><span>La respondí bien</span></label></div>
+<div class="ans"><p class="ok"><span class="ok-k">Correcta</span>b) Ambas para Power y para Power &amp; Free</p><ul><li>Hay Power y P&amp;F <strong>livianos y pesados</strong>.</li><li>Define la elección la <strong>carga y la exigencia</strong>, no el tipo de transportador.</li></ul></div>
+</article><article class="xq mcq" id="e7-6">
+<div class="xh"><span class="xn">6</span><div class="xmeta"><span class="xu">U4 · Transportadores de piso y AGV</span><span class="xk k-mc">Multiple choice</span><span class="xp"><span class="dot d1"></span>Muy probable: salió en parcial</span></div></div>
+<h3 class="xt">Cadenas para pallets/skids: ¿cuándo se colocan más de dos ramales de cadena?</h3>
+<ol class="opts"><li><button type="button" class="opt" aria-pressed="false"><b>a)</b> Para evitar la flexión del pallet/skid</button></li><li><button type="button" class="opt" aria-pressed="false"><b>b)</b> Para movilizarlos alineados con el equipo</button></li><li><button type="button" class="opt" aria-pressed="false"><b>c)</b> Para evitar rodillos locos en el centro</button></li><li class="right"><button type="button" class="opt" aria-pressed="false"><b>d)</b> Para alcanzar la capacidad de tiro exigida</button></li></ol>
+<div class="xbar"><button type="button" class="reveal" aria-expanded="false">Ver respuesta</button><label class="score" hidden><input type="checkbox" id="ok-e7-6" data-k="e7-6"><span>La respondí bien</span></label></div>
+<div class="ans"><p class="ok"><span class="ok-k">Correcta</span>d) Para alcanzar la capacidad de tiro exigida</p><ul><li>La tercera cadena se agrega cuando con dos <strong>no alcanza el tiro</strong> (cargas pesadas).</li><li>Para evitar la <strong>flexión</strong> del pallet se usan <strong>rodillos locos</strong> en el centro: más barato.</li></ul></div>
+</article><article class="xq mcq" id="e7-7">
+<div class="xh"><span class="xn">7</span><div class="xmeta"><span class="xu">U4 · Izaje: puentes grúa, cables, cadenas y accesorios</span><span class="xk k-mc">Multiple choice</span><span class="xp"><span class="dot d1"></span>Muy probable: salió en parcial</span></div></div>
+<h3 class="xt">Función del "guardacabo":</h3>
+<ol class="opts"><li><button type="button" class="opt" aria-pressed="false"><b>a)</b> Anclaje del cable a la pasteca</button></li><li><button type="button" class="opt" aria-pressed="false"><b>b)</b> Nexo entre orejas de izaje y eslingas</button></li><li class="right"><button type="button" class="opt" aria-pressed="false"><b>c)</b> Protección de los cables en los ojales de las eslingas</button></li><li><button type="button" class="opt" aria-pressed="false"><b>d)</b> Nexo entre gancho y pasteca</button></li></ol>
+<div class="xbar"><button type="button" class="reveal" aria-expanded="false">Ver respuesta</button><label class="score" hidden><input type="checkbox" id="ok-e7-7" data-k="e7-7"><span>La respondí bien</span></label></div>
+<div class="ans"><p class="ok"><span class="ok-k">Correcta</span>c) Protección de los cables en los ojales de las eslingas</p><ul><li>Pieza con forma de <strong>gota</strong> dentro del ojal: el cable no se dobla con radio chico ni se desgasta.</li><li>Acero bajo carbono galvanizado o pintado; tamaño = Ø nominal del cable.</li></ul></div>
+</article><article class="xq mcq" id="e7-8">
+<div class="xh"><span class="xn">8</span><div class="xmeta"><span class="xu">U5 · Schedule</span><span class="xk k-mc">Multiple choice</span><span class="xp"><span class="dot d1"></span>Muy probable: salió en parcial</span></div></div>
+<h3 class="xt">¿Qué explica que diferentes diámetros nominales tengan igual Schedule?</h3>
+<ol class="opts"><li><button type="button" class="opt" aria-pressed="false"><b>a)</b> Igual espesor de pared</button></li><li class="right"><button type="button" class="opt" aria-pressed="false"><b>b)</b> Igual resistencia mecánica a las condiciones del fluido</button></li><li><button type="button" class="opt" aria-pressed="false"><b>c)</b> Pueden trabajar a la misma temperatura</button></li><li><button type="button" class="opt" aria-pressed="false"><b>d)</b> Ninguna es exacta</button></li></ol>
+<div class="xbar"><button type="button" class="reveal" aria-expanded="false">Ver respuesta</button><label class="score" hidden><input type="checkbox" id="ok-e7-8" data-k="e7-8"><span>La respondí bien</span></label></div>
+<div class="ans"><p class="ok"><span class="ok-k">Correcta</span>b) Igual resistencia mecánica a las condiciones del fluido</p><ul><li>Mismo SCH = <strong>misma relación P/S</strong> → igual resistencia frente al fluido.</li><li><strong>No</strong> tienen igual espesor: a <strong>mayor DN, mayor espesor</strong> para el mismo SCH.</li></ul></div>
+</article><article class="xq mcq" id="e7-9">
+<div class="xh"><span class="xn">9</span><div class="xmeta"><span class="xu">U5 · Accesorios, válvulas y bombas</span><span class="xk k-mc">Multiple choice</span><span class="xp"><span class="dot d1"></span>Muy probable: salió en parcial</span></div></div>
+<h3 class="xt">Equipo para desplazar líquidos con alto porcentaje de sólidos en suspensión:</h3>
+<ol class="opts"><li><button type="button" class="opt" aria-pressed="false"><b>a)</b> Sólo electrobombas centrífugas de alto rendimiento</button></li><li><button type="button" class="opt" aria-pressed="false"><b>b)</b> Sólo bombas de diafragma</button></li><li class="right"><button type="button" class="opt" aria-pressed="false"><b>c)</b> Electrobombas de desplazamiento positivo a engranajes o lóbulos</button></li><li><button type="button" class="opt" aria-pressed="false"><b>d)</b> Ninguna</button></li></ol>
+<div class="xbar"><button type="button" class="reveal" aria-expanded="false">Ver respuesta</button><label class="score" hidden><input type="checkbox" id="ok-e7-9" data-k="e7-9"><span>La respondí bien</span></label></div>
+<div class="ans"><p class="ok"><span class="ok-k">Correcta</span>c) Electrobombas de desplazamiento positivo a engranajes o lóbulos</p><ul><li>Las de <strong>desplazamiento positivo</strong> impulsan cualquier líquido, sin importar viscosidad o sólidos, con caudal casi constante.</li><li>Respuesta del parcial <strong>07/11/2023</strong>.</li><li>"<strong>Sólo</strong> diafragma" es demasiado restrictivo.</li></ul></div>
+</article><article class="xq mcq" id="e7-10">
+<div class="xh"><span class="xn">10</span><div class="xmeta"><span class="xu">U11 · Transporte marítimo y puertos</span><span class="xk k-mc">Multiple choice</span><span class="xp"><span class="dot d1"></span>Muy probable: salió en parcial</span></div></div>
+<h3 class="xt">Puerto oceánico que aglutina gran cantidad de TEU para distribuirlos por Feeder y por buques oceánicos:</h3>
+<ol class="opts"><li><button type="button" class="opt" aria-pressed="false"><b>a)</b> Puertos de bandera</button></li><li><button type="button" class="opt" aria-pressed="false"><b>b)</b> Puertos de cercanía</button></li><li><button type="button" class="opt" aria-pressed="false"><b>c)</b> Puertos Huber</button></li><li class="right"><button type="button" class="opt" aria-pressed="false"><b>d)</b> Puertos Hub o de transferencia</button></li></ol>
+<div class="xbar"><button type="button" class="reveal" aria-expanded="false">Ver respuesta</button><label class="score" hidden><input type="checkbox" id="ok-e7-10" data-k="e7-10"><span>La respondí bien</span></label></div>
+<div class="ans"><p class="ok"><span class="ok-k">Correcta</span>d) Puertos Hub o de transferencia</p><ul><li>Respuesta del parcial <strong>10/11/2023</strong>.</li><li class="warn">⚠ "<strong>Huber</strong>" es un distractor.</li></ul></div>
+</article>
+</section>
+<footer class="foot">Preguntas y respuestas tomadas de las guías del 2° parcial de aprobamos-utn. Las marcadas “clave no confirmada” no tienen respuesta oficial publicada por la cátedra.</footer>
+</main>
+<script>(function(){
+  var KEY="mm2p-exams"; var st={};
+  try{ st=JSON.parse(localStorage.getItem(KEY)||"{}")||{}; }catch(e){ st={}; }
+  function save(){ try{ localStorage.setItem(KEY, JSON.stringify(st)); }catch(e){} }
+  function graded(card){
+    var opts=card.querySelectorAll(".opt"); if(!opts.length) return null;
+    var any=false, ok=true;
+    opts.forEach(function(o){ var sel=o.getAttribute("aria-pressed")==="true", right=o.parentNode.classList.contains("right"); if(sel) any=true; if(sel!==right) ok=false; });
+    return any ? ok : null;
+  }
+  function setOpen(card, open){
+    card.classList.toggle("open", open);
+    var v=card.querySelector(".verdict"); if(v) v.remove();
+    if(open){
+      var g=graded(card);
+      if(g!==null){
+        var cb=card.querySelector(".score input");
+        if(cb.checked!==g){ cb.checked=g; cb.dispatchEvent(new Event("change")); }
+        var sp=document.createElement("span"); sp.className="verdict "+(g?"good":"bad"); sp.textContent=g?"¡Correcta!":"Incorrecta";
+        card.querySelector(".xbar").appendChild(sp);
+      }
+    }
+    var b=card.querySelector(".reveal");
+    b.textContent=open?"Ocultar respuesta":"Ver respuesta";
+    b.setAttribute("aria-expanded", open?"true":"false");
+    card.querySelector(".score").hidden=!open;
+  }
+  function score(ex){
+    var n=ex.querySelectorAll(".score input:checked").length, i=ex.getAttribute("data-ex");
+    document.getElementById("sc-"+i).textContent=n;
+    document.getElementById("tsc-"+i).textContent=n+"/10";
+  }
+  document.querySelectorAll(".exam").forEach(function(ex){
+    ex.querySelectorAll(".xq").forEach(function(card){
+      card.querySelector(".reveal").addEventListener("click", function(){ setOpen(card, !card.classList.contains("open")); });
+      card.querySelectorAll(".opt").forEach(function(o){
+        o.addEventListener("click", function(){
+          if(card.classList.contains("open")) return;
+          var multi=card.classList.contains("multi"), on=o.getAttribute("aria-pressed")==="true";
+          if(!multi) card.querySelectorAll(".opt").forEach(function(x){ x.setAttribute("aria-pressed","false"); });
+          o.setAttribute("aria-pressed", multi ? (on?"false":"true") : "true");
+        });
+      });
+      var cb=card.querySelector(".score input"), k=cb.getAttribute("data-k");
+      if(st[k]){ cb.checked=true; }
+      cb.addEventListener("change", function(){ if(cb.checked) st[k]=1; else delete st[k]; save(); score(ex); });
+    });
+    var all=ex.querySelector(".all");
+    all.addEventListener("click", function(){
+      var cards=ex.querySelectorAll(".xq"), anyClosed=false;
+      cards.forEach(function(c){ if(!c.classList.contains("open")) anyClosed=true; });
+      cards.forEach(function(c){ setOpen(c, anyClosed); });
+      all.textContent=anyClosed?"Ocultar todas las respuestas":"Mostrar todas las respuestas";
+    });
+    ex.querySelector(".reset").addEventListener("click", function(){
+      ex.querySelectorAll(".xq").forEach(function(c){
+        c.querySelectorAll(".opt").forEach(function(x){ x.setAttribute("aria-pressed","false"); });
+        setOpen(c,false); var cb=c.querySelector(".score input"); cb.checked=false; delete st[cb.getAttribute("data-k")];
+      });
+      all.textContent="Mostrar todas las respuestas"; save(); score(ex);
+    });
+    score(ex);
+  });
+  var tabs=document.querySelectorAll(".tab");
+  function show(i){
+    tabs.forEach(function(t){ var on=t.getAttribute("data-ex")===String(i); t.classList.toggle("on",on); t.setAttribute("aria-selected",on?"true":"false"); });
+    document.querySelectorAll(".exam").forEach(function(e){ e.hidden=e.getAttribute("data-ex")!==String(i); });
+  }
+  tabs.forEach(function(t){ t.addEventListener("click", function(){ show(t.getAttribute("data-ex")); window.scrollTo({top:0}); }); });
+})();</script>
+</body>
+</html>

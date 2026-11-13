@@ -135,6 +135,13 @@ export const SUBJECTS = [
         author: 'S.G.',
         description: 'Teoría de filminas, 207 preguntas y 60 diagramas técnicos oficiales (U3, U4, U5, U6, U7.5, U11 y U12).',
         htmlFile: './guia-2do-parcial-manmat.html#U4'
+      },
+      {
+        id: '2do-parcial-simulacros',
+        title: '2do Parcial — Simulacros de Examen',
+        author: 'M.A.',
+        description: '7 exámenes de práctica reales (1 a 5 con múltiple choice, desarrollo y cálculo; 6 y 7 solo choice) con corrección automática y puntaje.',
+        htmlFile: './manejo-materiales-2do-parcial-simulacros.html'
       }
     ]
   },

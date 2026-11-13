@@ -1,7 +1,8 @@
 import React from 'react';
 import { ArrowLeft } from 'lucide-react';
+import AuthorBadge from './AuthorBadge';
 
-export default function HtmlGuide({ htmlFile, onBack }) {
+export default function HtmlGuide({ guide, htmlFile, onBack }) {
   return (
     <div style={{
       position: 'fixed',
@@ -12,9 +13,8 @@ export default function HtmlGuide({ htmlFile, onBack }) {
       zIndex: 50,
       background: '#0a0e1a',
     }}>
-      {/* Botón flotante para volver */}
-      <button
-        onClick={onBack}
+      {/* Botón flotante para volver y distinción del autor */}
+      <div
         style={{
           position: 'absolute',
           top: '1rem',
@@ -22,30 +22,52 @@ export default function HtmlGuide({ htmlFile, onBack }) {
           zIndex: 60,
           display: 'flex',
           alignItems: 'center',
-          gap: '6px',
-          background: 'rgba(10, 14, 26, 0.85)',
-          backdropFilter: 'blur(12px)',
-          border: '1px solid rgba(99, 102, 241, 0.4)',
-          color: '#a5b4fc',
-          padding: '0.5rem 1rem',
-          borderRadius: '8px',
-          fontSize: '0.9rem',
-          fontWeight: 600,
-          cursor: 'pointer',
-          transition: 'all 0.2s',
-          fontFamily: 'Inter, sans-serif',
-        }}
-        onMouseEnter={e => {
-          e.currentTarget.style.background = 'rgba(99, 102, 241, 0.25)';
-          e.currentTarget.style.color = '#c7d2fe';
-        }}
-        onMouseLeave={e => {
-          e.currentTarget.style.background = 'rgba(10, 14, 26, 0.85)';
-          e.currentTarget.style.color = '#a5b4fc';
+          gap: '10px',
+          flexWrap: 'wrap',
         }}
       >
-        <ArrowLeft size={16} /> Volver a guías
-      </button>
+        <button
+          onClick={onBack}
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: '6px',
+            background: 'rgba(10, 14, 26, 0.85)',
+            backdropFilter: 'blur(12px)',
+            WebkitBackdropFilter: 'blur(12px)',
+            border: '1px solid rgba(99, 102, 241, 0.4)',
+            color: '#a5b4fc',
+            padding: '0.5rem 1rem',
+            borderRadius: '8px',
+            fontSize: '0.9rem',
+            fontWeight: 600,
+            cursor: 'pointer',
+            transition: 'all 0.2s',
+            fontFamily: 'Inter, sans-serif',
+          }}
+          onMouseEnter={e => {
+            e.currentTarget.style.background = 'rgba(99, 102, 241, 0.25)';
+            e.currentTarget.style.color = '#c7d2fe';
+          }}
+          onMouseLeave={e => {
+            e.currentTarget.style.background = 'rgba(10, 14, 26, 0.85)';
+            e.currentTarget.style.color = '#a5b4fc';
+          }}
+        >
+          <ArrowLeft size={16} /> Volver a guías
+        </button>
+
+        {guide?.author && (
+          <AuthorBadge
+            author={guide.author}
+            style={{
+              padding: '0.45rem 0.85rem',
+              fontSize: '0.82rem',
+              boxShadow: '0 4px 14px rgba(0, 0, 0, 0.4)',
+            }}
+          />
+        )}
+      </div>
 
       {htmlFile ? (
         <iframe

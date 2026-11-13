@@ -1,5 +1,6 @@
 import React from 'react';
 import { BookOpen, Brain, FileText, Globe, Wrench, Package, Cpu, ArrowRight } from 'lucide-react';
+import AuthorBadge from './AuthorBadge';
 
 const ICON_MAP = {
   BookOpen, Brain, Globe, Wrench, Package, FileText, Cpu
@@ -34,7 +35,7 @@ export default function SubjectHub({ subject }) {
         className="pdf-grid"
         style={{
           marginTop: '2.5rem',
-          maxWidth: subject.guides && subject.guides.length > 2 ? '1050px' : '720px',
+          maxWidth: subject.guides && subject.guides.length > 2 ? '1140px' : '720px',
           margin: '2.5rem auto 0',
         }}
       >
@@ -67,21 +68,7 @@ export default function SubjectHub({ subject }) {
               </div>
               <h2 style={{ fontSize: '1.5rem', margin: '0.5rem 0 0.25rem' }}>{guide.title}</h2>
               {guide.author && (
-                <span
-                  style={{
-                    display: 'inline-block',
-                    padding: '0.2rem 0.7rem',
-                    borderRadius: '999px',
-                    background: `${subject.color}22`,
-                    border: `1px solid ${subject.color}44`,
-                    color: subject.color,
-                    fontSize: '0.78rem',
-                    fontWeight: 600,
-                    letterSpacing: '0.02em',
-                  }}
-                >
-                  Por {guide.author}
-                </span>
+                <AuthorBadge author={guide.author} />
               )}
               <p style={{ color: 'var(--text-secondary)', textAlign: 'center', marginBottom: '1.5rem' }}>
                 {guide.description}

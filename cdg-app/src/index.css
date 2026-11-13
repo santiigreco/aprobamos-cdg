@@ -300,3 +300,17 @@ h1, h2, h3, h4, h5, h6 {
 .gap-4 { gap: 1rem; }
 .justify-center { justify-content: center; }
 .align-center { align-items: center; }
+
+/* Author Badge Distinction */
+.author-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  user-select: none;
+  cursor: default;
+}
+
+.author-badge:hover {
+  transform: translateY(-2px);
+  filter: brightness(1.1);
+}
