@@ -1,0 +1,897 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Guía del Recuperatorio · Segundo Parcial Mantenimiento 2026 (Objetivo 8+)</title>
+<style>
+  :root{
+    --bg:#0a0e1a; --bg2:#111827; --card:#161d2e; --cardh:#1c2540;
+    --a1:#6366f1; --a2:#8b5cf6; --a3:#06b6d4; --a4:#10b981; --warn:#f59e0b; --dng:#ef4444; --pink:#ec4899;
+    --tx:#f1f5f9; --tx2:#94a3b8; --tx3:#64748b; --bd:rgba(99,102,241,.20); --bdg:rgba(99,102,241,.45);
+    --r:12px; --rs:8px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--tx);line-height:1.68;font-size:16px;overflow-x:hidden}
+  header{text-align:center;padding:54px 24px 36px;background:linear-gradient(180deg,rgba(99,102,241,.13),rgba(6,182,212,.03) 65%,transparent);border-bottom:1px solid var(--bd)}
+  .badge{display:inline-flex;gap:8px;align-items:center;background:rgba(16,185,129,.14);border:1px solid rgba(16,185,129,.42);color:#6ee7b7;padding:5px 15px;border-radius:999px;font-size:.78rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;margin-bottom:16px}
+  h1{font-size:clamp(1.85rem,4.6vw,3.05rem);font-weight:800;background:linear-gradient(135deg,#f8fafc,var(--a1) 52%,var(--a3));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;line-height:1.15;margin-bottom:14px}
+  .sub{color:var(--tx2);max-width:740px;margin:0 auto;font-size:.98rem}
+  .sub strong{color:var(--tx)}
+
+  nav{position:sticky;top:0;z-index:100;background:rgba(10,14,26,.93);backdrop-filter:blur(18px);border-bottom:1px solid var(--bd);padding:0 16px}
+  .nav-in{max-width:1120px;margin:0 auto;display:flex;gap:5px;overflow-x:auto;padding:9px 0;scrollbar-width:none}
+  .nav-in::-webkit-scrollbar{display:none}
+  .nav-in button{white-space:nowrap;border:1px solid transparent;background:transparent;color:var(--tx2);border-radius:var(--rs);cursor:pointer;padding:7px 13px;font-size:.82rem;font-weight:600;transition:.2s;font-family:inherit}
+  .nav-in button:hover{background:rgba(99,102,241,.14);color:#c7d2fe;border-color:rgba(99,102,241,.28)}
+
+  main{max-width:1060px;margin:0 auto;padding:30px 20px 90px}
+  .sec-t{display:flex;align-items:center;gap:12px;margin:48px 0 20px;padding-bottom:12px;border-bottom:1px solid var(--bd)}
+  .sec-t:first-child{margin-top:12px}
+  .sec-ic{width:44px;height:44px;border-radius:var(--rs);display:flex;align-items:center;justify-content:center;font-size:1.3rem;flex-shrink:0;background:rgba(99,102,241,.16);border:1px solid rgba(99,102,241,.25)}
+  .sec-t h2{font-size:1.45rem;font-weight:700}
+  .sec-t .ss{font-size:.86rem;color:var(--tx3);margin-top:2px}
+
+  .card{background:var(--card);border:1px solid var(--bd);border-radius:var(--r);padding:22px 24px;margin-bottom:18px}
+  .card h3{font-size:1.08rem;font-weight:700;margin-bottom:12px;display:flex;gap:10px;align-items:center;flex-wrap:wrap;color:var(--tx)}
+  .card p,.card li{color:var(--tx2);font-size:.94rem}
+  .card ul,.card ol{padding-left:22px;margin:8px 0}
+  .card li{margin-bottom:6px}
+  .card li::marker{color:var(--a1)}
+
+  .pt-num{display:inline-flex;align-items:center;justify-content:center;min-width:30px;height:30px;padding:0 8px;border-radius:9px;background:linear-gradient(135deg,var(--a1),var(--a2));color:#fff;font-weight:800;font-size:.88rem;flex-shrink:0}
+  .tag{display:inline-flex;align-items:center;gap:5px;padding:3px 10px;border-radius:999px;font-size:.69rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;border:1px solid}
+  .t-10{background:rgba(16,185,129,.14);color:#6ee7b7;border-color:rgba(16,185,129,.38)}
+  .t-pts{background:rgba(139,92,246,.14);color:#c4b5fd;border-color:rgba(139,92,246,.4)}
+  .t-trampa{background:rgba(239,68,68,.13);color:#fca5a5;border-color:rgba(239,68,68,.38)}
+  .t-rota{background:rgba(6,182,212,.13);color:#67e8f9;border-color:rgba(6,182,212,.38)}
+
+  .quote{background:rgba(15,23,42,.75);border:1px solid rgba(148,163,184,.2);border-left:3px solid var(--a3);border-radius:var(--rs);padding:12px 15px;margin:8px 0 12px;font-style:italic;color:#cbd5e1;font-size:.92rem}
+  .quote strong{color:#f8fafc;font-style:normal}
+
+  .hl{background:rgba(99,102,241,.09);border-left:3px solid var(--a1);border-radius:0 var(--rs) var(--rs) 0;padding:12px 15px;margin:10px 0;font-size:.9rem;color:var(--tx2)}
+  .warn{background:rgba(245,158,11,.09);border-left:3px solid var(--warn);border-radius:0 var(--rs) var(--rs) 0;padding:12px 15px;margin:10px 0;font-size:.9rem;color:var(--tx2)}
+  .dng{background:rgba(239,68,68,.09);border-left:3px solid var(--dng);border-radius:0 var(--rs) var(--rs) 0;padding:12px 15px;margin:10px 0;font-size:.9rem;color:var(--tx2)}
+  .grn{background:rgba(16,185,129,.09);border-left:3px solid var(--a4);border-radius:0 var(--rs) var(--rs) 0;padding:12px 15px;margin:10px 0;font-size:.9rem;color:var(--tx2)}
+  .hl strong{color:#a5b4fc}.warn strong{color:#fcd34d}.dng strong{color:#fca5a5}.grn strong{color:#6ee7b7}
+
+  .ans{background:rgba(16,185,129,.06);border:1px solid rgba(16,185,129,.28);border-radius:var(--rs);padding:14px 16px;margin-top:10px}
+  .ans .lbl{font-size:.73rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:#6ee7b7;margin-bottom:7px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+  .vf{display:inline-block;padding:2px 9px;border-radius:6px;font-size:.76rem;font-weight:800;letter-spacing:.04em}
+  .vf-f{background:rgba(239,68,68,.2);color:#fca5a5;border:1px solid rgba(239,68,68,.45)}
+  .vf-v{background:rgba(16,185,129,.2);color:#6ee7b7;border:1px solid rgba(16,185,129,.45)}
+  .vf-n{background:rgba(245,158,11,.2);color:#fcd34d;border:1px solid rgba(245,158,11,.45)}
+
+  .fx{font-family:'Consolas','JetBrains Mono',monospace;background:var(--bg2);border:1px solid rgba(255,255,255,.07);color:#e2e8f0;padding:14px 16px;border-radius:var(--rs);margin:10px 0;white-space:pre-wrap;font-size:.86rem;line-height:1.65;overflow-x:auto}
+  .fx b,.fx strong{color:#a5b4fc}
+  code{font-family:'Consolas',monospace;background:rgba(99,102,241,.14);color:#a5b4fc;padding:2px 7px;border-radius:5px;font-size:.85em}
+
+  table{width:100%;border-collapse:collapse;font-size:.88rem;margin-top:10px}
+  th{background:rgba(99,102,241,.14);color:#c7d2fe;font-weight:700;padding:10px 12px;text-align:left;font-size:.77rem;text-transform:uppercase;letter-spacing:.04em}
+  td{padding:10px 12px;border-bottom:1px solid rgba(255,255,255,.06);color:var(--tx2);vertical-align:top}
+  td:first-child{color:var(--tx);font-weight:600}
+
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  @media(max-width:780px){.grid2{grid-template-columns:1fr}}
+
+  .fig{background:var(--bg2);border:1px solid rgba(255,255,255,.08);border-radius:var(--rs);padding:16px;margin:14px 0}
+  .fig svg{width:100%;height:auto;display:block}
+  .fig figcaption{color:var(--tx3);font-size:.82rem;text-align:center;margin-top:10px;line-height:1.5}
+  .fig figcaption b{color:var(--a3)}
+
+  .svg-ax{stroke:#64748b;stroke-width:2.2}
+  .svg-lbl{fill:#cbd5e1;font-size:13px;font-family:'Segoe UI',sans-serif;font-weight:600}
+  .svg-lbl-sm{fill:#94a3b8;font-size:11.5px;font-family:'Segoe UI',sans-serif}
+
+  .zone-btns{display:flex;flex-wrap:wrap;gap:7px;margin:10px 0}
+  .z-btn{background:var(--bg2);border:1px solid var(--bd);color:var(--tx2);padding:6px 12px;border-radius:var(--rs);cursor:pointer;font-size:.8rem;font-weight:600;transition:.18s;font-family:inherit}
+  .z-btn:hover,.z-btn.active{background:rgba(99,102,241,.2);border-color:var(--a1);color:var(--tx)}
+  .z-panel{background:rgba(15,23,42,.8);border:1px solid rgba(99,102,241,.3);border-radius:var(--rs);padding:12px 15px;margin-top:8px;font-size:.9rem;color:var(--tx2)}
+
+  /* Quiz */
+  .q-item{background:rgba(15,23,42,.72);border:1px solid rgba(255,255,255,.07);border-radius:var(--rs);padding:16px 18px;margin-bottom:14px}
+  .q-title{font-weight:700;color:var(--tx);margin-bottom:10px;font-size:.95rem}
+  .q-opts{display:flex;flex-direction:column;gap:7px}
+  .q-opt{text-align:left;background:var(--card);border:1px solid rgba(255,255,255,.1);color:var(--tx2);padding:9px 13px;border-radius:7px;cursor:pointer;font-size:.88rem;font-family:inherit;transition:.18s}
+  .q-opt:hover{border-color:var(--a1);color:var(--tx)}
+  .q-opt.ok{background:rgba(16,185,129,.16);border-color:#10b981;color:#6ee7b7;font-weight:600}
+  .q-opt.bad{background:rgba(239,68,68,.15);border-color:#ef4444;color:#fca5a5}
+  .q-fb{margin-top:9px;font-size:.86rem;display:none;padding:9px 12px;border-radius:6px;background:rgba(99,102,241,.1);border-left:3px solid var(--a1);color:var(--tx2)}
+  .q-fb.show{display:block}
+
+  footer{text-align:center;padding:30px 20px;color:var(--tx3);font-size:.82rem;border-top:1px solid var(--bd)}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="badge">🎯 UTN FRBA · Mantenimiento · Recuperatorio 2° Parcial 2026</div>
+  <h1>Guía Definitiva 2° Parcial<br/>Basada en Examen Real 10/10</h1>
+  <p class="sub">Construida íntegramente sobre el <strong>2° Parcial real 2026 (Tema 4 · 02/11/2026 · Nota 10)</strong> tomando todas sus respuestas como criterio oficial válido de cátedra, más las variantes que rotan en otros temas para que vayas al recuperatorio directo a buscar el <strong>8+ y la promoción</strong>.</p>
+</header>
+
+<nav>
+  <div class="nav-in">
+    <button onclick="go('adn')">🧬 ADN 2026</button>
+    <button onclick="go('p1')">1 · RCM (4 pts)</button>
+    <button onclick="go('p2')">2 · Selección Múltiple (2 pts)</button>
+    <button onclick="go('p3')">3 · GEP &amp; Ultrasonido (4 pts)</button>
+    <button onclick="go('rotan')">🔄 Técnicas que rotan</button>
+    <button onclick="go('trampas')">⚠️ Cómo asegurar el 8+</button>
+    <button onclick="go('quiz')">📝 Autoevaluación</button>
+    <button onclick="go('check')">✅ Checklist</button>
+  </div>
+</nav>
+
+<main>
+
+<!-- 1. ADN -->
+<section id="adn">
+  <div class="sec-t">
+    <div class="sec-ic">🧬</div>
+    <div>
+      <h2>El ADN del 2° Parcial 2026 (Tema 4 · Nota 10)</h2>
+      <div class="ss">Estructura real de 3 puntos (4 + 2 + 4 = 10 pts) y reglas escritas del profesor</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <p>El 2° parcial del <strong>02/11/2026</strong> condensa las Unidades 4, 5 y 6 en <strong>3 grandes puntos</strong>. Si dominás este esquema completo y no dejás ningún inciso en blanco, el 8 está totalmente al alcance.</p>
+    <table>
+      <tr><th>Punto</th><th>Tema central</th><th>Incisos típicos observados</th><th>Pts</th></tr>
+      <tr>
+        <td><strong>Punto 1</strong></td>
+        <td><strong>RCM</strong> (Mantenimiento Centrado en la Confiabilidad)</td>
+        <td>
+          <strong>a)</strong> V/F orden de evaluación (Falla evidente + Seguridad)<br/>
+          <strong>b)</strong> Qué se agrega en Falla NO evidente + Operacional, gráfico de Correctivo y <strong>Costos detallados SIN siglas</strong><br/>
+          <strong>c)</strong> ¿Se puede replicar un plan RCM entre dos máquinas idénticas? (Contexto operacional)
+        </td>
+        <td><strong>4</strong></td>
+      </tr>
+      <tr>
+        <td><strong>Punto 2</strong></td>
+        <td><strong>Selección Múltiple</strong> (TPM · Tercerización · Parada de Planta)</td>
+        <td><em>"De existir, seleccione la/s afirmación/es correcta/s (NO justificar)"</em>. En Tema 4 las 3 fueron <strong>FALSAS</strong> (no se marca ninguna).</td>
+        <td><strong>2</strong></td>
+      </tr>
+      <tr>
+        <td><strong>Punto 3</strong></td>
+        <td><strong>GEP + Técnica a Condición</strong> (Ultrasonido / Amperaje)</td>
+        <td>
+          <strong>a)</strong> Identificar mantenimiento y ubicarlo en el GEP<br/>
+          <strong>b)</strong> Ubicar restantes acciones proactivas y reactivas en el GEP<br/>
+          <strong>c)</strong> Ventaja de detectar en mitad vs final de irreversibilidad<br/>
+          <strong>d)</strong> Qué es y cuándo se usa la técnica (ultrasonido)<br/>
+          <strong>e)</strong> "Símil" en Mantenimiento Preventivo (amperaje continuo → pinza amperométrica)<br/>
+          <strong>f)</strong> V/F: ¿Usa las mismas variables que Producción?
+        </td>
+        <td><strong>4</strong></td>
+      </tr>
+    </table>
+
+    <div class="warn" style="margin-top:14px">
+      <strong>Condición de aprobación escrita en el encabezado del examen:</strong> <em>"Para aprobar con posibilidades de promoción el/la alumno/a debe demostrar conocimiento de los conceptos importantes de <u>todos</u> los puntos que componen el presente examen parcial."</em><br/>
+      👉 <strong>Nunca dejes un punto vacío</strong> (aunque el Punto 2 requiera "no marcar ninguna" si todas son falsas, asegurate de leer las 3 con criterio). Y en el Punto 1b <strong>respetá la prohibición de siglas</strong>.
+    </div>
+  </div>
+</section>
+
+<!-- 2. PUNTO 1: RCM -->
+<section id="p1">
+  <div class="sec-t">
+    <div class="sec-ic">🛡️</div>
+    <div>
+      <h2>Punto N° 1 — RCM (4 puntos)</h2>
+      <div class="ss">Evaluación de fallas, gráfico de correctivo, desglose de costos sin siglas y contexto operacional</div>
+    </div>
+  </div>
+
+  <!-- 1.a -->
+  <div class="card">
+    <h3><span class="pt-num">1.a</span> Orden de evaluación en falla evidente con consecuencias para la seguridad <span class="tag t-10">Respuesta 10/10</span></h3>
+    <div class="quote">
+      <strong>Enunciado textual (Tema 4):</strong> "Indique si es verdadera o falsa la siguiente afirmación: <em>'Cuando se trata de una falla evidente con consecuencias para la seguridad de las personas, el orden correcto de evaluación es el siguiente: 1°) Mantenimiento a Condición, 2°) Reacondicionamiento y 3°) Reingeniería Obligatoria'</em>. <strong>Justifique su Rta.</strong>"
+    </div>
+    <div class="ans">
+      <div class="lbl"><span class="vf vf-f">FALSA</span> Criterio exacto aprobado con 10/10</div>
+      <p>La afirmación es <strong>FALSA</strong> porque en el 2° paso no corresponde solo "Reacondicionamiento", sino <strong>Mantenimiento Preventivo</strong> (que abarca reacondicionamiento cíclico y/o sustitución cíclica). El orden correcto de evaluación es:</p>
+      <ol style="margin-top:8px">
+        <li><strong>1°) Mantenimiento a Condición (MC)</strong></li>
+        <li><strong>2°) Mantenimiento Preventivo</strong></li>
+        <li><strong>3°) Reingeniería Obligatoria</strong></li>
+      </ol>
+    </div>
+    <div class="hl">
+      <strong>Por qué está ahí la trampa:</strong> En fallas con consecuencias sobre la <strong>Seguridad o Medio Ambiente (SoME)</strong> jamás se permite trabajar a la falla (Correctivo). Si ninguna tarea a condición ni preventiva reduce el riesgo a un nivel tolerable, la <strong>Reingeniería (rediseño) es obligatoria</strong>. Pero en el 2° nivel debés nombrar <strong>Mantenimiento Preventivo</strong>, no reducirlo solo a "reacondicionamiento".
+    </div>
+  </div>
+
+  <!-- 1.b -->
+  <div class="card">
+    <h3><span class="pt-num">1.b</span> Falla NO evidente con consecuencias operacionales + Gráfico + Costos SIN siglas <span class="tag t-10">Respuesta 10/10</span> <span class="tag t-trampa">Clave del parcial</span></h3>
+    <div class="quote">
+      <strong>Enunciado textual (Tema 4):</strong> "Si se trata de una falla NO evidente con consecuencias operacionales, qué acción/acciones se agregan respecto de la Rta. 1. De corresponder, graficar para <strong>correctivo</strong> y especificar de-ta-lla-da-men-te los Costos que intervienen. <strong>Aclarar todo, sin siglas del tipo HH, MP, etc. Ejemplo correcto: Horas Hombre de producción ociosas por máquina detenida.</strong>"
+    </div>
+
+    <div class="ans">
+      <div class="lbl">1) Qué acciones se agregan y cuál es el orden (10/10)</div>
+      <p>Respecto de la respuesta 1.a, se agregan:</p>
+      <ul>
+        <li><strong>Mantenimiento Detectivo</strong> (en reemplazo del Preventivo en esa secuencia).</li>
+        <li><strong>Mantenimiento Correctivo</strong> (previo a evaluar Reingeniería y posterior a evaluar Detectivo).</li>
+      </ul>
+      <p style="margin-top:8px"><strong>Orden de evaluación para Falla NO evidente con consecuencias operacionales:</strong></p>
+      <ol>
+        <li><strong>1°) Mantenimiento a Condición</strong></li>
+        <li><strong>2°) Mantenimiento Detectivo</strong></li>
+        <li><strong>3°) Mantenimiento Correctivo</strong></li>
+        <li><strong>4°) Reingeniería</strong> <em>(electiva / si económicamente se justifica)</em></li>
+      </ol>
+    </div>
+
+    <!-- Gráfico de Correctivo -->
+    <figure class="fig">
+      <svg viewBox="0 0 640 310" xmlns="http://www.w3.org/2000/svg">
+        <!-- Ejes -->
+        <line class="svg-ax" x1="70" y1="30" x2="70" y2="255"/>
+        <line class="svg-ax" x1="70" y1="255" x2="590" y2="255"/>
+        <polygon points="70,22 65,34 75,34" fill="#64748b"/>
+        <polygon points="598,255 586,250 586,260" fill="#64748b"/>
+        <text class="svg-lbl" x="45" y="34">$</text>
+        <text class="svg-lbl" x="582" y="276">t (tiempo)</text>
+
+        <!-- Costo de Mantenimiento (decreciente, rojo) -->
+        <path d="M 88 55 Q 160 190 540 242" fill="none" stroke="#ef4444" stroke-width="3"/>
+        <text x="415" y="226" fill="#fca5a5" font-size="12" font-weight="700">Costo de Mantenimiento</text>
+
+        <!-- Costo de Falla (creciente, azul/violeta) = Costo Fijo + Costo Variable -->
+        <line x1="70" y1="230" x2="540" y2="65" stroke="#60a5fa" stroke-width="3"/>
+        <circle cx="70" cy="230" r="4" fill="#60a5fa"/>
+        <text x="360" y="92" fill="#93c5fd" font-size="12" font-weight="700">Costo de Falla = Costo Fijo + Costo Variable</text>
+
+        <!-- Costo Fijo base punteada -->
+        <line x1="70" y1="230" x2="540" y2="230" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="5,4"/>
+        <text x="82" y="246" fill="#94a3b8" font-size="10.5">Costo Fijo (no depende de t)</text>
+
+        <!-- Costo Total (curva en U, verde) -->
+        <path d="M 92 42 Q 175 182 260 135 Q 350 95 450 52" fill="none" stroke="#10b981" stroke-width="3.5"/>
+        <text x="195" y="88" fill="#6ee7b7" font-size="12.5" font-weight="800">Costo Total (Mantenimiento + Falla)</text>
+
+        <!-- Mínimo óptimo -->
+        <circle cx="195" cy="146" r="5" fill="#f59e0b" stroke="#fff" stroke-width="1.5"/>
+        <line x1="195" y1="146" x2="195" y2="255" stroke="#f59e0b" stroke-dasharray="4,4" stroke-width="1.5"/>
+        <text x="195" y="275" fill="#fcd34d" font-size="11" font-weight="700" text-anchor="middle">Punto óptimo</text>
+      </svg>
+      <figcaption><b>Gráfico de Mantenimiento Correctivo ($ vs t):</b> A mayor tiempo entre intervenciones baja el costo de mantenimiento, pero sube el Costo de Falla (Fijo + Variable). La curva verde es el <b>Costo Total</b> (suma de ambos). Siempre que evalúes Correctivo con consecuencias operacionales, <b>corresponde graficarlo</b>.</figcaption>
+    </figure>
+
+    <div class="ans">
+      <div class="lbl">2) Detalle completo de Costos que intervienen — SIN SIGLAS (copialo tal cual)</div>
+      <div class="fx"><strong>COSTO DE FALLA = Costo Fijo + Costo Variable</strong>
+
+<strong>• Costo Fijo</strong> (no depende del tiempo de detención de la máquina):
+   - Materia Prima inutilizada o desperdiciada por la detención
+   - Producto Semielaborado inutilizado o en proceso perdido
+   - Producto Terminado defectuoso o descartado
+   - Retrabajo / reproceso (horas de mano de obra dedicadas a reprocesar)
+
+<strong>• Costo Variable</strong> (crece proporcionalmente con el tiempo de parada):
+   - Horas Hombre de producción ociosas por máquina detenida
+   - Horas Máquina improductivas (equipo detenido sin producir)
+   - Penalizaciones comerciales por atraso en la entrega al cliente
+   - Lucro Cesante (margen/producción que se deja de vender por la parada)
+   - Costo de Capital (amortización / costo financiero del capital inmovilizado no cubierto)
+
+<strong>COSTO DE REPARACIÓN:</strong>
+   - Costo de Repuestos utilizados
+   - Costo de Mano de Obra de Mantenimiento (propia o tercerizada)
+   - Costo de Transporte o logística (si lo hubiera)</div>
+    </div>
+
+    <div class="grid2" style="margin-top:12px">
+      <div class="warn" style="margin:0">
+        <strong>Aclaración clave del 10/10 (vs Columna 6 · No Evidente y No Operacional):</strong><br/>
+        En la <strong>Columna 6 (No Evidente - No Operacional)</strong>, al no detenerse la producción, <strong>NO hay Costo Fijo de producción ni Lucro Cesante</strong>. Solo interviene el <strong>Costo de Reparación</strong> = Costo de Repuestos + Costo de Mano de Obra de Mantenimiento (propia o tercerizada) + Costo de Transporte (si lo hubiera).
+      </div>
+      <div class="grn" style="margin:0">
+        <strong>Ejemplo concreto incluido en el 10/10:</strong><br/>
+        <em>Falla en línea transportadora de botellas:</em> el atascamiento/rotura de un rulemán ocasiona un costo de <strong>Repuestos por $50.000</strong> y un <strong>Lucro Cesante por $500.000</strong> (la línea parada cuesta muchísimo más que el repuesto).
+      </div>
+    </div>
+  </div>
+
+  <!-- 1.c -->
+  <div class="card">
+    <h3><span class="pt-num">1.c</span> ¿Se puede replicar un plan RCM entre dos electrobombas idénticas? <span class="tag t-10">Respuesta 10/10</span></h3>
+    <div class="quote">
+      <strong>Enunciado textual (Tema 4):</strong> "¿Se puede replicar el plan RCM de una electrobomba en otra electrobomba exactamente igual, comprada el mismo día, al mismo fabricante e instalada por la misma persona? Sí / <strong>No</strong>. Justifique."
+    </div>
+    <div class="ans">
+      <div class="lbl"><span class="vf vf-f">NO</span> Justificación modelo 10/10</div>
+      <p><strong>No.</strong> Por más idénticas que sean las máquinas, la situación de instalación y operación —<strong>el CONTEXTO operacional de cada una</strong>— será diferente, por lo tanto el plan de acción de mantenimiento también será diferente.</p>
+      <p style="margin-top:6px;font-size:.88rem;color:var(--tx3)"><em>Ejemplo para reforzar si querés redondear:</em> Una puede operar como equipo único crítico en una línea continua (altísimo lucro cesante si falla) y la otra tener una bomba de respaldo en paralelo (redundancia / falla oculta) o trabajar con distinto fluido, temperatura o carga.</p>
+    </div>
+  </div>
+
+  <!-- Tabla resumen RCM -->
+  <div class="card">
+    <h3>Mapa rápido de variantes RCM (por si en el recuperatorio cambia la columna)</h3>
+    <table>
+      <tr><th>Tipo de falla</th><th>¿Se permite Correctivo?</th><th>Secuencia de evaluación / Costos a evaluar</th></tr>
+      <tr>
+        <td>Evidente + Seguridad / Medio Ambiente</td>
+        <td><strong>NUNCA</strong></td>
+        <td>1° Mant. a Condición → 2° Mant. Preventivo → 3° Reingeniería <strong>Obligatoria</strong></td>
+      </tr>
+      <tr>
+        <td>Evidente + Operacional</td>
+        <td>Sí (último antes de Reing.)</td>
+        <td>1° Mant. a Condición → 2° Mant. Preventivo → 3° Correctivo → 4° Reingeniería. Costos: Reparación + Costo de Falla (Fijo + Variable con Lucro Cesante)</td>
+      </tr>
+      <tr>
+        <td>Evidente + No Operacional</td>
+        <td>Sí</td>
+        <td>1° Mant. a Condición → 2° Mant. Preventivo → 3° Correctivo → 4° Reingeniería. Costos: <strong>Solo Costo de Reparación</strong> (sin Lucro Cesante)</td>
+      </tr>
+      <tr>
+        <td>NO Evidente (Oculta) + Seguridad / MA</td>
+        <td><strong>NUNCA</strong></td>
+        <td>1° Mant. a Condición → 2° Mant. Preventivo → 3° Búsqueda de Fallas (Detectivo) → 4° Reingeniería <strong>Obligatoria</strong></td>
+      </tr>
+      <tr>
+        <td><strong>NO Evidente (Oculta) + Operacional (Tema 4)</strong></td>
+        <td><strong>Sí</strong></td>
+        <td><strong>1° Mant. a Condición → 2° Mant. Detectivo → 3° Mant. Correctivo → 4° Reingeniería.</strong> Costos: Reparación + Costo de Falla (Fijo + Variable)</td>
+      </tr>
+      <tr>
+        <td>NO Evidente (Oculta) + No Operacional</td>
+        <td>Sí</td>
+        <td>Se evalúa <strong>Solo Costo de Reparación</strong> (Repuestos + Mano de Obra Mant. propia o tercerizada + Transporte si lo hubiera), sin Costo Fijo ni Lucro Cesante.</td>
+      </tr>
+    </table>
+  </div>
+</section>
+
+<!-- 3. PUNTO 2: SELECCIÓN MÚLTIPLE -->
+<section id="p2">
+  <div class="sec-t">
+    <div class="sec-ic">☑️</div>
+    <div>
+      <h2>Punto N° 2 — Selección Múltiple sin justificar (2 puntos)</h2>
+      <div class="ss">TPM · Tercerización · Parada de Planta · Servicios · Manufactura Flexible</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3><span class="pt-num">2</span> El caso real del Tema 4 (02/11/2026) <span class="tag t-10">Respuesta 10/10</span> <span class="tag t-trampa">¡Pueden ser todas falsas!</span></h3>
+    <div class="quote">
+      <strong>Enunciado textual (Tema 4):</strong> "De existir, seleccione la/s afirmación/es correcta/s (<strong>NO Justificar Rtas.</strong>):<br/>
+      a) En TPM el operario de mantenimiento pasa a cumplir tareas de producción.<br/>
+      b) Para pintar 1.000 m² de pared es conveniente hacer un contrato por horas hombre de administración.<br/>
+      c) La parada de planta se realiza promediando la curva de la bañera de los equipos."
+    </div>
+    <div class="ans">
+      <div class="lbl"><span class="vf vf-n">NINGUNA SELECCIONADA</span> Resultado 10/10</div>
+      <p><strong>No se marca ninguna opción (a, b y c son todas FALSAS).</strong> Fijate la redacción deliberada del enunciado: <em>"De existir, seleccione..."</em>. Si todas son incorrectas, dejar todas sin marcar es la respuesta de 10.</p>
+    </div>
+
+    <table style="margin-top:14px">
+      <tr><th>Afirmación</th><th>Estado</th><th>Por qué es falsa (para saberlo vos, aunque no se justifique)</th></tr>
+      <tr>
+        <td>a) En TPM el operario de mantenimiento pasa a cumplir tareas de producción.</td>
+        <td><span class="vf vf-f">FALSA</span></td>
+        <td>Es exactamente al revés: en TPM (Mantenimiento Autónomo / No Profesional), el <strong>operario de producción</strong> asume tareas básicas de mantenimiento (limpieza, inspección, lubricación, ajuste) y se vuelve inspector permanente. Al personal no se lo mueve de sector, cambian sus funciones.</td>
+      </tr>
+      <tr>
+        <td>b) Para pintar 1.000 m² de pared conviene contrato por horas hombre de administración.</td>
+        <td><span class="vf vf-f">FALSA</span></td>
+        <td>Pintar 1.000 m² es una tarea <strong>mensurable, repetitiva y de alcance definido</strong>: conviene contratar por <strong>unidad de medida ($/m²) o ajuste alzado</strong>, NO por administración (por administración el contratista no tiene incentivo a ser eficiente y cobraria más cuanto más tarda).</td>
+      </tr>
+      <tr>
+        <td>c) La parada de planta se realiza promediando la curva de la bañera de los equipos.</td>
+        <td><span class="vf vf-f">FALSA</span></td>
+        <td>La Parada de Planta (PDP) no se calcula promediando curvas de la bañera; se programa en función de criticidad, tareas mayores que exigen detención total simultánea, vida útil remanente, coordinación con producción/estacionalidad y acumulación de stock.</td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <h3>Banco de afirmaciones de Unidades 4, 5 y 6 (para no fallar en otro Tema del Punto 2)</h3>
+    <table>
+      <tr><th>Tema</th><th>Lo que SÍ es VERDADERO (marcar si aparece así)</th><th>Trampa típica (FALSA — NO marcar)</th></tr>
+      <tr>
+        <td><strong>TPM</strong></td>
+        <td>
+          • El operario de <strong>producción</strong> realiza Mantenimiento Autónomo (No Profesional).<br/>
+          • Mantenimiento Profesional (Oficina Técnica) hace análisis de fallas, indicadores, predictivo avanzado y capacitaciones.<br/>
+          • La decisión la toma la alta dirección / cúpula y baja a toda la empresa.<br/>
+          • En JIT, mantenimiento incide principalmente en <strong>0 defectos y 0 fallas</strong> (y 0 accidentes como pilar integrador de Seguridad, Higiene y Medio Ambiente).<br/>
+          • Pilares clave evaluados: 1 (Profesional), 2 (Autónomo), 4 (Dptos. de apoyo), 8 (Seguridad/Higiene/MA).
+        </td>
+        <td>
+          • Decir que mantenimiento pasa a hacer producción.<br/>
+          • Decir que en JIT se puede trabajar a la falla / correctivo.<br/>
+          • Decir que el operario de producción se traslada físicamente al taller de mantenimiento.
+        </td>
+      </tr>
+      <tr>
+        <td><strong>Tercerización</strong></td>
+        <td>
+          • <strong>Por Unidad de Medida / Ajuste Alzado:</strong> trabajos previsibles, repetitivos y fácilmente medibles (ej. pintar 1.000 m², limpiar tanques, corte de pasto).<br/>
+          • <strong>Por Administración (Horas Hombre):</strong> trabajos imprevistos, emergencias o reparaciones donde no se conoce el alcance hasta desarmar.<br/>
+          • <strong>Llave en mano / Resultado / Abono fijo:</strong> cuando el contratista asume riesgo y entrega la función operativa o disponibilidad.
+        </td>
+        <td>
+          • Contratar tareas repetitivas/medibles por horas hombre de administración.<br/>
+          • Tercerizar el <em>know-how</em> crítico sin supervisión ni control técnico interno.
+        </td>
+      </tr>
+      <tr>
+        <td><strong>Parada de Planta (PDP)</strong></td>
+        <td>
+          • Evento extraordinario integral a escala de toda la planta o línea continua.<br/>
+          • Tiene presupuesto extraordinario independiente (muchos contratistas).<br/>
+          • Etapas: <strong>Planificación</strong> (OT, órdenes de compra, stock de semielaborados) → <strong>Ejecución</strong> (coordinación de contratistas) → <strong>Cierre</strong> (evaluación de proveedores y cierre de OT).
+        </td>
+        <td>
+          • Confundir PDP con Reacondicionamiento (Overhaul) de una sola máquina.<br/>
+          • Decir que se define "promediando la curva de la bañera".
+        </td>
+      </tr>
+      <tr>
+        <td><strong>Empresas de Servicios &amp; Edificios Inteligentes</strong></td>
+        <td>
+          • Un edificio inteligente brinda condiciones de confort (más productividad) e integra en un sistema <strong>BMS (Building Management Software)</strong> 3 áreas: <strong>Energía</strong> (luminaria, ascensores), <strong>Termomecánica</strong> (frío/calor) y <strong>Seguridad</strong> (rociadores/aspersores, matafuegos, detección).<br/>
+          • En empresas de servicios prima la percepción directa del cliente (confort, continuidad, seguridad) sobre la producción física de bienes.
+        </td>
+        <td>
+          • Decir que el BMS controla solo climatización o solo seguridad.<br/>
+          • Decir que en servicios no existe lucro cesante o criticidad operativa.
+        </td>
+      </tr>
+    </table>
+  </div>
+</section>
+
+<!-- 4. PUNTO 3: GEP Y ULTRASONIDO -->
+<section id="p3">
+  <div class="sec-t">
+    <div class="sec-ic">📈</div>
+    <div>
+      <h2>Punto N° 3 — Gráfico de Estado Paramétrico (GEP) y Ultrasonido (4 puntos)</h2>
+      <div class="ss">El corazón del parcial junto con RCM: 6 incisos (a–f) resueltos exactamente como el 10/10</div>
+    </div>
+  </div>
+
+  <!-- Gráfico SVG del 10/10 -->
+  <div class="card">
+    <h3>Gráfico de Estado Paramétrico (GEP) — Reconstrucción exacta del 10/10</h3>
+    <div class="quote">
+      <strong>Enunciado introductorio (Tema 4):</strong> "<strong>Se realiza un análisis de ultrasonido. Sobre el siguiente gráfico:</strong>"
+    </div>
+
+    <figure class="fig">
+      <svg viewBox="0 0 760 365" xmlns="http://www.w3.org/2000/svg">
+        <!-- Fondos suaves por zona -->
+        <rect x="85" y="38" width="175" height="270" fill="#3b82f6" opacity="0.06"/>
+        <rect x="260" y="38" width="155" height="270" fill="#10b981" opacity="0.07"/>
+        <rect x="415" y="38" width="235" height="270" fill="#ef4444" opacity="0.06"/>
+
+        <!-- Ejes -->
+        <line class="svg-ax" x1="85" y1="30" x2="85" y2="308"/>
+        <line class="svg-ax" x1="85" y1="308" x2="710" y2="308"/>
+        <polygon points="85,22 80,34 90,34" fill="#64748b"/>
+        <polygon points="718,308 706,303 706,313" fill="#64748b"/>
+        <text class="svg-lbl" x="14" y="45">Estado</text>
+        <text class="svg-lbl" x="14" y="62">paramétrico</text>
+        <text class="svg-lbl" x="678" y="330">Tiempo</text>
+
+        <!-- Líneas divisorias verticales -->
+        <line x1="260" y1="45" x2="260" y2="308" stroke="#94a3b8" stroke-dasharray="5,4" stroke-width="1.6"/>
+        <line x1="415" y1="45" x2="415" y2="308" stroke="#f87171" stroke-dasharray="5,4" stroke-width="2"/>
+
+        <!-- Etiquetas de Zona -->
+        <text x="172" y="108" fill="#93c5fd" font-size="16" font-weight="800" text-anchor="middle">I</text>
+        <text x="338" y="128" fill="#6ee7b7" font-size="16" font-weight="800" text-anchor="middle">II</text>
+        <text x="485" y="205" fill="#fca5a5" font-size="16" font-weight="800" text-anchor="middle">III</text>
+
+        <!-- Punto quiebre e Irreversibilidad -->
+        <text x="260" y="35" fill="#e2e8f0" font-size="12" font-weight="700" text-anchor="middle">Punto quiebre</text>
+        <line x1="415" y1="50" x2="475" y2="50" stroke="#f87171" stroke-width="1.8"/>
+        <polygon points="483,50 473,46 473,54" fill="#f87171"/>
+        <text x="488" y="54" fill="#fca5a5" font-size="12" font-weight="800">Irreversibilidad</text>
+
+        <!-- Curva GEP -->
+        <path d="M 85 82 L 260 82 C 318 82, 368 98, 415 128 C 485 172, 575 240, 645 308"
+              fill="none" stroke="#e2e8f0" stroke-width="3.2"/>
+
+        <!-- Rayitas azules de seguimiento de la variable en Zona III -->
+        <g stroke="#38bdf8" stroke-width="2">
+          <line x1="468" y1="154" x2="479" y2="146"/>
+          <line x1="484" y1="166" x2="495" y2="158"/>
+          <line x1="500" y1="178" x2="511" y2="170"/>
+          <line x1="516" y1="191" x2="527" y2="183"/>
+          <line x1="532" y1="205" x2="543" y2="197"/>
+          <line x1="548" y1="219" x2="559" y2="211"/>
+          <line x1="564" y1="234" x2="575" y2="226"/>
+          <line x1="580" y1="249" x2="591" y2="241"/>
+          <line x1="596" y1="264" x2="607" y2="256"/>
+        </g>
+
+        <!-- Marcadores exactos del 10/10 -->
+        <!-- Zona I: azul -->
+        <circle cx="170" cy="82" r="6" fill="#3b82f6" stroke="#fff" stroke-width="1.5"/>
+        <text x="170" y="68" fill="#93c5fd" font-size="10.5" font-weight="700" text-anchor="middle">Preventivo / Proactivo / Predictivo</text>
+
+        <!-- Punto quiebre -->
+        <circle cx="260" cy="82" r="5" fill="#f8fafc" stroke="#0f172a" stroke-width="1.5"/>
+
+        <!-- Zona II: Proactivo (verde) y Acción Restaurativa (X verde) -->
+        <circle cx="318" cy="88" r="6" fill="#10b981" stroke="#fff" stroke-width="1.5"/>
+        <text x="318" y="75" fill="#6ee7b7" font-size="10.5" font-weight="700" text-anchor="middle">Mant. Proactivo</text>
+
+        <g stroke="#10b981" stroke-width="3">
+          <line x1="362" y1="98" x2="374" y2="110"/>
+          <line x1="374" y1="98" x2="362" y2="110"/>
+        </g>
+        <text x="368" y="132" fill="#6ee7b7" font-size="10.5" font-weight="700" text-anchor="middle">Acción Restaurativa</text>
+
+        <!-- Límite irreversibilidad -->
+        <circle cx="415" cy="128" r="5" fill="#ef4444" stroke="#fff" stroke-width="1.5"/>
+
+        <!-- Zona III: Ultrasonido Predictivo (rojo) + Preventivo (naranja) + Sustitutiva (X antes de FF) -->
+        <circle cx="478" cy="170" r="6" fill="#ef4444" stroke="#fff" stroke-width="1.5"/>
+        <text x="548" y="164" fill="#fca5a5" font-size="11" font-weight="700">● Ultrasonido (Mant. Predictivo)</text>
+        <text x="556" y="179" fill="#38bdf8" font-size="10.5" font-weight="700">//// Seguimiento de la variable</text>
+
+        <circle cx="565" cy="238" r="6" fill="#f59e0b" stroke="#fff" stroke-width="1.5"/>
+        <text x="488" y="255" fill="#fcd34d" font-size="10.5" font-weight="700">● Mant. Preventivo</text>
+
+        <!-- Acción Sustitutiva justo antes de FF -->
+        <g stroke="#f8fafc" stroke-width="3">
+          <line x1="624" y1="286" x2="634" y2="296"/>
+          <line x1="634" y1="286" x2="624" y2="296"/>
+        </g>
+        <text x="642" y="286" fill="#f8fafc" font-size="11" font-weight="700">× Acción Sustitutiva</text>
+
+        <!-- FF -->
+        <circle cx="645" cy="308" r="5.5" fill="#ef4444" stroke="#fff" stroke-width="1.5"/>
+        <text x="648" y="330" fill="#fca5a5" font-size="13" font-weight="800">FF</text>
+      </svg>
+      <figcaption><b>GEP anotado según el 10/10:</b> Zona I (operación normal: acciones preventivas/proactivas/predictivas), Zona II (reversibilidad: <b>Mant. Proactivo</b> + <b>Acción Restaurativa</b>), Zona III (irreversibilidad: <b>Ultrasonido como Mant. Predictivo</b> + <b>Seguimiento de la variable</b> + <b>Mant. Preventivo</b> + <b>Acción Sustitutiva</b> antes de <b>FF</b>).</figcaption>
+    </figure>
+
+    <div class="zone-btns">
+      <button class="z-btn active" onclick="showZone('z1',this)">Zona I · Meseta</button>
+      <button class="z-btn" onclick="showZone('z2',this)">Zona II · Reversibilidad</button>
+      <button class="z-btn" onclick="showZone('z3',this)">Zona III · Irreversibilidad</button>
+      <button class="z-btn" onclick="showZone('ff',this)">Punto FF · Falla Funcional</button>
+    </div>
+    <div id="zPanel" class="z-panel">
+      <strong>Zona I (antes del Punto de Quiebre):</strong> Estado paramétrico normal dentro de especificaciones. Se ubican las acciones de <strong>Mantenimiento Preventivo, Mantenimiento Proactivo y Mantenimiento Predictivo</strong> de línea base / monitoreo normal.
+    </div>
+  </div>
+
+  <!-- 3.a y 3.b -->
+  <div class="card">
+    <h3><span class="pt-num">3.a</span> Identifique el tipo de mantenimiento descripto y ubíquelo en el GEP <span class="tag t-10">Respuesta 10/10</span></h3>
+    <div class="ans">
+      <div class="lbl">Respuesta exacta 10/10</div>
+      <p>"<strong>Inicialmente es Mantenimiento a Condición</strong> dado que en el enunciado no se detalla el <em>cuándo</em> o en <em>dónde</em> (zona) se realiza. Ahora bien, <strong>decido ubicarlo en la Zona III de Irreversibilidad como un Mantenimiento Predictivo con seguimiento hasta realizar la sustitución</strong>."</p>
+    </div>
+    <div class="hl">
+      <strong>Por qué esa respuesta vale oro:</strong> El enunciado solo dice <em>"Se realiza un análisis de ultrasonido"</em> (no dice si encontró la falla en Zona II o Zona III). Por eso primero aclarás que genéricamente es <strong>Mantenimiento a Condición</strong>, y luego tomás postura y lo ubicás en <strong>Zona III de Irreversibilidad como Predictivo con seguimiento hasta la sustitución</strong> (¡exacto como lo hizo el 10/10!).
+    </div>
+  </div>
+
+  <div class="card">
+    <h3><span class="pt-num">3.b</span> Ubique y mencione, en el GEP, las restantes acciones proactivas y reactivas <span class="tag t-10">Respuesta 10/10</span></h3>
+    <div class="ans">
+      <div class="lbl">Ubicación completa en el gráfico (10/10)</div>
+      <ul>
+        <li><strong>Zona I (antes del Punto de Quiebre):</strong> Acciones de <em>Mantenimiento Preventivo, Mantenimiento Proactivo y Mantenimiento Predictivo</em> (estado paramétrico normal).</li>
+        <li><strong>Zona II (entre Punto de Quiebre y Límite de Irreversibilidad):</strong> <strong>Mantenimiento Proactivo</strong> (detección temprana de causa raíz) y <strong>Acción Restaurativa</strong> (restaura la condición del componente antes de caer en daño irreversible).</li>
+        <li><strong>Zona III (Irreversibilidad, hasta antes de FF):</strong> <strong>Mantenimiento Predictivo</strong> (ej. Ultrasonido en Zona III) + <strong>Seguimiento de la variable</strong> (mediciones sucesivas) + <strong>Mantenimiento Preventivo</strong> + <strong>Acción Sustitutiva</strong> (reemplazo programado antes de la falla funcional).</li>
+        <li><strong>En / después de FF (Falla Funcional):</strong> <strong>Acción Reactiva / Mantenimiento Correctivo</strong> (cuando el equipo ya perdió su función).</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 3.c -->
+  <div class="card">
+    <h3><span class="pt-num">3.c</span> Detectar la falla en la mitad de la zona de irreversibilidad vs más cerca del final <span class="tag t-10">Respuesta 10/10</span></h3>
+    <div class="quote">
+      <strong>Enunciado textual (Tema 4):</strong> "En el caso particular de que la falla se detecte en la mitad de la zona de irreversibilidad (esto es independiente de los puntos a. y b.), existe alguna ventaja a encontrar la falla más cerca del final de esa etapa. Sí / No. Justifique su respuesta."
+    </div>
+    <div class="ans">
+      <div class="lbl"><span class="vf vf-v">SÍ (respecto a encontrarla cerca del final)</span> Justificación 10/10</div>
+      <p>"<strong>Permite aprovechar la vida útil remanente del componente, programar una acción sustitutiva y evitar la falla funcional con mayor programación.</strong>"</p>
+      <p style="margin-top:6px;font-size:.87rem;color:var(--tx3)"><em>Aclaración para no trabarse en la lectura:</em> La comparación es detectar en la <strong>mitad</strong> de la zona de irreversibilidad frente a detectarla <strong>cerca del final</strong> (pegado a FF). En la mitad tenés tiempo suficiente para comprar repuestos, coordinar mano de obra/parada con mayor programación, evitar la falla funcional y aun así aprovechar la vida útil remanente del componente (sin cambiarlo prematuramente apenas empieza la falla).</p>
+    </div>
+  </div>
+
+  <!-- 3.d -->
+  <div class="card">
+    <h3><span class="pt-num">3.d</span> Explique en qué consiste un análisis de ultrasonido y cuándo se utiliza <span class="tag t-10">Respuesta 10/10</span></h3>
+    <div class="ans">
+      <div class="lbl">Respuesta exacta 10/10</div>
+      <ul>
+        <li><strong>¿En qué consiste?</strong> "Es una <strong>herramienta del Mantenimiento a Condición</strong> utilizada para <strong>hallar daños internos en las piezas del equipo (fisuras)</strong>. <em>Por ejemplo: evaluar el estado interno de un eje de motor.</em>"</li>
+        <li><strong>¿Cuándo se utiliza?</strong>
+          <ul>
+            <li><strong>De forma Proactiva en la Zona II de Reversibilidad:</strong> para restaurar la pieza y hallar la causa raíz del problema.</li>
+            <li><strong>O de forma Predictiva con seguimiento en la Zona III de Irreversibilidad:</strong> con planificación para sustituir la pieza antes de la falla funcional, aprovechando la vida útil remanente del componente.</li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 3.e -->
+  <div class="card">
+    <h3><span class="pt-num">3.e</span> "¿Cómo sería un 'símil' de un análisis continuo de amperaje con Mantenimiento Preventivo? Justifique." <span class="tag t-10">Respuesta 10/10</span></h3>
+    <div class="ans">
+      <div class="lbl">Respuesta exacta 10/10</div>
+      <p>"<strong>Usando una pinza amperométrica y tomando mediciones a frecuencia fija. Llevar un registro y alertar ante cualquier variación o interpretación de valores anómalos respecto al Estado Teórico.</strong>"</p>
+    </div>
+    <div class="hl">
+      <strong>La fórmula mental para cualquier pregunta "símil Preventivo":</strong><br/>
+      En Predictivo/a Condición se usa monitoreo continuo o instrumentación avanzada para seguir la degradación real. En <strong>Preventivo</strong> se usa una <strong>herramienta básica/manual</strong> (pinza amperométrica, destornillador al oído, termómetro puntual) + <strong>a frecuencia fija (calendaria)</strong> + <strong>registro y comparación contra el Estado Teórico</strong>.
+    </div>
+  </div>
+
+  <!-- 3.f -->
+  <div class="card">
+    <h3><span class="pt-num">3.f</span> "¿El mantenimiento a condición se lleva a cabo con las mismas variables que mide producción?" <span class="tag t-10">Respuesta 10/10</span></h3>
+    <div class="ans">
+      <div class="lbl"><span class="vf vf-f">FALSA</span> Justificación 10/10</div>
+      <p>"<strong>Producción lleva sus propias variables; éstas pueden ser aprovechadas por Mantenimiento, e igualmente es Mantenimiento quien opta/decide qué variable es la más idónea para realizar el seguimiento correspondiente.</strong>"</p>
+      <p style="margin-top:6px;font-size:.87rem;color:var(--tx3)"><em>Ejemplo del apunte de clase (por si piden ejemplo):</em> En una electrobomba, a Producción le interesa medir Caudal o metros de columna de agua (m.c.a.), mientras que a Mantenimiento le interesan variables representativas del estado físico del elemento (vibraciones, temperatura en rodamientos, fisuras, amperaje).</p>
+    </div>
+  </div>
+</section>
+
+<!-- 5. TÉCNICAS QUE ROTAN -->
+<section id="rotan">
+  <div class="sec-t">
+    <div class="sec-ic">🔄</div>
+    <div>
+      <h2>Otras técnicas que pueden rotar en el Punto 3</h2>
+      <div class="ss">En Tema 4 cayó Ultrasonido + Amperaje; en tu recuperatorio puede caer cualquiera de estas de clase</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <p>Todas siguen exactamente la <strong>misma lógica de los 6 incisos del Punto 3</strong>: si no aclaran zona, es <strong>Mantenimiento a Condición</strong>; si buscan causa raíz en Zona II es <strong>Proactivo</strong> (acción restaurativa); si siguen el daño irreversible en Zona III es <strong>Predictivo</strong> (acción sustitutiva antes de FF).</p>
+    <table>
+      <tr><th>Técnica</th><th>En qué consiste (para el inciso d)</th><th>Símil en Preventivo (para el inciso e)</th></tr>
+      <tr>
+        <td><strong>Ultrasonido</strong><br/><em>(Tema 4)</em></td>
+        <td>Herramienta de Mant. a Condición que detecta daños internos en piezas (fisuras, ej. eje de motor) o fugas/cavitación mediante ondas ultrasónicas.</td>
+        <td>Inspección visual/manual programada a frecuencia fija o ensayo básico periódico con registro contra el estado teórico.</td>
+      </tr>
+      <tr>
+        <td><strong>Análisis de Vibraciones</strong></td>
+        <td>Mide <strong>Frecuencia</strong> (indica origen de la falla: desalineación, desbalanceo, rodamientos) y <strong>Amplitud</strong> (indica severidad). Zona II (ajuste/alineación = Proactivo) o Zona III (pista picada = Predictivo).</td>
+        <td>Apoyar un destornillador en la carcasa y escuchar con el oído (o estetoscopio mecánico simple) a frecuencia fija, registrando desvíos respecto al estado teórico.</td>
+      </tr>
+      <tr>
+        <td><strong>Termografía</strong></td>
+        <td>Se realiza <strong>a distancia</strong> sin detener el equipo; en función de una gama de colores infrarroja se infiere la temperatura para detectar puntos calientes (tableros, rodamientos, aislaciones).</td>
+        <td>Tomar temperatura puntualmente con termómetro de contacto o pirómetro manual a frecuencia fija y comparar contra el valor teórico.</td>
+      </tr>
+      <tr>
+        <td><strong>Análisis de Amperaje</strong><br/><em>(Tema 4, 3.e)</em></td>
+        <td>Monitoreo continuo del consumo eléctrico de un motor para detectar sobrecargas, roces mecánicos o fallas de bobinado/carga.</td>
+        <td>Usar <strong>pinza amperométrica</strong> a frecuencia fija, registrar valores y alertar variaciones anómalas respecto al Estado Teórico.</td>
+      </tr>
+      <tr>
+        <td><strong>Partículas Magnetizables</strong></td>
+        <td>Se transforma la pieza de estudio en un imán y se espolvorea con limadura de hierro, la cual se orienta según las líneas de campo revelando fisuras superficiales/subsuperficiales.</td>
+        <td>Inspección visual periódica / limpieza y revisión dimensional programada a frecuencia fija.</td>
+      </tr>
+      <tr>
+        <td><strong>Alineación Láser</strong></td>
+        <td>Cuando dos elementos están conectados por un eje, verifica y corrige con precisión láser que estén perfectamente alineados (típicamente Proactivo en Zona II).</td>
+        <td>Verificación mecánica periódica con regla/comparador a frecuencia fija.</td>
+      </tr>
+      <tr>
+        <td><strong>Análisis de Desgaste / Lubricante</strong></td>
+        <td>Análisis físico-químico del aceite o partículas de desgaste para detectar degradación temprana de engranajes, cojinetes o contaminación.</td>
+        <td>Cambio sistemático de aceite y filtros por horas/calendario fijo (preventivo por tiempo) revisando tapón magnético.</td>
+      </tr>
+    </table>
+  </div>
+</section>
+
+<!-- 6. TRAMPAS Y REGLAS PARA EL 8+ -->
+<section id="trampas">
+  <div class="sec-t">
+    <div class="sec-ic">⚠️</div>
+    <div>
+      <h2>Cómo asegurar el 8+ (Trampas del 2° Parcial)</h2>
+      <div class="ss">Lo que separa un 7 raspado de un 8–10 promocionable</div>
+    </div>
+  </div>
+
+  <div class="grid2">
+    <div class="dng" style="margin:0">
+      <strong>1. Siglas prohibidas en Costos (Punto 1.b):</strong><br/>
+      Si dice <em>"sin siglas del tipo HH, MP, etc."</em>, no pongas ni una sola abreviatura. Escribí completo: <em>Horas Hombre de producción ociosas por máquina detenida</em>, <em>Materia Prima</em>, <em>Producto Semielaborado</em>, <em>Producto Terminado</em>, <em>Horas Máquina improductivas</em>.
+    </div>
+    <div class="dng" style="margin:0">
+      <strong>2. "Reacondicionamiento" ≠ "Preventivo" (Punto 1.a):</strong><br/>
+      En el orden de evaluación para Seguridad: 1° Mant. a Condición → <strong>2° Mant. Preventivo</strong> → 3° Reingeniería Obligatoria. Si te ponen solo "Reacondicionamiento" en el enunciado, ¡es FALSA!
+    </div>
+    <div class="warn" style="margin:0">
+      <strong>3. Miedo al Punto 2 "todo falso":</strong><br/>
+      Si la consigna dice <em>"De existir, seleccione..."</em> es porque puede no existir ninguna correcta. Analizá cada frase contra la teoría (TPM, Tercerización, PDP) y si las 3 son falsas, dejá las 3 sin marcar con total seguridad.
+    </div>
+    <div class="warn" style="margin:0">
+      <strong>4. En el Punto 3.a siempre hay dos pasos:</strong><br/>
+      Primero decí que <em>"inicialmente es Mantenimiento a Condición porque no detalla zona/momento"</em>, y después elegí explícitamente la ubicación (<strong>Zona III como Predictivo con seguimiento hasta la sustitución</strong>).
+    </div>
+    <div class="grn" style="margin:0">
+      <strong>5. Gráfico de Correctivo + Ejemplo concreto:</strong><br/>
+      Siempre que dibujes el gráfico de Correctivo (<code>$</code> vs <code>t</code>), rotulá los 3 ejes/curvas (Costo de Mantenimiento, Costo de Falla = Fijo + Variable, Costo Total) y agregá un ejemplo corto (ej. rulemán de $50.000 vs lucro cesante de $500.000).
+    </div>
+    <div class="grn" style="margin:0">
+      <strong>6. Símil Preventivo = Herramienta + Frecuencia Fija + Estado Teórico:</strong><br/>
+      Esas 3 palabras clave tienen que estar sí o sí en el inciso 3.e: <strong>instrumento simple</strong> (ej. pinza amperométrica), <strong>frecuencia fija</strong> y <strong>alerta ante desvío del Estado Teórico</strong>.
+    </div>
+  </div>
+</section>
+
+<!-- 7. AUTOEVALUACIÓN -->
+<section id="quiz">
+  <div class="sec-t">
+    <div class="sec-ic">📝</div>
+    <div>
+      <h2>Autoevaluación Rápida (Estilo 2° Parcial 2026)</h2>
+      <div class="ss">Probate con 8 preguntas clave antes de entrar a rendir</div>
+    </div>
+  </div>
+
+  <div class="card" id="quizBox">
+    <div class="q-item">
+      <div class="q-title">1. Falla evidente con consecuencias para la seguridad: "1° Mant. a Condición, 2° Reacondicionamiento, 3° Reingeniería Obligatoria". ¿V o F?</div>
+      <div class="q-opts">
+        <button class="q-opt" onclick="ans(this,false,'q1')">Verdadera</button>
+        <button class="q-opt" onclick="ans(this,true,'q1')">Falsa — el 2° paso correcto es Mantenimiento Preventivo</button>
+      </div>
+      <div class="q-fb" id="q1"><strong>Criterio 10/10:</strong> Falsa. El orden es 1° Mantenimiento a Condición (MC), 2° Mantenimiento Preventivo, 3° Reingeniería Obligatoria.</div>
+    </div>
+
+    <div class="q-item">
+      <div class="q-title">2. Si pasamos a una falla NO evidente con consecuencias operacionales, ¿qué se agrega respecto de Seguridad?</div>
+      <div class="q-opts">
+        <button class="q-opt" onclick="ans(this,true,'q2')">Mantenimiento Detectivo (en vez de Preventivo) y Mantenimiento Correctivo (antes de Reingeniería)</button>
+        <button class="q-opt" onclick="ans(this,false,'q2')">Solo Reingeniería Obligatoria</button>
+        <button class="q-opt" onclick="ans(this,false,'q2')">No se agrega nada porque es operacional</button>
+      </div>
+      <div class="q-fb" id="q2"><strong>Criterio 10/10:</strong> Se agrega Mantenimiento Detectivo (en vez de Preventivo) y Mantenimiento Correctivo (previo a evaluar Reingeniería y post evaluar Detectivo). Orden: 1° Condición, 2° Detectivo, 3° Correctivo, 4° Reingeniería.</div>
+    </div>
+
+    <div class="q-item">
+      <div class="q-title">3. ¿Cuál de estos costos NO corresponde a Columna 6 (Falla No Evidente y No Operacional)?</div>
+      <div class="q-opts">
+        <button class="q-opt" onclick="ans(this,false,'q3')">Costo de Repuestos</button>
+        <button class="q-opt" onclick="ans(this,false,'q3')">Costo de Mano de Obra de Mantenimiento (propia o tercerizada)</button>
+        <button class="q-opt" onclick="ans(this,true,'q3')">Lucro Cesante y Materia Prima inutilizada</button>
+      </div>
+      <div class="q-fb" id="q3"><strong>Criterio 10/10:</strong> En fallas No Operacionales no hay Costo Fijo de producción ni Lucro Cesante; solo interviene el Costo de Reparación (Repuestos + Mano de Obra de Mantenimiento + Transporte si lo hubiera).</div>
+    </div>
+
+    <div class="q-item">
+      <div class="q-title">4. Dos electrobombas exactamente iguales compradas el mismo día al mismo fabricante e instaladas por la misma persona: ¿se replica el plan RCM?</div>
+      <div class="q-opts">
+        <button class="q-opt" onclick="ans(this,false,'q4')">Sí, porque son equipos idénticos</button>
+        <button class="q-opt" onclick="ans(this,true,'q4')">No, porque el CONTEXTO operacional y situación de cada una es diferente</button>
+      </div>
+      <div class="q-fb" id="q4"><strong>Criterio 10/10:</strong> No. Aunque las máquinas sean idénticas, su contexto operacional y situación de instalación/uso es diferente, por lo tanto el plan de acción también cambia.</div>
+    </div>
+
+    <div class="q-item">
+      <div class="q-title">5. En el Punto 2 (selección múltiple): ¿qué afirmación es CORRECTA?</div>
+      <div class="q-opts">
+        <button class="q-opt" onclick="ans(this,false,'q5')">En TPM el operario de mantenimiento pasa a cumplir tareas de producción.</button>
+        <button class="q-opt" onclick="ans(this,false,'q5')">Para pintar 1.000 m² conviene contratar por horas hombre de administración.</button>
+        <button class="q-opt" onclick="ans(this,false,'q5')">La parada de planta se realiza promediando la curva de la bañera.</button>
+        <button class="q-opt" onclick="ans(this,true,'q5')">Ninguna de las anteriores es correcta</button>
+      </div>
+      <div class="q-fb" id="q5"><strong>Criterio 10/10:</strong> Las tres son falsas. En TPM el de producción hace mantenimiento autónomo; pintar 1.000 m² se contrata por unidad de medida/m² o ajuste alzado; la PDP no promedia curvas de la bañera.</div>
+    </div>
+
+    <div class="q-item">
+      <div class="q-title">6. En el GEP, el enunciado dice "Se realiza un análisis de ultrasonido" sin dar más datos. ¿Cómo respondés primero en 3.a?</div>
+      <div class="q-opts">
+        <button class="q-opt" onclick="ans(this,true,'q6')">Inicialmente es Mantenimiento a Condición (no detalla zona/cuándo), y lo ubico en Zona III como Predictivo con seguimiento hasta la sustitución</button>
+        <button class="q-opt" onclick="ans(this,false,'q6')">Es directamente Mantenimiento Preventivo en Zona I</button>
+      </div>
+      <div class="q-fb" id="q6"><strong>Criterio 10/10:</strong> Primero aclarás que es Mantenimiento a Condición al no detallar cuándo ni en qué zona se realiza, y luego decidís ubicarlo en Zona III de Irreversibilidad como Predictivo con seguimiento hasta sustituir.</div>
+    </div>
+
+    <div class="q-item">
+      <div class="q-title">7. ¿Cómo harías el "símil" de un análisis continuo de amperaje con Mantenimiento Preventivo?</div>
+      <div class="q-opts">
+        <button class="q-opt" onclick="ans(this,false,'q7')">Esperando a que salte el térmico del motor</button>
+        <button class="q-opt" onclick="ans(this,true,'q7')">Con pinza amperométrica a frecuencia fija, llevando registro y alertando desvíos respecto al Estado Teórico</button>
+      </div>
+      <div class="q-fb" id="q7"><strong>Criterio 10/10:</strong> Pinza amperométrica + frecuencia fija + registro + alerta ante valores anómalos respecto al Estado Teórico.</div>
+    </div>
+
+    <div class="q-item">
+      <div class="q-title">8. "¿El mantenimiento a condición se lleva a cabo con las mismas variables que mide producción?"</div>
+      <div class="q-opts">
+        <button class="q-opt" onclick="ans(this,false,'q8')">Verdadera — siempre deben usarse exactamente las mismas variables</button>
+        <button class="q-opt" onclick="ans(this,true,'q8')">Falsa — Producción lleva sus variables (pueden aprovecharse), pero Mantenimiento decide cuál es la más idónea para el seguimiento</button>
+      </div>
+      <div class="q-fb" id="q8"><strong>Criterio 10/10:</strong> Falsa. Producción mide sus propias variables; Mantenimiento puede aprovecharlas, pero es Mantenimiento quien opta/decide qué variable es la más idónea para hacer el seguimiento.</div>
+    </div>
+  </div>
+</section>
+
+<!-- 8. CHECKLIST -->
+<section id="check">
+  <div class="sec-t">
+    <div class="sec-ic">✅</div>
+    <div>
+      <h2>Checklist Final para Sacar 8+ en el Recuperatorio</h2>
+      <div class="ss">Repasalo 10 minutos antes de entrar al aula</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="hl" style="margin-top:0">
+      <ul>
+        <li>☐ <strong>Punto 1.a (RCM Seguridad):</strong> 1° Mant. a Condición → 2° <u>Mant. Preventivo</u> (no solo reacondicionamiento) → 3° Reingeniería Obligatoria.</li>
+        <li>☐ <strong>Punto 1.b (RCM No Evidente + Operacional):</strong> Se agrega <u>Detectivo</u> (en vez de Preventivo) y <u>Correctivo</u> (antes de Reing.). Orden: Condición → Detectivo → Correctivo → Reingeniería.</li>
+        <li>☐ <strong>Gráfico de Correctivo ($ vs t):</strong> Curva roja Costo de Mantenimiento (baja), recta azul Costo de Falla = Fijo + Variable (sube), curva verde en U Costo Total (mínimo óptimo).</li>
+        <li>☐ <strong>Costos 100% SIN SIGLAS:</strong> Costo Fijo (Materia Prima, Semielaborado, Producto Terminado, Retrabajo) + Costo Variable (Horas Hombre ociosas por máquina detenida, Horas Máquina improductivas, Penalizaciones, Lucro Cesante, Costo de Capital) + Costo de Reparación (Repuestos, Mano de Obra de Mantenimiento propia o tercerizada, Transporte).</li>
+        <li>☐ <strong>Punto 1.c (Electrobombas iguales):</strong> NO se replica el plan RCM porque cambia el <u>contexto operacional</u>.</li>
+        <li>☐ <strong>Punto 2 (Selección Múltiple):</strong> Leer bien "De existir..."; recordar que pueden ser TODAS falsas. No confundir roles en TPM, contratos en Tercerización ni definición de PDP.</li>
+        <li>☐ <strong>Punto 3 (GEP):</strong> Dibujar/ubicar bien Zona I (Preventivo/Proactivo/Predictivo), Zona II (Proactivo + Acción Restaurativa), Zona III (Predictivo + Seguimiento + Preventivo + Acción Sustitutiva) y FF (Reactivo/Correctivo).</li>
+        <li>☐ <strong>Punto 3.c / d / e / f:</strong> Mitad de irreversibilidad aprovecha vida útil remanente y da mayor programación; Ultrasonido detecta fisuras internas (Zona II Proactivo o Zona III Predictivo); Símil Preventivo = herramienta simple + frecuencia fija + comparar con Estado Teórico; Variables = Mantenimiento decide la idónea.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <p>Guía del Recuperatorio · 2° Parcial de Mantenimiento 2026 · Basada en Tema 4 (02/11/2026 · Nota 10/10) · UTN FRBA</p>
+</footer>
+
+<script>
+  function go(id){
+    const el = document.getElementById(id);
+    if(el) el.scrollIntoView({behavior:'smooth'});
+  }
+
+  const zoneData = {
+    z1: '<strong>Zona I (antes del Punto de Quiebre):</strong> Estado paramétrico normal dentro de especificaciones. Se ubican las acciones de <strong>Mantenimiento Preventivo, Mantenimiento Proactivo y Mantenimiento Predictivo</strong> de línea base / monitoreo normal.',
+    z2: '<strong>Zona II · Reversibilidad (entre Punto de Quiebre e Irreversibilidad):</strong> La falla ya es incipiente pero todavía <em>reversible</em>. Aquí actúa el <strong>Mantenimiento Proactivo</strong> (hallar la causa raíz) ejecutando una <strong>Acción Restaurativa</strong> (× verde) que devuelve el equipo a condición normal.',
+    z3: '<strong>Zona III · Irreversibilidad (entre Límite de Irreversibilidad y FF):</strong> El daño físico ya es permanente. Aquí se ubica el <strong>Ultrasonido como Mantenimiento Predictivo</strong> (● rojo) con <strong>Seguimiento de la variable</strong> (//// azul), el <strong>Mantenimiento Preventivo</strong> (● naranja) y la <strong>Acción Sustitutiva</strong> (×) planificada justo antes de la Falla Funcional.',
+    ff: '<strong>Punto FF · Falla Funcional:</strong> El componente deja de cumplir su función. Si se llega hasta aquí sin haber intervenido antes, solo queda aplicar una <strong>Acción Reactiva / Mantenimiento Correctivo</strong>.'
+  };
+
+  function showZone(key, btn){
+    document.querySelectorAll('.z-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('zPanel').innerHTML = zoneData[key];
+  }
+
+  function ans(btn, isOk, fbId){
+    const parent = btn.parentElement;
+    parent.querySelectorAll('.q-opt').forEach(o => {
+      o.classList.remove('ok','bad');
+    });
+    btn.classList.add(isOk ? 'ok' : 'bad');
+    document.getElementById(fbId).classList.add('show');
+  }
+</script>
+</body>
+</html>

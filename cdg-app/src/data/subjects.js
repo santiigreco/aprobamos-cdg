@@ -95,6 +95,13 @@ export const SUBJECTS = [
         author: 'S.G.',
         description: 'Guía del Recuperatorio reconstruida del examen real 2026 (Temas 1 a 4).',
         htmlFile: './mantenimiento-recuperatorio.html'
+      },
+      {
+        id: 'recuperatorio-2do-parcial',
+        title: 'Recuperatorio 2do Parcial',
+        author: 'S.G.',
+        description: 'Guía definitiva basada en examen real 2026 (Nota 10): RCM, Selección Múltiple, GEP, Ultrasonido y técnicas que rotan.',
+        htmlFile: './mantenimiento-recuperatorio-2do-parcial.html'
       }
     ]
   },
