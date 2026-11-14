@@ -127,7 +127,10 @@ footer{max-width:1080px;margin:0 auto;padding:20px 16px 50px;color:var(--muted);
 .simnum{width:32px;height:32px;border-radius:10px;display:grid;place-items:center;background:var(--acc);color:var(--card);font-weight:800}
 .nota{font-size:22px;font-weight:800;color:var(--acc)}
 svg text{fill:var(--svg-ink);font-family:Nunito,sans-serif}
-</style>
+
+    details.q, .qcard { content-visibility: auto; contain-intrinsic-size: auto 80px; }
+    @media print { details.q, .qcard { content-visibility: visible !important; } }
+  </style>
 </head>
 <body>
 <header class="hero"><div class="hero-in">

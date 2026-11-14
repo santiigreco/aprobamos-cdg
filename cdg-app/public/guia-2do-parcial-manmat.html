@@ -14,13 +14,65 @@
   <!-- MathJax 3 for pristine mathematical typography -->
   <script>
     window.MathJax = {
-      tex: {
-        inlineMath: [['$', '$'], ['\\(', '\\)']],
-        displayMath: [['$$', '$$'], ['\\[', '\\]']],
-        processEscapes: true
-      },
+      tex: { inlineMath: [['$', '$'], ['\\(', '\\)']], displayMath: [['$$', '$$'], ['\\[', '\\]']], processEscapes: true },
       options: {
         skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      },
+      startup: {
+        typeset: false,
+        ready: function() {
+          MathJax.startup.defaultReady();
+          var pending = new Set();
+          var timer = null;
+          function flush() {
+            timer = null;
+            if (!pending.size) return;
+            var batch = Array.from(pending);
+            pending.clear();
+            MathJax.typesetPromise(batch).catch(function() {});
+          }
+          function queue(el) {
+            if (!el || el.dataset.mjDone || el.closest('[data-mj-done]')) return;
+            el.dataset.mjDone = '1';
+            pending.add(el);
+            if (!timer) timer = setTimeout(flush, 24);
+          }
+          var io = ('IntersectionObserver' in window) ? new IntersectionObserver(function(entries) {
+            entries.forEach(function(e) {
+              if (e.isIntersecting) {
+                io.unobserve(e.target);
+                queue(e.target);
+              }
+            });
+          }, { rootMargin: '600px 0px' }) : null;
+          window.__mjObserve = function(root) {
+            var scope = root || document;
+            var targets = scope.querySelectorAll('.topic-card, .theory-box, .unit-header-wrap, .top-header, details.faq-card > summary');
+            if (io) {
+              targets.forEach(function(el) {
+                if (!el.dataset.mjDone && !el.dataset.mjObs) {
+                  el.dataset.mjObs = '1';
+                  io.observe(el);
+                }
+              });
+            } else {
+              MathJax.typesetPromise(root ? [root] : undefined).catch(function() {});
+            }
+            scope.querySelectorAll('details.faq-card').forEach(function(det) {
+              if (det.dataset.mjDet) return;
+              det.dataset.mjDet = '1';
+              var body = det.querySelector('.faq-body');
+              if (det.open && body) queue(body);
+              det.addEventListener('toggle', function() {
+                if (det.open && body) queue(body);
+              });
+            });
+          };
+          window.__mjObserve(document);
+          window.addEventListener('beforeprint', function() {
+            MathJax.typesetPromise().catch(function() {});
+          });
+        }
       }
     };
   </script>
@@ -907,6 +959,9 @@
       .faq-body { padding: 16px; }
       .diagram-grid { grid-template-columns: 1fr; }
     }
+  
+    details.faq-card, .topic-card { content-visibility: auto; contain-intrinsic-size: auto 90px; }
+    @media print { details.faq-card, .topic-card { content-visibility: visible !important; } }
   </style>
 </head>
 <body>
@@ -954,7 +1009,7 @@
   <main class="main-content">
 
     <!-- UNIT U3 -->
-    <section class="unit-section" id="U3">
+    <section class="unit-section" id="U3" data-lazy-sec="1" style="min-height:360px"><template class="lazy-sec-tpl">
       <div class="unit-header-wrap">
         <div class="unit-title-group">
           <h2><span>📦</span> Unidad 3: Manejo de Graneles y Granulometría</h2>
@@ -986,17 +1041,17 @@
           </div>
           <div class="diagram-grid">
 
-            <div class="diagram-item" onclick="openLightbox('img_2p/u3_mesh_tamices.png', 'Definición de Malla MESH, Apertura libre (a) y Diámetro de alambre (d) según IRAM 1501 / Tyler')">
+            <div class="diagram-item" onclick="openLightbox('img_2p/u3_mesh_tamices.webp', 'Definición de Malla MESH, Apertura libre (a) y Diámetro de alambre (d) según IRAM 1501 / Tyler')">
               <div class="diagram-img-wrap">
-                <img src="img_2p/u3_mesh_tamices.png" alt="Definición de Malla MESH, Apertura libre (a) y Diámetro de alambre (d) según IRAM 1501 / Tyler" loading="lazy" />
+                <img src="img_2p/u3_mesh_tamices.webp" alt="Definición de Malla MESH, Apertura libre (a) y Diámetro de alambre (d) según IRAM 1501 / Tyler" loading="lazy" decoding="async" />
                 <span class="diagram-zoom-badge">🔍 Zoom</span>
               </div>
               <div class="diagram-caption">Definición de Malla MESH, Apertura libre (a) y Diámetro de alambre (d) según IRAM 1501 / Tyler</div>
             </div>
 
-            <div class="diagram-item" onclick="openLightbox('img_2p/u3_mesh_granulometria.png', 'Curva de distribución granulométrica y aberturas normalizadas ASTM E11')">
+            <div class="diagram-item" onclick="openLightbox('img_2p/u3_mesh_granulometria.webp', 'Curva de distribución granulométrica y aberturas normalizadas ASTM E11')">
               <div class="diagram-img-wrap">
-                <img src="img_2p/u3_mesh_granulometria.png" alt="Curva de distribución granulométrica y aberturas normalizadas ASTM E11" loading="lazy" />
+                <img src="img_2p/u3_mesh_granulometria.webp" alt="Curva de distribución granulométrica y aberturas normalizadas ASTM E11" loading="lazy" decoding="async" />
                 <span class="diagram-zoom-badge">🔍 Zoom</span>
               </div>
               <div class="diagram-caption">Curva de distribución granulométrica y aberturas normalizadas ASTM E11</div>
@@ -1117,9 +1172,9 @@
           </div>
           <div class="diagram-grid">
 
-            <div class="diagram-item" onclick="openLightbox('img_2p/u3_angulo_reposo.png', 'Ángulo de reposo estático vs. Ángulo de sobrecarga dinámico de materiales a granel')">
+            <div class="diagram-item" onclick="openLightbox('img_2p/u3_angulo_reposo.webp', 'Ángulo de reposo estático vs. Ángulo de sobrecarga dinámico de materiales a granel')">
               <div class="diagram-img-wrap">
-                <img src="img_2p/u3_angulo_reposo.png" alt="Ángulo de reposo estático vs. Ángulo de sobrecarga dinámico de materiales a granel" loading="lazy" />
+                <img src="img_2p/u3_angulo_reposo.webp" alt="Ángulo de reposo estático vs. Ángulo de sobrecarga dinámico de materiales a granel" loading="lazy" decoding="async" />
                 <span class="diagram-zoom-badge">🔍 Zoom</span>
               </div>
               <div class="diagram-caption">Ángulo de reposo estático vs. Ángulo de sobrecarga dinámico de materiales a granel</div>
@@ -1351,33 +1406,33 @@
           </div>
           <div class="diagram-grid">
 
-            <div class="diagram-item" onclick="openLightbox('img_2p/u3_cinta_artesa.png', 'Sección transversal en artesa con rodillos a 20°, 35° y 45° y cálculo del área útil de carga')">
+            <div class="diagram-item" onclick="openLightbox('img_2p/u3_cinta_artesa.webp', 'Sección transversal en artesa con rodillos a 20°, 35° y 45° y cálculo del área útil de carga')">
               <div class="diagram-img-wrap">
-                <img src="img_2p/u3_cinta_artesa.png" alt="Sección transversal en artesa con rodillos a 20°, 35° y 45° y cálculo del área útil de carga" loading="lazy" />
+                <img src="img_2p/u3_cinta_artesa.webp" alt="Sección transversal en artesa con rodillos a 20°, 35° y 45° y cálculo del área útil de carga" loading="lazy" decoding="async" />
                 <span class="diagram-zoom-badge">🔍 Zoom</span>
               </div>
               <div class="diagram-caption">Sección transversal en artesa con rodillos a 20°, 35° y 45° y cálculo del área útil de carga</div>
             </div>
 
-            <div class="diagram-item" onclick="openLightbox('img_2p/u3_tambor_motriz_abrace.png', 'Tambor motriz, ángulo de abrace (α), tensado por gravedad y engomado antideslizante')">
+            <div class="diagram-item" onclick="openLightbox('img_2p/u3_tambor_motriz_abrace.webp', 'Tambor motriz, ángulo de abrace (α), tensado por gravedad y engomado antideslizante')">
               <div class="diagram-img-wrap">
-                <img src="img_2p/u3_tambor_motriz_abrace.png" alt="Tambor motriz, ángulo de abrace (α), tensado por gravedad y engomado antideslizante" loading="lazy" />
+                <img src="img_2p/u3_tambor_motriz_abrace.webp" alt="Tambor motriz, ángulo de abrace (α), tensado por gravedad y engomado antideslizante" loading="lazy" decoding="async" />
                 <span class="diagram-zoom-badge">🔍 Zoom</span>
               </div>
               <div class="diagram-caption">Tambor motriz, ángulo de abrace (α), tensado por gravedad y engomado antideslizante</div>
             </div>
 
-            <div class="diagram-item" onclick="openLightbox('img_2p/u3_limpieza_banda.png', 'Sistemas de limpieza: rascador primario de poliuretano, rascador secundario y arado en V interior')">
+            <div class="diagram-item" onclick="openLightbox('img_2p/u3_limpieza_banda.webp', 'Sistemas de limpieza: rascador primario de poliuretano, rascador secundario y arado en V interior')">
               <div class="diagram-img-wrap">
-                <img src="img_2p/u3_limpieza_banda.png" alt="Sistemas de limpieza: rascador primario de poliuretano, rascador secundario y arado en V interior" loading="lazy" />
+                <img src="img_2p/u3_limpieza_banda.webp" alt="Sistemas de limpieza: rascador primario de poliuretano, rascador secundario y arado en V interior" loading="lazy" decoding="async" />
                 <span class="diagram-zoom-badge">🔍 Zoom</span>
               </div>
               <div class="diagram-caption">Sistemas de limpieza: rascador primario de poliuretano, rascador secundario y arado en V interior</div>
             </div>
 
-            <div class="diagram-item" onclick="openLightbox('img_2p/u3_pipe_conveyor.png', 'Cinta transportadora tubular (Pipe Conveyor): conformación en tubo hexagonal y retorno limpio')">
+            <div class="diagram-item" onclick="openLightbox('img_2p/u3_pipe_conveyor.webp', 'Cinta transportadora tubular (Pipe Conveyor): conformación en tubo hexagonal y retorno limpio')">
               <div class="diagram-img-wrap">
-                <img src="img_2p/u3_pipe_conveyor.png" alt="Cinta transportadora tubular (Pipe Conveyor): conformación en tubo hexagonal y retorno limpio" loading="lazy" />
+                <img src="img_2p/u3_pipe_conveyor.webp" alt="Cinta transportadora tubular (Pipe Conveyor): conformación en tubo hexagonal y retorno limpio" loading="lazy" decoding="async" />
                 <span class="diagram-zoom-badge">🔍 Zoom</span>
               </div>
               <div class="diagram-caption">Cinta transportadora tubular (Pipe Conveyor): conformación en tubo hexagonal y retorno limpio</div>
@@ -1627,9 +1682,9 @@
           </div>
           <div class="diagram-grid">
 
-            <div class="diagram-item" onclick="openLightbox('img_2p/u3_elevador_cangilones.png', 'Elevador a cangilones: descarga centrífuga de alta velocidad vs. descarga positiva continua')">
+            <div class="diagram-item" onclick="openLightbox('img_2p/u3_elevador_cangilones.webp', 'Elevador a cangilones: descarga centrífuga de alta velocidad vs. descarga positiva continua')">
               <div class="diagram-img-wrap">
-                <img src="img_2p/u3_elevador_cangilones.png" alt="Elevador a cangilones: descarga centrífuga de alta velocidad vs. descarga positiva continua" loading="lazy" />
+                <img src="img_2p/u3_elevador_cangilones.webp" alt="Elevador a cangilones: descarga centrífuga de alta velocidad vs. descarga positiva continua" loading="lazy" decoding="async" />
                 <span class="diagram-zoom-badge">🔍 Zoom</span>
               </div>
               <div class="diagram-caption">Elevador a cangilones: descarga centrífuga de alta velocidad vs. descarga positiva continua</div>
@@ -1738,9 +1793,9 @@
           </div>
           <div class="diagram-grid">
 
-            <div class="diagram-item" onclick="openLightbox('img_2p/u3_rosca_helicoidal.png', 'Tornillo sin fin / Rosca helicoidal: cuna en U (horizontal) vs. cuna tubular hermética (inclinada)')">
+            <div class="diagram-item" onclick="openLightbox('img_2p/u3_rosca_helicoidal.webp', 'Tornillo sin fin / Rosca helicoidal: cuna en U (horizontal) vs. cuna tubular hermética (inclinada)')">
               <div class="diagram-img-wrap">
-                <img src="img_2p/u3_rosca_helicoidal.png" alt="Tornillo sin fin / Rosca helicoidal: cuna en U (horizontal) vs. cuna tubular hermética (inclinada)" loading="lazy" />
+                <img src="img_2p/u3_rosca_helicoidal.webp" alt="Tornillo sin fin / Rosca helicoidal: cuna en U (horizontal) vs. cuna tubular hermética (inclinada)" loading="lazy" decoding="async" />
                 <span class="diagram-zoom-badge">🔍 Zoom</span>
               </div>
               <div class="diagram-caption">Tornillo sin fin / Rosca helicoidal: cuna en U (horizontal) vs. cuna tubular hermética (inclinada)</div>
@@ -1821,9 +1876,9 @@
           </div>
           <div class="diagram-grid">
 
-            <div class="diagram-item" onclick="openLightbox('img_2p/u3_transportador_redler.png', 'Transportador a cadena Redler: principio de arrastre en masa y corte transversal estanco')">
+            <div class="diagram-item" onclick="openLightbox('img_2p/u3_transportador_redler.webp', 'Transportador a cadena Redler: principio de arrastre en masa y corte transversal estanco')">
               <div class="diagram-img-wrap">
-                <img src="img_2p/u3_transportador_redler.png" alt="Transportador a cadena Redler: principio de arrastre en masa y corte transversal estanco" loading="lazy" />
+                <img src="img_2p/u3_transportador_redler.webp" alt="Transportador a cadena Redler: principio de arrastre en masa y corte transversal estanco" loading="lazy" decoding="async" />
                 <span class="diagram-zoom-badge">🔍 Zoom</span>
               </div>
               <div class="diagram-caption">Transportador a cadena Redler: principio de arrastre en masa y corte transversal estanco</div>
@@ -1884,9 +1939,9 @@
           </div>
           <div class="diagram-grid">
 
-            <div class="diagram-item" onclick="openLightbox('img_2p/u3_transporte_neumatico.png', 'Transporte neumático: comparativa de Fase Densa (baja velocidad, alta presión) vs. Fase Fluida')">
+            <div class="diagram-item" onclick="openLightbox('img_2p/u3_transporte_neumatico.webp', 'Transporte neumático: comparativa de Fase Densa (baja velocidad, alta presión) vs. Fase Fluida')">
               <div class="diagram-img-wrap">
-                <img src="img_2p/u3_transporte_neumatico.png" alt="Transporte neumático: comparativa de Fase Densa (baja velocidad, alta presión) vs. Fase Fluida" loading="lazy" />
+                <img src="img_2p/u3_transporte_neumatico.webp" alt="Transporte neumático: comparativa de Fase Densa (baja velocidad, alta presión) vs. Fase Fluida" loading="lazy" decoding="async" />
                 <span class="diagram-zoom-badge">🔍 Zoom</span>
               </div>
               <div class="diagram-caption">Transporte neumático: comparativa de Fase Densa (baja velocidad, alta presión) vs. Fase Fluida</div>
@@ -1959,7 +2014,7 @@
           </div>
         </div>
       </div>
-    </section>
+    </template></section>
 
     <!-- UNIT U4 -->
     <section class="unit-section" id="U4">
@@ -1994,17 +2049,17 @@
           </div>
           <div class="diagram-grid">
 
-            <div class="diagram-item" onclick="openLightbox('img_2p/u4_colchon_aire_principio.png', 'Colchón de aire: principio de sustentación estotécnica y campana elastomérica de baja presión')">
+            <div class="diagram-item" onclick="openLightbox('img_2p/u4_colchon_aire_principio.webp', 'Colchón de aire: principio de sustentación estotécnica y campana elastomérica de baja presión')">
               <div class="diagram-img-wrap">
-                <img src="img_2p/u4_colchon_aire_principio.png" alt="Colchón de aire: principio de sustentación estotécnica y campana elastomérica de baja presión" loading="lazy" />
+                <img src="img_2p/u4_colchon_aire_principio.webp" alt="Colchón de aire: principio de sustentación estotécnica y campana elastomérica de baja presión" loading="lazy" decoding="async" />
                 <span class="diagram-zoom-badge">🔍 Zoom</span>
               </div>
               <div class="diagram-caption">Colchón de aire: principio de sustentación estotécnica y campana elastomérica de baja presión</div>
             </div>
 
-            <div class="diagram-item" onclick="openLightbox('img_2p/u4_colchon_aire_etapas.png', 'Fases operativas del cojín de aire: reposo, inflado, sustentación y almohadillas landing pads')">
+            <div class="diagram-item" onclick="openLightbox('img_2p/u4_colchon_aire_etapas.webp', 'Fases operativas del cojín de aire: reposo, inflado, sustentación y almohadillas landing pads')">
               <div class="diagram-img-wrap">
-                <img src="img_2p/u4_colchon_aire_etapas.png" alt="Fases operativas del cojín de aire: reposo, inflado, sustentación y almohadillas landing pads" loading="lazy" />
+                <img src="img_2p/u4_colchon_aire_etapas.webp" alt="Fases operativas del cojín de aire: reposo, inflado, sustentación y almohadillas landing pads" loading="lazy" decoding="async" />
                 <span class="diagram-zoom-badge">🔍 Zoom</span>
               </div>
               <div class="diagram-caption">Fases operativas del cojín de aire: reposo, inflado, sustentación y almohadillas landing pads</div>
@@ -2168,17 +2223,17 @@
           </div>
           <div class="diagram-grid">
 
-            <div class="diagram-item" onclick="openLightbox('img_2p/u4_ruedas_industriales_cargas.png', 'Cálculo de carga por rueda Qr considerando obstáculos (n-1) y disposiciones de ruedas')">
+            <div class="diagram-item" onclick="openLightbox('img_2p/u4_ruedas_industriales_cargas.webp', 'Cálculo de carga por rueda Qr considerando obstáculos (n-1) y disposiciones de ruedas')">
               <div class="diagram-img-wrap">
-                <img src="img_2p/u4_ruedas_industriales_cargas.png" alt="Cálculo de carga por rueda Qr considerando obstáculos (n-1) y disposiciones de ruedas" loading="lazy" />
+                <img src="img_2p/u4_ruedas_industriales_cargas.webp" alt="Cálculo de carga por rueda Qr considerando obstáculos (n-1) y disposiciones de ruedas" loading="lazy" decoding="async" />
                 <span class="diagram-zoom-badge">🔍 Zoom</span>
               </div>
               <div class="diagram-caption">Cálculo de carga por rueda Qr considerando obstáculos (n-1) y disposiciones de ruedas</div>
             </div>
 
-            <div class="diagram-item" onclick="openLightbox('img_2p/u4_ruedas_mecanum_omnidireccional.png', 'Rueda Mecanum omnidireccional: rodillos periféricos a 45° y vectores de movimiento en el plano')">
+            <div class="diagram-item" onclick="openLightbox('img_2p/u4_ruedas_mecanum_omnidireccional.webp', 'Rueda Mecanum omnidireccional: rodillos periféricos a 45° y vectores de movimiento en el plano')">
               <div class="diagram-img-wrap">
-                <img src="img_2p/u4_ruedas_mecanum_omnidireccional.png" alt="Rueda Mecanum omnidireccional: rodillos periféricos a 45° y vectores de movimiento en el plano" loading="lazy" />
+                <img src="img_2p/u4_ruedas_mecanum_omnidireccional.webp" alt="Rueda Mecanum omnidireccional: rodillos periféricos a 45° y vectores de movimiento en el plano" loading="lazy" decoding="async" />
                 <span class="diagram-zoom-badge">🔍 Zoom</span>
               </div>
               <div class="diagram-caption">Rueda Mecanum omnidireccional: rodillos periféricos a 45° y vectores de movimiento en el plano</div>
@@ -2351,33 +2406,33 @@
           </div>
           <div class="diagram-grid">
 
-            <div class="diagram-item" onclick="openLightbox('img_2p/u4_power_and_free_esquema.png', 'Transportador aéreo Power &amp; Free: vía motriz superior, vía libre inferior y acumulación')">
+            <div class="diagram-item" onclick="openLightbox('img_2p/u4_power_and_free_esquema.webp', 'Transportador aéreo Power &amp; Free: vía motriz superior, vía libre inferior y acumulación')">
               <div class="diagram-img-wrap">
-                <img src="img_2p/u4_power_and_free_esquema.png" alt="Transportador aéreo Power &amp; Free: vía motriz superior, vía libre inferior y acumulación" loading="lazy" />
+                <img src="img_2p/u4_power_and_free_esquema.webp" alt="Transportador aéreo Power &amp; Free: vía motriz superior, vía libre inferior y acumulación" loading="lazy" decoding="async" />
                 <span class="diagram-zoom-badge">🔍 Zoom</span>
               </div>
               <div class="diagram-caption">Transportador aéreo Power & Free: vía motriz superior, vía libre inferior y acumulación</div>
             </div>
 
-            <div class="diagram-item" onclick="openLightbox('img_2p/u4_mando_caterpillar.png', 'Mando motriz Caterpillar de tracción continua: diseño fijo vs. flotante con limitador de torque')">
+            <div class="diagram-item" onclick="openLightbox('img_2p/u4_mando_caterpillar.webp', 'Mando motriz Caterpillar de tracción continua: diseño fijo vs. flotante con limitador de torque')">
               <div class="diagram-img-wrap">
-                <img src="img_2p/u4_mando_caterpillar.png" alt="Mando motriz Caterpillar de tracción continua: diseño fijo vs. flotante con limitador de torque" loading="lazy" />
+                <img src="img_2p/u4_mando_caterpillar.webp" alt="Mando motriz Caterpillar de tracción continua: diseño fijo vs. flotante con limitador de torque" loading="lazy" decoding="async" />
                 <span class="diagram-zoom-badge">🔍 Zoom</span>
               </div>
               <div class="diagram-caption">Mando motriz Caterpillar de tracción continua: diseño fijo vs. flotante con limitador de torque</div>
             </div>
 
-            <div class="diagram-item" onclick="openLightbox('img_2p/u4_load_bar_aereos.png', 'Barra de carga (Load Bar): distribución de peso sobre dobles trolleys para piezas pesadas')">
+            <div class="diagram-item" onclick="openLightbox('img_2p/u4_load_bar_aereos.webp', 'Barra de carga (Load Bar): distribución de peso sobre dobles trolleys para piezas pesadas')">
               <div class="diagram-img-wrap">
-                <img src="img_2p/u4_load_bar_aereos.png" alt="Barra de carga (Load Bar): distribución de peso sobre dobles trolleys para piezas pesadas" loading="lazy" />
+                <img src="img_2p/u4_load_bar_aereos.webp" alt="Barra de carga (Load Bar): distribución de peso sobre dobles trolleys para piezas pesadas" loading="lazy" decoding="async" />
                 <span class="diagram-zoom-badge">🔍 Zoom</span>
               </div>
               <div class="diagram-caption">Barra de carga (Load Bar): distribución de peso sobre dobles trolleys para piezas pesadas</div>
             </div>
 
-            <div class="diagram-item" onclick="openLightbox('img_2p/u4_eom_monorriel.png', 'Electric Overhead Monorail (EOM): carros autopropulsados con control box trifásico inteligente')">
+            <div class="diagram-item" onclick="openLightbox('img_2p/u4_eom_monorriel.webp', 'Electric Overhead Monorail (EOM): carros autopropulsados con control box trifásico inteligente')">
               <div class="diagram-img-wrap">
-                <img src="img_2p/u4_eom_monorriel.png" alt="Electric Overhead Monorail (EOM): carros autopropulsados con control box trifásico inteligente" loading="lazy" />
+                <img src="img_2p/u4_eom_monorriel.webp" alt="Electric Overhead Monorail (EOM): carros autopropulsados con control box trifásico inteligente" loading="lazy" decoding="async" />
                 <span class="diagram-zoom-badge">🔍 Zoom</span>
               </div>
               <div class="diagram-caption">Electric Overhead Monorail (EOM): carros autopropulsados con control box trifásico inteligente</div>
@@ -2679,17 +2734,17 @@
           </div>
           <div class="diagram-grid">
 
-            <div class="diagram-item" onclick="openLightbox('img_2p/u4_transportadores_piso_flattop.png', 'Transportadores de piso: Flat Top Conveyors de tablillas metálicas vs. Slat Conveyors')">
+            <div class="diagram-item" onclick="openLightbox('img_2p/u4_transportadores_piso_flattop.webp', 'Transportadores de piso: Flat Top Conveyors de tablillas metálicas vs. Slat Conveyors')">
               <div class="diagram-img-wrap">
-                <img src="img_2p/u4_transportadores_piso_flattop.png" alt="Transportadores de piso: Flat Top Conveyors de tablillas metálicas vs. Slat Conveyors" loading="lazy" />
+                <img src="img_2p/u4_transportadores_piso_flattop.webp" alt="Transportadores de piso: Flat Top Conveyors de tablillas metálicas vs. Slat Conveyors" loading="lazy" decoding="async" />
                 <span class="diagram-zoom-badge">🔍 Zoom</span>
               </div>
               <div class="diagram-caption">Transportadores de piso: Flat Top Conveyors de tablillas metálicas vs. Slat Conveyors</div>
             </div>
 
-            <div class="diagram-item" onclick="openLightbox('img_2p/u4_rodillos_mdr_acumulacion.png', 'Rodillos motorizados MDR con tecnología ZPA (Zero Pressure Accumulation) para cajas y bultos')">
+            <div class="diagram-item" onclick="openLightbox('img_2p/u4_rodillos_mdr_acumulacion.webp', 'Rodillos motorizados MDR con tecnología ZPA (Zero Pressure Accumulation) para cajas y bultos')">
               <div class="diagram-img-wrap">
-                <img src="img_2p/u4_rodillos_mdr_acumulacion.png" alt="Rodillos motorizados MDR con tecnología ZPA (Zero Pressure Accumulation) para cajas y bultos" loading="lazy" />
+                <img src="img_2p/u4_rodillos_mdr_acumulacion.webp" alt="Rodillos motorizados MDR con tecnología ZPA (Zero Pressure Accumulation) para cajas y bultos" loading="lazy" decoding="async" />
                 <span class="diagram-zoom-badge">🔍 Zoom</span>
               </div>
               <div class="diagram-caption">Rodillos motorizados MDR con tecnología ZPA (Zero Pressure Accumulation) para cajas y bultos</div>
@@ -2908,25 +2963,25 @@
           </div>
           <div class="diagram-grid">
 
-            <div class="diagram-item" onclick="openLightbox('img_2p/u4_cables_acero_construccion.png', 'Cables de acero para izaje: alma de fibra (AF) vs. alma de acero (AA/IWRC) y cordones Seale/Warrington')">
+            <div class="diagram-item" onclick="openLightbox('img_2p/u4_cables_acero_construccion.webp', 'Cables de acero para izaje: alma de fibra (AF) vs. alma de acero (AA/IWRC) y cordones Seale/Warrington')">
               <div class="diagram-img-wrap">
-                <img src="img_2p/u4_cables_acero_construccion.png" alt="Cables de acero para izaje: alma de fibra (AF) vs. alma de acero (AA/IWRC) y cordones Seale/Warrington" loading="lazy" />
+                <img src="img_2p/u4_cables_acero_construccion.webp" alt="Cables de acero para izaje: alma de fibra (AF) vs. alma de acero (AA/IWRC) y cordones Seale/Warrington" loading="lazy" decoding="async" />
                 <span class="diagram-zoom-badge">🔍 Zoom</span>
               </div>
               <div class="diagram-caption">Cables de acero para izaje: alma de fibra (AF) vs. alma de acero (AA/IWRC) y cordones Seale/Warrington</div>
             </div>
 
-            <div class="diagram-item" onclick="openLightbox('img_2p/u4_eslingas_codigo_colores.png', 'Eslingas sintéticas planas de poliéster: código de colores normalizado según tonelaje (1t a 10t+)')">
+            <div class="diagram-item" onclick="openLightbox('img_2p/u4_eslingas_codigo_colores.webp', 'Eslingas sintéticas planas de poliéster: código de colores normalizado según tonelaje (1t a 10t+)')">
               <div class="diagram-img-wrap">
-                <img src="img_2p/u4_eslingas_codigo_colores.png" alt="Eslingas sintéticas planas de poliéster: código de colores normalizado según tonelaje (1t a 10t+)" loading="lazy" />
+                <img src="img_2p/u4_eslingas_codigo_colores.webp" alt="Eslingas sintéticas planas de poliéster: código de colores normalizado según tonelaje (1t a 10t+)" loading="lazy" decoding="async" />
                 <span class="diagram-zoom-badge">🔍 Zoom</span>
               </div>
               <div class="diagram-caption">Eslingas sintéticas planas de poliéster: código de colores normalizado según tonelaje (1t a 10t+)</div>
             </div>
 
-            <div class="diagram-item" onclick="openLightbox('img_2p/u4_eslingas_factores_angulo.png', 'Factor de ángulo en eslingas ramales: incremento exponencial de la tensión inducida con ángulo β')">
+            <div class="diagram-item" onclick="openLightbox('img_2p/u4_eslingas_factores_angulo.webp', 'Factor de ángulo en eslingas ramales: incremento exponencial de la tensión inducida con ángulo β')">
               <div class="diagram-img-wrap">
-                <img src="img_2p/u4_eslingas_factores_angulo.png" alt="Factor de ángulo en eslingas ramales: incremento exponencial de la tensión inducida con ángulo β" loading="lazy" />
+                <img src="img_2p/u4_eslingas_factores_angulo.webp" alt="Factor de ángulo en eslingas ramales: incremento exponencial de la tensión inducida con ángulo β" loading="lazy" decoding="async" />
                 <span class="diagram-zoom-badge">🔍 Zoom</span>
               </div>
               <div class="diagram-caption">Factor de ángulo en eslingas ramales: incremento exponencial de la tensión inducida con ángulo β</div>
@@ -3237,9 +3292,9 @@
           </div>
           <div class="diagram-grid">
 
-            <div class="diagram-item" onclick="openLightbox('img_2p/u4_pemp_plataformas_altura.png', 'Plataformas Móviles de Elevación de Personal (PEMP tijera y articuladas) y trípode anticaídas ABC')">
+            <div class="diagram-item" onclick="openLightbox('img_2p/u4_pemp_plataformas_altura.webp', 'Plataformas Móviles de Elevación de Personal (PEMP tijera y articuladas) y trípode anticaídas ABC')">
               <div class="diagram-img-wrap">
-                <img src="img_2p/u4_pemp_plataformas_altura.png" alt="Plataformas Móviles de Elevación de Personal (PEMP tijera y articuladas) y trípode anticaídas ABC" loading="lazy" />
+                <img src="img_2p/u4_pemp_plataformas_altura.webp" alt="Plataformas Móviles de Elevación de Personal (PEMP tijera y articuladas) y trípode anticaídas ABC" loading="lazy" decoding="async" />
                 <span class="diagram-zoom-badge">🔍 Zoom</span>
               </div>
               <div class="diagram-caption">Plataformas Móviles de Elevación de Personal (PEMP tijera y articuladas) y trípode anticaídas ABC</div>
@@ -3368,7 +3423,7 @@
     </section>
 
     <!-- UNIT U5 -->
-    <section class="unit-section" id="U5">
+    <section class="unit-section" id="U5" data-lazy-sec="1" style="min-height:360px"><template class="lazy-sec-tpl">
       <div class="unit-header-wrap">
         <div class="unit-title-group">
           <h2><span>🚰</span> Unidad 5: Manejo y Transporte de Fluidos</h2>
@@ -3400,9 +3455,9 @@
           </div>
           <div class="diagram-grid">
 
-            <div class="diagram-item" onclick="openLightbox('img_2p/u5_canos_vs_tubos_geometria.png', 'Diferencia dimensional entre Caños (Dn/NPS) y Tubos (OD/BWG): regla de diámetro exterior constante')">
+            <div class="diagram-item" onclick="openLightbox('img_2p/u5_canos_vs_tubos_geometria.webp', 'Diferencia dimensional entre Caños (Dn/NPS) y Tubos (OD/BWG): regla de diámetro exterior constante')">
               <div class="diagram-img-wrap">
-                <img src="img_2p/u5_canos_vs_tubos_geometria.png" alt="Diferencia dimensional entre Caños (Dn/NPS) y Tubos (OD/BWG): regla de diámetro exterior constante" loading="lazy" />
+                <img src="img_2p/u5_canos_vs_tubos_geometria.webp" alt="Diferencia dimensional entre Caños (Dn/NPS) y Tubos (OD/BWG): regla de diámetro exterior constante" loading="lazy" decoding="async" />
                 <span class="diagram-zoom-badge">🔍 Zoom</span>
               </div>
               <div class="diagram-caption">Diferencia dimensional entre Caños (Dn/NPS) y Tubos (OD/BWG): regla de diámetro exterior constante</div>
@@ -3524,9 +3579,9 @@
           </div>
           <div class="diagram-grid">
 
-            <div class="diagram-item" onclick="openLightbox('img_2p/u5_schedule_espesor_pared.png', 'Número Schedule normalizado ANSI B36.10: variación del espesor hacia el interior y presiones admisibles')">
+            <div class="diagram-item" onclick="openLightbox('img_2p/u5_schedule_espesor_pared.webp', 'Número Schedule normalizado ANSI B36.10: variación del espesor hacia el interior y presiones admisibles')">
               <div class="diagram-img-wrap">
-                <img src="img_2p/u5_schedule_espesor_pared.png" alt="Número Schedule normalizado ANSI B36.10: variación del espesor hacia el interior y presiones admisibles" loading="lazy" />
+                <img src="img_2p/u5_schedule_espesor_pared.webp" alt="Número Schedule normalizado ANSI B36.10: variación del espesor hacia el interior y presiones admisibles" loading="lazy" decoding="async" />
                 <span class="diagram-zoom-badge">🔍 Zoom</span>
               </div>
               <div class="diagram-caption">Número Schedule normalizado ANSI B36.10: variación del espesor hacia el interior y presiones admisibles</div>
@@ -3687,17 +3742,17 @@
           </div>
           <div class="diagram-grid">
 
-            <div class="diagram-item" onclick="openLightbox('img_2p/u5_proceso_mannesmann_tuberia.png', 'Fabricación de cañerías sin costura: proceso Mannesmann de laminación rotativa en caliente con mandril')">
+            <div class="diagram-item" onclick="openLightbox('img_2p/u5_proceso_mannesmann_tuberia.webp', 'Fabricación de cañerías sin costura: proceso Mannesmann de laminación rotativa en caliente con mandril')">
               <div class="diagram-img-wrap">
-                <img src="img_2p/u5_proceso_mannesmann_tuberia.png" alt="Fabricación de cañerías sin costura: proceso Mannesmann de laminación rotativa en caliente con mandril" loading="lazy" />
+                <img src="img_2p/u5_proceso_mannesmann_tuberia.webp" alt="Fabricación de cañerías sin costura: proceso Mannesmann de laminación rotativa en caliente con mandril" loading="lazy" decoding="async" />
                 <span class="diagram-zoom-badge">🔍 Zoom</span>
               </div>
               <div class="diagram-caption">Fabricación de cañerías sin costura: proceso Mannesmann de laminación rotativa en caliente con mandril</div>
             </div>
 
-            <div class="diagram-item" onclick="openLightbox('img_2p/u5_tuberia_con_costura_erw.png', 'Fabricación con costura: conformado de chapa y soldadura por resistencia eléctrica longitudinal ERW')">
+            <div class="diagram-item" onclick="openLightbox('img_2p/u5_tuberia_con_costura_erw.webp', 'Fabricación con costura: conformado de chapa y soldadura por resistencia eléctrica longitudinal ERW')">
               <div class="diagram-img-wrap">
-                <img src="img_2p/u5_tuberia_con_costura_erw.png" alt="Fabricación con costura: conformado de chapa y soldadura por resistencia eléctrica longitudinal ERW" loading="lazy" />
+                <img src="img_2p/u5_tuberia_con_costura_erw.webp" alt="Fabricación con costura: conformado de chapa y soldadura por resistencia eléctrica longitudinal ERW" loading="lazy" decoding="async" />
                 <span class="diagram-zoom-badge">🔍 Zoom</span>
               </div>
               <div class="diagram-caption">Fabricación con costura: conformado de chapa y soldadura por resistencia eléctrica longitudinal ERW</div>
@@ -3904,17 +3959,17 @@
           </div>
           <div class="diagram-grid">
 
-            <div class="diagram-item" onclick="openLightbox('img_2p/u5_bridas_industriales_tipos.png', 'Bridas normalizadas ASME B16.5: tipos Welding Neck, Slip-on, Ciega, Roscada y caras RF / RTJ')">
+            <div class="diagram-item" onclick="openLightbox('img_2p/u5_bridas_industriales_tipos.webp', 'Bridas normalizadas ASME B16.5: tipos Welding Neck, Slip-on, Ciega, Roscada y caras RF / RTJ')">
               <div class="diagram-img-wrap">
-                <img src="img_2p/u5_bridas_industriales_tipos.png" alt="Bridas normalizadas ASME B16.5: tipos Welding Neck, Slip-on, Ciega, Roscada y caras RF / RTJ" loading="lazy" />
+                <img src="img_2p/u5_bridas_industriales_tipos.webp" alt="Bridas normalizadas ASME B16.5: tipos Welding Neck, Slip-on, Ciega, Roscada y caras RF / RTJ" loading="lazy" decoding="async" />
                 <span class="diagram-zoom-badge">🔍 Zoom</span>
               </div>
               <div class="diagram-caption">Bridas normalizadas ASME B16.5: tipos Welding Neck, Slip-on, Ciega, Roscada y caras RF / RTJ</div>
             </div>
 
-            <div class="diagram-item" onclick="openLightbox('img_2p/u5_brida_welding_neck.png', 'Detalle constructivo de brida con cuello soldable a tope (Welding Neck) para alta presión y vapor')">
+            <div class="diagram-item" onclick="openLightbox('img_2p/u5_brida_welding_neck.webp', 'Detalle constructivo de brida con cuello soldable a tope (Welding Neck) para alta presión y vapor')">
               <div class="diagram-img-wrap">
-                <img src="img_2p/u5_brida_welding_neck.png" alt="Detalle constructivo de brida con cuello soldable a tope (Welding Neck) para alta presión y vapor" loading="lazy" />
+                <img src="img_2p/u5_brida_welding_neck.webp" alt="Detalle constructivo de brida con cuello soldable a tope (Welding Neck) para alta presión y vapor" loading="lazy" decoding="async" />
                 <span class="diagram-zoom-badge">🔍 Zoom</span>
               </div>
               <div class="diagram-caption">Detalle constructivo de brida con cuello soldable a tope (Welding Neck) para alta presión y vapor</div>
@@ -4023,9 +4078,9 @@
           </div>
           <div class="diagram-grid">
 
-            <div class="diagram-item" onclick="openLightbox('img_2p/u5_valvulas_esclusa_globo_esferica.png', 'Cortes de válvulas industriales: compuerta/esclusa (on/off), globo (regulación), esférica y retención')">
+            <div class="diagram-item" onclick="openLightbox('img_2p/u5_valvulas_esclusa_globo_esferica.webp', 'Cortes de válvulas industriales: compuerta/esclusa (on/off), globo (regulación), esférica y retención')">
               <div class="diagram-img-wrap">
-                <img src="img_2p/u5_valvulas_esclusa_globo_esferica.png" alt="Cortes de válvulas industriales: compuerta/esclusa (on/off), globo (regulación), esférica y retención" loading="lazy" />
+                <img src="img_2p/u5_valvulas_esclusa_globo_esferica.webp" alt="Cortes de válvulas industriales: compuerta/esclusa (on/off), globo (regulación), esférica y retención" loading="lazy" decoding="async" />
                 <span class="diagram-zoom-badge">🔍 Zoom</span>
               </div>
               <div class="diagram-caption">Cortes de válvulas industriales: compuerta/esclusa (on/off), globo (regulación), esférica y retención</div>
@@ -4133,9 +4188,9 @@
           </div>
           <div class="diagram-grid">
 
-            <div class="diagram-item" onclick="openLightbox('img_2p/u5_bomba_centrifuga_rodete.png', 'Electrobomba centrífuga: conversión de energía cinética en presión estática en voluta y cavitación')">
+            <div class="diagram-item" onclick="openLightbox('img_2p/u5_bomba_centrifuga_rodete.webp', 'Electrobomba centrífuga: conversión de energía cinética en presión estática en voluta y cavitación')">
               <div class="diagram-img-wrap">
-                <img src="img_2p/u5_bomba_centrifuga_rodete.png" alt="Electrobomba centrífuga: conversión de energía cinética en presión estática en voluta y cavitación" loading="lazy" />
+                <img src="img_2p/u5_bomba_centrifuga_rodete.webp" alt="Electrobomba centrífuga: conversión de energía cinética en presión estática en voluta y cavitación" loading="lazy" decoding="async" />
                 <span class="diagram-zoom-badge">🔍 Zoom</span>
               </div>
               <div class="diagram-caption">Electrobomba centrífuga: conversión de energía cinética en presión estática en voluta y cavitación</div>
@@ -4248,9 +4303,9 @@
           </div>
           <div class="diagram-grid">
 
-            <div class="diagram-item" onclick="openLightbox('img_2p/u5_tanques_api650_techo_flotante.png', 'Tanques de almacenamiento de hidrocarburos API 650: techo fijo vs. techo flotante externo e interno')">
+            <div class="diagram-item" onclick="openLightbox('img_2p/u5_tanques_api650_techo_flotante.webp', 'Tanques de almacenamiento de hidrocarburos API 650: techo fijo vs. techo flotante externo e interno')">
               <div class="diagram-img-wrap">
-                <img src="img_2p/u5_tanques_api650_techo_flotante.png" alt="Tanques de almacenamiento de hidrocarburos API 650: techo fijo vs. techo flotante externo e interno" loading="lazy" />
+                <img src="img_2p/u5_tanques_api650_techo_flotante.webp" alt="Tanques de almacenamiento de hidrocarburos API 650: techo fijo vs. techo flotante externo e interno" loading="lazy" decoding="async" />
                 <span class="diagram-zoom-badge">🔍 Zoom</span>
               </div>
               <div class="diagram-caption">Tanques de almacenamiento de hidrocarburos API 650: techo fijo vs. techo flotante externo e interno</div>
@@ -4315,9 +4370,9 @@
           </div>
           <div class="diagram-grid">
 
-            <div class="diagram-item" onclick="openLightbox('img_2p/u5_aire_comprimido_red_cuello_cisne.png', 'Red de aire comprimido: pendiente del 1% al 2%, purgas automáticas y derivación en cuello de cisne superior')">
+            <div class="diagram-item" onclick="openLightbox('img_2p/u5_aire_comprimido_red_cuello_cisne.webp', 'Red de aire comprimido: pendiente del 1% al 2%, purgas automáticas y derivación en cuello de cisne superior')">
               <div class="diagram-img-wrap">
-                <img src="img_2p/u5_aire_comprimido_red_cuello_cisne.png" alt="Red de aire comprimido: pendiente del 1% al 2%, purgas automáticas y derivación en cuello de cisne superior" loading="lazy" />
+                <img src="img_2p/u5_aire_comprimido_red_cuello_cisne.webp" alt="Red de aire comprimido: pendiente del 1% al 2%, purgas automáticas y derivación en cuello de cisne superior" loading="lazy" decoding="async" />
                 <span class="diagram-zoom-badge">🔍 Zoom</span>
               </div>
               <div class="diagram-caption">Red de aire comprimido: pendiente del 1% al 2%, purgas automáticas y derivación en cuello de cisne superior</div>
@@ -4441,10 +4496,10 @@
           </div>
         </div>
       </div>
-    </section>
+    </template></section>
 
     <!-- UNIT U6 -->
-    <section class="unit-section" id="U6">
+    <section class="unit-section" id="U6" data-lazy-sec="1" style="min-height:360px"><template class="lazy-sec-tpl">
       <div class="unit-header-wrap">
         <div class="unit-title-group">
           <h2><span>♻️</span> Unidad 6: Gestión de Residuos, Efluentes y Emisiones</h2>
@@ -4587,9 +4642,9 @@
           </div>
           <div class="diagram-grid">
 
-            <div class="diagram-item" onclick="openLightbox('img_2p/u6_gestion_residuos_trazabilidad.png', 'Circuito legal de trazabilidad de la cuna a la tumba: Generador, Transportista, Operador y Manifiesto')">
+            <div class="diagram-item" onclick="openLightbox('img_2p/u6_gestion_residuos_trazabilidad.webp', 'Circuito legal de trazabilidad de la cuna a la tumba: Generador, Transportista, Operador y Manifiesto')">
               <div class="diagram-img-wrap">
-                <img src="img_2p/u6_gestion_residuos_trazabilidad.png" alt="Circuito legal de trazabilidad de la cuna a la tumba: Generador, Transportista, Operador y Manifiesto" loading="lazy" />
+                <img src="img_2p/u6_gestion_residuos_trazabilidad.webp" alt="Circuito legal de trazabilidad de la cuna a la tumba: Generador, Transportista, Operador y Manifiesto" loading="lazy" decoding="async" />
                 <span class="diagram-zoom-badge">🔍 Zoom</span>
               </div>
               <div class="diagram-caption">Circuito legal de trazabilidad de la cuna a la tumba: Generador, Transportista, Operador y Manifiesto</div>
@@ -4691,17 +4746,17 @@
           </div>
           <div class="diagram-grid">
 
-            <div class="diagram-item" onclick="openLightbox('img_2p/u6_residuos_peligrosos_almacen.png', 'Depósito de almacenamiento transitorio de RP: piso impermeable y batea de contención secundaria al 110%')">
+            <div class="diagram-item" onclick="openLightbox('img_2p/u6_residuos_peligrosos_almacen.webp', 'Depósito de almacenamiento transitorio de RP: piso impermeable y batea de contención secundaria al 110%')">
               <div class="diagram-img-wrap">
-                <img src="img_2p/u6_residuos_peligrosos_almacen.png" alt="Depósito de almacenamiento transitorio de RP: piso impermeable y batea de contención secundaria al 110%" loading="lazy" />
+                <img src="img_2p/u6_residuos_peligrosos_almacen.webp" alt="Depósito de almacenamiento transitorio de RP: piso impermeable y batea de contención secundaria al 110%" loading="lazy" decoding="async" />
                 <span class="diagram-zoom-badge">🔍 Zoom</span>
               </div>
               <div class="diagram-caption">Depósito de almacenamiento transitorio de RP: piso impermeable y batea de contención secundaria al 110%</div>
             </div>
 
-            <div class="diagram-item" onclick="openLightbox('img_2p/u6_etiquetado_sga_pictogramas.png', 'Etiquetado obligatorio bajo Sistema Globalmente Armonizado (SGA / IRAM 41400) y pictogramas de peligro')">
+            <div class="diagram-item" onclick="openLightbox('img_2p/u6_etiquetado_sga_pictogramas.webp', 'Etiquetado obligatorio bajo Sistema Globalmente Armonizado (SGA / IRAM 41400) y pictogramas de peligro')">
               <div class="diagram-img-wrap">
-                <img src="img_2p/u6_etiquetado_sga_pictogramas.png" alt="Etiquetado obligatorio bajo Sistema Globalmente Armonizado (SGA / IRAM 41400) y pictogramas de peligro" loading="lazy" />
+                <img src="img_2p/u6_etiquetado_sga_pictogramas.webp" alt="Etiquetado obligatorio bajo Sistema Globalmente Armonizado (SGA / IRAM 41400) y pictogramas de peligro" loading="lazy" decoding="async" />
                 <span class="diagram-zoom-badge">🔍 Zoom</span>
               </div>
               <div class="diagram-caption">Etiquetado obligatorio bajo Sistema Globalmente Armonizado (SGA / IRAM 41400) y pictogramas de peligro</div>
@@ -4809,17 +4864,17 @@
           </div>
           <div class="diagram-grid">
 
-            <div class="diagram-item" onclick="openLightbox('img_2p/u6_residuos_patogenicos_bolsa_roja.png', 'Residuos patogénicos: bolsa roja reglamentaria de polietileno de 60 a 120 micrones y descartadores')">
+            <div class="diagram-item" onclick="openLightbox('img_2p/u6_residuos_patogenicos_bolsa_roja.webp', 'Residuos patogénicos: bolsa roja reglamentaria de polietileno de 60 a 120 micrones y descartadores')">
               <div class="diagram-img-wrap">
-                <img src="img_2p/u6_residuos_patogenicos_bolsa_roja.png" alt="Residuos patogénicos: bolsa roja reglamentaria de polietileno de 60 a 120 micrones y descartadores" loading="lazy" />
+                <img src="img_2p/u6_residuos_patogenicos_bolsa_roja.webp" alt="Residuos patogénicos: bolsa roja reglamentaria de polietileno de 60 a 120 micrones y descartadores" loading="lazy" decoding="async" />
                 <span class="diagram-zoom-badge">🔍 Zoom</span>
               </div>
               <div class="diagram-caption">Residuos patogénicos: bolsa roja reglamentaria de polietileno de 60 a 120 micrones y descartadores</div>
             </div>
 
-            <div class="diagram-item" onclick="openLightbox('img_2p/u6_acopio_patogenicos_cartel.png', 'Cartel normalizado obligatorio de identificación del local de acopio de residuos patogénicos')">
+            <div class="diagram-item" onclick="openLightbox('img_2p/u6_acopio_patogenicos_cartel.webp', 'Cartel normalizado obligatorio de identificación del local de acopio de residuos patogénicos')">
               <div class="diagram-img-wrap">
-                <img src="img_2p/u6_acopio_patogenicos_cartel.png" alt="Cartel normalizado obligatorio de identificación del local de acopio de residuos patogénicos" loading="lazy" />
+                <img src="img_2p/u6_acopio_patogenicos_cartel.webp" alt="Cartel normalizado obligatorio de identificación del local de acopio de residuos patogénicos" loading="lazy" decoding="async" />
                 <span class="diagram-zoom-badge">🔍 Zoom</span>
               </div>
               <div class="diagram-caption">Cartel normalizado obligatorio de identificación del local de acopio de residuos patogénicos</div>
@@ -4945,17 +5000,17 @@
           </div>
           <div class="diagram-grid">
 
-            <div class="diagram-item" onclick="openLightbox('img_2p/u6_pcbs_transformadores.png', 'Transformadores eléctricos con refrigerante PCB (Askarel): remediación y decloración química')">
+            <div class="diagram-item" onclick="openLightbox('img_2p/u6_pcbs_transformadores.webp', 'Transformadores eléctricos con refrigerante PCB (Askarel): remediación y decloración química')">
               <div class="diagram-img-wrap">
-                <img src="img_2p/u6_pcbs_transformadores.png" alt="Transformadores eléctricos con refrigerante PCB (Askarel): remediación y decloración química" loading="lazy" />
+                <img src="img_2p/u6_pcbs_transformadores.webp" alt="Transformadores eléctricos con refrigerante PCB (Askarel): remediación y decloración química" loading="lazy" decoding="async" />
                 <span class="diagram-zoom-badge">🔍 Zoom</span>
               </div>
               <div class="diagram-caption">Transformadores eléctricos con refrigerante PCB (Askarel): remediación y decloración química</div>
             </div>
 
-            <div class="diagram-item" onclick="openLightbox('img_2p/u6_pcbs_transformador_peligro.png', 'Rótulo de advertencia de presencia de Bifenilos Policlorados (PCBs) según Ley 25.670')">
+            <div class="diagram-item" onclick="openLightbox('img_2p/u6_pcbs_transformador_peligro.webp', 'Rótulo de advertencia de presencia de Bifenilos Policlorados (PCBs) según Ley 25.670')">
               <div class="diagram-img-wrap">
-                <img src="img_2p/u6_pcbs_transformador_peligro.png" alt="Rótulo de advertencia de presencia de Bifenilos Policlorados (PCBs) según Ley 25.670" loading="lazy" />
+                <img src="img_2p/u6_pcbs_transformador_peligro.webp" alt="Rótulo de advertencia de presencia de Bifenilos Policlorados (PCBs) según Ley 25.670" loading="lazy" decoding="async" />
                 <span class="diagram-zoom-badge">🔍 Zoom</span>
               </div>
               <div class="diagram-caption">Rótulo de advertencia de presencia de Bifenilos Policlorados (PCBs) según Ley 25.670</div>
@@ -5039,9 +5094,9 @@
           </div>
           <div class="diagram-grid">
 
-            <div class="diagram-item" onclick="openLightbox('img_2p/u6_radiacion_electromagnetica.png', 'Espectro electromagnético: radiaciones ionizantes (residuos radiactivos CNEA) vs. no ionizantes')">
+            <div class="diagram-item" onclick="openLightbox('img_2p/u6_radiacion_electromagnetica.webp', 'Espectro electromagnético: radiaciones ionizantes (residuos radiactivos CNEA) vs. no ionizantes')">
               <div class="diagram-img-wrap">
-                <img src="img_2p/u6_radiacion_electromagnetica.png" alt="Espectro electromagnético: radiaciones ionizantes (residuos radiactivos CNEA) vs. no ionizantes" loading="lazy" />
+                <img src="img_2p/u6_radiacion_electromagnetica.webp" alt="Espectro electromagnético: radiaciones ionizantes (residuos radiactivos CNEA) vs. no ionizantes" loading="lazy" decoding="async" />
                 <span class="diagram-zoom-badge">🔍 Zoom</span>
               </div>
               <div class="diagram-caption">Espectro electromagnético: radiaciones ionizantes (residuos radiactivos CNEA) vs. no ionizantes</div>
@@ -5123,17 +5178,17 @@
           </div>
           <div class="diagram-grid">
 
-            <div class="diagram-item" onclick="openLightbox('img_2p/u6_ceamse_rsu.png', 'Gestión de Residuos Sólidos Urbanos (RSU): complejo ambiental Norte III de CEAMSE')">
+            <div class="diagram-item" onclick="openLightbox('img_2p/u6_ceamse_rsu.webp', 'Gestión de Residuos Sólidos Urbanos (RSU): complejo ambiental Norte III de CEAMSE')">
               <div class="diagram-img-wrap">
-                <img src="img_2p/u6_ceamse_rsu.png" alt="Gestión de Residuos Sólidos Urbanos (RSU): complejo ambiental Norte III de CEAMSE" loading="lazy" />
+                <img src="img_2p/u6_ceamse_rsu.webp" alt="Gestión de Residuos Sólidos Urbanos (RSU): complejo ambiental Norte III de CEAMSE" loading="lazy" decoding="async" />
                 <span class="diagram-zoom-badge">🔍 Zoom</span>
               </div>
               <div class="diagram-caption">Gestión de Residuos Sólidos Urbanos (RSU): complejo ambiental Norte III de CEAMSE</div>
             </div>
 
-            <div class="diagram-item" onclick="openLightbox('img_2p/u6_ceamse_planta_tratamiento.png', 'Planta de separación y celda de Relleno Sanitario con membrana de HDPE y drenaje de lixiviados')">
+            <div class="diagram-item" onclick="openLightbox('img_2p/u6_ceamse_planta_tratamiento.webp', 'Planta de separación y celda de Relleno Sanitario con membrana de HDPE y drenaje de lixiviados')">
               <div class="diagram-img-wrap">
-                <img src="img_2p/u6_ceamse_planta_tratamiento.png" alt="Planta de separación y celda de Relleno Sanitario con membrana de HDPE y drenaje de lixiviados" loading="lazy" />
+                <img src="img_2p/u6_ceamse_planta_tratamiento.webp" alt="Planta de separación y celda de Relleno Sanitario con membrana de HDPE y drenaje de lixiviados" loading="lazy" decoding="async" />
                 <span class="diagram-zoom-badge">🔍 Zoom</span>
               </div>
               <div class="diagram-caption">Planta de separación y celda de Relleno Sanitario con membrana de HDPE y drenaje de lixiviados</div>
@@ -5268,9 +5323,9 @@
           </div>
           <div class="diagram-grid">
 
-            <div class="diagram-item" onclick="openLightbox('img_2p/u6_aguas_residuales_contaminantes.png', 'Parámetros de efluentes líquidos industriales: DBO5, DQO, sólidos sedimentables y tren de tratamiento')">
+            <div class="diagram-item" onclick="openLightbox('img_2p/u6_aguas_residuales_contaminantes.webp', 'Parámetros de efluentes líquidos industriales: DBO5, DQO, sólidos sedimentables y tren de tratamiento')">
               <div class="diagram-img-wrap">
-                <img src="img_2p/u6_aguas_residuales_contaminantes.png" alt="Parámetros de efluentes líquidos industriales: DBO5, DQO, sólidos sedimentables y tren de tratamiento" loading="lazy" />
+                <img src="img_2p/u6_aguas_residuales_contaminantes.webp" alt="Parámetros de efluentes líquidos industriales: DBO5, DQO, sólidos sedimentables y tren de tratamiento" loading="lazy" decoding="async" />
                 <span class="diagram-zoom-badge">🔍 Zoom</span>
               </div>
               <div class="diagram-caption">Parámetros de efluentes líquidos industriales: DBO5, DQO, sólidos sedimentables y tren de tratamiento</div>
@@ -5412,17 +5467,17 @@
           </div>
           <div class="diagram-grid">
 
-            <div class="diagram-item" onclick="openLightbox('img_2p/u6_abatimiento_emisiones_gaseosas.png', 'Control de contaminación atmosférica: chimeneas industriales, límites de emisión e inmisión')">
+            <div class="diagram-item" onclick="openLightbox('img_2p/u6_abatimiento_emisiones_gaseosas.webp', 'Control de contaminación atmosférica: chimeneas industriales, límites de emisión e inmisión')">
               <div class="diagram-img-wrap">
-                <img src="img_2p/u6_abatimiento_emisiones_gaseosas.png" alt="Control de contaminación atmosférica: chimeneas industriales, límites de emisión e inmisión" loading="lazy" />
+                <img src="img_2p/u6_abatimiento_emisiones_gaseosas.webp" alt="Control de contaminación atmosférica: chimeneas industriales, límites de emisión e inmisión" loading="lazy" decoding="async" />
                 <span class="diagram-zoom-badge">🔍 Zoom</span>
               </div>
               <div class="diagram-caption">Control de contaminación atmosférica: chimeneas industriales, límites de emisión e inmisión</div>
             </div>
 
-            <div class="diagram-item" onclick="openLightbox('img_2p/u6_chimenea_gases_fase_gaseosa.png', 'Tecnologías de depuración gaseosa: ciclones inerciales, filtros de mangas y lavadores')">
+            <div class="diagram-item" onclick="openLightbox('img_2p/u6_chimenea_gases_fase_gaseosa.webp', 'Tecnologías de depuración gaseosa: ciclones inerciales, filtros de mangas y lavadores')">
               <div class="diagram-img-wrap">
-                <img src="img_2p/u6_chimenea_gases_fase_gaseosa.png" alt="Tecnologías de depuración gaseosa: ciclones inerciales, filtros de mangas y lavadores" loading="lazy" />
+                <img src="img_2p/u6_chimenea_gases_fase_gaseosa.webp" alt="Tecnologías de depuración gaseosa: ciclones inerciales, filtros de mangas y lavadores" loading="lazy" decoding="async" />
                 <span class="diagram-zoom-badge">🔍 Zoom</span>
               </div>
               <div class="diagram-caption">Tecnologías de depuración gaseosa: ciclones inerciales, filtros de mangas y lavadores</div>
@@ -5524,10 +5579,10 @@
           </div>
         </div>
       </div>
-    </section>
+    </template></section>
 
     <!-- UNIT U11 -->
-    <section class="unit-section" id="U11">
+    <section class="unit-section" id="U11" data-lazy-sec="1" style="min-height:360px"><template class="lazy-sec-tpl">
       <div class="unit-header-wrap">
         <div class="unit-title-group">
           <h2><span>🚢</span> Unidad 11: Transportes Externos a Planta y Logística Multimodal</h2>
@@ -5661,17 +5716,17 @@
           </div>
           <div class="diagram-grid">
 
-            <div class="diagram-item" onclick="openLightbox('img_2p/u11_buque_portacontenedores_triplee.png', 'Buques portacontenedores de ultra gran porte clase Triple E (capacidad superior a 18.000 TEUs)')">
+            <div class="diagram-item" onclick="openLightbox('img_2p/u11_buque_portacontenedores_triplee.webp', 'Buques portacontenedores de ultra gran porte clase Triple E (capacidad superior a 18.000 TEUs)')">
               <div class="diagram-img-wrap">
-                <img src="img_2p/u11_buque_portacontenedores_triplee.png" alt="Buques portacontenedores de ultra gran porte clase Triple E (capacidad superior a 18.000 TEUs)" loading="lazy" />
+                <img src="img_2p/u11_buque_portacontenedores_triplee.webp" alt="Buques portacontenedores de ultra gran porte clase Triple E (capacidad superior a 18.000 TEUs)" loading="lazy" decoding="async" />
                 <span class="diagram-zoom-badge">🔍 Zoom</span>
               </div>
               <div class="diagram-caption">Buques portacontenedores de ultra gran porte clase Triple E (capacidad superior a 18.000 TEUs)</div>
             </div>
 
-            <div class="diagram-item" onclick="openLightbox('img_2p/u11_buque_petrolero_doble_casco.png', 'Buques petroleros con doble casco y compartimentación de tanques de crudo según normativa OMI / MARPOL')">
+            <div class="diagram-item" onclick="openLightbox('img_2p/u11_buque_petrolero_doble_casco.webp', 'Buques petroleros con doble casco y compartimentación de tanques de crudo según normativa OMI / MARPOL')">
               <div class="diagram-img-wrap">
-                <img src="img_2p/u11_buque_petrolero_doble_casco.png" alt="Buques petroleros con doble casco y compartimentación de tanques de crudo según normativa OMI / MARPOL" loading="lazy" />
+                <img src="img_2p/u11_buque_petrolero_doble_casco.webp" alt="Buques petroleros con doble casco y compartimentación de tanques de crudo según normativa OMI / MARPOL" loading="lazy" decoding="async" />
                 <span class="diagram-zoom-badge">🔍 Zoom</span>
               </div>
               <div class="diagram-caption">Buques petroleros con doble casco y compartimentación de tanques de crudo según normativa OMI / MARPOL</div>
@@ -6079,9 +6134,9 @@
           </div>
           <div class="diagram-grid">
 
-            <div class="diagram-item" onclick="openLightbox('img_2p/u11_terminal_monoboya_offshore.png', 'Terminales offshore de hidrocarburos: sistema de carga/descarga por monoboya SPM a mar abierto')">
+            <div class="diagram-item" onclick="openLightbox('img_2p/u11_terminal_monoboya_offshore.webp', 'Terminales offshore de hidrocarburos: sistema de carga/descarga por monoboya SPM a mar abierto')">
               <div class="diagram-img-wrap">
-                <img src="img_2p/u11_terminal_monoboya_offshore.png" alt="Terminales offshore de hidrocarburos: sistema de carga/descarga por monoboya SPM a mar abierto" loading="lazy" />
+                <img src="img_2p/u11_terminal_monoboya_offshore.webp" alt="Terminales offshore de hidrocarburos: sistema de carga/descarga por monoboya SPM a mar abierto" loading="lazy" decoding="async" />
                 <span class="diagram-zoom-badge">🔍 Zoom</span>
               </div>
               <div class="diagram-caption">Terminales offshore de hidrocarburos: sistema de carga/descarga por monoboya SPM a mar abierto</div>
@@ -6318,9 +6373,9 @@
           </div>
           <div class="diagram-grid">
 
-            <div class="diagram-item" onclick="openLightbox('img_2p/u11_camiones_bitrenes_ejes.png', 'Transporte automotor de cargas: camiones convencionales, escalables y bitrenes de 60 y 75 toneladas')">
+            <div class="diagram-item" onclick="openLightbox('img_2p/u11_camiones_bitrenes_ejes.webp', 'Transporte automotor de cargas: camiones convencionales, escalables y bitrenes de 60 y 75 toneladas')">
               <div class="diagram-img-wrap">
-                <img src="img_2p/u11_camiones_bitrenes_ejes.png" alt="Transporte automotor de cargas: camiones convencionales, escalables y bitrenes de 60 y 75 toneladas" loading="lazy" />
+                <img src="img_2p/u11_camiones_bitrenes_ejes.webp" alt="Transporte automotor de cargas: camiones convencionales, escalables y bitrenes de 60 y 75 toneladas" loading="lazy" decoding="async" />
                 <span class="diagram-zoom-badge">🔍 Zoom</span>
               </div>
               <div class="diagram-caption">Transporte automotor de cargas: camiones convencionales, escalables y bitrenes de 60 y 75 toneladas</div>
@@ -6543,9 +6598,9 @@
           </div>
           <div class="diagram-grid">
 
-            <div class="diagram-item" onclick="openLightbox('img_2p/u11_trochas_ferroviarias_argentina.png', 'Red ferroviaria nacional: coexistencia de trocha ancha (1,676m), trocha media (1,435m) y trocha angosta (1,000m)')">
+            <div class="diagram-item" onclick="openLightbox('img_2p/u11_trochas_ferroviarias_argentina.webp', 'Red ferroviaria nacional: coexistencia de trocha ancha (1,676m), trocha media (1,435m) y trocha angosta (1,000m)')">
               <div class="diagram-img-wrap">
-                <img src="img_2p/u11_trochas_ferroviarias_argentina.png" alt="Red ferroviaria nacional: coexistencia de trocha ancha (1,676m), trocha media (1,435m) y trocha angosta (1,000m)" loading="lazy" />
+                <img src="img_2p/u11_trochas_ferroviarias_argentina.webp" alt="Red ferroviaria nacional: coexistencia de trocha ancha (1,676m), trocha media (1,435m) y trocha angosta (1,000m)" loading="lazy" decoding="async" />
                 <span class="diagram-zoom-badge">🔍 Zoom</span>
               </div>
               <div class="diagram-caption">Red ferroviaria nacional: coexistencia de trocha ancha (1,676m), trocha media (1,435m) y trocha angosta (1,000m)</div>
@@ -6715,9 +6770,9 @@
           </div>
           <div class="diagram-grid">
 
-            <div class="diagram-item" onclick="openLightbox('img_2p/u11_uld_pallets_aereos.png', 'Unidades de Carga Aérea (ULD): pallets normalizados y contenedores con perfil de fuselaje IATA')">
+            <div class="diagram-item" onclick="openLightbox('img_2p/u11_uld_pallets_aereos.webp', 'Unidades de Carga Aérea (ULD): pallets normalizados y contenedores con perfil de fuselaje IATA')">
               <div class="diagram-img-wrap">
-                <img src="img_2p/u11_uld_pallets_aereos.png" alt="Unidades de Carga Aérea (ULD): pallets normalizados y contenedores con perfil de fuselaje IATA" loading="lazy" />
+                <img src="img_2p/u11_uld_pallets_aereos.webp" alt="Unidades de Carga Aérea (ULD): pallets normalizados y contenedores con perfil de fuselaje IATA" loading="lazy" decoding="async" />
                 <span class="diagram-zoom-badge">🔍 Zoom</span>
               </div>
               <div class="diagram-caption">Unidades de Carga Aérea (ULD): pallets normalizados y contenedores con perfil de fuselaje IATA</div>
@@ -7007,10 +7062,10 @@
           </div>
         </div>
       </div>
-    </section>
+    </template></section>
 
     <!-- UNIT U12 -->
-    <section class="unit-section" id="U12">
+    <section class="unit-section" id="U12" data-lazy-sec="1" style="min-height:360px"><template class="lazy-sec-tpl">
       <div class="unit-header-wrap">
         <div class="unit-title-group">
           <h2><span>🤖</span> Unidad 12: Inteligencia Artificial en Supply Chain</h2>
@@ -7042,17 +7097,17 @@
           </div>
           <div class="diagram-grid">
 
-            <div class="diagram-item" onclick="openLightbox('img_2p/u12_ia_ml_deep_learning_taxonomia.png', 'Taxonomía concéntrica: Inteligencia Artificial &gt; Machine Learning &gt; Deep Learning')">
+            <div class="diagram-item" onclick="openLightbox('img_2p/u12_ia_ml_deep_learning_taxonomia.webp', 'Taxonomía concéntrica: Inteligencia Artificial &gt; Machine Learning &gt; Deep Learning')">
               <div class="diagram-img-wrap">
-                <img src="img_2p/u12_ia_ml_deep_learning_taxonomia.png" alt="Taxonomía concéntrica: Inteligencia Artificial &gt; Machine Learning &gt; Deep Learning" loading="lazy" />
+                <img src="img_2p/u12_ia_ml_deep_learning_taxonomia.webp" alt="Taxonomía concéntrica: Inteligencia Artificial &gt; Machine Learning &gt; Deep Learning" loading="lazy" decoding="async" />
                 <span class="diagram-zoom-badge">🔍 Zoom</span>
               </div>
               <div class="diagram-caption">Taxonomía concéntrica: Inteligencia Artificial > Machine Learning > Deep Learning</div>
             </div>
 
-            <div class="diagram-item" onclick="openLightbox('img_2p/u12_ia_evolucion.png', 'Evolución cronológica de la IA en los sistemas industriales y computacionales')">
+            <div class="diagram-item" onclick="openLightbox('img_2p/u12_ia_evolucion.webp', 'Evolución cronológica de la IA en los sistemas industriales y computacionales')">
               <div class="diagram-img-wrap">
-                <img src="img_2p/u12_ia_evolucion.png" alt="Evolución cronológica de la IA en los sistemas industriales y computacionales" loading="lazy" />
+                <img src="img_2p/u12_ia_evolucion.webp" alt="Evolución cronológica de la IA en los sistemas industriales y computacionales" loading="lazy" decoding="async" />
                 <span class="diagram-zoom-badge">🔍 Zoom</span>
               </div>
               <div class="diagram-caption">Evolución cronológica de la IA en los sistemas industriales y computacionales</div>
@@ -7185,9 +7240,9 @@
           </div>
           <div class="diagram-grid">
 
-            <div class="diagram-item" onclick="openLightbox('img_2p/u12_redes_neuronales_profundas.png', 'Arquitectura de Redes Neuronales Profundas (DNN): capas ocultas y extracción automática de características')">
+            <div class="diagram-item" onclick="openLightbox('img_2p/u12_redes_neuronales_profundas.webp', 'Arquitectura de Redes Neuronales Profundas (DNN): capas ocultas y extracción automática de características')">
               <div class="diagram-img-wrap">
-                <img src="img_2p/u12_redes_neuronales_profundas.png" alt="Arquitectura de Redes Neuronales Profundas (DNN): capas ocultas y extracción automática de características" loading="lazy" />
+                <img src="img_2p/u12_redes_neuronales_profundas.webp" alt="Arquitectura de Redes Neuronales Profundas (DNN): capas ocultas y extracción automática de características" loading="lazy" decoding="async" />
                 <span class="diagram-zoom-badge">🔍 Zoom</span>
               </div>
               <div class="diagram-caption">Arquitectura de Redes Neuronales Profundas (DNN): capas ocultas y extracción automática de características</div>
@@ -7337,17 +7392,17 @@
           </div>
           <div class="diagram-grid">
 
-            <div class="diagram-item" onclick="openLightbox('img_2p/u12_areas_aplicacion_supply_chain.png', 'Áreas clave de aplicación de IA en Supply Chain: demanda, inventarios, compras y logística')">
+            <div class="diagram-item" onclick="openLightbox('img_2p/u12_areas_aplicacion_supply_chain.webp', 'Áreas clave de aplicación de IA en Supply Chain: demanda, inventarios, compras y logística')">
               <div class="diagram-img-wrap">
-                <img src="img_2p/u12_areas_aplicacion_supply_chain.png" alt="Áreas clave de aplicación de IA en Supply Chain: demanda, inventarios, compras y logística" loading="lazy" />
+                <img src="img_2p/u12_areas_aplicacion_supply_chain.webp" alt="Áreas clave de aplicación de IA en Supply Chain: demanda, inventarios, compras y logística" loading="lazy" decoding="async" />
                 <span class="diagram-zoom-badge">🔍 Zoom</span>
               </div>
               <div class="diagram-caption">Áreas clave de aplicación de IA en Supply Chain: demanda, inventarios, compras y logística</div>
             </div>
 
-            <div class="diagram-item" onclick="openLightbox('img_2p/u12_robotica_amr_almacenes.png', 'Visión artificial y sensores IoT aplicados al control de racks e inventario en tiempo real')">
+            <div class="diagram-item" onclick="openLightbox('img_2p/u12_robotica_amr_almacenes.webp', 'Visión artificial y sensores IoT aplicados al control de racks e inventario en tiempo real')">
               <div class="diagram-img-wrap">
-                <img src="img_2p/u12_robotica_amr_almacenes.png" alt="Visión artificial y sensores IoT aplicados al control de racks e inventario en tiempo real" loading="lazy" />
+                <img src="img_2p/u12_robotica_amr_almacenes.webp" alt="Visión artificial y sensores IoT aplicados al control de racks e inventario en tiempo real" loading="lazy" decoding="async" />
                 <span class="diagram-zoom-badge">🔍 Zoom</span>
               </div>
               <div class="diagram-caption">Visión artificial y sensores IoT aplicados al control de racks e inventario en tiempo real</div>
@@ -7582,9 +7637,9 @@
           </div>
           <div class="diagram-grid">
 
-            <div class="diagram-item" onclick="openLightbox('img_2p/u12_arquitectura_integracion_erp.png', 'Arquitectura de integración tecnológica: IA conectada con ERP (SAP/Tango), WMS, RPA y dashboards en Power BI')">
+            <div class="diagram-item" onclick="openLightbox('img_2p/u12_arquitectura_integracion_erp.webp', 'Arquitectura de integración tecnológica: IA conectada con ERP (SAP/Tango), WMS, RPA y dashboards en Power BI')">
               <div class="diagram-img-wrap">
-                <img src="img_2p/u12_arquitectura_integracion_erp.png" alt="Arquitectura de integración tecnológica: IA conectada con ERP (SAP/Tango), WMS, RPA y dashboards en Power BI" loading="lazy" />
+                <img src="img_2p/u12_arquitectura_integracion_erp.webp" alt="Arquitectura de integración tecnológica: IA conectada con ERP (SAP/Tango), WMS, RPA y dashboards en Power BI" loading="lazy" decoding="async" />
                 <span class="diagram-zoom-badge">🔍 Zoom</span>
               </div>
               <div class="diagram-caption">Arquitectura de integración tecnológica: IA conectada con ERP (SAP/Tango), WMS, RPA y dashboards en Power BI</div>
@@ -7679,10 +7734,10 @@
           </div>
         </div>
       </div>
-    </section>
+    </template></section>
 
     <!-- UNIT U7.5 -->
-    <section class="unit-section" id="U7">
+    <section class="unit-section" id="U7" data-lazy-sec="1" style="min-height:360px"><template class="lazy-sec-tpl">
       <div class="unit-header-wrap">
         <div class="unit-title-group">
           <h2><span>🏭</span> Unidad 7.5: Sistemas de Almacenaje y Almacenes Autoportantes</h2>
@@ -8010,7 +8065,7 @@
 
         </div>
       </div>
-    </section>
+    </template></section>
 
   </main>
 
@@ -8032,8 +8087,66 @@
   <button class="btn-back-top" id="btnBackTop" onclick="window.scrollTo({top:0, behavior:'smooth'})" title="Volver arriba">↑</button>
 
   <script>
+    // Lazy Unit Section Mounting
+    function mountUnitSection(sec) {
+      if (!sec) return;
+      const tpl = sec.querySelector(':scope > template.lazy-sec-tpl');
+      if (!tpl) return;
+      sec.appendChild(tpl.content.cloneNode(true));
+      tpl.remove();
+      sec.removeAttribute('data-lazy-sec');
+      sec.style.minHeight = '';
+      if (window.__mjObserve) window.__mjObserve(sec);
+    }
+
+    function ensureAllMounted() {
+      document.querySelectorAll('section.unit-section[data-lazy-sec]').forEach(mountUnitSection);
+    }
+
+    if ('IntersectionObserver' in window) {
+      const secIO = new IntersectionObserver((entries) => {
+        entries.forEach(e => {
+          if (e.isIntersecting) {
+            secIO.unobserve(e.target);
+            mountUnitSection(e.target);
+          }
+        });
+      }, { rootMargin: '900px 0px' });
+      document.querySelectorAll('section.unit-section[data-lazy-sec]').forEach(s => secIO.observe(s));
+    } else {
+      ensureAllMounted();
+    }
+
+    document.addEventListener('click', (e) => {
+      const link = e.target.closest('a[href^="#"]');
+      if (link) {
+        const id = link.getAttribute('href').slice(1);
+        const targetEl = document.getElementById(id);
+        const sec = targetEl ? targetEl.closest('section.unit-section') : null;
+        if (sec) mountUnitSection(sec);
+        else if (!targetEl) ensureAllMounted();
+      }
+    });
+
+    window.addEventListener('beforeprint', () => {
+      ensureAllMounted();
+      if (window.MathJax && MathJax.typesetPromise) MathJax.typesetPromise().catch(() => {});
+    });
+
+    if (location.hash) {
+      const h = location.hash.slice(1);
+      const targetEl = document.getElementById(h);
+      const sec = targetEl ? targetEl.closest('section.unit-section') : null;
+      if (sec) mountUnitSection(sec);
+      else if (!targetEl) ensureAllMounted();
+    } else {
+      mountUnitSection(document.getElementById('U3'));
+    }
+
     // Live Search
     function handleSearch() {
+      const _qTest = document.getElementById('guideSearch').value.trim();
+      if (_qTest) ensureAllMounted();
       const q = document.getElementById('guideSearch').value.toLowerCase().trim();
       const cards = document.querySelectorAll('details.faq-card');
       let visibleCount = 0;
@@ -8057,6 +8170,7 @@
 
     // Expand / Collapse
     function expandAll() {
+      ensureAllMounted();
       document.querySelectorAll('details.faq-card').forEach(d => d.setAttribute('open', ''));
     }
 

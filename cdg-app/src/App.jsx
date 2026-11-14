@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { Suspense, lazy, useEffect, useState } from 'react';
 import { SUBJECTS, getGuideById, getSubjectById } from './data/subjects.js';
 import Dashboard from './components/Dashboard';
-import SubjectHub from './components/SubjectHub';
-import HtmlGuide from './components/HtmlGuide';
 import { ArrowLeft } from 'lucide-react';
+
+const SubjectHub = lazy(() => import('./components/SubjectHub'));
+const HtmlGuide = lazy(() => import('./components/HtmlGuide'));
 
 /**
  * Parsea rutas hash del estilo `#/`, `#/<subjectId>` y `#/<subjectId>/<guideId>`.
@@ -114,7 +115,7 @@ function App() {
       )}
 
       {currentSubject && (
-        <>
+        <Suspense fallback={<div className="text-center mt-8" style={{ color: 'var(--text-secondary)' }}>Cargando...</div>}>
           {isSubjectHub && (
             <SubjectHub subject={currentSubject} />
           )}
@@ -126,7 +127,7 @@ function App() {
               onBack={() => navigateTo(`/${currentSubject.id}`)}
             />
           )}
-        </>
+        </Suspense>
       )}
     </div>
   );

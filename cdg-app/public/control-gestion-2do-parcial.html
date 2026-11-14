@@ -14,13 +14,56 @@
   <!-- MathJax 3 -->
   <script>
     window.MathJax = {
-      tex: {
-        inlineMath: [['$', '$'], ['\\(', '\\)']],
-        displayMath: [['$$', '$$'], ['\\[', '\\]']],
-        processEscapes: true
-      },
+      tex: { inlineMath: [['$', '$'], ['\\(', '\\)']], displayMath: [['$$', '$$'], ['\\[', '\\]']], processEscapes: true },
       options: {
         skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      },
+      startup: {
+        typeset: false,
+        ready: function() {
+          MathJax.startup.defaultReady();
+          var pending = new Set();
+          var timer = null;
+          function flush() {
+            timer = null;
+            if (!pending.size) return;
+            var batch = Array.from(pending);
+            pending.clear();
+            MathJax.typesetPromise(batch).catch(function() {});
+          }
+          function queue(el) {
+            if (!el || el.dataset.mjDone || el.closest('[data-mj-done]')) return;
+            el.dataset.mjDone = '1';
+            pending.add(el);
+            if (!timer) timer = setTimeout(flush, 24);
+          }
+          var io = ('IntersectionObserver' in window) ? new IntersectionObserver(function(entries) {
+            entries.forEach(function(e) {
+              if (e.isIntersecting) {
+                io.unobserve(e.target);
+                queue(e.target);
+              }
+            });
+          }, { rootMargin: '600px 0px' }) : null;
+          window.__mjObserve = function(root) {
+            var scope = root || document;
+            var targets = scope.querySelectorAll('.q-card, .section-divider, header');
+            if (io) {
+              targets.forEach(function(el) {
+                if (!el.dataset.mjDone && !el.dataset.mjObs) {
+                  el.dataset.mjObs = '1';
+                  io.observe(el);
+                }
+              });
+            } else {
+              MathJax.typesetPromise(root ? [root] : undefined).catch(function() {});
+            }
+          };
+          window.__mjObserve(document);
+          window.addEventListener('beforeprint', function() {
+            MathJax.typesetPromise().catch(function() {});
+          });
+        }
       }
     };
   </script>
@@ -859,6 +902,9 @@
       .nav-actions { gap: 6px; }
       .btn-nav span { display: none; }
     }
+  
+    .q-card { content-visibility: auto; contain-intrinsic-size: auto 320px; }
+    @media print { .q-card { content-visibility: visible !important; } }
   </style>
 </head>
 <body>
@@ -1048,8 +1094,8 @@
                 <div class="ans-header-tag">Respuesta y Criterio de Cátedra:</div>
                 <div class="diagrams-group">
 
-                  <div class="diagram-container" onclick="openLightbox('./img/cdg_teoria/A_01.png', 'A_01 — Mencione los 4 (cuatro) estados Contables Básicos ...')">
-                    <img src="./img/cdg_teoria/A_01.png" class="diagram-img" loading="lazy" alt="Esquema cátedra A_01" />
+                  <div class="diagram-container" onclick="openLightbox('./img/cdg_teoria/A_01.webp', 'A_01 — Mencione los 4 (cuatro) estados Contables Básicos ...')">
+                    <img src="./img/cdg_teoria/A_01.webp" class="diagram-img" loading="lazy" alt="Esquema cátedra A_01" decoding="async" />
                     <div class="diagram-hint">🔍 Clic para ampliar esquema de cátedra en alta definición</div>
                   </div>
                 </div>
@@ -1116,8 +1162,8 @@
                 <div class="ans-header-tag">Respuesta y Criterio de Cátedra:</div>
                 <div class="diagrams-group">
 
-                  <div class="diagram-container" onclick="openLightbox('./img/cdg_teoria/A_02_p2.png', 'A_02 — BALANCE. Graficarlas masas patrimoniales. Señalar ...')">
-                    <img src="./img/cdg_teoria/A_02_p2.png" class="diagram-img" loading="lazy" alt="Esquema cátedra A_02" />
+                  <div class="diagram-container" onclick="openLightbox('./img/cdg_teoria/A_02_p2.webp', 'A_02 — BALANCE. Graficarlas masas patrimoniales. Señalar ...')">
+                    <img src="./img/cdg_teoria/A_02_p2.webp" class="diagram-img" loading="lazy" alt="Esquema cátedra A_02" decoding="async" />
                     <div class="diagram-hint">🔍 Clic para ampliar esquema de cátedra en alta definición</div>
                   </div>
                 </div>
@@ -1165,8 +1211,8 @@
                 <div class="ans-header-tag">Respuesta y Criterio de Cátedra:</div>
                 <div class="diagrams-group">
 
-                  <div class="diagram-container" onclick="openLightbox('./img/cdg_teoria/A_03.png', 'A_03 — Realizar un esquema del Cuadro de Resultados. Indi...')">
-                    <img src="./img/cdg_teoria/A_03.png" class="diagram-img" loading="lazy" alt="Esquema cátedra A_03" />
+                  <div class="diagram-container" onclick="openLightbox('./img/cdg_teoria/A_03.webp', 'A_03 — Realizar un esquema del Cuadro de Resultados. Indi...')">
+                    <img src="./img/cdg_teoria/A_03.webp" class="diagram-img" loading="lazy" alt="Esquema cátedra A_03" decoding="async" />
                     <div class="diagram-hint">🔍 Clic para ampliar esquema de cátedra en alta definición</div>
                   </div>
                 </div>
@@ -1231,13 +1277,13 @@
                 <div class="ans-header-tag">Respuesta y Criterio de Cátedra:</div>
                 <div class="diagrams-group">
 
-                  <div class="diagram-container" onclick="openLightbox('./img/cdg_teoria/A_04_p3.png', 'A_04 — Explique que entiende por analizar la Situación Pa...')">
-                    <img src="./img/cdg_teoria/A_04_p3.png" class="diagram-img" loading="lazy" alt="Esquema cátedra A_04" />
+                  <div class="diagram-container" onclick="openLightbox('./img/cdg_teoria/A_04_p3.webp', 'A_04 — Explique que entiende por analizar la Situación Pa...')">
+                    <img src="./img/cdg_teoria/A_04_p3.webp" class="diagram-img" loading="lazy" alt="Esquema cátedra A_04" decoding="async" />
                     <div class="diagram-hint">🔍 Clic para ampliar esquema de cátedra en alta definición</div>
                   </div>
                 
-                  <div class="diagram-container" onclick="openLightbox('./img/cdg_teoria/A_04_p4.png', 'A_04 — Explique que entiende por analizar la Situación Pa...')">
-                    <img src="./img/cdg_teoria/A_04_p4.png" class="diagram-img" loading="lazy" alt="Esquema cátedra A_04" />
+                  <div class="diagram-container" onclick="openLightbox('./img/cdg_teoria/A_04_p4.webp', 'A_04 — Explique que entiende por analizar la Situación Pa...')">
+                    <img src="./img/cdg_teoria/A_04_p4.webp" class="diagram-img" loading="lazy" alt="Esquema cátedra A_04" decoding="async" />
                     <div class="diagram-hint">🔍 Clic para ampliar esquema de cátedra en alta definición</div>
                   </div>
                 </div>
@@ -1321,8 +1367,8 @@
                 <div class="ans-header-tag">Respuesta y Criterio de Cátedra:</div>
                 <div class="diagrams-group">
 
-                  <div class="diagram-container" onclick="openLightbox('./img/cdg_teoria/A_05.png', 'A_05 — Subtipos de contabilidad. Explicación. Diferencias...')">
-                    <img src="./img/cdg_teoria/A_05.png" class="diagram-img" loading="lazy" alt="Esquema cátedra A_05" />
+                  <div class="diagram-container" onclick="openLightbox('./img/cdg_teoria/A_05.webp', 'A_05 — Subtipos de contabilidad. Explicación. Diferencias...')">
+                    <img src="./img/cdg_teoria/A_05.webp" class="diagram-img" loading="lazy" alt="Esquema cátedra A_05" decoding="async" />
                     <div class="diagram-hint">🔍 Clic para ampliar esquema de cátedra en alta definición</div>
                   </div>
                 </div>
@@ -1374,8 +1420,8 @@
                 <div class="ans-header-tag">Respuesta y Criterio de Cátedra:</div>
                 <div class="diagrams-group">
 
-                  <div class="diagram-container" onclick="openLightbox('./img/cdg_teoria/A_06.png', 'A_06 — Explique el significado de los Activos Funcionales...')">
-                    <img src="./img/cdg_teoria/A_06.png" class="diagram-img" loading="lazy" alt="Esquema cátedra A_06" />
+                  <div class="diagram-container" onclick="openLightbox('./img/cdg_teoria/A_06.webp', 'A_06 — Explique el significado de los Activos Funcionales...')">
+                    <img src="./img/cdg_teoria/A_06.webp" class="diagram-img" loading="lazy" alt="Esquema cátedra A_06" decoding="async" />
                     <div class="diagram-hint">🔍 Clic para ampliar esquema de cátedra en alta definición</div>
                   </div>
                 </div>
@@ -1423,8 +1469,8 @@
                 <div class="ans-header-tag">Respuesta y Criterio de Cátedra:</div>
                 <div class="diagrams-group">
 
-                  <div class="diagram-container" onclick="openLightbox('./img/cdg_teoria/A_07_p5.png', 'A_07 — Diferencias entre Resultado Neto y Disponibilidade...')">
-                    <img src="./img/cdg_teoria/A_07_p5.png" class="diagram-img" loading="lazy" alt="Esquema cátedra A_07" />
+                  <div class="diagram-container" onclick="openLightbox('./img/cdg_teoria/A_07_p5.webp', 'A_07 — Diferencias entre Resultado Neto y Disponibilidade...')">
+                    <img src="./img/cdg_teoria/A_07_p5.webp" class="diagram-img" loading="lazy" alt="Esquema cátedra A_07" decoding="async" />
                     <div class="diagram-hint">🔍 Clic para ampliar esquema de cátedra en alta definición</div>
                   </div>
                 </div>
@@ -1488,8 +1534,8 @@
                 <div class="ans-header-tag">Respuesta y Criterio de Cátedra:</div>
                 <div class="diagrams-group">
 
-                  <div class="diagram-container" onclick="openLightbox('./img/cdg_teoria/A_08_p6.png', 'A_08 — Estado de resultados vs. Estado de Flujos de efect...')">
-                    <img src="./img/cdg_teoria/A_08_p6.png" class="diagram-img" loading="lazy" alt="Esquema cátedra A_08" />
+                  <div class="diagram-container" onclick="openLightbox('./img/cdg_teoria/A_08_p6.webp', 'A_08 — Estado de resultados vs. Estado de Flujos de efect...')">
+                    <img src="./img/cdg_teoria/A_08_p6.webp" class="diagram-img" loading="lazy" alt="Esquema cátedra A_08" decoding="async" />
                     <div class="diagram-hint">🔍 Clic para ampliar esquema de cátedra en alta definición</div>
                   </div>
                 </div>
@@ -1541,8 +1587,8 @@
                 <div class="ans-header-tag">Respuesta y Criterio de Cátedra:</div>
                 <div class="diagrams-group">
 
-                  <div class="diagram-container" onclick="openLightbox('./img/cdg_teoria/A_09.png', 'A_09 — DENTRO DE LOS ACTIVOS INMOVILIZADOS: ¿Explique la ...')">
-                    <img src="./img/cdg_teoria/A_09.png" class="diagram-img" loading="lazy" alt="Esquema cátedra A_09" />
+                  <div class="diagram-container" onclick="openLightbox('./img/cdg_teoria/A_09.webp', 'A_09 — DENTRO DE LOS ACTIVOS INMOVILIZADOS: ¿Explique la ...')">
+                    <img src="./img/cdg_teoria/A_09.webp" class="diagram-img" loading="lazy" alt="Esquema cátedra A_09" decoding="async" />
                     <div class="diagram-hint">🔍 Clic para ampliar esquema de cátedra en alta definición</div>
                   </div>
                 </div>
@@ -1582,8 +1628,8 @@
                 <div class="ans-header-tag">Respuesta y Criterio de Cátedra:</div>
                 <div class="diagrams-group">
 
-                  <div class="diagram-container" onclick="openLightbox('./img/cdg_teoria/A_10_p7.png', 'A_10 — _¿Cómo se construye el Balance Esquemático?...')">
-                    <img src="./img/cdg_teoria/A_10_p7.png" class="diagram-img" loading="lazy" alt="Esquema cátedra A_10" />
+                  <div class="diagram-container" onclick="openLightbox('./img/cdg_teoria/A_10_p7.webp', 'A_10 — _¿Cómo se construye el Balance Esquemático?...')">
+                    <img src="./img/cdg_teoria/A_10_p7.webp" class="diagram-img" loading="lazy" alt="Esquema cátedra A_10" decoding="async" />
                     <div class="diagram-hint">🔍 Clic para ampliar esquema de cátedra en alta definición</div>
                   </div>
                 </div>
@@ -1633,8 +1679,8 @@
                 <div class="ans-header-tag">Respuesta y Criterio de Cátedra:</div>
                 <div class="diagrams-group">
 
-                  <div class="diagram-container" onclick="openLightbox('./img/cdg_teoria/A_11.png', 'A_11 — Mencione los 4 (cuatro) estados Contables Básicos ...')">
-                    <img src="./img/cdg_teoria/A_11.png" class="diagram-img" loading="lazy" alt="Esquema cátedra A_11" />
+                  <div class="diagram-container" onclick="openLightbox('./img/cdg_teoria/A_11.webp', 'A_11 — Mencione los 4 (cuatro) estados Contables Básicos ...')">
+                    <img src="./img/cdg_teoria/A_11.webp" class="diagram-img" loading="lazy" alt="Esquema cátedra A_11" decoding="async" />
                     <div class="diagram-hint">🔍 Clic para ampliar esquema de cátedra en alta definición</div>
                   </div>
                 </div>
@@ -1782,8 +1828,8 @@
                 <div class="ans-header-tag">Respuesta y Criterio de Cátedra:</div>
                 <div class="diagrams-group">
 
-                  <div class="diagram-container" onclick="openLightbox('./img/cdg_teoria/A_14.png', 'A_14 — _VARIOS Indique de qué manera afectan al Activo Co...')">
-                    <img src="./img/cdg_teoria/A_14.png" class="diagram-img" loading="lazy" alt="Esquema cátedra A_14" />
+                  <div class="diagram-container" onclick="openLightbox('./img/cdg_teoria/A_14.webp', 'A_14 — _VARIOS Indique de qué manera afectan al Activo Co...')">
+                    <img src="./img/cdg_teoria/A_14.webp" class="diagram-img" loading="lazy" alt="Esquema cátedra A_14" decoding="async" />
                     <div class="diagram-hint">🔍 Clic para ampliar esquema de cátedra en alta definición</div>
                   </div>
                 </div>
@@ -1823,8 +1869,8 @@
                 <div class="ans-header-tag">Respuesta y Criterio de Cátedra:</div>
                 <div class="diagrams-group">
 
-                  <div class="diagram-container" onclick="openLightbox('./img/cdg_teoria/A_15_p9.png', 'A_15 — Si nos referimos a los estados contables, Indique ...')">
-                    <img src="./img/cdg_teoria/A_15_p9.png" class="diagram-img" loading="lazy" alt="Esquema cátedra A_15" />
+                  <div class="diagram-container" onclick="openLightbox('./img/cdg_teoria/A_15_p9.webp', 'A_15 — Si nos referimos a los estados contables, Indique ...')">
+                    <img src="./img/cdg_teoria/A_15_p9.webp" class="diagram-img" loading="lazy" alt="Esquema cátedra A_15" decoding="async" />
                     <div class="diagram-hint">🔍 Clic para ampliar esquema de cátedra en alta definición</div>
                   </div>
                 </div>
@@ -1864,8 +1910,8 @@
                 <div class="ans-header-tag">Respuesta y Criterio de Cátedra:</div>
                 <div class="diagrams-group">
 
-                  <div class="diagram-container" onclick="openLightbox('./img/cdg_teoria/A_16.png', 'A_16 — ¿Qué es una Variable de Stock?. Dé tres ejemplos d...')">
-                    <img src="./img/cdg_teoria/A_16.png" class="diagram-img" loading="lazy" alt="Esquema cátedra A_16" />
+                  <div class="diagram-container" onclick="openLightbox('./img/cdg_teoria/A_16.webp', 'A_16 — ¿Qué es una Variable de Stock?. Dé tres ejemplos d...')">
+                    <img src="./img/cdg_teoria/A_16.webp" class="diagram-img" loading="lazy" alt="Esquema cátedra A_16" decoding="async" />
                     <div class="diagram-hint">🔍 Clic para ampliar esquema de cátedra en alta definición</div>
                   </div>
                 </div>
@@ -1990,8 +2036,8 @@
                 <div class="ans-header-tag">Respuesta y Criterio de Cátedra:</div>
                 <div class="diagrams-group">
 
-                  <div class="diagram-container" onclick="openLightbox('./img/cdg_teoria/A_19.png', 'A_19 — Indique si las siguientes variables son de Flujo (...')">
-                    <img src="./img/cdg_teoria/A_19.png" class="diagram-img" loading="lazy" alt="Esquema cátedra A_19" />
+                  <div class="diagram-container" onclick="openLightbox('./img/cdg_teoria/A_19.webp', 'A_19 — Indique si las siguientes variables son de Flujo (...')">
+                    <img src="./img/cdg_teoria/A_19.webp" class="diagram-img" loading="lazy" alt="Esquema cátedra A_19" decoding="async" />
                     <div class="diagram-hint">🔍 Clic para ampliar esquema de cátedra en alta definición</div>
                   </div>
                 </div>
@@ -2164,8 +2210,8 @@
                 <div class="ans-header-tag">Respuesta y Criterio de Cátedra:</div>
                 <div class="diagrams-group">
 
-                  <div class="diagram-container" onclick="openLightbox('./img/cdg_teoria/A_20.png', 'A_20 — Supongamos una empresa que cierra su ejercicio anu...')">
-                    <img src="./img/cdg_teoria/A_20.png" class="diagram-img" loading="lazy" alt="Esquema cátedra A_20" />
+                  <div class="diagram-container" onclick="openLightbox('./img/cdg_teoria/A_20.webp', 'A_20 — Supongamos una empresa que cierra su ejercicio anu...')">
+                    <img src="./img/cdg_teoria/A_20.webp" class="diagram-img" loading="lazy" alt="Esquema cátedra A_20" decoding="async" />
                     <div class="diagram-hint">🔍 Clic para ampliar esquema de cátedra en alta definición</div>
                   </div>
                 </div>
@@ -2205,8 +2251,8 @@
                 <div class="ans-header-tag">Respuesta y Criterio de Cátedra:</div>
                 <div class="diagrams-group">
 
-                  <div class="diagram-container" onclick="openLightbox('./img/cdg_teoria/A_21_p12.png', 'A_21 — Grafique  las masas patrimoniales, por orden de ex...')">
-                    <img src="./img/cdg_teoria/A_21_p12.png" class="diagram-img" loading="lazy" alt="Esquema cátedra A_21" />
+                  <div class="diagram-container" onclick="openLightbox('./img/cdg_teoria/A_21_p12.webp', 'A_21 — Grafique  las masas patrimoniales, por orden de ex...')">
+                    <img src="./img/cdg_teoria/A_21_p12.webp" class="diagram-img" loading="lazy" alt="Esquema cátedra A_21" decoding="async" />
                     <div class="diagram-hint">🔍 Clic para ampliar esquema de cátedra en alta definición</div>
                   </div>
                 </div>
@@ -2249,8 +2295,8 @@
                 <div class="ans-header-tag">Respuesta y Criterio de Cátedra:</div>
                 <div class="diagrams-group">
 
-                  <div class="diagram-container" onclick="openLightbox('./img/cdg_teoria/A_22.png', 'A_22 — Grafique  las masas patrimoniales, por orden de ex...')">
-                    <img src="./img/cdg_teoria/A_22.png" class="diagram-img" loading="lazy" alt="Esquema cátedra A_22" />
+                  <div class="diagram-container" onclick="openLightbox('./img/cdg_teoria/A_22.webp', 'A_22 — Grafique  las masas patrimoniales, por orden de ex...')">
+                    <img src="./img/cdg_teoria/A_22.webp" class="diagram-img" loading="lazy" alt="Esquema cátedra A_22" decoding="async" />
                     <div class="diagram-hint">🔍 Clic para ampliar esquema de cátedra en alta definición</div>
                   </div>
                 </div>
@@ -2293,13 +2339,13 @@
                 <div class="ans-header-tag">Respuesta y Criterio de Cátedra:</div>
                 <div class="diagrams-group">
 
-                  <div class="diagram-container" onclick="openLightbox('./img/cdg_teoria/A_23_p13.png', 'A_23 — Detalle los elementos patrimoniales que se encuent...')">
-                    <img src="./img/cdg_teoria/A_23_p13.png" class="diagram-img" loading="lazy" alt="Esquema cátedra A_23" />
+                  <div class="diagram-container" onclick="openLightbox('./img/cdg_teoria/A_23_p13.webp', 'A_23 — Detalle los elementos patrimoniales que se encuent...')">
+                    <img src="./img/cdg_teoria/A_23_p13.webp" class="diagram-img" loading="lazy" alt="Esquema cátedra A_23" decoding="async" />
                     <div class="diagram-hint">🔍 Clic para ampliar esquema de cátedra en alta definición</div>
                   </div>
                 
-                  <div class="diagram-container" onclick="openLightbox('./img/cdg_teoria/A_23_p14.png', 'A_23 — Detalle los elementos patrimoniales que se encuent...')">
-                    <img src="./img/cdg_teoria/A_23_p14.png" class="diagram-img" loading="lazy" alt="Esquema cátedra A_23" />
+                  <div class="diagram-container" onclick="openLightbox('./img/cdg_teoria/A_23_p14.webp', 'A_23 — Detalle los elementos patrimoniales que se encuent...')">
+                    <img src="./img/cdg_teoria/A_23_p14.webp" class="diagram-img" loading="lazy" alt="Esquema cátedra A_23" decoding="async" />
                     <div class="diagram-hint">🔍 Clic para ampliar esquema de cátedra en alta definición</div>
                   </div>
                 </div>
@@ -2363,8 +2409,8 @@
                 <div class="ans-header-tag">Respuesta y Criterio de Cátedra:</div>
                 <div class="diagrams-group">
 
-                  <div class="diagram-container" onclick="openLightbox('./img/cdg_teoria/A_24.png', 'A_24 — Desde el punto de vista contable Diferencias entre...')">
-                    <img src="./img/cdg_teoria/A_24.png" class="diagram-img" loading="lazy" alt="Esquema cátedra A_24" />
+                  <div class="diagram-container" onclick="openLightbox('./img/cdg_teoria/A_24.webp', 'A_24 — Desde el punto de vista contable Diferencias entre...')">
+                    <img src="./img/cdg_teoria/A_24.webp" class="diagram-img" loading="lazy" alt="Esquema cátedra A_24" decoding="async" />
                     <div class="diagram-hint">🔍 Clic para ampliar esquema de cátedra en alta definición</div>
                   </div>
                 </div>
@@ -2586,8 +2632,8 @@
                 <div class="ans-header-tag">Respuesta y Criterio de Cátedra:</div>
                 <div class="diagrams-group">
 
-                  <div class="diagram-container" onclick="openLightbox('./img/cdg_teoria/A_28.png', 'A_28 — En una empresa industrial, en el cuadro de resulta...')">
-                    <img src="./img/cdg_teoria/A_28.png" class="diagram-img" loading="lazy" alt="Esquema cátedra A_28" />
+                  <div class="diagram-container" onclick="openLightbox('./img/cdg_teoria/A_28.webp', 'A_28 — En una empresa industrial, en el cuadro de resulta...')">
+                    <img src="./img/cdg_teoria/A_28.webp" class="diagram-img" loading="lazy" alt="Esquema cátedra A_28" decoding="async" />
                     <div class="diagram-hint">🔍 Clic para ampliar esquema de cátedra en alta definición</div>
                   </div>
                 </div>
@@ -2637,8 +2683,8 @@
                 <div class="ans-header-tag">Respuesta y Criterio de Cátedra:</div>
                 <div class="diagrams-group">
 
-                  <div class="diagram-container" onclick="openLightbox('./img/cdg_teoria/A_29.png', 'A_29 — Describa brevemente las diferencias entre sociedad...')">
-                    <img src="./img/cdg_teoria/A_29.png" class="diagram-img" loading="lazy" alt="Esquema cátedra A_29" />
+                  <div class="diagram-container" onclick="openLightbox('./img/cdg_teoria/A_29.webp', 'A_29 — Describa brevemente las diferencias entre sociedad...')">
+                    <img src="./img/cdg_teoria/A_29.webp" class="diagram-img" loading="lazy" alt="Esquema cátedra A_29" decoding="async" />
                     <div class="diagram-hint">🔍 Clic para ampliar esquema de cátedra en alta definición</div>
                   </div>
                 </div>
@@ -2734,8 +2780,8 @@
                 <div class="ans-header-tag">Respuesta y Criterio de Cátedra:</div>
                 <div class="diagrams-group">
 
-                  <div class="diagram-container" onclick="openLightbox('./img/cdg_teoria/B_01.png', 'B_01 — Explicar brevemente la técnica de ANALISIS VERTICA...')">
-                    <img src="./img/cdg_teoria/B_01.png" class="diagram-img" loading="lazy" alt="Esquema cátedra B_01" />
+                  <div class="diagram-container" onclick="openLightbox('./img/cdg_teoria/B_01.webp', 'B_01 — Explicar brevemente la técnica de ANALISIS VERTICA...')">
+                    <img src="./img/cdg_teoria/B_01.webp" class="diagram-img" loading="lazy" alt="Esquema cátedra B_01" decoding="async" />
                     <div class="diagram-hint">🔍 Clic para ampliar esquema de cátedra en alta definición</div>
                   </div>
                 </div>
@@ -2775,8 +2821,8 @@
                 <div class="ans-header-tag">Respuesta y Criterio de Cátedra:</div>
                 <div class="diagrams-group">
 
-                  <div class="diagram-container" onclick="openLightbox('./img/cdg_teoria/B_02.png', 'B_02 — ¿Qué es el Análisis Horizontal?. ¿Es un análisis d...')">
-                    <img src="./img/cdg_teoria/B_02.png" class="diagram-img" loading="lazy" alt="Esquema cátedra B_02" />
+                  <div class="diagram-container" onclick="openLightbox('./img/cdg_teoria/B_02.webp', 'B_02 — ¿Qué es el Análisis Horizontal?. ¿Es un análisis d...')">
+                    <img src="./img/cdg_teoria/B_02.webp" class="diagram-img" loading="lazy" alt="Esquema cátedra B_02" decoding="async" />
                     <div class="diagram-hint">🔍 Clic para ampliar esquema de cátedra en alta definición</div>
                   </div>
                 </div>
@@ -2897,8 +2943,8 @@
                 <div class="ans-header-tag">Respuesta y Criterio de Cátedra:</div>
                 <div class="diagrams-group">
 
-                  <div class="diagram-container" onclick="openLightbox('./img/cdg_teoria/B_05.png', 'B_05 — Cuando se realiza el Análisis de los EECC de vario...')">
-                    <img src="./img/cdg_teoria/B_05.png" class="diagram-img" loading="lazy" alt="Esquema cátedra B_05" />
+                  <div class="diagram-container" onclick="openLightbox('./img/cdg_teoria/B_05.webp', 'B_05 — Cuando se realiza el Análisis de los EECC de vario...')">
+                    <img src="./img/cdg_teoria/B_05.webp" class="diagram-img" loading="lazy" alt="Esquema cátedra B_05" decoding="async" />
                     <div class="diagram-hint">🔍 Clic para ampliar esquema de cátedra en alta definición</div>
                   </div>
                 </div>
@@ -2939,8 +2985,8 @@
                 <div class="ans-header-tag">Respuesta y Criterio de Cátedra:</div>
                 <div class="diagrams-group">
 
-                  <div class="diagram-container" onclick="openLightbox('./img/cdg_teoria/B_06_p18.png', 'B_06 — Cuando se realiza el Análisis de la Empresa, ¿De q...')">
-                    <img src="./img/cdg_teoria/B_06_p18.png" class="diagram-img" loading="lazy" alt="Esquema cátedra B_06" />
+                  <div class="diagram-container" onclick="openLightbox('./img/cdg_teoria/B_06_p18.webp', 'B_06 — Cuando se realiza el Análisis de la Empresa, ¿De q...')">
+                    <img src="./img/cdg_teoria/B_06_p18.webp" class="diagram-img" loading="lazy" alt="Esquema cátedra B_06" decoding="async" />
                     <div class="diagram-hint">🔍 Clic para ampliar esquema de cátedra en alta definición</div>
                   </div>
                 </div>
@@ -2981,8 +3027,8 @@
                 <div class="ans-header-tag">Respuesta y Criterio de Cátedra:</div>
                 <div class="diagrams-group">
 
-                  <div class="diagram-container" onclick="openLightbox('./img/cdg_teoria/B_07_p19.png', 'B_07 — ¿Qué aspectos permite evaluar el análisis de un Ba...')">
-                    <img src="./img/cdg_teoria/B_07_p19.png" class="diagram-img" loading="lazy" alt="Esquema cátedra B_07" />
+                  <div class="diagram-container" onclick="openLightbox('./img/cdg_teoria/B_07_p19.webp', 'B_07 — ¿Qué aspectos permite evaluar el análisis de un Ba...')">
+                    <img src="./img/cdg_teoria/B_07_p19.webp" class="diagram-img" loading="lazy" alt="Esquema cátedra B_07" decoding="async" />
                     <div class="diagram-hint">🔍 Clic para ampliar esquema de cátedra en alta definición</div>
                   </div>
                 </div>
@@ -3024,8 +3070,8 @@
                 <div class="ans-header-tag">Respuesta y Criterio de Cátedra:</div>
                 <div class="diagrams-group">
 
-                  <div class="diagram-container" onclick="openLightbox('./img/cdg_teoria/B_08.png', 'B_08 — Desarrolle brevemente y grafique  que sucede con e...')">
-                    <img src="./img/cdg_teoria/B_08.png" class="diagram-img" loading="lazy" alt="Esquema cátedra B_08" />
+                  <div class="diagram-container" onclick="openLightbox('./img/cdg_teoria/B_08.webp', 'B_08 — Desarrolle brevemente y grafique  que sucede con e...')">
+                    <img src="./img/cdg_teoria/B_08.webp" class="diagram-img" loading="lazy" alt="Esquema cátedra B_08" decoding="async" />
                     <div class="diagram-hint">🔍 Clic para ampliar esquema de cátedra en alta definición</div>
                   </div>
                 </div>
@@ -3071,8 +3117,8 @@
                 <div class="ans-header-tag">Respuesta y Criterio de Cátedra:</div>
                 <div class="diagrams-group">
 
-                  <div class="diagram-container" onclick="openLightbox('./img/cdg_teoria/B_09.png', 'B_09 — Describa y grafique las cinco masas patrimoniales ...')">
-                    <img src="./img/cdg_teoria/B_09.png" class="diagram-img" loading="lazy" alt="Esquema cátedra B_09" />
+                  <div class="diagram-container" onclick="openLightbox('./img/cdg_teoria/B_09.webp', 'B_09 — Describa y grafique las cinco masas patrimoniales ...')">
+                    <img src="./img/cdg_teoria/B_09.webp" class="diagram-img" loading="lazy" alt="Esquema cátedra B_09" decoding="async" />
                     <div class="diagram-hint">🔍 Clic para ampliar esquema de cátedra en alta definición</div>
                   </div>
                 </div>
@@ -3153,8 +3199,8 @@
                 <div class="ans-header-tag">Respuesta y Criterio de Cátedra:</div>
                 <div class="diagrams-group">
 
-                  <div class="diagram-container" onclick="openLightbox('./img/cdg_teoria/B_11.png', 'B_11 — ¿Cuáles son las decisiones que determinan la Varia...')">
-                    <img src="./img/cdg_teoria/B_11.png" class="diagram-img" loading="lazy" alt="Esquema cátedra B_11" />
+                  <div class="diagram-container" onclick="openLightbox('./img/cdg_teoria/B_11.webp', 'B_11 — ¿Cuáles son las decisiones que determinan la Varia...')">
+                    <img src="./img/cdg_teoria/B_11.webp" class="diagram-img" loading="lazy" alt="Esquema cátedra B_11" decoding="async" />
                     <div class="diagram-hint">🔍 Clic para ampliar esquema de cátedra en alta definición</div>
                   </div>
                 </div>
@@ -3237,8 +3283,8 @@
                 <div class="ans-header-tag">Respuesta y Criterio de Cátedra:</div>
                 <div class="diagrams-group">
 
-                  <div class="diagram-container" onclick="openLightbox('./img/cdg_teoria/B_13_p21.png', 'B_13 — Sea la empresa “el desequilibrado SRL”, con los si...')">
-                    <img src="./img/cdg_teoria/B_13_p21.png" class="diagram-img" loading="lazy" alt="Esquema cátedra B_13" />
+                  <div class="diagram-container" onclick="openLightbox('./img/cdg_teoria/B_13_p21.webp', 'B_13 — Sea la empresa “el desequilibrado SRL”, con los si...')">
+                    <img src="./img/cdg_teoria/B_13_p21.webp" class="diagram-img" loading="lazy" alt="Esquema cátedra B_13" decoding="async" />
                     <div class="diagram-hint">🔍 Clic para ampliar esquema de cátedra en alta definición</div>
                   </div>
                 </div>
@@ -3278,8 +3324,8 @@
                 <div class="ans-header-tag">Respuesta y Criterio de Cátedra:</div>
                 <div class="diagrams-group">
 
-                  <div class="diagram-container" onclick="openLightbox('./img/cdg_teoria/B_14_p22.png', 'B_14 — Análisis vertical. Horizontal. Homogéneo. Común si...')">
-                    <img src="./img/cdg_teoria/B_14_p22.png" class="diagram-img" loading="lazy" alt="Esquema cátedra B_14" />
+                  <div class="diagram-container" onclick="openLightbox('./img/cdg_teoria/B_14_p22.webp', 'B_14 — Análisis vertical. Horizontal. Homogéneo. Común si...')">
+                    <img src="./img/cdg_teoria/B_14_p22.webp" class="diagram-img" loading="lazy" alt="Esquema cátedra B_14" decoding="async" />
                     <div class="diagram-hint">🔍 Clic para ampliar esquema de cátedra en alta definición</div>
                   </div>
                 </div>
@@ -3301,7 +3347,7 @@
       </section>
     
       <!-- SECTION C -->
-      <section class="sec-group" id="sec-C" data-sec="C">
+      <section class="sec-group" id="sec-C" data-sec="C" data-lazy-sec="1" style="min-height:360px"><template class="lazy-sec-tpl">
         <div class="section-divider" style="--sec-color: #06b6d4;">
           <div class="section-title-wrap">
             <span class="section-code-pill" style="background: #06b6d4;">C</span>
@@ -4487,10 +4533,10 @@
           </article>
         
         </div>
-      </section>
+      </template></section>
     
       <!-- SECTION D -->
-      <section class="sec-group" id="sec-D" data-sec="D">
+      <section class="sec-group" id="sec-D" data-sec="D" data-lazy-sec="1" style="min-height:360px"><template class="lazy-sec-tpl">
         <div class="section-divider" style="--sec-color: #10b981;">
           <div class="section-title-wrap">
             <span class="section-code-pill" style="background: #10b981;">D</span>
@@ -4532,8 +4578,8 @@
                 <div class="ans-header-tag">Respuesta y Criterio de Cátedra:</div>
                 <div class="diagrams-group">
 
-                  <div class="diagram-container" onclick="openLightbox('./img/cdg_teoria/D_01.png', 'D_01 — Desarrolle un cuadro de resultados MARGINALISTA, ¿...')">
-                    <img src="./img/cdg_teoria/D_01.png" class="diagram-img" loading="lazy" alt="Esquema cátedra D_01" />
+                  <div class="diagram-container" onclick="openLightbox('./img/cdg_teoria/D_01.webp', 'D_01 — Desarrolle un cuadro de resultados MARGINALISTA, ¿...')">
+                    <img src="./img/cdg_teoria/D_01.webp" class="diagram-img" loading="lazy" alt="Esquema cátedra D_01" decoding="async" />
                     <div class="diagram-hint">🔍 Clic para ampliar esquema de cátedra en alta definición</div>
                   </div>
                 </div>
@@ -4588,13 +4634,13 @@
                 <div class="ans-header-tag">Respuesta y Criterio de Cátedra:</div>
                 <div class="diagrams-group">
 
-                  <div class="diagram-container" onclick="openLightbox('./img/cdg_teoria/D_02_p30.png', 'D_02 — Desarrolle y Compare un cuadro de resultados por a...')">
-                    <img src="./img/cdg_teoria/D_02_p30.png" class="diagram-img" loading="lazy" alt="Esquema cátedra D_02" />
+                  <div class="diagram-container" onclick="openLightbox('./img/cdg_teoria/D_02_p30.webp', 'D_02 — Desarrolle y Compare un cuadro de resultados por a...')">
+                    <img src="./img/cdg_teoria/D_02_p30.webp" class="diagram-img" loading="lazy" alt="Esquema cátedra D_02" decoding="async" />
                     <div class="diagram-hint">🔍 Clic para ampliar esquema de cátedra en alta definición</div>
                   </div>
                 
-                  <div class="diagram-container" onclick="openLightbox('./img/cdg_teoria/D_02_p31.png', 'D_02 — Desarrolle y Compare un cuadro de resultados por a...')">
-                    <img src="./img/cdg_teoria/D_02_p31.png" class="diagram-img" loading="lazy" alt="Esquema cátedra D_02" />
+                  <div class="diagram-container" onclick="openLightbox('./img/cdg_teoria/D_02_p31.webp', 'D_02 — Desarrolle y Compare un cuadro de resultados por a...')">
+                    <img src="./img/cdg_teoria/D_02_p31.webp" class="diagram-img" loading="lazy" alt="Esquema cátedra D_02" decoding="async" />
                     <div class="diagram-hint">🔍 Clic para ampliar esquema de cátedra en alta definición</div>
                   </div>
                 </div>
@@ -4634,8 +4680,8 @@
                 <div class="ans-header-tag">Respuesta y Criterio de Cátedra:</div>
                 <div class="diagrams-group">
 
-                  <div class="diagram-container" onclick="openLightbox('./img/cdg_teoria/D_03_p31.png', 'D_03 — Técnica  de DuPont. Exprese la fórmula y explique ...')">
-                    <img src="./img/cdg_teoria/D_03_p31.png" class="diagram-img" loading="lazy" alt="Esquema cátedra D_03" />
+                  <div class="diagram-container" onclick="openLightbox('./img/cdg_teoria/D_03_p31.webp', 'D_03 — Técnica  de DuPont. Exprese la fórmula y explique ...')">
+                    <img src="./img/cdg_teoria/D_03_p31.webp" class="diagram-img" loading="lazy" alt="Esquema cátedra D_03" decoding="async" />
                     <div class="diagram-hint">🔍 Clic para ampliar esquema de cátedra en alta definición</div>
                   </div>
                 </div>
@@ -4864,8 +4910,8 @@
                 <div class="ans-header-tag">Respuesta y Criterio de Cátedra:</div>
                 <div class="diagrams-group">
 
-                  <div class="diagram-container" onclick="openLightbox('./img/cdg_teoria/D_09_p33.png', 'D_09 — Indique las medidas que Ud. propondría para mejora...')">
-                    <img src="./img/cdg_teoria/D_09_p33.png" class="diagram-img" loading="lazy" alt="Esquema cátedra D_09" />
+                  <div class="diagram-container" onclick="openLightbox('./img/cdg_teoria/D_09_p33.webp', 'D_09 — Indique las medidas que Ud. propondría para mejora...')">
+                    <img src="./img/cdg_teoria/D_09_p33.webp" class="diagram-img" loading="lazy" alt="Esquema cátedra D_09" decoding="async" />
                     <div class="diagram-hint">🔍 Clic para ampliar esquema de cátedra en alta definición</div>
                   </div>
                 </div>
@@ -5014,8 +5060,8 @@
                 <div class="ans-header-tag">Respuesta y Criterio de Cátedra:</div>
                 <div class="diagrams-group">
 
-                  <div class="diagram-container" onclick="openLightbox('./img/cdg_teoria/D_12.png', 'D_12 — Concepto de Liquidez de un activo. ¿Cuándo se cons...')">
-                    <img src="./img/cdg_teoria/D_12.png" class="diagram-img" loading="lazy" alt="Esquema cátedra D_12" />
+                  <div class="diagram-container" onclick="openLightbox('./img/cdg_teoria/D_12.webp', 'D_12 — Concepto de Liquidez de un activo. ¿Cuándo se cons...')">
+                    <img src="./img/cdg_teoria/D_12.webp" class="diagram-img" loading="lazy" alt="Esquema cátedra D_12" decoding="async" />
                     <div class="diagram-hint">🔍 Clic para ampliar esquema de cátedra en alta definición</div>
                   </div>
                 </div>
@@ -5089,8 +5135,8 @@
                 <div class="ans-header-tag">Respuesta y Criterio de Cátedra:</div>
                 <div class="diagrams-group">
 
-                  <div class="diagram-container" onclick="openLightbox('./img/cdg_teoria/D_14_p35.png', 'D_14 — Activos Funcionales  y  activos extrafuncionales. ...')">
-                    <img src="./img/cdg_teoria/D_14_p35.png" class="diagram-img" loading="lazy" alt="Esquema cátedra D_14" />
+                  <div class="diagram-container" onclick="openLightbox('./img/cdg_teoria/D_14_p35.webp', 'D_14 — Activos Funcionales  y  activos extrafuncionales. ...')">
+                    <img src="./img/cdg_teoria/D_14_p35.webp" class="diagram-img" loading="lazy" alt="Esquema cátedra D_14" decoding="async" />
                     <div class="diagram-hint">🔍 Clic para ampliar esquema de cátedra en alta definición</div>
                   </div>
                 </div>
@@ -5130,8 +5176,8 @@
                 <div class="ans-header-tag">Respuesta y Criterio de Cátedra:</div>
                 <div class="diagrams-group">
 
-                  <div class="diagram-container" onclick="openLightbox('./img/cdg_teoria/D_15_p36.png', 'D_15 — En una compañía industrial grafique y describa bre...')">
-                    <img src="./img/cdg_teoria/D_15_p36.png" class="diagram-img" loading="lazy" alt="Esquema cátedra D_15" />
+                  <div class="diagram-container" onclick="openLightbox('./img/cdg_teoria/D_15_p36.webp', 'D_15 — En una compañía industrial grafique y describa bre...')">
+                    <img src="./img/cdg_teoria/D_15_p36.webp" class="diagram-img" loading="lazy" alt="Esquema cátedra D_15" decoding="async" />
                     <div class="diagram-hint">🔍 Clic para ampliar esquema de cátedra en alta definición</div>
                   </div>
                 </div>
@@ -5181,8 +5227,8 @@
                 <div class="ans-header-tag">Respuesta y Criterio de Cátedra:</div>
                 <div class="diagrams-group">
 
-                  <div class="diagram-container" onclick="openLightbox('./img/cdg_teoria/D_16.png', 'D_16 — Que es un balance esquemático. y breve descripción...')">
-                    <img src="./img/cdg_teoria/D_16.png" class="diagram-img" loading="lazy" alt="Esquema cátedra D_16" />
+                  <div class="diagram-container" onclick="openLightbox('./img/cdg_teoria/D_16.webp', 'D_16 — Que es un balance esquemático. y breve descripción...')">
+                    <img src="./img/cdg_teoria/D_16.webp" class="diagram-img" loading="lazy" alt="Esquema cátedra D_16" decoding="async" />
                     <div class="diagram-hint">🔍 Clic para ampliar esquema de cátedra en alta definición</div>
                   </div>
                 </div>
@@ -5229,8 +5275,8 @@
                 <div class="ans-header-tag">Respuesta y Criterio de Cátedra:</div>
                 <div class="diagrams-group">
 
-                  <div class="diagram-container" onclick="openLightbox('./img/cdg_teoria/D_17.png', 'D_17 — Defina Beneficio Neto, como se calcula y cuál es s...')">
-                    <img src="./img/cdg_teoria/D_17.png" class="diagram-img" loading="lazy" alt="Esquema cátedra D_17" />
+                  <div class="diagram-container" onclick="openLightbox('./img/cdg_teoria/D_17.webp', 'D_17 — Defina Beneficio Neto, como se calcula y cuál es s...')">
+                    <img src="./img/cdg_teoria/D_17.webp" class="diagram-img" loading="lazy" alt="Esquema cátedra D_17" decoding="async" />
                     <div class="diagram-hint">🔍 Clic para ampliar esquema de cátedra en alta definición</div>
                   </div>
                 </div>
@@ -5355,10 +5401,10 @@
           </article>
         
         </div>
-      </section>
+      </template></section>
     
       <!-- SECTION E -->
-      <section class="sec-group" id="sec-E" data-sec="E">
+      <section class="sec-group" id="sec-E" data-sec="E" data-lazy-sec="1" style="min-height:360px"><template class="lazy-sec-tpl">
         <div class="section-divider" style="--sec-color: #8b5cf6;">
           <div class="section-title-wrap">
             <span class="section-code-pill" style="background: #8b5cf6;">E</span>
@@ -6292,10 +6338,10 @@
           </article>
         
         </div>
-      </section>
+      </template></section>
     
       <!-- SECTION F -->
-      <section class="sec-group" id="sec-F" data-sec="F">
+      <section class="sec-group" id="sec-F" data-sec="F" data-lazy-sec="1" style="min-height:360px"><template class="lazy-sec-tpl">
         <div class="section-divider" style="--sec-color: #ec4899;">
           <div class="section-title-wrap">
             <span class="section-code-pill" style="background: #ec4899;">F</span>
@@ -6957,10 +7003,10 @@
           </article>
         
         </div>
-      </section>
+      </template></section>
     
       <!-- SECTION G -->
-      <section class="sec-group" id="sec-G" data-sec="G">
+      <section class="sec-group" id="sec-G" data-sec="G" data-lazy-sec="1" style="min-height:360px"><template class="lazy-sec-tpl">
         <div class="section-divider" style="--sec-color: #f59e0b;">
           <div class="section-title-wrap">
             <span class="section-code-pill" style="background: #f59e0b;">G</span>
@@ -7002,8 +7048,8 @@
                 <div class="ans-header-tag">Respuesta y Criterio de Cátedra:</div>
                 <div class="diagrams-group">
 
-                  <div class="diagram-container" onclick="openLightbox('./img/cdg_teoria/G_01.png', 'G_01 — Construya un diagrama en un eje del tiempo en el q...')">
-                    <img src="./img/cdg_teoria/G_01.png" class="diagram-img" loading="lazy" alt="Esquema cátedra G_01" />
+                  <div class="diagram-container" onclick="openLightbox('./img/cdg_teoria/G_01.webp', 'G_01 — Construya un diagrama en un eje del tiempo en el q...')">
+                    <img src="./img/cdg_teoria/G_01.webp" class="diagram-img" loading="lazy" alt="Esquema cátedra G_01" decoding="async" />
                     <div class="diagram-hint">🔍 Clic para ampliar esquema de cátedra en alta definición</div>
                   </div>
                 </div>
@@ -7043,8 +7089,8 @@
                 <div class="ans-header-tag">Respuesta y Criterio de Cátedra:</div>
                 <div class="diagrams-group">
 
-                  <div class="diagram-container" onclick="openLightbox('./img/cdg_teoria/G_02_p44.png', 'G_02 — Graficar tomando como eje horizontal el tiempo, lo...')">
-                    <img src="./img/cdg_teoria/G_02_p44.png" class="diagram-img" loading="lazy" alt="Esquema cátedra G_02" />
+                  <div class="diagram-container" onclick="openLightbox('./img/cdg_teoria/G_02_p44.webp', 'G_02 — Graficar tomando como eje horizontal el tiempo, lo...')">
+                    <img src="./img/cdg_teoria/G_02_p44.webp" class="diagram-img" loading="lazy" alt="Esquema cátedra G_02" decoding="async" />
                     <div class="diagram-hint">🔍 Clic para ampliar esquema de cátedra en alta definición</div>
                   </div>
                 </div>
@@ -7425,8 +7471,8 @@
                 <div class="ans-header-tag">Respuesta y Criterio de Cátedra:</div>
                 <div class="diagrams-group">
 
-                  <div class="diagram-container" onclick="openLightbox('./img/cdg_teoria/G_12_p46.png', 'G_12 — Grafique en una empresa del tipo  industrial como ...')">
-                    <img src="./img/cdg_teoria/G_12_p46.png" class="diagram-img" loading="lazy" alt="Esquema cátedra G_12" />
+                  <div class="diagram-container" onclick="openLightbox('./img/cdg_teoria/G_12_p46.webp', 'G_12 — Grafique en una empresa del tipo  industrial como ...')">
+                    <img src="./img/cdg_teoria/G_12_p46.webp" class="diagram-img" loading="lazy" alt="Esquema cátedra G_12" decoding="async" />
                     <div class="diagram-hint">🔍 Clic para ampliar esquema de cátedra en alta definición</div>
                   </div>
                 </div>
@@ -7439,10 +7485,10 @@
           </article>
         
         </div>
-      </section>
+      </template></section>
     
       <!-- SECTION H -->
-      <section class="sec-group" id="sec-H" data-sec="H">
+      <section class="sec-group" id="sec-H" data-sec="H" data-lazy-sec="1" style="min-height:360px"><template class="lazy-sec-tpl">
         <div class="section-divider" style="--sec-color: #ef4444;">
           <div class="section-title-wrap">
             <span class="section-code-pill" style="background: #ef4444;">H</span>
@@ -7484,8 +7530,8 @@
                 <div class="ans-header-tag">Respuesta y Criterio de Cátedra:</div>
                 <div class="diagrams-group">
 
-                  <div class="diagram-container" onclick="openLightbox('./img/cdg_teoria/H_01_p47.png', 'H_01 — Dentro del análisis y toma de  decisionesde l as F...')">
-                    <img src="./img/cdg_teoria/H_01_p47.png" class="diagram-img" loading="lazy" alt="Esquema cátedra H_01" />
+                  <div class="diagram-container" onclick="openLightbox('./img/cdg_teoria/H_01_p47.webp', 'H_01 — Dentro del análisis y toma de  decisionesde l as F...')">
+                    <img src="./img/cdg_teoria/H_01_p47.webp" class="diagram-img" loading="lazy" alt="Esquema cátedra H_01" decoding="async" />
                     <div class="diagram-hint">🔍 Clic para ampliar esquema de cátedra en alta definición</div>
                   </div>
                 </div>
@@ -7961,8 +8007,8 @@
                 <div class="ans-header-tag">Respuesta y Criterio de Cátedra:</div>
                 <div class="diagrams-group">
 
-                  <div class="diagram-container" onclick="openLightbox('./img/cdg_teoria/H_13.png', 'H_13 — Definir: Recursos Permanentes; Necesidades Cíclica...')">
-                    <img src="./img/cdg_teoria/H_13.png" class="diagram-img" loading="lazy" alt="Esquema cátedra H_13" />
+                  <div class="diagram-container" onclick="openLightbox('./img/cdg_teoria/H_13.webp', 'H_13 — Definir: Recursos Permanentes; Necesidades Cíclica...')">
+                    <img src="./img/cdg_teoria/H_13.webp" class="diagram-img" loading="lazy" alt="Esquema cátedra H_13" decoding="async" />
                     <div class="diagram-hint">🔍 Clic para ampliar esquema de cátedra en alta definición</div>
                   </div>
                 </div>
@@ -8064,8 +8110,8 @@
                 <div class="ans-header-tag">Respuesta y Criterio de Cátedra:</div>
                 <div class="diagrams-group">
 
-                  <div class="diagram-container" onclick="openLightbox('./img/cdg_teoria/H_15_p51.png', 'H_15 — ¿Qué son las Necesidades Operativas de Fondos (NOF...')">
-                    <img src="./img/cdg_teoria/H_15_p51.png" class="diagram-img" loading="lazy" alt="Esquema cátedra H_15" />
+                  <div class="diagram-container" onclick="openLightbox('./img/cdg_teoria/H_15_p51.webp', 'H_15 — ¿Qué son las Necesidades Operativas de Fondos (NOF...')">
+                    <img src="./img/cdg_teoria/H_15_p51.webp" class="diagram-img" loading="lazy" alt="Esquema cátedra H_15" decoding="async" />
                     <div class="diagram-hint">🔍 Clic para ampliar esquema de cátedra en alta definición</div>
                   </div>
                 </div>
@@ -8108,8 +8154,8 @@
                 <div class="ans-header-tag">Respuesta y Criterio de Cátedra:</div>
                 <div class="diagrams-group">
 
-                  <div class="diagram-container" onclick="openLightbox('./img/cdg_teoria/H_16.png', 'H_16 — ¿Cuáles son los factores que determinan el nivel d...')">
-                    <img src="./img/cdg_teoria/H_16.png" class="diagram-img" loading="lazy" alt="Esquema cátedra H_16" />
+                  <div class="diagram-container" onclick="openLightbox('./img/cdg_teoria/H_16.webp', 'H_16 — ¿Cuáles son los factores que determinan el nivel d...')">
+                    <img src="./img/cdg_teoria/H_16.webp" class="diagram-img" loading="lazy" alt="Esquema cátedra H_16" decoding="async" />
                     <div class="diagram-hint">🔍 Clic para ampliar esquema de cátedra en alta definición</div>
                   </div>
                 </div>
@@ -8202,8 +8248,8 @@
                 <div class="ans-header-tag">Respuesta y Criterio de Cátedra:</div>
                 <div class="diagrams-group">
 
-                  <div class="diagram-container" onclick="openLightbox('./img/cdg_teoria/H_18_p53.png', 'H_18 — ¿Cuáles son los Activos Circulantes temporales o e...')">
-                    <img src="./img/cdg_teoria/H_18_p53.png" class="diagram-img" loading="lazy" alt="Esquema cátedra H_18" />
+                  <div class="diagram-container" onclick="openLightbox('./img/cdg_teoria/H_18_p53.webp', 'H_18 — ¿Cuáles son los Activos Circulantes temporales o e...')">
+                    <img src="./img/cdg_teoria/H_18_p53.webp" class="diagram-img" loading="lazy" alt="Esquema cátedra H_18" decoding="async" />
                     <div class="diagram-hint">🔍 Clic para ampliar esquema de cátedra en alta definición</div>
                   </div>
                 </div>
@@ -8637,8 +8683,8 @@
                 <div class="ans-header-tag">Respuesta y Criterio de Cátedra:</div>
                 <div class="diagrams-group">
 
-                  <div class="diagram-container" onclick="openLightbox('./img/cdg_teoria/H_29_p55.png', 'H_29 — ¿Relación entre el fondo de maniobra y las necesid...')">
-                    <img src="./img/cdg_teoria/H_29_p55.png" class="diagram-img" loading="lazy" alt="Esquema cátedra H_29" />
+                  <div class="diagram-container" onclick="openLightbox('./img/cdg_teoria/H_29_p55.webp', 'H_29 — ¿Relación entre el fondo de maniobra y las necesid...')">
+                    <img src="./img/cdg_teoria/H_29_p55.webp" class="diagram-img" loading="lazy" alt="Esquema cátedra H_29" decoding="async" />
                     <div class="diagram-hint">🔍 Clic para ampliar esquema de cátedra en alta definición</div>
                   </div>
                 </div>
@@ -8686,8 +8732,8 @@
                 <div class="ans-header-tag">Respuesta y Criterio de Cátedra:</div>
                 <div class="diagrams-group">
 
-                  <div class="diagram-container" onclick="openLightbox('./img/cdg_teoria/H_30_p56.png', 'H_30 — Defina  activo  circulante  operativo.  Pasivo  Ci...')">
-                    <img src="./img/cdg_teoria/H_30_p56.png" class="diagram-img" loading="lazy" alt="Esquema cátedra H_30" />
+                  <div class="diagram-container" onclick="openLightbox('./img/cdg_teoria/H_30_p56.webp', 'H_30 — Defina  activo  circulante  operativo.  Pasivo  Ci...')">
+                    <img src="./img/cdg_teoria/H_30_p56.webp" class="diagram-img" loading="lazy" alt="Esquema cátedra H_30" decoding="async" />
                     <div class="diagram-hint">🔍 Clic para ampliar esquema de cátedra en alta definición</div>
                   </div>
                 </div>
@@ -8700,10 +8746,10 @@
           </article>
         
         </div>
-      </section>
+      </template></section>
     
       <!-- SECTION I -->
-      <section class="sec-group" id="sec-I" data-sec="I">
+      <section class="sec-group" id="sec-I" data-sec="I" data-lazy-sec="1" style="min-height:360px"><template class="lazy-sec-tpl">
         <div class="section-divider" style="--sec-color: #14b8a6;">
           <div class="section-title-wrap">
             <span class="section-code-pill" style="background: #14b8a6;">I</span>
@@ -8745,8 +8791,8 @@
                 <div class="ans-header-tag">Respuesta y Criterio de Cátedra:</div>
                 <div class="diagrams-group">
 
-                  <div class="diagram-container" onclick="openLightbox('./img/cdg_teoria/I_01.png', 'I_01 — Describir en palabras y en fórmulas la condición q...')">
-                    <img src="./img/cdg_teoria/I_01.png" class="diagram-img" loading="lazy" alt="Esquema cátedra I_01" />
+                  <div class="diagram-container" onclick="openLightbox('./img/cdg_teoria/I_01.webp', 'I_01 — Describir en palabras y en fórmulas la condición q...')">
+                    <img src="./img/cdg_teoria/I_01.webp" class="diagram-img" loading="lazy" alt="Esquema cátedra I_01" decoding="async" />
                     <div class="diagram-hint">🔍 Clic para ampliar esquema de cátedra en alta definición</div>
                   </div>
                 </div>
@@ -8855,8 +8901,8 @@
                 <div class="ans-header-tag">Respuesta y Criterio de Cátedra:</div>
                 <div class="diagrams-group">
 
-                  <div class="diagram-container" onclick="openLightbox('./img/cdg_teoria/I_04_p57.png', 'I_04 — Dibuje las masas patrimoniales de un balance tradi...')">
-                    <img src="./img/cdg_teoria/I_04_p57.png" class="diagram-img" loading="lazy" alt="Esquema cátedra I_04" />
+                  <div class="diagram-container" onclick="openLightbox('./img/cdg_teoria/I_04_p57.webp', 'I_04 — Dibuje las masas patrimoniales de un balance tradi...')">
+                    <img src="./img/cdg_teoria/I_04_p57.webp" class="diagram-img" loading="lazy" alt="Esquema cátedra I_04" decoding="async" />
                     <div class="diagram-hint">🔍 Clic para ampliar esquema de cátedra en alta definición</div>
                   </div>
                 </div>
@@ -8896,8 +8942,8 @@
                 <div class="ans-header-tag">Respuesta y Criterio de Cátedra:</div>
                 <div class="diagrams-group">
 
-                  <div class="diagram-container" onclick="openLightbox('./img/cdg_teoria/I_05.png', 'I_05 — _Enuncie por lo menos 5 (cinco) medidas destinadas...')">
-                    <img src="./img/cdg_teoria/I_05.png" class="diagram-img" loading="lazy" alt="Esquema cátedra I_05" />
+                  <div class="diagram-container" onclick="openLightbox('./img/cdg_teoria/I_05.webp', 'I_05 — _Enuncie por lo menos 5 (cinco) medidas destinadas...')">
+                    <img src="./img/cdg_teoria/I_05.webp" class="diagram-img" loading="lazy" alt="Esquema cátedra I_05" decoding="async" />
                     <div class="diagram-hint">🔍 Clic para ampliar esquema de cátedra en alta definición</div>
                   </div>
                 </div>
@@ -8954,8 +9000,8 @@
                 <div class="ans-header-tag">Respuesta y Criterio de Cátedra:</div>
                 <div class="diagrams-group">
 
-                  <div class="diagram-container" onclick="openLightbox('./img/cdg_teoria/I_06_p58.png', 'I_06 — Definir el EVA (Valor Económico Agregado)...')">
-                    <img src="./img/cdg_teoria/I_06_p58.png" class="diagram-img" loading="lazy" alt="Esquema cátedra I_06" />
+                  <div class="diagram-container" onclick="openLightbox('./img/cdg_teoria/I_06_p58.webp', 'I_06 — Definir el EVA (Valor Económico Agregado)...')">
+                    <img src="./img/cdg_teoria/I_06_p58.webp" class="diagram-img" loading="lazy" alt="Esquema cátedra I_06" decoding="async" />
                     <div class="diagram-hint">🔍 Clic para ampliar esquema de cátedra en alta definición</div>
                   </div>
                 </div>
@@ -8968,10 +9014,10 @@
           </article>
         
         </div>
-      </section>
+      </template></section>
     
       <!-- SECTION J -->
-      <section class="sec-group" id="sec-J" data-sec="J">
+      <section class="sec-group" id="sec-J" data-sec="J" data-lazy-sec="1" style="min-height:360px"><template class="lazy-sec-tpl">
         <div class="section-divider" style="--sec-color: #84cc16;">
           <div class="section-title-wrap">
             <span class="section-code-pill" style="background: #84cc16;">J</span>
@@ -9142,10 +9188,10 @@
           </article>
         
         </div>
-      </section>
+      </template></section>
     
       <!-- SECTION P -->
-      <section class="sec-group" id="sec-P" data-sec="P">
+      <section class="sec-group" id="sec-P" data-sec="P" data-lazy-sec="1" style="min-height:360px"><template class="lazy-sec-tpl">
         <div class="section-divider" style="--sec-color: #f97316;">
           <div class="section-title-wrap">
             <span class="section-code-pill" style="background: #f97316;">P</span>
@@ -9187,8 +9233,8 @@
                 <div class="ans-header-tag">Respuesta y Criterio de Cátedra:</div>
                 <div class="diagrams-group">
 
-                  <div class="diagram-container" onclick="openLightbox('./img/cdg_teoria/P_01.png', 'P_01 — _¿Cuál es la escala de producción relevante para u...')">
-                    <img src="./img/cdg_teoria/P_01.png" class="diagram-img" loading="lazy" alt="Esquema cátedra P_01" />
+                  <div class="diagram-container" onclick="openLightbox('./img/cdg_teoria/P_01.webp', 'P_01 — _¿Cuál es la escala de producción relevante para u...')">
+                    <img src="./img/cdg_teoria/P_01.webp" class="diagram-img" loading="lazy" alt="Esquema cátedra P_01" decoding="async" />
                     <div class="diagram-hint">🔍 Clic para ampliar esquema de cátedra en alta definición</div>
                   </div>
                 </div>
@@ -9691,8 +9737,8 @@
                 <div class="ans-header-tag">Respuesta y Criterio de Cátedra:</div>
                 <div class="diagrams-group">
 
-                  <div class="diagram-container" onclick="openLightbox('./img/cdg_teoria/P_15.png', 'P_15 — _Sea un Gráfico CUV para PEq. y Análisis Marginal....')">
-                    <img src="./img/cdg_teoria/P_15.png" class="diagram-img" loading="lazy" alt="Esquema cátedra P_15" />
+                  <div class="diagram-container" onclick="openLightbox('./img/cdg_teoria/P_15.webp', 'P_15 — _Sea un Gráfico CUV para PEq. y Análisis Marginal....')">
+                    <img src="./img/cdg_teoria/P_15.webp" class="diagram-img" loading="lazy" alt="Esquema cátedra P_15" decoding="async" />
                     <div class="diagram-hint">🔍 Clic para ampliar esquema de cátedra en alta definición</div>
                   </div>
                 </div>
@@ -9776,10 +9822,10 @@
           </article>
         
         </div>
-      </section>
+      </template></section>
     
       <!-- SECTION Q -->
-      <section class="sec-group" id="sec-Q" data-sec="Q">
+      <section class="sec-group" id="sec-Q" data-sec="Q" data-lazy-sec="1" style="min-height:360px"><template class="lazy-sec-tpl">
         <div class="section-divider" style="--sec-color: #0284c7;">
           <div class="section-title-wrap">
             <span class="section-code-pill" style="background: #0284c7;">Q</span>
@@ -9821,8 +9867,8 @@
                 <div class="ans-header-tag">Respuesta y Criterio de Cátedra:</div>
                 <div class="diagrams-group">
 
-                  <div class="diagram-container" onclick="openLightbox('./img/cdg_teoria/Q_01.png', 'Q_01 — _¿Qué condiciones se deben cumplir para que sea vá...')">
-                    <img src="./img/cdg_teoria/Q_01.png" class="diagram-img" loading="lazy" alt="Esquema cátedra Q_01" />
+                  <div class="diagram-container" onclick="openLightbox('./img/cdg_teoria/Q_01.webp', 'Q_01 — _¿Qué condiciones se deben cumplir para que sea vá...')">
+                    <img src="./img/cdg_teoria/Q_01.webp" class="diagram-img" loading="lazy" alt="Esquema cátedra Q_01" decoding="async" />
                     <div class="diagram-hint">🔍 Clic para ampliar esquema de cátedra en alta definición</div>
                   </div>
                 </div>
@@ -10006,8 +10052,8 @@
                 <div class="ans-header-tag">Respuesta y Criterio de Cátedra:</div>
                 <div class="diagrams-group">
 
-                  <div class="diagram-container" onclick="openLightbox('./img/cdg_teoria/Q_06_p64.png', 'Q_06 — _¿Qué es el componente TENDENCIA en una Serie de T...')">
-                    <img src="./img/cdg_teoria/Q_06_p64.png" class="diagram-img" loading="lazy" alt="Esquema cátedra Q_06" />
+                  <div class="diagram-container" onclick="openLightbox('./img/cdg_teoria/Q_06_p64.webp', 'Q_06 — _¿Qué es el componente TENDENCIA en una Serie de T...')">
+                    <img src="./img/cdg_teoria/Q_06_p64.webp" class="diagram-img" loading="lazy" alt="Esquema cátedra Q_06" decoding="async" />
                     <div class="diagram-hint">🔍 Clic para ampliar esquema de cátedra en alta definición</div>
                   </div>
                 </div>
@@ -10056,8 +10102,8 @@
                 <div class="ans-header-tag">Respuesta y Criterio de Cátedra:</div>
                 <div class="diagrams-group">
 
-                  <div class="diagram-container" onclick="openLightbox('./img/cdg_teoria/Q_07.png', 'Q_07 — _Precisión del pronóstico: Describa 2 Métodos para...')">
-                    <img src="./img/cdg_teoria/Q_07.png" class="diagram-img" loading="lazy" alt="Esquema cátedra Q_07" />
+                  <div class="diagram-container" onclick="openLightbox('./img/cdg_teoria/Q_07.webp', 'Q_07 — _Precisión del pronóstico: Describa 2 Métodos para...')">
+                    <img src="./img/cdg_teoria/Q_07.webp" class="diagram-img" loading="lazy" alt="Esquema cátedra Q_07" decoding="async" />
                     <div class="diagram-hint">🔍 Clic para ampliar esquema de cátedra en alta definición</div>
                   </div>
                 </div>
@@ -10144,10 +10190,10 @@
           </article>
         
         </div>
-      </section>
+      </template></section>
     
       <!-- SECTION R -->
-      <section class="sec-group" id="sec-R" data-sec="R">
+      <section class="sec-group" id="sec-R" data-sec="R" data-lazy-sec="1" style="min-height:360px"><template class="lazy-sec-tpl">
         <div class="section-divider" style="--sec-color: #7c3aed;">
           <div class="section-title-wrap">
             <span class="section-code-pill" style="background: #7c3aed;">R</span>
@@ -10685,10 +10731,10 @@
           </article>
         
         </div>
-      </section>
+      </template></section>
     
       <!-- SECTION S -->
-      <section class="sec-group" id="sec-S" data-sec="S">
+      <section class="sec-group" id="sec-S" data-sec="S" data-lazy-sec="1" style="min-height:360px"><template class="lazy-sec-tpl">
         <div class="section-divider" style="--sec-color: #d946ef;">
           <div class="section-title-wrap">
             <span class="section-code-pill" style="background: #d946ef;">S</span>
@@ -11273,10 +11319,10 @@
           </article>
         
         </div>
-      </section>
+      </template></section>
     
       <!-- SECTION T -->
-      <section class="sec-group" id="sec-T" data-sec="T">
+      <section class="sec-group" id="sec-T" data-sec="T" data-lazy-sec="1" style="min-height:360px"><template class="lazy-sec-tpl">
         <div class="section-divider" style="--sec-color: #e11d48;">
           <div class="section-title-wrap">
             <span class="section-code-pill" style="background: #e11d48;">T</span>
@@ -11318,8 +11364,8 @@
                 <div class="ans-header-tag">Respuesta y Criterio de Cátedra:</div>
                 <div class="diagrams-group">
 
-                  <div class="diagram-container" onclick="openLightbox('./img/cdg_teoria/T_01.png', 'T_01 — _Organizaciones Empresa Grande (Sociedad Anónima):...')">
-                    <img src="./img/cdg_teoria/T_01.png" class="diagram-img" loading="lazy" alt="Esquema cátedra T_01" />
+                  <div class="diagram-container" onclick="openLightbox('./img/cdg_teoria/T_01.webp', 'T_01 — _Organizaciones Empresa Grande (Sociedad Anónima):...')">
+                    <img src="./img/cdg_teoria/T_01.webp" class="diagram-img" loading="lazy" alt="Esquema cátedra T_01" decoding="async" />
                     <div class="diagram-hint">🔍 Clic para ampliar esquema de cátedra en alta definición</div>
                   </div>
                 </div>
@@ -11363,8 +11409,8 @@
                 <div class="ans-header-tag">Respuesta y Criterio de Cátedra:</div>
                 <div class="diagrams-group">
 
-                  <div class="diagram-container" onclick="openLightbox('./img/cdg_teoria/T_02_p71.png', 'T_02 — Empresa Grande (Sociedad Anónima): Describir el ro...')">
-                    <img src="./img/cdg_teoria/T_02_p71.png" class="diagram-img" loading="lazy" alt="Esquema cátedra T_02" />
+                  <div class="diagram-container" onclick="openLightbox('./img/cdg_teoria/T_02_p71.webp', 'T_02 — Empresa Grande (Sociedad Anónima): Describir el ro...')">
+                    <img src="./img/cdg_teoria/T_02_p71.webp" class="diagram-img" loading="lazy" alt="Esquema cátedra T_02" decoding="async" />
                     <div class="diagram-hint">🔍 Clic para ampliar esquema de cátedra en alta definición</div>
                   </div>
                 </div>
@@ -11410,8 +11456,8 @@
                 <div class="ans-header-tag">Respuesta y Criterio de Cátedra:</div>
                 <div class="diagrams-group">
 
-                  <div class="diagram-container" onclick="openLightbox('./img/cdg_teoria/T_03.png', 'T_03 — Grupo Empresarial o Holding: Explique brevemente l...')">
-                    <img src="./img/cdg_teoria/T_03.png" class="diagram-img" loading="lazy" alt="Esquema cátedra T_03" />
+                  <div class="diagram-container" onclick="openLightbox('./img/cdg_teoria/T_03.webp', 'T_03 — Grupo Empresarial o Holding: Explique brevemente l...')">
+                    <img src="./img/cdg_teoria/T_03.webp" class="diagram-img" loading="lazy" alt="Esquema cátedra T_03" decoding="async" />
                     <div class="diagram-hint">🔍 Clic para ampliar esquema de cátedra en alta definición</div>
                   </div>
                 </div>
@@ -11496,8 +11542,8 @@
                 <div class="ans-header-tag">Respuesta y Criterio de Cátedra:</div>
                 <div class="diagrams-group">
 
-                  <div class="diagram-container" onclick="openLightbox('./img/cdg_teoria/T_05_p73.png', 'T_05 — Grupo Empresarial o Holding: Explique brevemente l...')">
-                    <img src="./img/cdg_teoria/T_05_p73.png" class="diagram-img" loading="lazy" alt="Esquema cátedra T_05" />
+                  <div class="diagram-container" onclick="openLightbox('./img/cdg_teoria/T_05_p73.webp', 'T_05 — Grupo Empresarial o Holding: Explique brevemente l...')">
+                    <img src="./img/cdg_teoria/T_05_p73.webp" class="diagram-img" loading="lazy" alt="Esquema cátedra T_05" decoding="async" />
                     <div class="diagram-hint">🔍 Clic para ampliar esquema de cátedra en alta definición</div>
                   </div>
                 </div>
@@ -11537,8 +11583,8 @@
                 <div class="ans-header-tag">Respuesta y Criterio de Cátedra:</div>
                 <div class="diagrams-group">
 
-                  <div class="diagram-container" onclick="openLightbox('./img/cdg_teoria/T_06_p74.png', 'T_06 — Stakeholders:  ¿Cuáles son los objetivos, finalida...')">
-                    <img src="./img/cdg_teoria/T_06_p74.png" class="diagram-img" loading="lazy" alt="Esquema cátedra T_06" />
+                  <div class="diagram-container" onclick="openLightbox('./img/cdg_teoria/T_06_p74.webp', 'T_06 — Stakeholders:  ¿Cuáles son los objetivos, finalida...')">
+                    <img src="./img/cdg_teoria/T_06_p74.webp" class="diagram-img" loading="lazy" alt="Esquema cátedra T_06" decoding="async" />
                     <div class="diagram-hint">🔍 Clic para ampliar esquema de cátedra en alta definición</div>
                   </div>
                 </div>
@@ -11662,8 +11708,8 @@
                 <div class="ans-header-tag">Respuesta y Criterio de Cátedra:</div>
                 <div class="diagrams-group">
 
-                  <div class="diagram-container" onclick="openLightbox('./img/cdg_teoria/T_08.png', 'T_08 — Grupos de Interés o de presión de una Organización...')">
-                    <img src="./img/cdg_teoria/T_08.png" class="diagram-img" loading="lazy" alt="Esquema cátedra T_08" />
+                  <div class="diagram-container" onclick="openLightbox('./img/cdg_teoria/T_08.webp', 'T_08 — Grupos de Interés o de presión de una Organización...')">
+                    <img src="./img/cdg_teoria/T_08.webp" class="diagram-img" loading="lazy" alt="Esquema cátedra T_08" decoding="async" />
                     <div class="diagram-hint">🔍 Clic para ampliar esquema de cátedra en alta definición</div>
                   </div>
                 </div>
@@ -11710,8 +11756,8 @@
                 <div class="ans-header-tag">Respuesta y Criterio de Cátedra:</div>
                 <div class="diagrams-group">
 
-                  <div class="diagram-container" onclick="openLightbox('./img/cdg_teoria/T_09_p76.png', 'T_09 — ¿Cuáles son los factores que definen el funcionami...')">
-                    <img src="./img/cdg_teoria/T_09_p76.png" class="diagram-img" loading="lazy" alt="Esquema cátedra T_09" />
+                  <div class="diagram-container" onclick="openLightbox('./img/cdg_teoria/T_09_p76.webp', 'T_09 — ¿Cuáles son los factores que definen el funcionami...')">
+                    <img src="./img/cdg_teoria/T_09_p76.webp" class="diagram-img" loading="lazy" alt="Esquema cátedra T_09" decoding="async" />
                     <div class="diagram-hint">🔍 Clic para ampliar esquema de cátedra en alta definición</div>
                   </div>
                 </div>
@@ -12188,8 +12234,8 @@
                 <div class="ans-header-tag">Respuesta y Criterio de Cátedra:</div>
                 <div class="diagrams-group">
 
-                  <div class="diagram-container" onclick="openLightbox('./img/cdg_teoria/T_20.png', 'T_20 — _Matriz BCG: ¿Qué se representa en los ejes de la ...')">
-                    <img src="./img/cdg_teoria/T_20.png" class="diagram-img" loading="lazy" alt="Esquema cátedra T_20" />
+                  <div class="diagram-container" onclick="openLightbox('./img/cdg_teoria/T_20.webp', 'T_20 — _Matriz BCG: ¿Qué se representa en los ejes de la ...')">
+                    <img src="./img/cdg_teoria/T_20.webp" class="diagram-img" loading="lazy" alt="Esquema cátedra T_20" decoding="async" />
                     <div class="diagram-hint">🔍 Clic para ampliar esquema de cátedra en alta definición</div>
                   </div>
                 </div>
@@ -12263,8 +12309,8 @@
                 <div class="ans-header-tag">Respuesta y Criterio de Cátedra:</div>
                 <div class="diagrams-group">
 
-                  <div class="diagram-container" onclick="openLightbox('./img/cdg_teoria/T_22.png', 'T_22 — _¿Qué es el Ciclo del Éxito para un negocio?. ¿Qué...')">
-                    <img src="./img/cdg_teoria/T_22.png" class="diagram-img" loading="lazy" alt="Esquema cátedra T_22" />
+                  <div class="diagram-container" onclick="openLightbox('./img/cdg_teoria/T_22.webp', 'T_22 — _¿Qué es el Ciclo del Éxito para un negocio?. ¿Qué...')">
+                    <img src="./img/cdg_teoria/T_22.webp" class="diagram-img" loading="lazy" alt="Esquema cátedra T_22" decoding="async" />
                     <div class="diagram-hint">🔍 Clic para ampliar esquema de cátedra en alta definición</div>
                   </div>
                 </div>
@@ -12306,8 +12352,8 @@
                 <div class="ans-header-tag">Respuesta y Criterio de Cátedra:</div>
                 <div class="diagrams-group">
 
-                  <div class="diagram-container" onclick="openLightbox('./img/cdg_teoria/T_23_p80.png', 'T_23 — _Matriz BCG. ¿Qué es un portfolio equilibrado?. ¿P...')">
-                    <img src="./img/cdg_teoria/T_23_p80.png" class="diagram-img" loading="lazy" alt="Esquema cátedra T_23" />
+                  <div class="diagram-container" onclick="openLightbox('./img/cdg_teoria/T_23_p80.webp', 'T_23 — _Matriz BCG. ¿Qué es un portfolio equilibrado?. ¿P...')">
+                    <img src="./img/cdg_teoria/T_23_p80.webp" class="diagram-img" loading="lazy" alt="Esquema cátedra T_23" decoding="async" />
                     <div class="diagram-hint">🔍 Clic para ampliar esquema de cátedra en alta definición</div>
                   </div>
                 </div>
@@ -12357,8 +12403,8 @@
                 <div class="ans-header-tag">Respuesta y Criterio de Cátedra:</div>
                 <div class="diagrams-group">
 
-                  <div class="diagram-container" onclick="openLightbox('./img/cdg_teoria/T_24.png', 'T_24 — _Matriz BCG. ¿Qué es un portfolio ANEMICO?. ¿Por q...')">
-                    <img src="./img/cdg_teoria/T_24.png" class="diagram-img" loading="lazy" alt="Esquema cátedra T_24" />
+                  <div class="diagram-container" onclick="openLightbox('./img/cdg_teoria/T_24.webp', 'T_24 — _Matriz BCG. ¿Qué es un portfolio ANEMICO?. ¿Por q...')">
+                    <img src="./img/cdg_teoria/T_24.webp" class="diagram-img" loading="lazy" alt="Esquema cátedra T_24" decoding="async" />
                     <div class="diagram-hint">🔍 Clic para ampliar esquema de cátedra en alta definición</div>
                   </div>
                 </div>
@@ -12415,10 +12461,10 @@
           </article>
         
         </div>
-      </section>
+      </template></section>
     
       <!-- SECTION U -->
-      <section class="sec-group" id="sec-U" data-sec="U">
+      <section class="sec-group" id="sec-U" data-sec="U" data-lazy-sec="1" style="min-height:360px"><template class="lazy-sec-tpl">
         <div class="section-divider" style="--sec-color: #475569;">
           <div class="section-title-wrap">
             <span class="section-code-pill" style="background: #475569;">U</span>
@@ -12800,10 +12846,10 @@
           </article>
         
         </div>
-      </section>
+      </template></section>
     
       <!-- SECTION V -->
-      <section class="sec-group" id="sec-V" data-sec="V">
+      <section class="sec-group" id="sec-V" data-sec="V" data-lazy-sec="1" style="min-height:360px"><template class="lazy-sec-tpl">
         <div class="section-divider" style="--sec-color: #ea580c;">
           <div class="section-title-wrap">
             <span class="section-code-pill" style="background: #ea580c;">V</span>
@@ -12972,10 +13018,10 @@
           </article>
         
         </div>
-      </section>
+      </template></section>
     
       <!-- SECTION X -->
-      <section class="sec-group" id="sec-X" data-sec="X">
+      <section class="sec-group" id="sec-X" data-sec="X" data-lazy-sec="1" style="min-height:360px"><template class="lazy-sec-tpl">
         <div class="section-divider" style="--sec-color: #2563eb;">
           <div class="section-title-wrap">
             <span class="section-code-pill" style="background: #2563eb;">X</span>
@@ -13261,7 +13307,7 @@
           </article>
         
         </div>
-      </section>
+      </template></section>
     
     </main>
 
@@ -13420,12 +13466,65 @@
       }
     });
 
+    // Lazy Section Mounting
+    function mountSection(sec) {
+      if (!sec) return;
+      const tpl = sec.querySelector(':scope > template.lazy-sec-tpl');
+      if (!tpl) return;
+      sec.appendChild(tpl.content.cloneNode(true));
+      tpl.remove();
+      sec.removeAttribute('data-lazy-sec');
+      sec.style.minHeight = '';
+      sec.querySelectorAll('.q-card').forEach(card => {
+        const qid = card.dataset.qid;
+        const isM = masteredSet.has(qid);
+        const chk = card.querySelector('.q-mastery-chk');
+        if (chk) chk.checked = isM;
+        card.classList.toggle('mastered', isM);
+        if (isExamMode || isAllCollapsed) card.classList.add('collapsed');
+      });
+      if (window.__mjObserve) window.__mjObserve(sec);
+    }
+
+    function ensureAllMounted() {
+      document.querySelectorAll('section.sec-group[data-lazy-sec]').forEach(mountSection);
+    }
+
+    if ('IntersectionObserver' in window) {
+      const secIO = new IntersectionObserver((entries) => {
+        entries.forEach(e => {
+          if (e.isIntersecting) {
+            secIO.unobserve(e.target);
+            mountSection(e.target);
+          }
+        });
+      }, { rootMargin: '800px 0px' });
+      document.querySelectorAll('section.sec-group[data-lazy-sec]').forEach(s => secIO.observe(s));
+    } else {
+      ensureAllMounted();
+    }
+
+    document.addEventListener('click', (e) => {
+      const link = e.target.closest('a[href^="#sec-"]');
+      if (link) {
+        const target = document.querySelector(link.getAttribute('href'));
+        if (target) mountSection(target);
+      }
+    });
+
+    window.addEventListener('beforeprint', () => { ensureAllMounted(); if (window.MathJax && MathJax.typesetPromise) MathJax.typesetPromise().catch(() => {}); });
+
     // Search & Filter
     function applyFilters() {
+      const q = searchQuery.toLowerCase().trim();
+      if (q || activeFilter === 'has-img' || activeFilter === 'pending' || activeFilter === 'mastered') {
+        ensureAllMounted();
+      } else if (activeFilter.startsWith('sec-')) {
+        mountSection(document.getElementById(activeFilter));
+      }
       const cards = document.querySelectorAll('.q-card');
       const secGroups = document.querySelectorAll('.sec-group');
       let visibleCount = 0;
-      const q = searchQuery.toLowerCase().trim();
 
       cards.forEach(card => {
         const qid = card.dataset.qid.toLowerCase();
@@ -13468,6 +13567,7 @@
         group.style.display = anyVisible ? '' : 'none';
       });
 
+      if (activeFilter === 'all' && !q) visibleCount = totalQuestionsCount;
       searchCount.textContent = `Mostrando ${visibleCount} de ${totalQuestionsCount} preguntas`;
     }
 
@@ -13500,6 +13600,14 @@
     });
 
     // Initial setup
+    if (location.hash) {
+      const h = location.hash.slice(1);
+      if (h.startsWith('sec-')) mountSection(document.getElementById(h));
+      else if (h.startsWith('card-')) {
+        const secChar = h.slice(5, 6);
+        mountSection(document.getElementById('sec-' + secChar));
+      }
+    }
     updateMasteryUI();
   </script>
 </body>

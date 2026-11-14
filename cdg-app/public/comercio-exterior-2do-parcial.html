@@ -693,6 +693,9 @@
       .hero h1 { font-size: 1.85rem; }
       .grid-2, .grid-3 { grid-template-columns: 1fr; }
     }
+  
+    .card, .qa-card { content-visibility: auto; contain-intrinsic-size: auto 280px; }
+    @media print { .card, .qa-card { content-visibility: visible !important; } }
   </style>
 </head>
 <body>

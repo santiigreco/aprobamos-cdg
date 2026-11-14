@@ -28,7 +28,8 @@ const AUTHOR_PRESETS = {
     bg: 'rgba(192, 132, 252, 0.16)',
     border: 'rgba(192, 132, 252, 0.5)',
     glow: '0 0 12px rgba(192, 132, 252, 0.25)',
-    starColor: '#fbbf24',
+    starColor: '#f472b6',
+    starGlow: 'rgba(244, 114, 182, 0.75)',
   },
   DEFAULT: {
     color: '#fbbf24', // Radiant Amber Gold
@@ -73,7 +74,7 @@ export default function AuthorBadge({ author, style: customStyle = {} }) {
         fill={preset.starColor}
         color={preset.starColor}
         style={{
-          filter: 'drop-shadow(0 0 4px rgba(251, 191, 36, 0.75))',
+          filter: `drop-shadow(0 0 4px ${preset.starGlow || 'rgba(251, 191, 36, 0.75)'})`,
           flexShrink: 0,
         }}
       />

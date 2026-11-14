@@ -226,7 +226,10 @@ body.hideknown .card.known{display:none}
 .score{display:flex;align-items:center;gap:6px;font-weight:700;font-size:14px;color:var(--ok);cursor:pointer}
 .score input{width:17px;height:17px;accent-color:var(--ok)}
 @media (max-width:700px){.eh h2{font-size:22px}.xt{font-size:17px}.xq{padding:14px 14px 12px}}
-</style>
+
+    .card, .q-card, article { content-visibility: auto; contain-intrinsic-size: auto 260px; }
+    @media print { .card, .q-card, article { content-visibility: visible !important; } }
+  </style>
 </head>
 <body>
 <div class="wrap">

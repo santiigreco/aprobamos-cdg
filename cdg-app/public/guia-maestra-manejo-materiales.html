@@ -606,6 +606,9 @@
         filter: none !important;
       }
     }
+  
+    .question-card { content-visibility: auto; contain-intrinsic-size: auto 320px; }
+    @media print { .question-card { content-visibility: visible !important; } }
   </style>
 </head>
 <body>
@@ -1326,7 +1329,8 @@
 
 &lt;div class=&quot;formula-box&quot;&gt;
   &lt;span class=&quot;formula-label&quot;&gt;FUNCIÓN OBJETIVO FI:&lt;/span&gt;
-  &lt;code class=&quot;formula-code&quot;&gt;F_i = \prod_{i=1}^{n} \left( rac{S_{Ai}}{S_{Bi}} ight)^{P_i}&lt;/code&gt;
+  &lt;code class=&quot;formula-code&quot;&gt;F_i = \prod_{i=1}^{n} \left( rac{S_{Ai}}{S_{Bi}} 
+ight)^{P_i}&lt;/code&gt;
 &lt;/div&gt;
 
 &lt;h4 class=&quot;ans-sub&quot;&gt;Significado de los Parámetros:&lt;/h4&gt;
@@ -1378,7 +1382,8 @@
 
 <div class="formula-box">
   <span class="formula-label">FUNCIÓN OBJETIVO FI:</span>
-  <code class="formula-code">F_i = \prod_{i=1}^{n} \left( rac{S_{Ai}}{S_{Bi}} ight)^{P_i}</code>
+  <code class="formula-code">F_i = \prod_{i=1}^{n} \left( rac{S_{Ai}}{S_{Bi}} 
+ight)^{P_i}</code>
 </div>
 
 <h4 class="ans-sub">Significado de los Parámetros:</h4>
