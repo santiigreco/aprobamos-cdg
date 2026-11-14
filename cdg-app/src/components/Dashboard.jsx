@@ -52,29 +52,6 @@ export default function Dashboard({ subjects }) {
   return (
     <div className="animate-fade-in">
       <div className="text-center mb-4">
-        <div
-          style={{
-            display: 'inline-flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            background: 'rgba(248, 250, 252, 0.96)',
-            padding: '0.6rem 1.25rem',
-            borderRadius: '14px',
-            marginBottom: '1.25rem',
-            boxShadow: '0 8px 24px rgba(0, 0, 0, 0.25), 0 0 0 1px rgba(255, 255, 255, 0.14)',
-          }}
-        >
-          <img
-            src="./logo-utn-frba.png"
-            alt="UTN.BA — Universidad Tecnológica Nacional Facultad Regional Buenos Aires"
-            style={{
-              height: '52px',
-              width: 'auto',
-              display: 'block',
-              maxWidth: '100%',
-            }}
-          />
-        </div>
         <h1 className="title" style={{ fontSize: '2.5rem' }}>¿Qué hacemos hoy?</h1>
         <p className="subtitle">Elegí una materia para comenzar tu sesión de estudio.</p>
       </div>

@@ -106,6 +106,18 @@ function App() {
               )}
             </h2>
           </div>
+          {isDashboard && (
+            <img
+              src="./logo-utn-frba.png"
+              alt="UTN.BA — Universidad Tecnológica Nacional Facultad Regional Buenos Aires"
+              style={{
+                height: 'clamp(28px, 5vw, 42px)',
+                width: 'auto',
+                display: 'block',
+                opacity: 0.92,
+              }}
+            />
+          )}
         </nav>
       )}
 
