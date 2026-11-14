@@ -23,6 +23,13 @@ const AUTHOR_PRESETS = {
     glow: '0 0 12px rgba(14, 165, 233, 0.25)',
     starColor: '#fbbf24',
   },
+  BR: {
+    color: '#c084fc', // Radiant purple / violet
+    bg: 'rgba(192, 132, 252, 0.16)',
+    border: 'rgba(192, 132, 252, 0.5)',
+    glow: '0 0 12px rgba(192, 132, 252, 0.25)',
+    starColor: '#fbbf24',
+  },
   DEFAULT: {
     color: '#fbbf24', // Radiant Amber Gold
     bg: 'rgba(245, 158, 11, 0.16)',

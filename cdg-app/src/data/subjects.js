@@ -189,6 +189,31 @@ export const SUBJECTS = [
       }
     ]
   },
+
+  {
+    id: 'instalaciones-industriales',
+    name: 'Instalaciones Industriales',
+    shortName: 'II',
+    description: 'Guías de estudio interactivo.',
+    color: '#eab308',
+    accentColor: '#ca8a04',
+    icon: 'Zap',
+    guides: [
+      {
+        id: '1er-parcial',
+        title: '1er Parcial',
+        description: 'Próximamente se habilitará el contenido.',
+        htmlFile: null
+      },
+      {
+        id: '2do-parcial',
+        title: '2do Parcial',
+        author: 'B.R.',
+        description: 'Instalaciones eléctricas, Motores (U3), Luminotecnia (U2), Combustibles (U6) y Refrigeración (U8). 79 preguntas con teoría, gráficos, práctica y simulacros.',
+        htmlFile: './instalaciones-industriales-2do-parcial.html'
+      }
+    ]
+  },
 ];
 
 /**

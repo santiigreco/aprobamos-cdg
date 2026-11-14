@@ -1,0 +1,1603 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Estudio Instalaciones Industriales</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#fbf8ff; --card:#ffffff; --ink:#26213a; --muted:#6b6584; --line:#e7e2f3;
+  --elec:#2f6fed; --elec-bg:#eaf1ff;
+  --mot:#8b3fd9; --mot-bg:#f3eaff;
+  --lum:#e79b00; --lum-bg:#fff5dc;
+  --comb:#e2513a; --comb-bg:#ffece8;
+  --ref:#0aa2b8; --ref-bg:#e2f8fb;
+  --ok:#1f9d55; --warn:#d9480f; --warn-bg:#fff1e6;
+  --tip-bg:#eefbf3; --shadow:0 2px 10px rgba(60,40,120,.07);
+  --svg-ink:#26213a; --svg-soft:#cfc8e6;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#16131f; --card:#201c2c; --ink:#ece8f7; --muted:#a39dbb; --line:#342e45;
+    --elec:#6c9bff; --elec-bg:#1d2843; --mot:#b98bff; --mot-bg:#2a1f40;
+    --lum:#ffc247; --lum-bg:#3a2f14; --comb:#ff8a73; --comb-bg:#3d211c;
+    --ref:#3fd3e6; --ref-bg:#14343a; --ok:#4cd28a; --warn:#ff9a5c; --warn-bg:#3b2618;
+    --tip-bg:#183126; --shadow:0 2px 10px rgba(0,0,0,.3); --svg-ink:#ece8f7; --svg-soft:#4a4361;
+  }
+}
+:root[data-theme="dark"]{
+    --bg:#16131f; --card:#201c2c; --ink:#ece8f7; --muted:#a39dbb; --line:#342e45;
+    --elec:#6c9bff; --elec-bg:#1d2843; --mot:#b98bff; --mot-bg:#2a1f40;
+    --lum:#ffc247; --lum-bg:#3a2f14; --comb:#ff8a73; --comb-bg:#3d211c;
+    --ref:#3fd3e6; --ref-bg:#14343a; --ok:#4cd28a; --warn:#ff9a5c; --warn-bg:#3b2618;
+    --tip-bg:#183126; --shadow:0 2px 10px rgba(0,0,0,.3); --svg-ink:#ece8f7; --svg-soft:#4a4361;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Nunito,system-ui,sans-serif;line-height:1.55;font-size:16px}
+header.hero{background:linear-gradient(135deg,#1f2a3c 0%,#2c3a52 100%);color:#fff;padding:34px 16px 26px;border-bottom:3px solid #4a5d7a}
+.hero-in{max-width:1080px;margin:0 auto}
+.hero h1{margin:0;font-size:clamp(26px,5vw,40px);font-weight:800;letter-spacing:-.5px}
+.hero p{margin:6px 0 0;opacity:.75;font-weight:600}
+.toolbar{position:sticky;top:0;z-index:20;background:var(--card);border-bottom:1px solid var(--line);box-shadow:var(--shadow)}
+.toolbar-in{max-width:1080px;margin:0 auto;padding:8px 16px;display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.tab{border:0;border-radius:999px;padding:7px 14px;font:inherit;font-weight:800;font-size:14px;cursor:pointer;text-decoration:none;color:#fff;white-space:nowrap}
+.t-elec{background:var(--elec)}.t-mot{background:var(--mot)}.t-lum{background:var(--lum);color:#2b2100}.t-comb{background:var(--comb)}.t-ref{background:var(--ref)}
+.tools{margin-left:auto;display:flex;gap:6px;flex-wrap:wrap}
+.tools button,.tools input{font:inherit;font-size:14px;border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:10px;padding:6px 10px;cursor:pointer}
+.tools input{cursor:text;min-width:150px}
+main{max-width:1080px;margin:0 auto;padding:16px}
+section.unit{margin:26px 0 40px;scroll-margin-top:70px}
+.unit-head{border-radius:18px;padding:18px 18px 14px;margin-bottom:14px}
+.unit-head h2{margin:0;font-size:clamp(22px,4vw,30px);font-weight:800}
+.unit-head p{margin:4px 0 0;color:var(--muted);font-weight:600}
+.u-elec .unit-head{background:var(--elec-bg)}.u-elec .unit-head h2{color:var(--elec)}
+.u-mot .unit-head{background:var(--mot-bg)}.u-mot .unit-head h2{color:var(--mot)}
+.u-lum .unit-head{background:var(--lum-bg)}.u-lum .unit-head h2{color:var(--lum)}
+.u-comb .unit-head{background:var(--comb-bg)}.u-comb .unit-head h2{color:var(--comb)}
+.u-ref .unit-head{background:var(--ref-bg)}.u-ref .unit-head h2{color:var(--ref)}
+.progress{height:8px;background:var(--line);border-radius:9px;margin-top:10px;overflow:hidden}
+.progress>i{display:block;height:100%;width:0;border-radius:9px;transition:width .3s}
+.u-elec .progress>i{background:var(--elec)}.u-mot .progress>i{background:var(--mot)}.u-lum .progress>i{background:var(--lum)}.u-comb .progress>i{background:var(--comb)}.u-ref .progress>i{background:var(--ref)}
+h3.sub{margin:22px 0 10px;font-size:18px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.6px}
+details.q{background:var(--card);border:1px solid var(--line);border-radius:14px;margin:10px 0;box-shadow:var(--shadow);overflow:hidden}
+details.q>summary{list-style:none;cursor:pointer;padding:13px 14px 13px 14px;display:flex;gap:10px;align-items:flex-start;font-weight:700}
+details.q>summary::-webkit-details-marker{display:none}
+.num{flex:none;min-width:32px;height:32px;border-radius:10px;display:grid;place-items:center;color:#fff;font-weight:800;font-size:14px}
+.u-elec .num{background:var(--elec)}.u-mot .num{background:var(--mot)}.u-lum .num{background:var(--lum);color:#2b2100}.u-comb .num{background:var(--comb)}.u-ref .num{background:var(--ref)}
+.qt{flex:1}
+.chev{flex:none;transition:transform .2s;color:var(--muted);margin-top:4px}
+details[open] .chev{transform:rotate(90deg)}
+.know{flex:none;display:flex;align-items:center;gap:4px;font-size:12px;color:var(--muted);font-weight:700;margin-top:5px}
+.know input{width:18px;height:18px;accent-color:var(--ok)}
+details.q.done>summary .qt{color:var(--ok)}
+.ans{padding:2px 16px 16px 56px;border-top:1px dashed var(--line)}
+@media (max-width:640px){.ans{padding:2px 14px 14px 14px}}
+.ans p{margin:10px 0}
+.ans ul,.ans ol{margin:8px 0;padding-left:22px}
+.ans li{margin:3px 0}
+.k{font-weight:800}
+.u-elec .k{color:var(--elec)}.u-mot .k{color:var(--mot)}.u-lum .k{color:#b77600}.u-comb .k{color:var(--comb)}.u-ref .k{color:var(--ref)}
+:root[data-theme="dark"] .u-lum .k{color:var(--lum)}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .u-lum .k{color:var(--lum)}}
+.formula{font-family:"JetBrains Mono",monospace;background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:8px 12px;display:inline-block;margin:4px 0;font-size:14.5px;overflow-x:auto;max-width:100%}
+.box{border-radius:12px;padding:10px 14px;margin:12px 0;font-size:15px}
+.tip{background:var(--tip-bg);border-left:5px solid var(--ok)}
+.warn{background:var(--warn-bg);border-left:5px solid var(--warn)}
+.tip b:first-child,.warn b:first-child{display:block;margin-bottom:2px}
+table{border-collapse:collapse;width:100%;margin:10px 0;font-size:14.5px}
+.tw{overflow-x:auto}
+th,td{border:1px solid var(--line);padding:6px 9px;text-align:left;vertical-align:top}
+th{background:var(--bg)}
+figure{margin:12px 0;background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:10px;overflow:hidden}
+figure svg{overflow:hidden}
+figure svg{width:100%;height:auto;display:block}
+figcaption{font-size:13px;color:var(--muted);text-align:center;margin-top:4px;font-weight:600}
+.extra{background:var(--card);border:2px dashed var(--line);border-radius:16px;padding:6px 16px 12px;margin-top:18px}
+.extra>h3{margin:12px 0 4px}
+.extra h4{margin:16px 0 4px;font-size:16.5px}
+.u-elec .extra h4{color:var(--elec)}.u-mot .extra h4{color:var(--mot)}.u-lum .extra h4{color:#b77600}.u-comb .extra h4{color:var(--comb)}.u-ref .extra h4{color:var(--ref)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media (max-width:720px){.grid2{grid-template-columns:1fr}}
+.pill{display:inline-block;border-radius:999px;padding:1px 9px;font-size:12.5px;font-weight:800;background:var(--line);color:var(--ink);margin-right:4px}
+footer{max-width:1080px;margin:0 auto;padding:20px 16px 50px;color:var(--muted);font-size:14px}
+.hidden{display:none!important}
+:root{--acc:#2c3a52;--acc-bg:#e9edf3}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--acc:#9fb3d1;--acc-bg:#232a38}}
+:root[data-theme="dark"]{--acc:#9fb3d1;--acc-bg:#232a38}
+.t-acc{background:#2c3a52}
+.u-acc .unit-head{background:var(--acc-bg)}.u-acc .unit-head h2{color:var(--acc)}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0}
+.chip{display:flex;align-items:center;gap:6px;border:1px solid var(--line);background:var(--card);border-radius:999px;padding:6px 12px;font-weight:700;font-size:14px;cursor:pointer;user-select:none}
+.chip input{accent-color:var(--acc);width:16px;height:16px}
+.btn{font:inherit;font-weight:800;font-size:14px;border-radius:10px;padding:8px 14px;cursor:pointer;border:1px solid var(--line);background:var(--card);color:var(--ink)}
+.btn.pri{background:var(--acc);color:var(--card);border-color:var(--acc)}
+.btn.sel{outline:3px solid var(--acc);outline-offset:1px}
+.btn.good{border-color:var(--ok);color:var(--ok)}.btn.bad{border-color:var(--warn);color:var(--warn)}
+.btn.good.on{background:var(--ok);color:#fff}.btn.mid.on{background:var(--lum);color:#2b2100}.btn.bad.on{background:var(--warn);color:#fff}
+.qcard{background:var(--card);border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow);padding:16px;margin:12px 0}
+.qmeta{font-size:13px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.5px}
+.qtext{font-size:18px;font-weight:800;margin:6px 0 12px}
+.qans{border-top:1px dashed var(--line);margin-top:12px;padding-top:4px}
+.row{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.score{font-weight:800;color:var(--muted);margin-left:auto}
+.simitem{display:grid;grid-template-columns:auto 1fr;gap:10px}
+.simnum{width:32px;height:32px;border-radius:10px;display:grid;place-items:center;background:var(--acc);color:var(--card);font-weight:800}
+.nota{font-size:22px;font-weight:800;color:var(--acc)}
+svg text{fill:var(--svg-ink);font-family:Nunito,sans-serif}
+</style>
+</head>
+<body>
+<header class="hero"><div class="hero-in">
+  <h1>⚡ Instalaciones Industriales — 2° Parcial</h1>
+  <p>Preguntas con respuestas, gráficos y lo extra de las filminas · Instalaciones eléctricas · Motores · Luminotecnia · Combustibles · Refrigeración</p>
+</div></header>
+
+<nav class="toolbar"><div class="toolbar-in">
+  <a class="tab t-elec" href="#elec">⚡ Eléctricas</a>
+  <a class="tab t-mot" href="#mot">⚙️ Motores</a>
+  <a class="tab t-lum" href="#lum">💡 Luminotecnia</a>
+  <a class="tab t-comb" href="#comb">🔥 Combustibles</a>
+  <a class="tab t-ref" href="#ref">❄️ Refrigeración</a>
+  <a class="tab t-acc" href="#quiz">🎲 Práctica</a>
+  <a class="tab t-acc" href="#sim">📝 Simulacros</a>
+  <div class="tools">
+    <input id="search" type="search" placeholder="🔎 Buscar tema…">
+    <button id="openAll">Abrir todo</button>
+    <button id="closeAll">Modo examen</button>
+    <button id="theme">🌓</button>
+  </div>
+</div></nav>
+
+<main>
+
+<div class="box tip"><b>Cómo usar esta página</b>
+Cada pregunta está cerrada: leela, intentá responderla en voz alta o en un papel, y recién ahí abrila. Tildá <b>“la sé”</b> cuando la domines y mirá la barra de progreso de cada unidad. <b>Modo examen</b> cierra todo. Los recuadros naranjas <b>⚠️ Ojo</b> marcan errores comunes o correcciones a los resúmenes.</div>
+
+<!-- ============================================================ -->
+<section class="unit u-elec" id="elec">
+<div class="unit-head"><h2>⚡ Instalaciones eléctricas y generación</h2>
+<p>Centrales, tarifas, autoridades, líneas, conductores, protecciones, fusibles, disyuntores, IP/Ex</p>
+<div class="progress"><i></i></div></div>
+
+<h3 class="sub">Generación de energía eléctrica</h3>
+
+<details class="q"><summary><span class="num">1</span><span class="qt">Ciclo combinado: esquema, cuántos generadores tiene, cómo se conectan y cómo calcular el rendimiento.</span><span class="chev">▶</span></summary><div class="ans">
+<p>Central donde la energía del combustible se transforma en electricidad mediante <span class="k">dos ciclos termodinámicos</span>: una <b>turbina de gas (ciclo Brayton)</b> y una <b>turbina de vapor (ciclo Rankine)</b>.</p>
+<figure><svg viewBox="0 0 720 250" role="img" aria-label="Esquema de ciclo combinado">
+<defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0L10,5L0,10z" fill="currentColor"/></marker></defs>
+<g style="color:var(--svg-ink)" stroke="currentColor" stroke-width="2" fill="none">
+<rect x="20" y="40" width="90" height="50" rx="8" fill="var(--elec-bg)"/><rect x="140" y="40" width="90" height="50" rx="8" fill="var(--comb-bg)"/><rect x="260" y="40" width="90" height="50" rx="8" fill="var(--elec-bg)"/><rect x="390" y="40" width="80" height="50" rx="25" fill="var(--lum-bg)"/>
+<path d="M110 65H140M230 65H260M350 65H390" marker-end="url(#ar)"/>
+<path d="M305 90V150" marker-end="url(#ar)"/>
+<rect x="250" y="150" width="110" height="50" rx="8" fill="var(--comb-bg)"/>
+<path d="M360 175H410" marker-end="url(#ar)"/><rect x="410" y="150" width="90" height="50" rx="8" fill="var(--elec-bg)"/>
+<path d="M500 175H540" marker-end="url(#ar)"/><rect x="540" y="150" width="80" height="50" rx="25" fill="var(--lum-bg)"/>
+<path d="M455 200V230H305V200" marker-end="url(#ar)"/>
+<path d="M470 65H660V120M620 175H660V120" />
+<path d="M660 120H700" marker-end="url(#ar)"/>
+</g>
+<g font-size="13" text-anchor="middle" font-weight="700">
+<text x="65" y="62">Compresor</text><text x="65" y="78">de aire</text>
+<text x="185" y="62">Cámara de</text><text x="185" y="78">combustión</text>
+<text x="305" y="62">Turbina</text><text x="305" y="78">de GAS</text>
+<text x="430" y="70">G1 ~</text>
+<text x="305" y="172">Caldera de</text><text x="305" y="188">recuperación</text>
+<text x="330" y="125" font-size="11">gases calientes</text>
+<text x="455" y="172">Turbina</text><text x="455" y="188">de VAPOR</text>
+<text x="580" y="180">G2 ~</text>
+<text x="380" y="245" font-size="11">condensador → bomba → agua</text>
+<text x="690" y="110" font-size="12">RED</text>
+<text x="600" y="110" font-size="11">en paralelo</text>
+</g></svg><figcaption>2 generadores: uno en el eje de la turbina de gas y otro en el de la turbina de vapor, conectados en paralelo a la red</figcaption></figure>
+<ul>
+<li><b>Turbina de gas:</b> compresor de aire → cámara de combustión → expansión en los álabes → EM rotatoria → EE en el generador 1.</li>
+<li>Los <b>gases de escape calientes</b> pasan por una caldera de recuperación y generan <b>vapor</b>, que se expande en la <b>turbina de vapor</b> → generador 2.</li>
+<li>Al <b>condensador</b> entra agua fría que condensa el vapor de salida de la turbina; el agua vuelve a la caldera (circuito cerrado).</li>
+</ul>
+<p><span class="k">Generadores:</span> <b>2</b>, uno solidario a cada turbina, conectados <b>eléctricamente en paralelo</b> y ambos inyectan a la red.</p>
+<p><span class="k">Rendimiento:</span><br><span class="formula">η = Potencia eléctrica generada (G1+G2) / Potencia absorbida (combustible + bombas + auxiliares)</span></p>
+<div class="box tip"><b>💡 Para sumar</b>El ciclo combinado es eficiente (~55-60%) porque aprovecha el calor de los gases que en una turbina de gas sola se tiraría a la atmósfera.</div>
+</div></details>
+
+<details class="q"><summary><span class="num">2</span><span class="qt">Generación hidroeléctrica: relación entre cota del embalse, potencia hidráulica, mecánica y eléctrica. Rendimientos. ¿Cómo se gobierna la frecuencia? ¿Qué papel juega el caudal?</span><span class="chev">▶</span></summary><div class="ans">
+<p>Produce energía a partir de la <span class="k">energía potencial del agua</span> con un equipo turbina–generador.</p>
+<figure><svg viewBox="0 0 720 230" role="img" aria-label="Esquema hidroeléctrica">
+<defs><marker id="ar2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0L10,5L0,10z" fill="currentColor"/></marker></defs>
+<g style="color:var(--svg-ink)" stroke="currentColor" stroke-width="2" fill="none">
+<path d="M20 60H170V210H20" fill="var(--ref-bg)"/><path d="M170 40V210" stroke-width="8"/>
+<path d="M175 180C260 180 280 200 330 200" stroke="var(--elec)" stroke-width="6"/>
+<circle cx="350" cy="200" r="20" fill="var(--elec-bg)"/>
+<path d="M370 200H430"/><rect x="430" y="180" width="70" height="40" rx="8" fill="var(--lum-bg)"/>
+<path d="M500 200H560" marker-end="url(#ar2)"/><rect x="560" y="180" width="60" height="40" rx="6" fill="var(--mot-bg)"/>
+<path d="M620 200H700" marker-end="url(#ar2)"/>
+<path d="M200 60V200" stroke-dasharray="5 4" marker-end="url(#ar2)"/>
+</g>
+<g font-size="13" font-weight="700" text-anchor="middle">
+<text x="95" y="50">EMBALSE</text><text x="95" y="135">Ep = m·g·H</text>
+<text x="215" y="130" text-anchor="start">H (cota)</text>
+<text x="260" y="172">tubería forzada</text>
+<text x="350" y="160">Turbina</text><text x="465" y="205">Generador</text>
+<text x="590" y="205">Trafo</text><text x="670" y="190">Red</text>
+</g>
+<g font-size="12" text-anchor="middle"><text x="370" y="20">Ph = ρ·g·Q·H  →  Pm = ηt·Ph  →  Pe = ηg·Pm</text></g>
+</svg><figcaption>La presa crea la cota H; el agua pierde altura y gana velocidad (Ep → Ec), mueve la turbina (EM) y el generador (EE)</figcaption></figure>
+<ul>
+<li><span class="k">Potencia hidráulica</span> (entrada a turbina): <span class="formula">Ph = ρ · g · Q · H</span> &nbsp;→ depende de la cota (altura H) y del caudal Q.</li>
+<li><span class="k">Potencia mecánica</span> (eje): <span class="formula">Pm = ηturbina · Ph</span></li>
+<li><span class="k">Potencia eléctrica activa</span>: <span class="formula">Pe = ηgenerador · Pm = ηt · ηg · ρ g Q H</span></li>
+<li>Rendimiento turbina = Pm / Ph · Rendimiento generador = Pe / Pm.</li>
+</ul>
+<p>A mayor <b>cota</b> entre embalse y turbina → mayor energía potencial → mayor potencia en todas las etapas.</p>
+<p><span class="k">Frecuencia:</span> f = n·p/60 → depende de la <b>velocidad de giro</b>. Se gobierna regulando el <b>caudal</b> que entra a la turbina (regulador de velocidad que abre/cierra el distribuidor o los álabes). Si la carga eléctrica sube, la máquina tiende a frenarse → se abre más caudal para mantener n (y f = 50 Hz) constante.</p>
+</div></details>
+
+<details class="q"><summary><span class="num">3</span><span class="qt">Generación por fisión nuclear: esquema y explicación sintética.</span><span class="chev">▶</span></summary><div class="ans">
+<p>Aprovecha el <span class="k">calor de la fisión de núcleos de uranio</span>. El <b>reactor</b> inicia y controla la reacción en cadena.</p>
+<figure><svg viewBox="0 0 720 170" role="img" aria-label="Circuitos de una central nuclear">
+<defs><marker id="ar3" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0L10,5L0,10z" fill="currentColor"/></marker></defs>
+<g style="color:var(--svg-ink)" stroke="currentColor" stroke-width="2" fill="none">
+<rect x="20" y="40" width="110" height="80" rx="40" fill="var(--comb-bg)"/>
+<path d="M130 70H190" marker-end="url(#ar3)"/><rect x="190" y="40" width="110" height="80" rx="8" fill="var(--lum-bg)"/>
+<path d="M300 60H360" marker-end="url(#ar3)"/><rect x="360" y="40" width="90" height="50" rx="8" fill="var(--elec-bg)"/>
+<path d="M450 65H490"/><rect x="490" y="45" width="60" height="40" rx="20" fill="var(--lum-bg)"/>
+<path d="M405 90V130" marker-end="url(#ar3)"/><rect x="350" y="130" width="110" height="34" rx="8" fill="var(--ref-bg)"/>
+<path d="M460 147H590" marker-end="url(#ar3)"/><rect x="590" y="110" width="110" height="54" rx="8" fill="var(--ref-bg)"/>
+<path d="M350 147H245V120" marker-end="url(#ar3)"/>
+</g>
+<g font-size="12.5" font-weight="700" text-anchor="middle">
+<text x="75" y="75">REACTOR</text><text x="75" y="92" font-size="11">(agua pesada)</text>
+<text x="245" y="75">Generador</text><text x="245" y="92">de vapor</text>
+<text x="160" y="60" font-size="10">1°</text><text x="330" y="52" font-size="10">2°</text>
+<text x="405" y="70">Turbina</text><text x="520" y="70">G ~</text>
+<text x="405" y="152">Condensador</text>
+<text x="645" y="133">Torre / río</text><text x="645" y="150" font-size="11">(3er circuito)</text>
+</g></svg><figcaption>Circuito primario (agua pesada, reactor) → secundario (vapor, turbina) → refrigeración (río/mar + torres)</figcaption></figure>
+<ol>
+<li>El calor de la fisión calienta <b>agua pesada</b> (circuito primario).</li>
+<li>Un <b>intercambiador / generador de vapor</b> calienta agua a presión del circuito secundario y produce vapor.</li>
+<li>El vapor mueve el grupo <b>turbina–generador</b> → EE.</li>
+<li>El vapor va al <b>condensador</b>, refrigerado con agua de río o mar; se usan <b>torres de refrigeración</b> para enfriarla antes de devolverla.</li>
+</ol>
+<p>Todo el reactor, bombas y almacenes de combustible nuevo/usado están dentro del <b>edificio de contención</b> (domo).</p>
+</div></details>
+
+<details class="q"><summary><span class="num">4</span><span class="qt">Solar fotovoltaica: esquema, ventajas y desventajas.</span><span class="chev">▶</span></summary><div class="ans">
+<figure><svg viewBox="0 0 720 110" role="img" aria-label="Cadena fotovoltaica">
+<defs><marker id="ar4" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0L10,5L0,10z" fill="currentColor"/></marker></defs>
+<g style="color:var(--svg-ink)" stroke="currentColor" stroke-width="2" fill="none">
+<rect x="10" y="30" width="110" height="50" rx="8" fill="var(--lum-bg)"/><rect x="155" y="30" width="110" height="50" rx="8" fill="var(--elec-bg)"/><rect x="300" y="30" width="110" height="50" rx="8" fill="var(--mot-bg)"/><rect x="445" y="30" width="110" height="50" rx="8" fill="var(--elec-bg)"/><rect x="590" y="30" width="115" height="50" rx="8" fill="var(--ref-bg)"/>
+<path d="M120 55H155M265 55H300M410 55H445M555 55H590" marker-end="url(#ar4)"/></g>
+<g font-size="12.5" font-weight="700" text-anchor="middle">
+<text x="65" y="52">☀ Paneles</text><text x="65" y="68" font-size="11">(silicio) → CC</text>
+<text x="210" y="52">Armario</text><text x="210" y="68" font-size="11">de CC</text>
+<text x="355" y="52">INVERSOR</text><text x="355" y="68" font-size="11">CC → CA</text>
+<text x="500" y="52">Armario CA</text><text x="500" y="68" font-size="11">+ protección</text>
+<text x="647" y="52">Centro de</text><text x="647" y="68" font-size="11">transformación</text>
+</g></svg></figure>
+<p>Las <span class="k">células fotovoltaicas</span> transforman la radiación solar en <b>corriente continua</b>; un <b>inversor</b> la pasa a <b>alterna</b> y el centro de transformación adapta tensión/corriente a las líneas de transporte.</p>
+<div class="grid2"><div class="box tip"><b>✅ Ventajas</b>Renovable · no emite gases · bajo mantenimiento · aprovecha zonas desérticas.</div>
+<div class="box warn"><b>❌ Desventajas</b>Ocupa mucha superficie · alta inversión inicial · baja eficiencia · depende del clima/sol (variable).</div></div>
+</div></details>
+
+<details class="q"><summary><span class="num">5</span><span class="qt">Solar térmica: esquema y explicación.</span><span class="chev">▶</span></summary><div class="ans">
+<p>Un <span class="k">campo de heliostatos</span> (espejos direccionales) concentra la radiación en un foco/caldera ubicada en una <b>torre</b>. Allí se calienta un <b>fluido térmico</b> que, en un <b>generador de vapor</b>, transfiere calor al agua → vapor → <b>turboalternador</b> (turbina y generador en el mismo eje). Suele tener <b>almacenamiento térmico</b> y aerocondensador.</p>
+<div class="box tip"><b>💡 Diferencia con la fotovoltaica</b>La FV convierte luz → electricidad directo (efecto fotovoltaico). La térmica convierte sol → calor → vapor → EM → EE (es un ciclo térmico como una central convencional).</div>
+</div></details>
+
+<details class="q"><summary><span class="num">6</span><span class="qt">Generación mediante RSU (residuos sólidos urbanos): esquema y funcionamiento.</span><span class="chev">▶</span></summary><div class="ans">
+<p>Es una <span class="k">combustión de materia orgánica</span>: el calor convierte el agua de las tuberías de la caldera en vapor, que se expande en una turbina acoplada a un generador.</p>
+<p><b>Recorrido:</b> nave de descarga → <b>foso de basuras</b> → puente grúa → <b>planta de selección</b> (separador magnético saca lo férrico) → <b>playas de fermentación</b> (queda lo orgánico) → <b>horno/caldera</b> → turbina → generador → transformadores. Además: tratamiento de escorias, depuración de gases y chimenea.</p>
+</div></details>
+
+<details class="q"><summary><span class="num">7</span><span class="qt">Biomasa: esquema, combustible, procesos previos a la caldera y función/ubicación del condensador.</span><span class="chev">▶</span></summary><div class="ans">
+<p><span class="k">Combustible:</span> residuos forestales, cultivos energéticos o residuos agrícolas.</p>
+<p><span class="k">Procesos previos:</span> <b>astillado</b> (reducir tamaño) → <b>clasificación/preparación</b> por tamaño → <b>almacenamiento</b> (grueso/fino) → dosificador → caldera.</p>
+<p>En la caldera la combustión vaporiza el agua; el vapor se expande en la turbina → generador → transformadores → red.</p>
+<ul>
+<li><span class="k">Economizador:</span> a la salida de humos de la caldera; usa los gases calientes para <b>precalentar el agua</b> de alimentación → se necesita menos energía para vaporizarla.</li>
+<li><span class="k">Condensador:</span> a la <b>salida de la turbina</b>; enfría el vapor y lo pasa a líquido, que vuelve al tanque de alimentación → <b>cierra el circuito de agua</b>.</li>
+</ul>
+<p>También tiene electrofiltro y cenicero para tratar humos y cenizas.</p>
+</div></details>
+
+<details class="q"><summary><span class="num">8</span><span class="qt">Objeciones a los sistemas de generación no convencionales.</span><span class="chev">▶</span></summary><div class="ans">
+<ul><li>Altos costos de inversión inicial.</li><li>Dependencia climática y geográfica (intermitencia).</li><li>Suelen estar lejos de los centros de consumo (más líneas de transporte).</li><li>Daños colaterales al ecosistema (ocupación de suelo, fauna, paisaje).</li></ul>
+</div></details>
+
+<h3 class="sub">Marco regulatorio y tarifas</h3>
+
+<details class="q"><summary><span class="num">9</span><span class="qt">Enumerar los ítems de una tarifa industrial de energía eléctrica.</span><span class="chev">▶</span></summary><div class="ans">
+<div class="tw"><table><tr><th>Categoría</th><th>Para quién</th></tr>
+<tr><td><b>T1</b></td><td>Pequeñas demandas</td></tr><tr><td><b>T2</b></td><td>Medianas demandas</td></tr><tr><td><b>T3</b></td><td>Grandes demandas: T3-BT, T3-MT, T3-AT</td></tr></table></div>
+<div class="grid2"><div><p><span class="k">Cargos por potencia contratada</span></p><ul><li><b>CPP:</b> potencia en horas de <b>punta</b></li><li><b>CPF:</b> potencia <b>fuera de punta</b></li></ul></div>
+<div><p><span class="k">Cargos por energía consumida</span></p><ul><li><b>CEP:</b> punta (18 a 23 h)</li><li><b>CER:</b> resto (5 a 18 h)</li><li><b>CEV:</b> valle (23 a 5 h)</li></ul></div></div>
+<figure><svg viewBox="0 0 720 70" role="img" aria-label="Franjas horarias"><g font-size="12" font-weight="700" text-anchor="middle">
+<rect x="20" y="15" width="150" height="30" fill="var(--ref-bg)" stroke="var(--svg-soft)"/><text x="95" y="35">VALLE 0–5</text>
+<rect x="170" y="15" width="390" height="30" fill="var(--lum-bg)" stroke="var(--svg-soft)"/><text x="365" y="35">RESTO 5–18</text>
+<rect x="560" y="15" width="150" height="30" fill="var(--comb-bg)" stroke="var(--svg-soft)"/><text x="635" y="35">PUNTA 18–23</text>
+<text x="20" y="62">0h</text><text x="170" y="62">5h</text><text x="560" y="62">18h</text><text x="700" y="62">23h → valle</text></g></svg><figcaption>Franjas horarias (el valle va de 23 a 5 h)</figcaption></figure>
+<p>Además se suele penalizar el <b>bajo factor de potencia</b> (recargo por energía reactiva).</p>
+</div></details>
+
+<details class="q"><summary><span class="num">10</span><span class="qt">Autoridades de aplicación: normas, aprobación de proyectos, tarifas, transporte y distribución. Funciones del ENRE.</span><span class="chev">▶</span></summary><div class="ans">
+<ul>
+<li><span class="k">ENRE</span> (Ente Nacional Regulador de la Electricidad): regula la actividad eléctrica y controla que generadoras, transportistas y distribuidoras cumplan el marco regulatorio y los contratos; otorga habilitaciones y atiende reclamos/objeciones de los interesados. Con su habilitación el usuario pide el servicio a la distribuidora.</li>
+<li><span class="k">Municipalidad:</span> verifica que proyecto y ejecución usen materiales, mano de obra y planos aprobados según la ley.</li>
+<li><span class="k">ART:</span> controla la puesta a tierra y la seguridad de las personas.</li>
+<li><span class="k">CAMMESA:</span> opera el sistema en tiempo real, despacho de cargas, administra el MEM.</li>
+<li><span class="k">Transportistas:</span> Transener, Transba, Transnoa, etc. · <span class="k">Distribuidoras:</span> Edenor, Edesur, Edelap.</li>
+<li><span class="k">AEA</span> (Asociación Electrotécnica Argentina): redacta la <b>reglamentación</b> para ejecutar instalaciones eléctricas (casa, planta, edificio) y sus renovaciones.</li>
+</ul>
+</div></details>
+
+<details class="q"><summary><span class="num">11</span><span class="qt">¿Qué es el Despacho Nacional de Cargas y qué relación tiene con el SIN?</span><span class="chev">▶</span></summary><div class="ans">
+<p>Es el <span class="k">único centro de coordinación y control</span> entre los despachos regionales y los agentes de la red nacional de interconexión (lo ejerce <b>CAMMESA</b>). Coordina el despacho, fija <b>precios mayoristas</b> y administra las transacciones económicas del <b>SIN</b> (Sistema Interconectado Nacional), abasteciendo la demanda al <b>mínimo costo</b> compatible con la calidad.</p>
+<ol><li>Despacho económico (racionalidad en el uso del recurso).</li><li>Operación centralizada del SIN (seguridad y calidad).</li><li>Administrar el <b>MEM</b> (Mercado Eléctrico Mayorista) con transparencia.</li></ol>
+</div></details>
+
+<h3 class="sub">Líneas y conductores</h3>
+
+<details class="q"><summary><span class="num">12</span><span class="qt">Estructuras de soporte de líneas de transmisión: ventajas y desventajas.</span><span class="chev">▶</span></summary><div class="ans">
+<p>Se calculan con dos solicitaciones: <b>estática</b> (peso propio de torre y conductores) y <b>dinámica</b> (viento, sismo, hielo).</p>
+<div class="tw"><table><tr><th>Estructura</th><th>Uso</th><th>✅</th><th>❌</th></tr>
+<tr><td>Postes de madera</td><td>BT (en desuso)</td><td>Livianos, fáciles de transportar, baratos</td><td>Vida útil corta (&lt;10 años)</td></tr>
+<tr><td>Postes de hormigón (armado, vibrado, centrifugado, pretensado)</td><td>BT/MT</td><td>Gran gama de medidas, grandes vanos, vida ilimitada</td><td>Más caros y frágiles que la madera</td></tr>
+<tr><td>Metálicos de presilla</td><td>MT</td><td>2 tramos atornillados, alturas variables</td><td>Más caros</td></tr>
+<tr><td>Metálicos de celosía</td><td>MT a MAT</td><td>Forma según esfuerzos, vano y tensión; mayor vida útil</td><td>Costo</td></tr>
+<tr><td>Especiales</td><td colspan="3">Hormigón armado con postes dobles o triples</td></tr>
+<tr><td>Cross rope</td><td colspan="3">Torre de cables cruzados con riendas (menos acero, para EAT)</td></tr>
+<tr><td>Autosoportada</td><td colspan="3">Metálica sin riendas; en cambios de dirección / retención</td></tr></table></div>
+</div></details>
+
+<details class="q"><summary><span class="num">13</span><span class="qt">Partes de un multiconductor y su función. ¿Qué alma para CA y cuál para CC? ¿Por qué?</span><span class="chev">▶</span></summary><div class="ans">
+<p><span class="k">Multiconductor:</span> 2 o más almas conductoras aisladas entre sí, cada una con su aislación, y una o más cubiertas comunes.</p>
+<div class="grid2">
+<figure><svg viewBox="0 0 260 200" role="img" aria-label="Corte de multiconductor"><g stroke="var(--svg-ink)" stroke-width="1.5">
+<circle cx="130" cy="100" r="88" fill="var(--svg-soft)"/><circle cx="130" cy="100" r="76" fill="var(--bg)"/>
+<circle cx="100" cy="82" r="24" fill="var(--elec-bg)"/><circle cx="100" cy="82" r="14" fill="#d08a3a"/>
+<circle cx="160" cy="82" r="24" fill="var(--elec-bg)"/><circle cx="160" cy="82" r="14" fill="#d08a3a"/>
+<circle cx="130" cy="132" r="24" fill="var(--elec-bg)"/><circle cx="130" cy="132" r="14" fill="#d08a3a"/></g>
+<g font-size="11" font-weight="700"><text x="5" y="18">Cubierta</text><text x="186" y="186">Relleno</text><text x="88" y="86">alma</text></g></svg><figcaption>Alma (cobre) · aislamiento · relleno · cubierta</figcaption></figure>
+<ul><li><b>Alma:</b> conduce la corriente (uno o más hilos).</li><li><b>Aislamiento:</b> evita que la corriente salga del alma.</li><li><b>Relleno:</b> aislante que mantiene la sección circular.</li><li><b>Cubierta:</b> protección mecánica, térmica, sol, lluvia.</li></ul></div>
+<p><span class="k">Efecto pelicular (skin):</span> en <b>CA</b> la densidad de corriente es mayor en la <b>periferia</b> que en el centro. Con muchos hilos se gana superficie para la misma sección →</p>
+<div class="box tip"><b>Respuesta corta</b><b>CA → alma multifilar</b> (muchos alambres trenzados). <b>CC → alma de un solo alambre</b> (monofilamento), porque en CC la densidad de corriente es uniforme.</div>
+</div></details>
+
+<details class="q"><summary><span class="num">14</span><span class="qt">Factor de utilización de potencia (FUP) y factor de simultaneidad. ¿Qué indica la diferencia entre FUP y FP?</span><span class="chev">▶</span></summary><div class="ans">
+<p><span class="k">FUP:</span> relación entre la demanda máxima (potencia utilizada) y la disponible/conectada. Da noción del aprovechamiento real de la potencia.</p>
+<span class="formula">FUP = P_utilizada / P_disponible = P / S = P / (V_ef · I_ef)</span>
+<p>Es el FP “reducido” por un factor que mide cuánto se aparta la onda de corriente de la senoidal (con tensión sin distorsión). <b>La diferencia FUP – FP indica cuán grande es la distorsión de corriente</b> (armónicos) y cuán estrechos son los pulsos de corriente.</p>
+<p><span class="k">Factor de simultaneidad:</span> cociente entre la potencia máxima que realmente demanda la instalación y la suma de las potencias nominales instaladas.</p>
+<span class="formula">K = P_max / P_instalada (≤ 1)</span>
+<div class="box tip"><b>💡 Por qué importa</b>No todos los equipos funcionan a la vez; con K se dimensionan alimentadores, tableros y transformador sin sobredimensionar.</div>
+</div></details>
+
+<h3 class="sub">Fallas y protecciones</h3>
+
+<details class="q"><summary><span class="num">15</span><span class="qt">Sobrecarga, cortocircuito, falta de fase, contacto accidental / descarga a tierra. ¿Qué protección para cada una?</span><span class="chev">▶</span></summary><div class="ans">
+<div class="tw"><table><tr><th>Falla</th><th>Qué es</th><th>Corriente</th><th>Protección</th></tr>
+<tr><td><b>Sobrecarga</b></td><td>La suma de potencias conectadas supera la de diseño del circuito</td><td>Algo mayor a In</td><td>Interruptor <b>térmico</b> (bimetal), relé térmico</td></tr>
+<tr><td><b>Cortocircuito</b></td><td>Contacto entre fases distintas o fase–neutro</td><td>Muy alta</td><td><b>Fusibles</b> e interruptor <b>magnético</b></td></tr>
+<tr><td><b>Falta de fase</b></td><td>Falta una de las fases R-S-T (el motor se recalienta)</td><td>Desequilibrio</td><td>Disyuntor / <b>detector de falta de fase</b>; secuencímetro para el orden de fases</td></tr>
+<tr><td><b>Contacto indirecto / descarga a tierra</b></td><td>Defecto de aislación pone masas bajo tensión; una persona las toca</td><td>Corriente de defecto a tierra</td><td><b>Interruptor diferencial</b> + puesta a tierra</td></tr></table></div>
+</div></details>
+
+<details class="q"><summary><span class="num">16</span><span class="qt">Fusibles: para qué se usan, ventajas, desventajas, In, I3, I2, I1, zona segura, tensión nominal y capacidad de ruptura.</span><span class="chev">▶</span></summary><div class="ans">
+<p>Funciona por <span class="k">fusión por efecto Joule</span> de un hilo o lámina intercalado en la línea como <b>punto débil</b>. Protege contra cortocircuitos (y sobrecargas).</p>
+<figure><svg viewBox="0 0 720 150" role="img" aria-label="Escala de corrientes del fusible"><g font-size="12.5" font-weight="700" text-anchor="middle">
+<line x1="30" y1="70" x2="700" y2="70" stroke="var(--svg-ink)" stroke-width="2"/>
+<rect x="230" y="50" width="330" height="40" rx="6" fill="var(--tip-bg)" stroke="var(--ok)"/>
+<text x="395" y="75">ZONA DE FUNCIONAMIENTO SEGURO</text>
+<circle cx="100" cy="70" r="6" fill="var(--elec)"/><text x="100" y="40">In</text><text x="100" y="115" font-size="11">conduce sin fundir</text><text x="100" y="130" font-size="11">(I circuito ≤ 0,8·In)</text>
+<circle cx="230" cy="70" r="6" fill="var(--lum)"/><text x="230" y="40">I3</text><text x="230" y="115" font-size="11">mín. de fusión</text><text x="230" y="130" font-size="11">1,35–3 In</text>
+<circle cx="560" cy="70" r="6" fill="var(--comb)"/><text x="560" y="40">I2</text><text x="560" y="115" font-size="11">crítica</text><text x="560" y="130" font-size="11">20–100 In</text>
+<circle cx="660" cy="70" r="6" fill="var(--mot)"/><text x="660" y="40">I1</text><text x="660" y="115" font-size="11">máx. de ruptura</text><text x="660" y="130" font-size="11">(≥ Icc del sistema)</text>
+</g></svg></figure>
+<ul>
+<li><b>In</b> (nominal): la conduce indefinidamente sin desconectar. La corriente del circuito debe ser ≈ 0,8·In.</li>
+<li><b>I3</b> (mínima de fusión): 1,35 a 3 In; por debajo puede fundir pero no interrumpir bien.</li>
+<li><b>I2</b> (crítica): 20 a 100 In; si interrumpe I2, interrumpe también I3 e I1.</li>
+<li><b>I1</b> (máxima de ruptura): la mayor corriente de falla que puede cortar. La Icc máxima del sistema debe ser ≤ I1.</li>
+<li><span class="k">Zona segura:</span> entre I3 e I2.</li>
+<li><span class="k">Tensión nominal:</span> máxima tensión a la que puede trabajar; se relaciona con su capacidad de extinguir el arco al fundirse.</li>
+<li><span class="k">Capacidad de ruptura:</span> máxima Icc que interrumpe a tensión nominal sin dañarse. Gran capacidad en poco volumen.</li>
+</ul>
+<div class="grid2"><div class="box tip"><b>✅ Ventajas</b>Seguros · selectivos (abre solo el más cercano a la falla) · sin mantenimiento ni ajustes · más baratos que interruptores.</div>
+<div class="box warn"><b>❌ Desventajas</b>Hay que reemplazarlos tras actuar · si se coloca uno inadecuado hay riesgo · en motores pueden dejar funcionando en 2 fases si no están bien elegidos.</div></div>
+</div></details>
+
+<details class="q"><summary><span class="num">17</span><span class="qt">Fusibles cilíndricos, NH, HH, D y D0. ¿Qué son los tipos g y a?</span><span class="chev">▶</span></summary><div class="ans">
+<ul>
+<li><span class="k">Cilíndricos:</span> uso industrial estándar (normas europeas), bajas corrientes.</li>
+<li><span class="k">NH:</span> de cuchillas, <b>alta capacidad de ruptura</b>, BT de potencia; se colocan/retiran con <b>manija extractora</b>.</li>
+<li><span class="k">HH:</span> alta capacidad de ruptura en <b>media/alta tensión</b>. Tienen <b>percutor</b> que indica la operación y acciona el seccionador bajo carga: <i>el seccionador corta las corrientes bajas y el fusible las altas</i>. Servicio liviano, mediano o pesado.</li>
+<li><span class="k">D y D0 (Diazed / Neozed):</span> roscados, para menor potencia y corriente que los NH.</li>
+</ul>
+<div class="grid2"><div class="box tip"><b>Tipo g (uso general, “gG/gL”)</b>Protegen todo el rango: responden lento a sobrecargas y rápido a cortocircuitos (limitadores).</div>
+<div class="box tip"><b>Tipo a (acompañamiento)</b>Solo cortocircuito; acompañan a otra protección térmica. <b>aM</b>: motores/aparatos de maniobra · <b>aR</b>: semiconductores.</div></div>
+</div></details>
+
+<details class="q"><summary><span class="num">18</span><span class="qt">Disyuntor termomagnético: para qué, funcionamiento, esquema, sistemas de desconexión y curva característica con sus áreas.</span><span class="chev">▶</span></summary><div class="ans">
+<p>Interruptor automático que protege contra <span class="k">sobrecargas y cortocircuitos</span>. Tiene <b>3 sistemas de desconexión</b> independientes:</p>
+<ul>
+<li><b>Térmico:</b> lámina <b>bimetálica</b> que se curva al calentarse por la corriente → sobrecargas (actúa lento).</li>
+<li><b>Magnético:</b> <b>bobina/electroimán</b> que ante corrientes altas (≈ 3 a 20 In según curva) atrae el mecanismo y abre al instante → cortocircuitos.</li>
+<li><b>Manual:</b> palanca para que el operario corte.</li>
+</ul>
+<p>Partes: bimetal, bobina de disparo, cámara apagachispas, contacto fijo y móvil, manecilla, salida de aire.</p>
+<figure><svg viewBox="0 0 640 300" role="img" aria-label="Curva del termomagnético">
+<g stroke="var(--svg-ink)" stroke-width="2" fill="none"><path d="M70 20V260H620"/></g>
+<path d="M95 30 C120 120 170 170 260 185 L300 188 L300 240 L610 240 L610 255 L285 255 L285 200 C170 200 110 140 85 30Z" fill="var(--elec-bg)" stroke="var(--elec)" stroke-width="2"/>
+<path d="M300 188V255" stroke="var(--comb)" stroke-width="3" stroke-dasharray="6 4"/>
+<g font-size="13" font-weight="800"><text x="150" y="110" fill="var(--elec)" style="fill:var(--elec)">A · zona TÉRMICA</text><text x="320" y="230" style="fill:var(--comb)">B · zona MAGNÉTICA</text><text x="196" y="215" style="fill:var(--mot)">C · cualquiera</text></g>
+<g font-size="12" text-anchor="middle"><text x="40" y="30">t</text><text x="610" y="280">múltiplos de In</text><text x="95" y="278">1,13</text><text x="290" y="278">3–5 In</text><text x="500" y="278">10 In</text></g>
+<g font-size="11"><text x="20" y="60">min</text><text x="20" y="250">ms</text></g>
+</svg><figcaption>Banda de disparo: A térmica (tiempo inverso), B magnética (instantánea), C transición: dispara cualquiera de los dos</figcaption></figure>
+<p>Características de placa: corriente nominal, tensión, <b>poder de corte</b>, poder de cierre, n° de polos y <b>curva</b> (B: 3–5 In, C: 5–10 In, D: 10–20 In).</p>
+</div></details>
+
+<details class="q"><summary><span class="num">19</span><span class="qt">Disyuntor diferencial: principio, función, sensibilidad y valores típicos.</span><span class="chev">▶</span></summary><div class="ans">
+<p>Interruptor automático que <span class="k">evita el paso de corriente peligrosa por el cuerpo humano</span> (contactos indirectos/directos). Es de accionamiento libre.</p>
+<figure><svg viewBox="0 0 640 200" role="img" aria-label="Principio del diferencial">
+<g stroke="var(--svg-ink)" stroke-width="2" fill="none">
+<ellipse cx="220" cy="100" rx="55" ry="70" stroke-width="12" stroke="var(--svg-soft)"/>
+<path d="M20 80H600M20 120H600"/>
+<path d="M260 150C300 175 330 175 360 175H420"/><rect x="420" y="160" width="90" height="34" rx="6" fill="var(--warn-bg)"/></g>
+<g font-size="12.5" font-weight="700"><text x="25" y="72">Fase  I₁ →</text><text x="25" y="140">Neutro ← I₂</text><text x="160" y="25">núcleo toroidal</text><text x="428" y="182">Relé disparo</text><text x="300" y="160" font-size="11">bobina secundaria</text></g>
+<g font-size="13" font-weight="800" text-anchor="middle"><text x="460" y="45">Sin falla: I₁ − I₂ = 0 → no hay flujo</text><text x="460" y="62">Con falla: I₁ ≠ I₂ → induce tensión → dispara</text></g>
+</svg></figure>
+<p>Los conductores activos pasan por un <b>transformador toroidal</b>. Sin defecto, la <b>suma vectorial de corrientes es cero</b>. Si hay fuga a tierra, la suma ≠ 0, se induce tensión en el secundario y actúa el disparo cuando la corriente diferencial supera el umbral.</p>
+<p><span class="k">Sensibilidad (IΔn):</span> corriente diferencial que lo hace actuar. Comerciales: <b>30 mA</b> (protección de personas) y <b>300 mA</b> (protección contra incendio/equipos); corrientes nominales típicas <b>25 a 63 A</b>.</p>
+</div></details>
+
+<details class="q"><summary><span class="num">20</span><span class="qt">Construir un tablero principal de 380 VCA y uno secundario que alimente un MAT, tomas monofásicas e iluminación monofásica.</span><span class="chev">▶</span></summary><div class="ans">
+<p>Esta pregunta suele venir “a dibujar”. Esquema unifilar recomendado:</p>
+<figure><svg viewBox="0 0 720 430" role="img" aria-label="Unifilar tablero principal y seccional">
+<defs><marker id="ar5" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0L10,5L0,10z" fill="currentColor"/></marker></defs>
+<g style="color:var(--svg-ink)" stroke="currentColor" stroke-width="2" fill="none">
+<rect x="20" y="10" width="300" height="200" rx="12" stroke-dasharray="6 4"/>
+<path d="M170 30V60"/><rect x="140" y="60" width="60" height="26" rx="4" fill="var(--elec-bg)"/>
+<path d="M170 86V106"/><rect x="140" y="106" width="60" height="26" rx="4" fill="var(--elec-bg)"/>
+<path d="M170 132V160"/><path d="M50 160H300" stroke-width="5"/>
+<path d="M90 160V185"/><path d="M250 160V185"/>
+<path d="M250 185V240"/>
+<rect x="160" y="240" width="540" height="180" rx="12" stroke-dasharray="6 4"/>
+<rect x="220" y="250" width="60" height="26" rx="4" fill="var(--elec-bg)"/><path d="M250 276V295"/><path d="M190 295H660" stroke-width="5"/>
+<path d="M240 295V315"/><rect x="210" y="315" width="60" height="22" rx="4" fill="var(--mot-bg)"/><path d="M240 337V350"/><rect x="210" y="350" width="60" height="22" rx="4" fill="var(--mot-bg)"/><path d="M240 372V385"/><rect x="210" y="385" width="60" height="22" rx="4" fill="var(--mot-bg)"/>
+<path d="M430 295V315"/><rect x="400" y="315" width="60" height="22" rx="4" fill="var(--elec-bg)"/><path d="M430 337V350"/><rect x="400" y="350" width="60" height="22" rx="4" fill="var(--ref-bg)"/>
+<path d="M600 295V315"/><rect x="570" y="315" width="60" height="22" rx="4" fill="var(--elec-bg)"/><path d="M600 337V350"/><rect x="570" y="350" width="60" height="22" rx="4" fill="var(--ref-bg)"/>
+</g>
+<g font-size="11.5" font-weight="700" text-anchor="middle">
+<text x="80" y="28">TABLERO PRINCIPAL</text><text x="170" y="25" font-size="10.5">Acometida 3×380 V + N + PE</text>
+<text x="170" y="78">Seccionador</text><text x="170" y="124">TM general 4P</text><text x="80" y="156" font-size="10.5">Barras R S T N PE</text>
+<text x="90" y="200">otras salidas</text><text x="285" y="200">TM salida</text>
+<text x="240" y="236" font-size="10.5">TABLERO SECCIONAL</text>
+<text x="250" y="268">TM 4P</text><text x="560" y="290" font-size="10.5">Barras 3F+N+PE</text>
+<text x="240" y="330">Guardamotor</text><text x="240" y="365">Contactor</text><text x="240" y="400">Relé térmico</text><text x="240" y="420" font-size="10.5">→ MAT 3×380</text>
+<text x="430" y="330">TM 2P</text><text x="430" y="365">ID 30 mA</text><text x="430" y="390" font-size="10.5">→ tomas 1×220 V</text>
+<text x="600" y="330">TM 2P</text><text x="600" y="365">ID 30 mA</text><text x="600" y="390" font-size="10.5">→ iluminación 1×220</text>
+</g></svg><figcaption>TM = termomagnética · ID = interruptor diferencial · repartir las cargas monofásicas entre R, S y T para equilibrar</figcaption></figure>
+<ul><li><b>Tablero principal:</b> seccionador/interruptor general, termomagnética general (o fusibles NH), barras, protecciones de salida, puesta a tierra, (opcional) diferencial general 300 mA y banco de capacitores.</li>
+<li><b>Salida MAT:</b> seccionador/fusibles aM o <b>guardamotor</b> + <b>contactor</b> + <b>relé térmico</b> (+ arranque Y-Δ si corresponde).</li>
+<li><b>Tomas</b> e <b>iluminación</b>: circuitos <b>separados</b>, cada uno con TM bipolar + diferencial 30 mA; conductores con PE.</li></ul>
+</div></details>
+
+<details class="q"><summary><span class="num">21</span><span class="qt">Normativas “Ex” e “IP”. ¿Qué IP asignarías a un motor de bomba sumergible?</span><span class="chev">▶</span></summary><div class="ans">
+<p><span class="k">Ex:</span> norma (europea, ATEX/IEC) para venta y uso de equipos en <b>atmósferas explosivas</b>. Clasifica zonas de trabajo y define qué equipos sirven en cada una; su código identifica temperaturas, tipo y concentración de gases, clases de combustible, modo de protección, etc.</p>
+<p><span class="k">IP</span> (Ingress Protection): grado de protección de envolventes contra entrada de sólidos y líquidos.</p>
+<div class="tw"><table><tr><th>Cifra</th><th>Protege contra</th><th>Rango</th></tr>
+<tr><td>1° cifra</td><td>Sólidos / acceso de personas a partes peligrosas</td><td>0–6 (5 = polvo limitado, 6 = estanco al polvo)</td></tr>
+<tr><td>2° cifra</td><td>Líquidos (agua)</td><td>0–8 (4 salpicaduras, 5 chorros, 7 inmersión temporal, 8 inmersión permanente)</td></tr>
+<tr><td>Letra adicional</td><td>Acceso a partes peligrosas (A–D)</td><td>opcional</td></tr>
+<tr><td>3° cifra (vieja)</td><td>Impacto mecánico</td><td>hoy se indica aparte como código <b>IK</b></td></tr></table></div>
+<div class="box tip"><b>Motor de bomba sumergible</b>Como está bajo el agua permanentemente: <b>IP68</b> (6 = totalmente estanco al polvo, 8 = inmersión continua). Si el motor <i>no</i> se sumerge (solo la bomba): IP55 aprox. Impacto: IK07 o superior.</div>
+<div class="box warn"><b>⚠️ Ojo</b>En el resumen dice “3 números / 4 dígitos”. Lo correcto: el código IP tiene <b>2 cifras</b> (+ letras opcionales); la protección al impacto antes era una 3° cifra y hoy es el código IK.</div>
+</div></details>
+
+<details class="q"><summary><span class="num">22</span><span class="qt">Factor de potencia: qué es, beneficios de mejorarlo y cómo se corrige (ubicación de capacitores).</span><span class="chev">▶</span></summary><div class="ans">
+<p>Mide la eficiencia con que se convierte la energía tomada de la red en potencia útil:</p>
+<span class="formula">FP = cos φ = P / S = P / √(P² + Q²)</span>
+<figure><svg viewBox="0 0 400 190" role="img" aria-label="Triángulo de potencias"><g stroke-width="3" fill="none">
+<path d="M40 160H300" stroke="var(--elec)"/><path d="M300 160V40" stroke="var(--comb)"/><path d="M40 160L300 40" stroke="var(--mot)"/></g>
+<path d="M90 160A50 50 0 0 0 85 140" stroke="var(--svg-ink)" fill="none"/>
+<g font-size="14" font-weight="800"><text x="150" y="182" style="fill:var(--elec)">P activa [W]</text><text x="310" y="105" style="fill:var(--comb)">Q reactiva [VAr]</text><text x="110" y="90" style="fill:var(--mot)">S aparente [VA]</text><text x="100" y="152">φ</text></g></svg><figcaption>Triángulo de potencias</figcaption></figure>
+<p>FP = 1 → toda la potencia se transforma en trabajo. Más Q (reactiva: campos magnéticos de bobinas y eléctricos de capacitores) → menor FP.</p>
+<p><span class="k">Al mejorarlo:</span> menor sección de cables · menores pérdidas en líneas (∝ I²) · menor caída de tensión · más potencia disponible · trafos y cables mejor dimensionados · no se paga recargo por reactiva.</p>
+<p><span class="k">Cómo corregir:</span></p>
+<ul><li><b>Alternadores sincrónicos:</b> variando la excitación cambia el aporte de reactiva.</li>
+<li><b>Compensadores sincrónicos:</b> motores sincrónicos en vacío que absorben o entregan reactiva.</li>
+<li><b>Compensadores estáticos:</b> capacitores y reactores controlados por tiristores (TSC/TCR).</li>
+<li><b>Banco de capacitores</b> (el más común, porque la reactiva suele ser inductiva): <b>distribuida</b> (uno por equipo), <b>por grupos</b>, <b>centralizada</b> (al inicio de la red), <b>mixta</b>, automática o activa.</li></ul>
+</div></details>
+
+<div class="extra">
+<h3>📌 Extra de las filminas (U2 Instalaciones eléctricas) que no está en las preguntas</h3>
+
+<h4>Cadena de la energía y niveles de tensión</h4>
+<figure><svg viewBox="0 0 720 120" role="img" aria-label="Generación, transporte y distribución"><defs><marker id="arE" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0L10,5L0,10z" fill="currentColor"/></marker></defs>
+<g style="color:var(--svg-ink)" stroke="currentColor" stroke-width="2" fill="none"><rect x="5" y="30" width="110" height="50" rx="8" fill="var(--lum-bg)"/><rect x="150" y="30" width="110" height="50" rx="8" fill="var(--elec-bg)"/><rect x="295" y="30" width="130" height="50" rx="8" fill="var(--comb-bg)"/><rect x="460" y="30" width="110" height="50" rx="8" fill="var(--elec-bg)"/><rect x="605" y="30" width="110" height="50" rx="8" fill="var(--tip-bg)"/>
+<path d="M115 55H150M260 55H295M425 55H460M570 55H605" marker-end="url(#arE)"/></g>
+<g font-size="11.5" font-weight="800" text-anchor="middle"><text x="60" y="52">Generación</text><text x="60" y="68" font-size="10.5">3–36 kV</text><text x="205" y="52">ET elevadora</text><text x="205" y="68" font-size="10.5">→ 500 kV</text><text x="360" y="52">Transporte SADI</text><text x="360" y="68" font-size="10.5">500/330/220/132 kV</text><text x="515" y="52">ET reductora</text><text x="515" y="68" font-size="10.5">33 / 13,2 kV</text><text x="660" y="52">Usuario</text><text x="660" y="68" font-size="10.5">380/220 V</text>
+<text x="360" y="105" font-size="11">Se transporta en CA trifásica y en alta tensión: misma potencia con menos corriente → menores pérdidas (I²R)</text></g></svg></figure>
+<div class="tw"><table><tr><th>Nivel</th><th>Rango</th></tr><tr><td>MBT</td><td>hasta 50 V</td></tr><tr><td>BT</td><td>hasta 1 kV</td></tr><tr><td>MT</td><td>hasta 33 kV</td></tr><tr><td>AT</td><td>por encima de 33 kV (66–220 kV)</td></tr><tr><td>EAT / MAT</td><td>500 kV (SADI, Transener)</td></tr></table></div>
+
+<h4>Mercado Eléctrico Mayorista (Ley 24.065/92)</h4>
+<div class="tw"><table><tr><th>Agente</th><th>Rasgo clave</th></tr>
+<tr><td>Generadores</td><td>Actividad de <b>interés general</b>, de riesgo, en <b>libre competencia</b> (precios no regulados). Ingreso libre para térmicos; con concesión para hidráulicos.</td></tr>
+<tr><td>Transportistas</td><td><b>Servicio público</b>, monopolio natural regulado, con concesión. No compran ni venden energía; libre acceso de terceros; operan y mantienen, no expanden. Transener (500 kV, SADI), Transba, Transnoa, Distrocuyo, Transpa…</td></tr>
+<tr><td>Distribuidores</td><td>Servicio público, monopolio regulado. Deben abastecer toda la demanda cautiva y ampliar redes (Edenor, Edesur, Edelap, cooperativas ≈ 12 %).</td></tr>
+<tr><td>Grandes usuarios</td><td>Contratan libremente su energía y pagan el peaje a la distribuidora. <b>GUMA</b> &gt; 300 kW · <b>GUME</b> 30–300 kW · <b>GUPA</b>.</td></tr>
+<tr><td>Autogeneradores / cogeneradores</td><td>Autogenerador: genera como subproducto (compra como GUMA, vende como generador). Cogenerador: produce electricidad + vapor/calor, siempre vendedor.</td></tr>
+<tr><td>Comercializadores</td><td>Solo operaciones comerciales, no físicas.</td></tr></table></div>
+<p><b>Autoridades:</b> Secretaría de Energía (organiza el mercado y la política tarifaria) · ENRE (controla y habilita) · CAMMESA (opera y despacha). <b>Prosumidor</b> (Ley 27.424 de generación distribuida): usuario que genera renovable e inyecta excedentes a la red con <b>medidor bidireccional</b>. MATER: mercado a término de renovables (Ley 27.191).</p>
+
+<h4>Tarifas: categorías por demanda</h4>
+<div class="tw"><table><tr><th>Tarifa</th><th>Demanda</th><th>Qué se paga</th></tr>
+<tr><td>T1 (R residencial, G general, AP alumbrado)</td><td>&lt; 10 kW</td><td>Cargo fijo + cargo variable por energía</td></tr>
+<tr><td>T2</td><td>10 – 50 kW</td><td>Cargo por potencia contratada + energía sin discriminación horaria</td></tr>
+<tr><td>T3 (BT ≤ 1 kV · MT 1–66 kV · AT ≥ 66 kV)</td><td>&gt; 50 kW</td><td>CPP, CPF + CEP, CER, CEV (discrimina punta, resto y valle)</td></tr></table></div>
+
+<h4>Eficiencias de generación y matriz argentina 2024</h4>
+<div class="grid2"><div><ul><li>Turbina de vapor (Rankine): <b>35–40 %</b></li><li>Turbina de gas (Brayton): 25–43 % (≈ 50 % las modernas)</li><li>Ciclo combinado: <b>≈ 60 %</b> (hasta 85 % con cogeneración)</li><li>FV: ≈ 25 % del panel (límite cuántico), inversor ≈ 85 %</li></ul></div>
+<figure><svg viewBox="0 0 300 150" role="img" aria-label="Potencia instalada Argentina 2024"><g font-size="11.5" font-weight="800">
+<rect x="10" y="20" width="168" height="26" fill="var(--comb)"/><text x="185" y="38">Térmica 58 %</text>
+<rect x="10" y="55" width="64" height="26" fill="var(--ref)"/><text x="80" y="73">Hidro &gt;50 MW 22 %</text>
+<rect x="10" y="90" width="44" height="26" fill="var(--ok)"/><text x="60" y="108">Renovable Ley 26.190 15 %</text>
+<rect x="10" y="125" width="12" height="20" fill="var(--mot)"/><text x="28" y="140">Nuclear 4 %</text></g></svg><figcaption>Potencia instalada 2024: 43.351 MW (CAMMESA)</figcaption></figure></div>
+<p><b>Centrales:</b> Yacyretá 3100 MW (20 Kaplan), Salto Grande 1890 MW, Piedra del Águila, El Chocón (Francis). Nucleares: Atucha I (362 MW, U levemente enriquecido), Atucha II (745 MW, U natural), Embalse (648 MW, CANDU tubos de presión). <b>Hidro de bombeo</b> (Los Reyunos): bombea en valle y turbina en punta → la forma más económica de <b>almacenar</b> energía. Turbinas: <b>Kaplan</b> (poco salto, mucho caudal) · <b>Francis</b> (salto medio).</p>
+<p><b>Eólica:</b> Ec = ½·m·v² del viento → rotación (límite de Betz ≈ 59 %); la potencia crece con v³ y se corta por seguridad a ~25 m/s. Energía anual = 8760 h × ∫(distribución de velocidades × curva de potencia). <b>Torre solar (chimenea):</b> colector tipo invernadero calienta aire que sube por efecto chimenea y mueve turbinas eólicas.</p>
+
+<h4>Estación transformadora: componentes</h4>
+<div class="tw"><table><tr><th>Elemento</th><th>Función</th></tr>
+<tr><td>Descargadores de sobretensión</td><td>Protegen la playa de rayos.</td></tr>
+<tr><td>Capacitor <b>serie</b></td><td>Compensa la inductancia serie de líneas largas → más capacidad de transmisión.</td></tr>
+<tr><td>Capacitor <b>shunt</b></td><td>Aporta reactiva para compensar cargas inductivas → mejora FP y tensión.</td></tr>
+<tr><td>Reactor <b>shunt</b></td><td>Absorbe la reactiva capacitiva de líneas largas en vacío → evita sobretensiones.</td></tr>
+<tr><td>Transformador de potencia</td><td>Eleva/reduce tensión (kVA/MVA).</td></tr>
+<tr><td>Interruptor de AT</td><td>Maniobra corrientes normales y de cortocircuito (en SF₆, a resorte; 500 kV con 2 cámaras).</td></tr>
+<tr><td>Seccionador</td><td>Corte <b>visible</b>, solo <b>sin carga</b>: primero abre el interruptor y después el seccionador.</td></tr></table></div>
+<p><b>Transposición de líneas:</b> se rota la posición de las fases a lo largo de la línea para igualar impedancias (capacitancias/inductancias) → equilibra caídas de tensión, reduce pérdidas e interferencias.</p>
+<p><b>Torre cross rope (500 kV):</b> 2 mástiles reticulados (~40 m, 4 t) a compresión + cable cross rope a tracción del que cuelgan las cadenas de aisladores; riendas (4 por estructura), hilo de guardia (acero u <b>OPGW con 24 fibras ópticas</b>), espaciadores-amortiguadores entre subconductores (50–60 cm), jabalinas de PAT. Menos acero, pero necesita espacio para riendas → solo suspensión en tramos rectos. La <b>autosoportada</b> sirve para ángulo, retención y remate.</p>
+
+<h4>Conductores: clasificación</h4>
+<ul><li><b>Material:</b> cobre, aluminio (más barato, menos conductivo), constantán, almelec. Apantallados/mallados contra interferencias (EMI).</li><li><b>Aislación:</b> termoplásticos (PVC, PE, PCP) · termoestables (XLPE, EPR, MICC) · papel impregnado en aceite.</li><li><b>N° de conductores:</b> unipolar, bipolar, tripolar (F+N+T), tetrapolar, pentapolar (3F+N+T). Flexible o rígido.</li></ul>
+
+<h4>Factor de carga (≠ factor de utilización)</h4>
+<span class="formula">Fc = Potencia promedio / Potencia máxima = Energía / (horas × Pmáx)</span>
+<p>Índice de constancia del consumo. Ej.: 57.200 kWh/mes, Pmáx 436 kW → Fc = 57.200 / (720 × 436) ≈ <b>18 %</b>. Alto = uso estable → menor costo por kWh.</p>
+
+<h4>Elementos de maniobra</h4>
+<div class="tw"><table><tr><th>Elemento</th><th>¿Con carga?</th><th>¿Corte visible?</th></tr>
+<tr><td>Seccionador</td><td>No</td><td>Sí</td></tr><tr><td>Interruptor</td><td>Sí (manual)</td><td>No</td></tr><tr><td>Interruptor-seccionador</td><td>Sí</td><td>Sí</td></tr><tr><td>Interruptor automático (disyuntor)</td><td>Sí, actúa solo con relés</td><td>—</td></tr></table></div>
+<p>Extinción de arco: al aire (BT/MT) · autoformación de gases · soplado autoneumático (≤ 24 kV) · aceite · <b>SF₆</b> (muy alta tensión) · vacío (≤ 50 kV).</p>
+<p><b>Tableros:</b> frente sin tensión (usuario) y parte posterior con barras bajo tensión (personal autorizado). Principal (acometida + interruptor general) y seccionales (por sector, separan servicios y 220/380). El tablero general incluye gabinete, barras colectoras, interruptor de caja moldeada, relés, medidor (Modbus→SCADA), maniobra y barra de PAT. <b>Tendidos:</b> bandejas, cañerías, canaletas, piso/techo técnico, aéreo, subterráneo.</p>
+<p><b>Dimensionar fusible:</b> I del circuito = 80 % de In del fusible; con motores, In ≈ 175 %; los sin retardo ≈ 300 % de la Iarr. <b>Dimensionar TM:</b> I nominal del circuito → I admisible del cable ≥ In del TM → n° de polos → potencia de cargas → margen ≥ 15 %. Una térmica a <b>1,13 In</b> tarda ~2 h y a 1,45 In dispara en menos de 1 h.</p>
+
+<h4>Puesta a tierra (PAT)</h4>
+<ul><li>Protege personas, descarga fallas/sobretensiones y da referencia de tensión. Se mide con <b>telurímetro</b>; antes se mide la resistividad del suelo. Electrodos: <b>jabalinas</b> (terrenos difíciles) o <b>malla</b> (subestaciones, plantas grandes).</li>
+<li><b>Tensión de contacto</b> (mano–pies, a ≤ 1 m del electrodo) y <b>tensión de paso</b> (entre pies, 1 m). Límite seguro ≈ <b>24 V</b>: R<sub>a</sub> · I<sub>Δn</sub> ≤ 24 V → con ID de 30 mA, R<sub>a</sub> ≤ 800 Ω (AEA fija máx. práctico <b>40 Ω</b>).</li>
+<li><b>Esquema TT</b> (típico usuario BT): neutro a tierra en el trafo y masas a tierra propia. I falla = 220/(R<sub>b</sub>+R<sub>a</sub>) ≈ 220/(1+10) = 20 A → la TM <b>no dispara</b> (una B20 necesita 60–100 A) y en la masa quedan ~200 V → <b>el diferencial es indispensable</b>. <b>TN-S:</b> masas unidas al neutro del trafo por el conductor PE.</li>
+<li><b>Res. SRT 900/2015:</b> protocolo anual obligatorio: resistencia de PAT, continuidad de masas y funcionamiento de ID y TM.</li></ul>
+<div class="box warn"><b>⚠️ El diferencial no salva siempre</b>Si una persona aislada del suelo toca fase y neutro a la vez, la corriente entra y sale igual → no hay diferencia → el ID no dispara. El diferencial <b>tipo B</b> detecta también fugas de continua (variadores, mucha electrónica).</div>
+<p><b>Efectos de la corriente en el cuerpo (IEC 60479-1):</b> zona 1 sin reacción (&lt; 0,5 mA) · zona 2 sin efecto peligroso · zona 3 contracciones, efectos reversibles · zona 4 riesgo de <b>fibrilación</b>. El ID de 30 mA actúa en ≤ 200 ms dentro de la zona segura.</p>
+
+<h4>ATEX (atmósferas explosivas)</h4>
+<div class="tw"><table><tr><th>Presencia de atmósfera explosiva</th><th>Gas</th><th>Polvo</th><th>Categoría de equipo</th></tr>
+<tr><td>Permanente / prolongada</td><td>Zona 0</td><td>Zona 20</td><td>1G / 1D (seguro con 2 fallas)</td></tr>
+<tr><td>Ocasional en operación normal</td><td>Zona 1</td><td>Zona 21</td><td>2G / 2D (seguro con 1 falla)</td></tr>
+<tr><td>Rara y breve</td><td>Zona 2</td><td>Zona 22</td><td>3G / 3D (seguro en operación normal)</td></tr></table></div>
+<p><b>Grupos de gas:</b> I metano (minas) · IIA propano · IIB etileno · IIC hidrógeno/acetileno (el más exigente). <b>Clases T</b> (temperatura máx. de superficie): T1 450 °C · T2 300 · T3 200 · T4 135 · T5 100 · T6 85 °C. <b>IEMS:</b> intersticio máximo por el que una explosión interna no se propaga afuera; <b>EMI:</b> energía mínima de ignición (menor = más peligroso). Ej.: “Ex II 2G IIB T4”. Métodos: <b>d</b> antideflagrante, <b>p</b> presurizado, <b>e</b> seguridad aumentada, <b>ia/ib</b> seguridad intrínseca, <b>m</b> encapsulado, <b>o</b> aceite, <b>q</b> arena.</p>
+
+<h4>Calidad de energía y diagrama unifilar</h4>
+<p>Los <b>armónicos</b> (3°, 5°, 7°) que generan PCs, LED y variadores aumentan la energía no útil, bajan el cos φ y exigen cables más gruesos → filtros de armónicos. El <b>diagrama unifilar</b> representa el circuito con un solo trazo (como un flujograma de proceso): acometida → ICP → IGA → ID → circuitos con su TM, sección y caño.</p>
+</div>
+
+</section>
+
+<!-- ============================================================ -->
+<section class="unit u-mot" id="mot">
+<div class="unit-head"><h2>⚙️ U3 · Motores eléctricos</h2>
+<p>Sincrónicos, asincrónicos, monofásicos, CC, arranques, variadores, protecciones</p>
+<div class="progress"><i></i></div></div>
+
+<details class="q"><summary><span class="num">1</span><span class="qt">Datos a incluir en la especificación de un motor asincrónico trifásico.</span><span class="chev">▶</span></summary><div class="ans">
+<div class="grid2"><ul><li>Tensión nominal (Y/Δ) y frecuencia</li><li>Corriente nominal</li><li>Potencia (kW / CV / HP) y velocidad (rpm)</li><li>cos φ y rendimiento (clase IE)</li><li>Forma de arranque</li><li>Tipo de rotor (jaula / bobinado)</li><li>Cupla nominal, máxima y de arranque; categoría de par</li></ul>
+<ul><li>Servicio (S1, S2…) y factor de servicio</li><li>Clase de aislación (B, F, H) y temperatura ambiente</li><li>Grado de protección IP</li><li>N° de carcasa, forma constructiva/apoyo del eje</li><li>Rodamientos y lubricación</li><li>Nivel sonoro, altitud, peso, color</li><li>Certificación IRAM / normas</li></ul></div>
+</div></details>
+
+<details class="q"><summary><span class="num">2</span><span class="qt">Funcionamiento de un motor sincrónico y de uno asincrónico.</span><span class="chev">▶</span></summary><div class="ans">
+<p><span class="k">Sincrónico:</span> el rotor gira <b>a la misma velocidad</b> que el campo del estator (no hay resbalamiento), sin importar la carga.</p>
+<span class="formula">ns = 60·f / p  (p = pares de polos) = 120·f / P  (P = n° de polos)</span>
+<ul><li>Estator con CA trifásica → campo magnético rotatorio (CMR) a ns.</li>
+<li>Rotor alimentado con <b>CC</b> (excitación) → actúa como electroimán.</li>
+<li>No arranca solo: se le agrega una <b>jaula de ardilla</b> que lo arranca como asincrónico; cerca de ns se excita el rotor y se “engancha” en sincronismo.</li></ul>
+<p><span class="k">Asincrónico (de inducción):</span></p>
+<figure><svg viewBox="0 0 720 80" role="img" aria-label="Cadena de funcionamiento del MAT"><defs><marker id="ar6" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0L10,5L0,10z" fill="currentColor"/></marker></defs>
+<g style="color:var(--svg-ink)" stroke="currentColor" stroke-width="2" fill="none"><rect x="5" y="20" width="110" height="40" rx="8" fill="var(--mot-bg)"/><rect x="125" y="20" width="110" height="40" rx="8" fill="var(--mot-bg)"/><rect x="245" y="20" width="110" height="40" rx="8" fill="var(--mot-bg)"/><rect x="365" y="20" width="110" height="40" rx="8" fill="var(--mot-bg)"/><rect x="485" y="20" width="110" height="40" rx="8" fill="var(--mot-bg)"/><rect x="605" y="20" width="110" height="40" rx="8" fill="var(--tip-bg)"/>
+<path d="M115 40H125M235 40H245M355 40H365M475 40H485M595 40H605" marker-end="url(#ar6)"/></g>
+<g font-size="11.5" font-weight="700" text-anchor="middle"><text x="60" y="44">CA al estator</text><text x="180" y="44">CMR a ns</text><text x="300" y="44">fem en rotor</text><text x="420" y="44">I (rotor en cc)</text><text x="540" y="44">campo rotor</text><text x="660" y="44">CUPLA ✔</text></g></svg></figure>
+<p>Para que se induzca fem el rotor debe girar <b>más lento</b> que el campo (n &lt; ns). Esa diferencia es el <span class="k">resbalamiento</span>:</p>
+<span class="formula">s = (ns − n) / ns   ·   s% = (ns − n)/ns × 100</span>
+<div class="box tip"><b>Ejemplo</b>4 polos (p = 2), 50 Hz → ns = 1500 rpm. Si gira a 1450 rpm → s = 3,3 %.</div>
+</div></details>
+
+<details class="q"><summary><span class="num">3</span><span class="qt">Zona de trabajo del MAT y por qué. Gráfico cupla–velocidad. Cupla y resbalamiento en el sincronismo; cupla motora vs resistente (bombas centrífugas).</span><span class="chev">▶</span></summary><div class="ans">
+<figure><svg viewBox="0 0 680 320" role="img" aria-label="Curva cupla velocidad del MAT">
+<rect x="70" y="30" width="370" height="250" fill="var(--comb-bg)" opacity=".6"/><rect x="440" y="30" width="135" height="250" fill="var(--tip-bg)"/>
+<g stroke="var(--svg-ink)" stroke-width="2" fill="none"><path d="M70 20V280H640"/></g>
+<path d="M70 130 C150 165 220 175 290 140 C360 100 420 50 440 50 C500 60 540 120 575 280" stroke="var(--mot)" stroke-width="4" fill="none"/>
+<path d="M70 250 C200 250 350 230 560 150" stroke="var(--comb)" stroke-width="3" fill="none" stroke-dasharray="7 5"/>
+<path d="M90 40 C220 80 380 170 560 280" stroke="var(--lum)" stroke-width="3" fill="none" stroke-dasharray="2 4"/>
+<circle cx="548" cy="158" r="7" fill="var(--ok)"/>
+<g font-size="12.5" font-weight="800">
+<text x="200" y="60" style="fill:var(--comb)">ZONA INESTABLE</text><text x="455" y="45" style="fill:var(--ok)">ZONA</text><text x="455" y="60" style="fill:var(--ok)">ESTABLE</text>
+<text x="75" y="122" style="fill:var(--mot)">Cupla arranque</text><text x="410" y="40" style="fill:var(--mot)">C máx</text>
+<text x="560" y="148" style="fill:var(--ok)">punto de trabajo</text>
+<text x="150" y="245" style="fill:var(--comb)">cupla resistente (bomba ∝ n²)</text>
+<text x="230" y="105" style="fill:var(--lum)">corriente</text>
+</g>
+<g font-size="12" text-anchor="middle"><text x="40" y="30">C, I</text><text x="610" y="300">n →</text><text x="575" y="298">ns (s=0)</text><text x="75" y="298">s=1</text></g>
+</svg><figcaption>Arranque con s = 1 (I ≈ 7 In). En el sincronismo s = 0 y la cupla motora es 0</figcaption></figure>
+<ul>
+<li><span class="k">Zona estable</span> (entre C máx y ns): si aumenta la cupla resistente, el motor baja un poco la velocidad, aumenta s y aumenta la cupla motora hasta un nuevo equilibrio. <b>Ahí se trabaja.</b></li>
+<li><span class="k">Zona inestable</span> (entre arranque y C máx): si baja la velocidad baja la cupla → el motor se frena (atascamiento). Si se trabaja cerca de C máx, un aumento de carga lo atasca.</li>
+<li><span class="k">Sincronismo:</span> n = ns → s = 0 → no se induce corriente → <b>cupla motora = 0</b>. El motor nunca llega a ns.</li>
+<li><b>Bomba centrífuga:</b> la cupla resistente crece aprox. con n²; el punto de trabajo es la intersección de ambas curvas en la zona estable. Para arrancar se necesita C motora &gt; C resistente en todo el recorrido (par de aceleración).</li>
+</ul>
+<div class="box warn"><b>⚠️ Ojo con el resumen</b>El resumen dice “zona estable: si disminuye la velocidad → disminuye el par”. Leelo así: en la zona estable, si la velocidad <b>baja</b>, el par motor <b>sube</b> (la curva cae hacia ns), por eso se autoequilibra. En la inestable pasa lo contrario.</div>
+</div></details>
+
+<details class="q"><summary><span class="num">4</span><span class="qt">Arranque estrella–triángulo: esquema y por qué se usa.</span><span class="chev">▶</span></summary><div class="ans">
+<p>La corriente de arranque directo es ≈ <b>7·In</b>. Para no sobredimensionar protecciones y cables, se arranca en <b>estrella</b> y luego (2–4 s) se pasa a <b>triángulo</b>.</p>
+<div class="grid2">
+<figure><svg viewBox="0 0 260 200" role="img" aria-label="Conexión estrella en bornera"><g font-size="13" font-weight="800" text-anchor="middle">
+<circle cx="60" cy="50" r="14" fill="var(--mot-bg)" stroke="var(--svg-ink)"/><circle cx="130" cy="50" r="14" fill="var(--mot-bg)" stroke="var(--svg-ink)"/><circle cx="200" cy="50" r="14" fill="var(--mot-bg)" stroke="var(--svg-ink)"/>
+<circle cx="60" cy="140" r="14" fill="var(--mot-bg)" stroke="var(--svg-ink)"/><circle cx="130" cy="140" r="14" fill="var(--mot-bg)" stroke="var(--svg-ink)"/><circle cx="200" cy="140" r="14" fill="var(--mot-bg)" stroke="var(--svg-ink)"/>
+<rect x="45" y="128" width="170" height="24" rx="12" fill="none" stroke="var(--mot)" stroke-width="4"/>
+<text x="60" y="55">U1</text><text x="130" y="55">V1</text><text x="200" y="55">W1</text><text x="60" y="145">W2</text><text x="130" y="145">U2</text><text x="200" y="145">V2</text>
+<text x="130" y="20">R S T arriba</text><text x="130" y="185">ESTRELLA: puente horizontal</text></g></svg></figure>
+<figure><svg viewBox="0 0 260 200" role="img" aria-label="Conexión triángulo en bornera"><g font-size="13" font-weight="800" text-anchor="middle">
+<rect x="46" y="36" width="28" height="118" rx="12" fill="none" stroke="var(--mot)" stroke-width="4"/><rect x="116" y="36" width="28" height="118" rx="12" fill="none" stroke="var(--mot)" stroke-width="4"/><rect x="186" y="36" width="28" height="118" rx="12" fill="none" stroke="var(--mot)" stroke-width="4"/>
+<circle cx="60" cy="50" r="12" fill="var(--mot-bg)" stroke="var(--svg-ink)"/><circle cx="130" cy="50" r="12" fill="var(--mot-bg)" stroke="var(--svg-ink)"/><circle cx="200" cy="50" r="12" fill="var(--mot-bg)" stroke="var(--svg-ink)"/><circle cx="60" cy="140" r="12" fill="var(--mot-bg)" stroke="var(--svg-ink)"/><circle cx="130" cy="140" r="12" fill="var(--mot-bg)" stroke="var(--svg-ink)"/><circle cx="200" cy="140" r="12" fill="var(--mot-bg)" stroke="var(--svg-ink)"/>
+<text x="60" y="55">U1</text><text x="130" y="55">V1</text><text x="200" y="55">W1</text><text x="60" y="145">W2</text><text x="130" y="145">U2</text><text x="200" y="145">V2</text>
+<text x="130" y="20">R S T arriba</text><text x="130" y="185">TRIÁNGULO: 3 puentes verticales</text></g></svg></figure></div>
+<ul><li>En estrella cada bobina recibe <b>U<sub>L</sub>/√3</b> → la corriente de línea y la cupla bajan a <b>1/3</b> del arranque directo.</li>
+<li>Valores típicos: <b>Iarr = 1,5 a 2,6 In · Carr = 0,2 a 0,5 Cn</b>.</li>
+<li>Requisitos: motor con los <b>6 bornes</b> accesibles, preparado para trabajar en Δ a la tensión de red (ej. 380 V Δ / 660 V Y), y que arranque <b>en vacío o con poca carga</b>.</li>
+<li>Automático: 3 contactores (KM1 línea, KM2 estrella, KM3 triángulo) + temporizador + relé térmico, con enclavamiento entre KM2 y KM3.</li></ul>
+</div></details>
+
+<details class="q"><summary><span class="num">5</span><span class="qt">Relación entre corriente nominal del motor, corriente admisible del conductor y la de cálculo de protecciones. Métodos de arranque.</span><span class="chev">▶</span></summary><div class="ans">
+<p>El arranque directo pide ≈ 7 In; para no sobredimensionar protecciones y conductores se usan arranques especiales. Regla: <b>I motor ≤ I protección ≤ I admisible del cable</b>, y la protección no debe disparar con la Iarr.</p>
+<figure><svg viewBox="0 0 680 250" role="img" aria-label="Comparación de corrientes de arranque">
+<g font-size="12.5" font-weight="700">
+<text x="10" y="40">Directo</text><rect x="170" y="25" width="455" height="22" rx="5" fill="var(--comb)"/><text x="632" y="41">7 In</text>
+<text x="10" y="80">Resist. en serie</text><rect x="170" y="65" width="292" height="22" rx="5" fill="var(--lum)"/><text x="470" y="81">4,5 In</text>
+<text x="10" y="120">Soft starter</text><rect x="170" y="105" width="130" height="22" rx="5" fill="var(--mot)" opacity=".5"/><rect x="300" y="105" width="195" height="22" rx="5" fill="var(--mot)" opacity=".25"/><text x="502" y="121">2 – 5 In</text>
+<text x="10" y="160">Autotransformador</text><rect x="170" y="145" width="91" height="22" rx="5" fill="var(--elec)" opacity=".6"/><rect x="261" y="145" width="169" height="22" rx="5" fill="var(--elec)" opacity=".25"/><text x="437" y="161">1,4 – 4 In</text>
+<text x="10" y="200">Estrella–triángulo</text><rect x="170" y="185" width="97" height="22" rx="5" fill="var(--ok)" opacity=".7"/><rect x="267" y="185" width="72" height="22" rx="5" fill="var(--ok)" opacity=".3"/><text x="346" y="201">1,5 – 2,6 In</text>
+</g><text x="170" y="240" font-size="11.5">Corriente de arranque en múltiplos de In (filminas de la cátedra)</text></svg></figure>
+<div class="tw"><table><tr><th>Método</th><th>Iarr</th><th>Carr</th><th>Comentario</th></tr>
+<tr><td>Resistencias en serie</td><td>4,5 In</td><td>0,75 Cn</td><td>Se puentean con temporizador (KM1 arranque, KM2 marcha). Cupla ∝ V²</td></tr>
+<tr><td>Autotransformador</td><td>1,4 – 4 In</td><td>0,5 – 0,85 Cn</td><td>Muy bueno pero <b>caro</b>; 3 tiempos. I y C se reducen con el cuadrado de la tensión</td></tr>
+<tr><td>Estrella–triángulo</td><td>1,5 – 2,6 In</td><td>0,2 – 0,5 Cn</td><td>Solo arranques en vacío/poca carga</td></tr>
+<tr><td>Soft starter</td><td>2 – 5 In (regulable)</td><td>0,1 – 0,7 Cn</td><td>Tiristores, rampa de tensión; genera armónicos</td></tr></table></div>
+</div></details>
+
+<details class="q"><summary><span class="num">6</span><span class="qt">¿Qué significa “arranque suave” (soft starter)?</span><span class="chev">▶</span></summary><div class="ans">
+<p>Dispositivo electrónico (tiristores en antiparalelo por fase) que <span class="k">aumenta progresivamente la tensión</span> aplicada desde un valor bajo hasta la nominal, limitando la corriente de arranque y el golpe mecánico. Permite aumento continuo y lineal de la cupla y reducción selectiva de la corriente.</p>
+<p>Su función se limita al <b>arranque (y a veces la parada)</b>; <b>no regula la velocidad</b> en marcha normal (eso lo hace el variador de frecuencia). Iarr ≈ 2–5 In regulable.</p>
+<div class="box warn"><b>⚠️ Ojo</b>El resumen mezcla soft starter con variador de frecuencia. La cátedra lo define como <b>variador de tensión electrónico</b>. El <b>VFD</b> es el que varía tensión <i>y frecuencia</i> y sí controla velocidad.</div>
+</div></details>
+
+<details class="q"><summary><span class="num">7</span><span class="qt">Beneficios de una bomba movida por MAT con variador de frecuencia. Implicancia económica.</span><span class="chev">▶</span></summary><div class="ans">
+<p>Variando f se obtiene una familia de curvas de cupla para el mismo motor → se ajusta <b>velocidad y par</b> a la demanda. Se regula el <b>caudal</b> sin estrangular con válvulas (que tiran energía).</p>
+<p><span class="k">Leyes de afinidad:</span> Q ∝ n · H ∝ n² · <b>P ∝ n³</b></p>
+<div class="box tip"><b>Ejemplo numérico</b>Bajar la velocidad un 20 % → el caudal baja 20 % pero la potencia baja a 0,8³ ≈ 0,51 → <b>≈ 50 % de ahorro</b>. Si la mayor parte del año se trabaja por debajo del 80 % del caudal, el ahorro es aún mayor.</div>
+<p>Hay que encontrar el <b>punto óptimo</b>: alta inversión inicial vs. gran ahorro energético. Además: arranque suave, menos golpes de ariete, más vida útil y control PID. Antes, el único motor de velocidad variable era el de CC.</p>
+</div></details>
+
+<details class="q"><summary><span class="num">8</span><span class="qt">Diferencia en el arranque entre el MAT y el motor monofásico de inducción. Tipos de MAM.</span><span class="chev">▶</span></summary><div class="ans">
+<p>El <b>trifásico arranca solo</b>: 3 bobinas desfasadas 120° generan un campo realmente giratorio. El <b>monofásico no tiene cupla de arranque</b>: genera un campo <b>pulsante</b> que equivale a dos campos que giran en sentidos opuestos con la misma cupla (teoría del doble campo giratorio) → se anulan en reposo.</p>
+<p>Solución: <b>bobinado auxiliar</b> desfasado + algún agregado:</p>
+<div class="tw"><table><tr><th>Tipo</th><th>Cómo arranca</th><th>Cupla arranque</th><th>Uso</th></tr>
+<tr><td>Fase partida (resistiva)</td><td>Aux. de distinta R/X, interruptor centrífugo lo saca ~75–80 % n</td><td>media (desfasaje ≈ 30°)</td><td>FP y η bajos</td></tr>
+<tr><td>Capacitor de arranque</td><td>C en serie con aux.; centrífugo lo desconecta</td><td>alta (desfasaje ≈ 90°)</td><td>cargas pesadas al inicio</td></tr>
+<tr><td>Capacitor permanente (PSC)</td><td>C siempre conectado, sin centrífugo</td><td>baja</td><td>ventiladores, silencioso, mejor FP</td></tr>
+<tr><td>Doble capacitor</td><td>C arranque + C marcha</td><td><b>2–3 Cn</b></td><td>arranca con carga (tracción, compresores)</td></tr>
+<tr><td>Polos sombra (espira en cc)</td><td>Espira en corto en parte del polo saliente</td><td>muy baja</td><td>baja potencia; la espira fija el sentido de giro</td></tr></table></div>
+</div></details>
+
+<details class="q"><summary><span class="num">9</span><span class="qt">Rotor de doble jaula de ardilla: qué es y por qué se usa.</span><span class="chev">▶</span></summary><div class="ans">
+<p>Busca <span class="k">alta cupla de arranque con baja corriente de arranque</span>, sin perder rendimiento en marcha.</p>
+<figure><svg viewBox="0 0 560 200" role="img" aria-label="Doble jaula">
+<rect x="60" y="20" width="60" height="60" rx="30" fill="var(--elec-bg)" stroke="var(--elec)" stroke-width="3"/>
+<rect x="55" y="95" width="70" height="90" rx="8" fill="var(--tip-bg)" stroke="var(--ok)" stroke-width="3"/>
+<g font-size="12.5" font-weight="700"><text x="140" y="45">Jaula EXTERIOR (arranque)</text><text x="140" y="62" font-size="11.5">sección chica, alta R, baja X</text>
+<text x="140" y="135">Jaula INTERIOR (trabajo)</text><text x="140" y="152" font-size="11.5">sección grande, baja R, alta X (más hundida)</text></g>
+<g font-size="12" font-weight="800"><text x="380" y="45" style="fill:var(--elec)">Arranque (f rotor alta):</text><text x="380" y="62">I va por la exterior</text><text x="380" y="78">→ alta R → alta cupla, baja I</text>
+<text x="380" y="135" style="fill:var(--ok)">Marcha (f rotor ≈ 0):</text><text x="380" y="152">I va por la interior</text><text x="380" y="168">→ baja R → buen rendimiento</text></g></svg></figure>
+<p>En el arranque la frecuencia del rotor es alta y la reactancia de la jaula interior es grande → la corriente circula por la exterior (resistiva). A velocidad nominal, s ≈ 0, X pierde peso y la corriente va por la interior (baja resistencia). La cupla resultante es la suma de ambas curvas.</p>
+</div></details>
+
+<details class="q"><summary><span class="num">10</span><span class="qt">Generador sincrónico: relación entre pares de polos, frecuencia generada y velocidad de la máquina primaria.</span><span class="chev">▶</span></summary><div class="ans">
+<span class="formula">f = p · n / 60   ⇔   n = 60 · f / p    (p = pares de polos, n en rpm)</span>
+<p>Para generar 50 Hz: con 1 par de polos → 3000 rpm (turbinas de vapor/gas, rotor liso); con muchos pares → baja velocidad (turbinas hidráulicas, polos salientes). Por eso en la hidro se controla la frecuencia controlando la velocidad (caudal).</p>
+<div class="tw"><table><tr><th>Pares de polos p</th><th>1</th><th>2</th><th>3</th><th>4</th><th>12</th></tr><tr><td>n a 50 Hz [rpm]</td><td>3000</td><td>1500</td><td>1000</td><td>750</td><td>250</td></tr></table></div>
+</div></details>
+
+<details class="q"><summary><span class="num">11</span><span class="qt">Diferencias y semejanzas entre motor universal y motor de CC.</span><span class="chev">▶</span></summary><div class="ans">
+<p>El <span class="k">universal</span> funciona con CA o CC. Es un motor <b>serie</b>: inductor e inducido en serie, entonces cuando la corriente invierte su sentido se invierten a la vez el campo y la corriente de armadura → la cupla mantiene el sentido.</p>
+<div class="grid2"><div class="box tip"><b>Semejanzas</b>Forma de motor CC serie (colector y escobillas) · alta cupla de arranque · funcionamiento similar en CC · mismos componentes y precauciones (embalamiento en vacío).</div>
+<div class="box warn"><b>Diferencias</b>El universal se diseña para CA · su estator es de <b>chapas laminadas</b> para reducir pérdidas por flujo variable (histéresis y Foucault) · en CA tiene más chispeo y menor rendimiento.</div></div>
+</div></details>
+
+<details class="q"><summary><span class="num">12</span><span class="qt">Tipos de corriente en un motor y rendimiento.</span><span class="chev">▶</span></summary><div class="ans">
+<ul><li><b>Nominal (In):</b> en condiciones normales de operación.</li><li><b>De vacío (Io):</b> sin carga, ≈ 20–30 % de In.</li><li><b>De arranque (Iarr):</b> ≈ 7 In en directo.</li><li><b>A rotor bloqueado:</b> la máxima con el rotor detenido.</li></ul>
+<span class="formula">η = P_útil / P_eléctrica    P_eléc (3φ) = √3 · U · I · cos φ</span>
+<p>1 CV = 736 W · 1 HP ≈ 746 W. El motor siempre consume más que lo de placa por pérdidas (calor, fricción).</p>
+</div></details>
+
+<div class="extra">
+<h3>📌 Extra de las filminas (U3) que no está en las preguntas</h3>
+
+<h4>Leyes físicas del motor</h4>
+<ul><li><b>Ampère:</b> la circulación de B en un contorno cerrado es proporcional a la corriente encerrada (∮B·dl = μ₀I) → base de bobinas y transformadores.</li>
+<li><b>Faraday–Lenz:</b> fem = −ΔΦ/Δt; la fem inducida se opone a la variación de flujo que la produce → define el sentido de giro del rotor.</li>
+<li><b>Lorentz:</b> fuerza sobre una carga/conductor con corriente en un campo B, perpendicular a ambos (F = I·L·B) → produce la cupla.</li>
+<li><b>Ohm:</b> U = I·R, regula la corriente y por ende campo y cupla. Maxwell unifica todo.</li></ul>
+
+<h4>Sistema trifásico</h4>
+<div class="tw"><table><tr><th></th><th>Estrella (Y)</th><th>Triángulo (Δ)</th></tr><tr><td>Tensión</td><td>U<sub>L</sub> = √3·U<sub>F</sub></td><td>U<sub>L</sub> = U<sub>F</sub></td></tr><tr><td>Corriente</td><td>I<sub>L</sub> = I<sub>F</sub></td><td>I<sub>L</sub> = √3·I<sub>F</sub></td></tr></table></div>
+<span class="formula">S = √3·U<sub>L</sub>·I<sub>L</sub>   P = √3·U<sub>L</sub>·I<sub>L</sub>·cos φ   Q = √3·U<sub>L</sub>·I<sub>L</sub>·sen φ</span>
+<p><b>Valor eficaz (RMS):</b> el que produce el mismo efecto térmico que una CC igual; es lo que mide el voltímetro. V<sub>ef</sub> = V<sub>máx</sub>/√2.</p>
+
+<h4>Cargas lineales, no lineales y armónicos</h4>
+<p>Lineal: la corriente tiene la misma forma que la tensión. No lineal: la corriente se deforma (pulsos) → aparece <b>potencia de distorsión D</b>:</p>
+<span class="formula">FP = P / √(P² + Q² + D²)  → los armónicos bajan el FP</span>
+<ul><li>Armónico = frecuencia múltiplo entera de la fundamental (50 Hz → 3° = 150 Hz, 5° = 250 Hz…).</li><li>Los <b>pares</b> se anulan por simetría de media onda; importan los <b>impares (3, 5, 7)</b>.</li><li>Los generan cargas electrónicas: variadores, fuentes conmutadas, LED, soft starters. Causan sobrecalentamiento, mal funcionamiento y daños.</li><li><b>Corrección:</b> filtros <b>pasivos</b> LC sintonizados (baratos, para armónicos específicos) y filtros <b>activos</b> que inyectan corrientes opuestas (≈ 90 % de reducción, dinámicos).</li></ul>
+<div class="tw"><table><tr><th>THD de tensión</th><th>Efecto</th></tr><tr><td>&lt; 5 %</td><td>Nada en general</td></tr><tr><td>5–8 %</td><td>Falla de equipos muy sensibles</td></tr><tr><td>8–10 %</td><td>Probable mal funcionamiento</td></tr><tr><td>&gt; 10 %</td><td>Mal funcionamiento seguro</td></tr></table></div>
+<p><b>Transitorios:</b> picos de µs a ms (hasta ~6000 V) por rayos (externos) o conmutación de grandes cargas inductivas (internos). Se protegen con supresores de sobretensión. El <b>compensador dinámico</b> gestiona reactiva, armónicos y transitorios a la vez.</p>
+
+<h4>Equipos que generan reactiva</h4>
+<div class="grid2"><div><b>Inductiva:</b> motores (la principal), transformadores, lámparas de descarga, sensores inductivos, hornos de inducción.</div><div><b>Capacitiva:</b> sensores capacitivos, pantallas táctiles, medidores de nivel, contadores de presencia (y bancos de capacitores).</div></div>
+<p><b>Alternador vs compensador sincrónico:</b> el alternador es <b>generador</b> (entrega P y regula Q por excitación). El compensador es un <b>motor sincrónico en vacío</b>: solo entrega/absorbe Q (S = Qc). <b>Sobreexcitado</b> (Ei &gt; Vred) → I adelantada → se comporta como <b>capacitor</b>; <b>subexcitado</b> → I atrasada → inductivo. Los <b>compensadores estáticos</b> usan TSC (capacitor con tiristores) y TCR (reactor con tiristores).</p>
+
+<h4>Clasificación de motores</h4>
+<figure><svg viewBox="0 0 700 250" role="img" aria-label="Árbol de clasificación de motores"><g stroke="var(--svg-soft)" stroke-width="2" fill="none"><path d="M90 125H130M130 60V190M130 60H160M130 190H160M270 60H300M300 25V95M300 25H320M300 60H320M300 95H320M430 95H450M450 80V115M270 190H300M300 160V220M300 160H320M300 220H320M430 160H450M450 145V175M430 220H450M450 205V235"/></g>
+<g font-size="12" font-weight="700"><rect x="10" y="110" width="80" height="30" rx="6" fill="var(--mot-bg)"/><text x="18" y="130">MOTORES</text>
+<rect x="160" y="45" width="110" height="30" rx="6" fill="var(--lum-bg)"/><text x="168" y="65">Corriente continua</text>
+<rect x="160" y="175" width="110" height="30" rx="6" fill="var(--lum-bg)"/><text x="168" y="195">Corriente alterna</text>
+<text x="325" y="30">Imán permanente</text><text x="325" y="65">Excitación independiente</text><text x="325" y="100">Autoexcitado →</text><text x="455" y="85">Serie · Shunt · Compuesto (larga/corta)</text>
+<text x="325" y="165">Monofásicos →</text><text x="455" y="150">Asincrónicos (jaula / bobinado)</text><text x="455" y="180">Sincrónicos</text>
+<text x="325" y="225">Trifásicos →</text><text x="455" y="210">Asincrónicos (jaula / rotor bobinado)</text><text x="455" y="240">Sincrónicos</text></g></svg></figure>
+
+<h4>Motores de corriente continua</h4>
+<ul><li><b>Imán permanente:</b> imanes en el estator, bobinas en el rotor; pocas piezas, solo escobillas con mantenimiento, 2 cables.</li>
+<li><b>Excitación independiente:</b> dos fuentes (estator y rotor). Flujo constante → par casi constante; ideal para control preciso (tornos, extrusoras, grúas).<br><span class="formula">T ∝ Ia     n ≈ (V − Ia·Ra) / (k·Φ)</span></li></ul>
+<div class="tw"><table><tr><th></th><th>Serie</th><th>Shunt (paralelo)</th><th>Compuesto</th></tr>
+<tr><td>Conexión</td><td>Inductor en serie con inducido</td><td>Inductor en paralelo</td><td>Uno serie + uno paralelo</td></tr>
+<tr><td>Flujo</td><td>∝ corriente de carga</td><td>Casi constante</td><td>Base constante + parte variable</td></tr>
+<tr><td>Cupla</td><td>∝ I² · <b>muy alta al arranque</b></td><td>∝ I · moderada</td><td>Alta</td></tr>
+<tr><td>Velocidad</td><td>Cae mucho con la carga; <b>se embala en vacío</b></td><td>Casi constante</td><td>Bastante estable, poco riesgo de embalamiento</td></tr>
+<tr><td>Usos</td><td>Tracción, grúas, tranvías, elevadores</td><td>Máquinas herramienta, cintas, ventiladores, imprentas</td><td>Elevadores, laminación, bombas, compresores</td></tr></table></div>
+
+<h4>Monofásico: curvas comparativas</h4>
+<p>De mayor a menor cupla de arranque: <b>doble capacitor &gt; capacitor de arranque &gt; fase partida &gt; PSC &gt; polos sombra</b>. El salto en las curvas ≈ 75–80 % de n es la apertura del interruptor centrífugo. Fase partida: η ≈ 75 %, FP bajo. ~90 % de los MAM son de fase partida.</p>
+
+<h4>¿Qué pasa en el MAT si aumenta la carga?</h4>
+<p>Baja un poco n → sube s → sube la corriente inducida en el rotor → sube la cupla hasta igualar la resistente. También suben pérdidas y corriente de red. Si la carga supera la cupla máxima, s → 100 %: sobrecorriente y disparo. En el arranque s = 100 % → por eso la Iarr es tan alta.</p>
+
+<h4>Variador de frecuencia (VFD)</h4>
+<figure><svg viewBox="0 0 700 90" role="img" aria-label="Etapas del variador de frecuencia"><defs><marker id="ar7" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0L10,5L0,10z" fill="currentColor"/></marker></defs>
+<g style="color:var(--svg-ink)" stroke="currentColor" stroke-width="2" fill="none"><rect x="10" y="20" width="110" height="46" rx="8" fill="var(--elec-bg)"/><rect x="160" y="20" width="140" height="46" rx="8" fill="var(--lum-bg)"/><rect x="340" y="20" width="140" height="46" rx="8" fill="var(--ref-bg)"/><rect x="520" y="20" width="160" height="46" rx="8" fill="var(--mot-bg)"/><path d="M120 43H160M300 43H340M480 43H520" marker-end="url(#ar7)"/></g>
+<g font-size="12" font-weight="700" text-anchor="middle"><text x="65" y="40">Red CA</text><text x="65" y="56" font-size="11">50 Hz</text><text x="230" y="40">RECTIFICADOR</text><text x="230" y="56" font-size="11">diodos CA→CC</text><text x="410" y="40">BUS CC / FILTRO</text><text x="410" y="56" font-size="11">capacitores</text><text x="600" y="40">INVERSOR IGBT</text><text x="600" y="56" font-size="11">PWM → f y V variables</text></g></svg></figure>
+<p>La señal <b>PWM</b> varía el ciclo de trabajo de pulsos para que el valor medio simule una senoidal de la frecuencia deseada. Mantiene V/f constante para par constante. Permite control de velocidad y par, inversión de giro y PID. Aplicaciones: bombas, ventiladores, compresores, HVAC.</p>
+
+<h4>Fallas y protecciones de motores</h4>
+<ul><li><b>Eléctricas:</b> sobrecarga, cortocircuito, caída de tensión, desequilibrio o falta de fase.</li><li><b>Mecánicas:</b> rotor calado, sobrecarga momentánea o prolongada → recalentamiento de bobinados.</li></ul>
+<div class="tw"><table><tr><th></th><th>Guardamotor</th><th>Relé térmico</th></tr>
+<tr><td>Protege</td><td>Sobrecarga <b>y</b> cortocircuito (térmico + magnético), regulable</td><td>Solo sobrecarga</td></tr>
+<tr><td>Cómo corta</td><td>Directo sobre la línea de potencia (y manual)</td><td>Indirecto: abre el circuito de mando del contactor</td></tr>
+<tr><td>Necesita</td><td>Funciona solo (se suele sumar contactor)</td><td>Contactor + protección de cortocircuito aguas arriba</td></tr></table></div>
+<p><b>Contactor:</b> interruptor electromecánico de maniobra a distancia (botonera, PLC); millones de maniobras; si vuelve la energía no rearranca solo. <b>Contactor + guardamotor</b> = maniobra + protección integral. Con <b>PLC</b> (24 Vcc, ~0,1 A) se intercala un <b>relé</b> para manejar la bobina del contactor y no quemar el PLC. Circuito de potencia (ITM, guardamotor/relé térmico, contactor, motor) vs circuito de control (PLC, relé, HMI, pulsadores).</p>
+<p><b>Inversión de giro:</b> se intercambian dos fases cualesquiera (R↔T).</p>
+<p><b>Placa del MAT (lo más importante):</b> fases, frecuencia, potencia, rpm, tensión/corriente en Y y en Δ (ej. 400 V Y 29 A / 230 V Δ 50 A), cos φ, IP, clase de aislación, servicio, eficiencia (IE2/IE3), peso.</p>
+</div>
+</section>
+
+<!-- ============================================================ -->
+<section class="unit u-lum" id="lum">
+<div class="unit-head"><h2>💡 U2 · Luminotecnia</h2>
+<p>Espectro, magnitudes, fotometría, luminarias, lámparas, cálculo por método del flujo total</p>
+<div class="progress"><i></i></div></div>
+
+<details class="q"><summary><span class="num">1</span><span class="qt">Espectro electromagnético del infrarrojo al ultravioleta, con las longitudes de onda de las bandas.</span><span class="chev">▶</span></summary><div class="ans">
+<figure><svg viewBox="0 0 720 150" role="img" aria-label="Espectro visible">
+<defs><linearGradient id="vis" x1="0" x2="1"><stop offset="0" stop-color="#7b2ff7"/><stop offset=".17" stop-color="#2b4cff"/><stop offset=".3" stop-color="#00b4ff"/><stop offset=".45" stop-color="#19c24a"/><stop offset=".6" stop-color="#f5e400"/><stop offset=".72" stop-color="#ff9800"/><stop offset="1" stop-color="#e3001b"/></linearGradient></defs>
+<rect x="20" y="40" width="130" height="50" rx="6" fill="#6c4ab0" opacity=".35"/>
+<rect x="150" y="40" width="420" height="50" fill="url(#vis)"/>
+<rect x="570" y="40" width="130" height="50" rx="6" fill="#b0302c" opacity=".35"/>
+<g font-size="12.5" font-weight="800" text-anchor="middle">
+<text x="85" y="70">ULTRAVIOLETA</text><text x="360" y="30">VISIBLE 380 – 770 nm</text><text x="635" y="70">INFRARROJO</text>
+<text x="85" y="110" font-size="11">100 – 380 nm</text><text x="85" y="125" font-size="11">(rayos X, γ más allá)</text>
+<text x="635" y="110" font-size="11">770 nm – 1 mm</text><text x="635" y="125" font-size="11">(calor; luego microondas, radio)</text>
+<text x="150" y="108" font-size="11">380</text><text x="570" y="108" font-size="11">770</text>
+<text x="360" y="140" font-size="11">← mayor frecuencia y energía    ·    mayor λ →</text></g></svg></figure>
+<div class="tw"><table><tr><th>Color</th><th>Violeta</th><th>Azul</th><th>Verde</th><th>Amarillo</th><th>Naranja</th><th>Rojo</th></tr>
+<tr><td>λ [nm]</td><td>380–450</td><td>450–495</td><td>495–570</td><td>570–590</td><td>590–620</td><td>620–770</td></tr></table></div>
+<ul><li><b>UV</b> (100–380 nm): alta energía, altera moléculas. UV-A (onda larga), UV-B (media), UV-C (corta). Debajo: rayos X y γ (nocivos).</li>
+<li><b>IR</b> (770 nm – 1 mm): no se ve, se percibe como <b>calor</b>. Cercano 0,8–2,5 µm · medio 2,5–50 µm · lejano 50–1000 µm.</li></ul>
+</div></details>
+
+<details class="q"><summary><span class="num">2</span><span class="qt">Relación entre longitud de onda, velocidad y frecuencia/período.</span><span class="chev">▶</span></summary><div class="ans">
+<span class="formula">v = f · λ      f = 1 / T</span>
+<p><b>λ</b> = distancia que recorre la onda en un período; <b>f</b> = ciclos por segundo [Hz]; <b>T</b> = período [s]; v = c ≈ 3·10⁸ m/s para la luz. A mayor frecuencia → menor λ → mayor energía del fotón (E = h·f).</p>
+</div></details>
+
+<details class="q"><summary><span class="num">3</span><span class="qt">Intensidad luminosa, flujo luminoso, iluminancia, luminancia y rendimiento luminoso: definición y unidad.</span><span class="chev">▶</span></summary><div class="ans">
+<figure><svg viewBox="0 0 680 230" role="img" aria-label="Magnitudes fotométricas">
+<circle cx="120" cy="60" r="22" fill="var(--lum)"/>
+<g stroke="var(--lum)" stroke-width="3"><path d="M120 22V8M150 35L162 25M158 60H175M90 35L78 25M82 60H65"/></g>
+<path d="M120 82L60 200H180Z" fill="var(--lum-bg)" stroke="var(--lum)" stroke-width="2"/>
+<path d="M120 82L110 200H130Z" fill="var(--lum)" opacity=".5"/>
+<rect x="40" y="200" width="160" height="10" fill="var(--svg-soft)"/>
+<g font-size="12.5" font-weight="800"><text x="185" y="40">Φ flujo [lm]: toda la luz que sale</text><text x="140" y="140">I [cd]: en UNA dirección</text><text x="215" y="210">E [lux = lm/m²]: lo que LLEGA a la superficie</text></g>
+<path d="M470 120L560 80" stroke="var(--svg-ink)" stroke-width="2"/><circle cx="575" cy="73" r="14" fill="var(--card)" stroke="var(--svg-ink)" stroke-width="2"/><circle cx="580" cy="73" r="4" fill="var(--svg-ink)"/>
+<rect x="430" y="110" width="60" height="40" fill="var(--lum-bg)" stroke="var(--lum)" stroke-width="2"/>
+<g font-size="12.5" font-weight="800"><text x="400" y="175">L [cd/m²]: brillo que ve el ojo</text></g>
+</svg></figure>
+<div class="tw"><table><tr><th>Magnitud</th><th>Símbolo</th><th>Unidad</th><th>Qué es</th></tr>
+<tr><td>Flujo luminoso</td><td>Φ</td><td>lumen [lm]</td><td>Potencia luminosa total emitida en todas direcciones, ponderada por la sensibilidad del ojo. <i>Símil: agua que sale de una esfera con agujeros.</i></td></tr>
+<tr><td>Intensidad luminosa</td><td>I</td><td>candela [cd] = lm/sr</td><td>Flujo en una <b>dirección</b> por unidad de ángulo sólido. Mismo flujo con haz más cerrado → más candelas (láser).</td></tr>
+<tr><td>Iluminancia</td><td>E</td><td>lux [lx] = lm/m² (footcandle en sistema imperial)</td><td>Flujo que <b>incide</b> sobre una superficie por unidad de área. E<sub>m</sub> = promedio sobre un área.</td></tr>
+<tr><td>Luminancia</td><td>L</td><td>cd/m² (nit)</td><td>Intensidad emitida o reflejada por una superficie por unidad de área aparente vista desde una dirección → <b>brillo percibido</b>. En vías: L<sub>media</sub> medida entre 60 y 100 m delante del observador.</td></tr>
+<tr><td>Rendimiento (eficacia) luminoso</td><td>η</td><td>lm/W</td><td>Flujo emitido / potencia eléctrica consumida.</td></tr></table></div>
+</div></details>
+
+<details class="q"><summary><span class="num">4</span><span class="qt">Curvas isolux; diferencias entre diagrama polar, isocandela e isolux.</span><span class="chev">▶</span></summary><div class="ans">
+<div class="grid2">
+<figure><svg viewBox="0 0 260 200" role="img" aria-label="Diagrama polar"><g fill="none" stroke="var(--svg-soft)"><circle cx="130" cy="60" r="40"/><circle cx="130" cy="60" r="80"/><circle cx="130" cy="60" r="120"/><path d="M10 60H250M130 60V200"/></g>
+<path d="M130 60C60 80 80 180 130 175C180 180 200 80 130 60Z" fill="var(--lum-bg)" stroke="var(--lum)" stroke-width="3"/><g font-size="12" font-weight="800"><text x="8" y="20">Polar: I [cd] vs ángulo γ</text><text x="140" y="195">0°</text></g></svg><figcaption>Curva de distribución (polar)</figcaption></figure>
+<figure><svg viewBox="0 0 260 200" role="img" aria-label="Curvas isolux"><rect x="10" y="20" width="240" height="160" fill="var(--bg)" stroke="var(--svg-soft)"/>
+<g fill="none" stroke="var(--comb)" stroke-width="2"><ellipse cx="60" cy="100" rx="30" ry="22"/><ellipse cx="70" cy="100" rx="60" ry="45"/><ellipse cx="85" cy="100" rx="100" ry="68"/><ellipse cx="100" cy="100" rx="145" ry="80"/></g>
+<circle cx="55" cy="100" r="5" fill="var(--lum)"/><g font-size="11" font-weight="800"><text x="48" y="90">200</text><text x="112" y="100">100</text><text x="170" y="100">50</text><text x="225" y="100">15</text><text x="14" y="16">Isolux: puntos de igual E [lx]</text></g></svg><figcaption>Curvas isolux sobre el plano (calzada / vereda)</figcaption></figure></div>
+<ul><li><span class="k">Diagrama polar:</span> representa la <b>intensidad luminosa</b> de la luminaria en un plano vertical C, con el ángulo γ respecto a la vertical; la longitud del vector es I [cd]. Normalmente referida a 1000 lm.</li>
+<li><span class="k">Diagrama isocandela:</span> como el polar da info solo de algunos planos C, se representa en un plano (coordenadas α, β) las curvas que unen puntos de <b>igual intensidad</b> en todo el espacio.</li>
+<li><span class="k">Curvas isolux:</span> unen puntos de <b>igual iluminancia</b> sobre la superficie de trabajo/calzada (en múltiplos de la altura H). Indican cuánta luz <b>llega</b> a cada punto. Muy usadas en alumbrado público.</li></ul>
+<div class="box tip"><b>Diferencia clave</b>Polar e isocandela → lo que <b>emite</b> la luminaria (intensidad, cd). Isolux → lo que <b>recibe</b> la superficie (iluminancia, lux).</div>
+</div></details>
+
+<details class="q"><summary><span class="num">5</span><span class="qt">¿Qué son las luminarias? Clasificación eléctrica y óptica.</span><span class="chev">▶</span></summary><div class="ans">
+<p><span class="k">Luminaria:</span> aparato que <b>reparte, filtra o transforma</b> la luz de una o varias lámparas e incluye todo lo necesario para su <b>soporte, fijación y protección</b>, y los circuitos auxiliares y conexión a la red. Debe controlar la distribución con mínima pérdida y reducir el deslumbramiento.</p>
+<div class="grid2"><div><p><span class="k">Eléctrica</span> (protección contra contactos):</p><ul><li><b>Clase 0:</b> aislación normal, sin tierra.</li><li><b>Clase I:</b> aislación normal + toma de tierra.</li><li><b>Clase II:</b> doble aislación, sin tierra.</li><li><b>Clase III:</b> muy baja tensión de seguridad (MBTS).</li></ul><p><span class="k">Mecánica:</span> grado IP.</p></div>
+<div><p><span class="k">Óptica:</span></p><ul><li><b>Interiores</b> (según % de flujo hacia abajo).</li><li><b>Alumbrado público:</b> cut-off, semi cut-off, non cut-off; según CIE por alcance, apertura y control.</li><li><b>Proyectores:</b> haz estrecho, medio o ancho.</li></ul></div></div>
+<figure><svg viewBox="0 0 720 150" role="img" aria-label="Distribución de flujo de luminarias de interior"><g font-size="11.5" font-weight="800" text-anchor="middle">
+<g transform="translate(70,0)"><path d="M-50 15H50" stroke="var(--svg-soft)" stroke-width="3"/><path d="M-20 60H20L35 125H-35Z" fill="var(--lum)" opacity=".75"/><text x="0" y="40">0–10 %</text><text x="0" y="145">DIRECTA 90–100 %</text></g>
+<g transform="translate(215,0)"><path d="M-50 15H50" stroke="var(--svg-soft)" stroke-width="3"/><path d="M-15 40H15L25 60H-25Z" fill="var(--lum)" opacity=".45"/><path d="M-20 60H20L32 115H-32Z" fill="var(--lum)" opacity=".7"/><text x="0" y="145">SEMIDIRECTA 60–90 %</text></g>
+<g transform="translate(360,0)"><path d="M-50 15H50" stroke="var(--svg-soft)" stroke-width="3"/><path d="M-25 25H25L20 60H-20Z" fill="var(--lum)" opacity=".55"/><path d="M-20 60H20L25 100H-25Z" fill="var(--lum)" opacity=".55"/><text x="0" y="145">DIRECTA-INDIRECTA 40–60 %</text></g>
+<g transform="translate(505,0)"><path d="M-50 15H50" stroke="var(--svg-soft)" stroke-width="3"/><path d="M-30 20H30L20 60H-20Z" fill="var(--lum)" opacity=".7"/><path d="M-20 60H20L15 80H-15Z" fill="var(--lum)" opacity=".4"/><text x="0" y="145">SEMIINDIRECTA 10–40 %</text></g>
+<g transform="translate(650,0)"><path d="M-50 15H50" stroke="var(--svg-soft)" stroke-width="3"/><path d="M-35 18H35L20 60H-20Z" fill="var(--lum)" opacity=".8"/><text x="0" y="90">0–10 %</text><text x="0" y="145">INDIRECTA</text></g>
+</g></svg><figcaption>% del flujo hacia el plano de trabajo (abajo); el resto va al techo</figcaption></figure>
+<ul><li><b>Directa:</b> máxima iluminación eficaz y más económica, pero sombras duras y deslumbramiento (se atenúa con difusores o empotrando).</li><li><b>Semidirecta:</b> el techo alrededor queda más brillante; sombras más suaves.</li><li><b>Directa-indirecta (difusa):</b> con paredes claras aporta componente indirecta.</li><li><b>Semiindirecta:</b> mejora la relación de brillo techo/luminaria.</li><li><b>Indirecta:</b> el techo se vuelve la fuente; luz difusa, uniforme, sin sombras ni reflejos → oficinas, escuelas.</li></ul>
+</div></details>
+
+<h3 class="sub">Lámparas</h3>
+<figure><svg viewBox="0 0 720 210" role="img" aria-label="Clasificación de lámparas"><g font-size="12" font-weight="700">
+<rect x="10" y="90" width="80" height="30" rx="6" fill="var(--lum)"/><text x="22" y="110" style="fill:#2b2100">LÁMPARAS</text>
+<g stroke="var(--svg-soft)" stroke-width="2" fill="none"><path d="M90 105H110V30H130M110 105H130M110 105V180H130M260 30H280V15H300M280 30V45H300M260 105H280V75H300M280 105V135H300M260 180H300"/></g>
+<rect x="130" y="15" width="130" height="30" rx="6" fill="var(--comb-bg)"/><text x="138" y="35">Radiador térmico</text>
+<rect x="130" y="90" width="130" height="30" rx="6" fill="var(--elec-bg)"/><text x="138" y="110">De descarga</text>
+<rect x="130" y="165" width="130" height="30" rx="6" fill="var(--tip-bg)"/><text x="138" y="185">Electrónicas</text>
+<text x="305" y="19">Incandescente (prohibida 2011)</text><text x="305" y="49">Halógena</text>
+<text x="305" y="79">Baja presión: fluorescente, CFL, sodio BP (SBP)</text><text x="305" y="139">Alta presión: sodio AP (SAP), mercurio (MAP), halogenuros metálicos</text>
+<text x="305" y="185">LED</text></g></svg></figure>
+
+<details class="q"><summary><span class="num">6</span><span class="qt">Lámpara incandescente: esquema, funcionamiento, ventajas, desventajas y aplicaciones.</span><span class="chev">▶</span></summary><div class="ans">
+<div class="grid2"><figure><svg viewBox="0 0 240 230" role="img" aria-label="Lámpara incandescente">
+<path d="M120 20C60 20 40 80 70 120C85 140 90 150 90 165H150C150 150 155 140 170 120C200 80 180 20 120 20Z" fill="var(--lum-bg)" stroke="var(--svg-ink)" stroke-width="2"/>
+<rect x="90" y="165" width="60" height="40" rx="4" fill="var(--svg-soft)" stroke="var(--svg-ink)"/><path d="M90 175H150M90 185H150M90 195H150" stroke="var(--svg-ink)"/>
+<path d="M105 165V95M135 165V95" stroke="var(--svg-ink)" stroke-width="1.5"/><path d="M105 95L110 85L115 95L120 85L125 95L130 85L135 95" stroke="var(--comb)" stroke-width="2.5" fill="none"/>
+<g font-size="11" font-weight="800"><text x="150" y="40">ampolla</text><text x="138" y="80" style="fill:var(--comb)">filamento W</text><text x="8" y="70">gas inerte</text><text x="8" y="85">o vacío</text><text x="8" y="140">hilos cond.</text><text x="155" y="195">casquillo</text></g></svg></figure>
+<div><p>Filamento de <b>tungsteno</b> en vacío o gas inerte que se pone al rojo blanco por <b>efecto Joule</b> (~2100 °C). Conexión directa a la red.</p><p>Solo <b>15 % → luz</b>, 25 % calor directo, 60 % radiación no visible. Eficacia 7,5–15 lm/W, vida ~1000 h. <b>Prohibida en Argentina desde 2011 (Ley 26.473)</b>.</p></div></div>
+<div class="grid2"><div class="box tip"><b>✅</b>Sin equipo auxiliar · buen IRC (~100) · regulable · barata · encendido instantáneo.</div><div class="box warn"><b>❌</b>Bajísima eficiencia · mucho calor · vida corta · ennegrecimiento de la ampolla (baja el flujo).</div></div>
+<p><b>Uso:</b> donde no se requiera mucho mantenimiento ni alto nivel de iluminación; decorativa.</p>
+</div></details>
+
+<details class="q"><summary><span class="num">7</span><span class="qt">Lámpara halógena: esquema, funcionamiento, ventajas, desventajas, aplicaciones y ciclo del halógeno.</span><span class="chev">▶</span></summary><div class="ans">
+<p>Variante de la incandescente: filamento de tungsteno en gas inerte + <b>pequeña cantidad de halógeno</b> (yodo, bromo) en una ampolla de <b>cuarzo</b> (no tocar con los dedos). Filamento a ~2500 °C, eficacia ~22 lm/W, vida &gt;2000 h.</p>
+<figure><svg viewBox="0 0 680 160" role="img" aria-label="Ciclo del halógeno"><defs><marker id="arH" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0L10,5L0,10z" fill="currentColor"/></marker></defs>
+<g style="color:var(--svg-ink)" stroke="currentColor" stroke-width="2" fill="none">
+<rect x="10" y="50" width="130" height="60" rx="10" fill="var(--comb-bg)"/><rect x="190" y="50" width="130" height="60" rx="10" fill="var(--lum-bg)"/><rect x="370" y="50" width="130" height="60" rx="10" fill="var(--mot-bg)"/><rect x="550" y="50" width="120" height="60" rx="10" fill="var(--elec-bg)"/>
+<path d="M140 80H190M320 80H370M500 80H550" marker-end="url(#arH)"/><path d="M610 110V140H75V110" marker-end="url(#arH)"/></g>
+<g font-size="11.5" font-weight="800" text-anchor="middle"><text x="75" y="76">Filamento caliente</text><text x="75" y="92">evapora W</text><text x="255" y="76">W toca el vidrio</text><text x="255" y="92">(T &lt; 1400 °C)</text><text x="435" y="76">W + halógeno</text><text x="435" y="92">= halogenuro de W</text><text x="610" y="70">Vuelve al</text><text x="610" y="86">filamento (T alta):</text><text x="610" y="102">se descompone</text><text x="340" y="156">el W se redeposita en el filamento → no se ennegrece la ampolla</text></g></svg></figure>
+<div class="grid2"><div class="box tip"><b>✅</b>Más eficiente y duradera que la incandescente · tamaños y potencias variados · regulable · haz focalizado · encendido instantáneo · IRC excelente.</div><div class="box warn"><b>❌</b>Aún baja eficiencia · mucho calor · vida corta · las de BT necesitan transformador.</div></div>
+<p><b>Uso:</b> luminarias pequeñas, iluminación de acento, vidrieras, reflectores, donde se requiera encendido instantáneo.</p>
+</div></details>
+
+<details class="q"><summary><span class="num">8</span><span class="qt">Lámpara fluorescente: esquema, funcionamiento, ventajas, desventajas, circuito y función de los equipos auxiliares.</span><span class="chev">▶</span></summary><div class="ans">
+<p>Tubo con <b>vapor de mercurio a baja presión</b> + argón. Los electrones acelerados chocan con los átomos de Hg, que al desexcitarse emiten <b>UV</b> (254 y 185 nm); el <b>polvo fluorescente (fósforo)</b> de la pared convierte el UV en <b>luz visible</b>. η = 50–90 lm/W, vida 7.000–15.000 h.</p>
+<figure><svg viewBox="0 0 680 230" role="img" aria-label="Circuito de tubo fluorescente">
+<g stroke="var(--svg-ink)" stroke-width="2" fill="none">
+<path d="M40 30H180"/><path d="M180 30C190 15 200 45 210 30C220 15 230 45 240 30C250 15 260 45 270 30" stroke="var(--mot)" stroke-width="3"/><path d="M270 30H560V60"/>
+<path d="M40 200H560V170"/><path d="M40 30V95M40 135V200"/><path d="M25 95H55M25 105H55" stroke="var(--elec)" stroke-width="3"/><path d="M40 105V135"/>
+<rect x="520" y="60" width="80" height="110" rx="14" fill="var(--ref-bg)"/>
+<path d="M600 75H640V155H600"/><circle cx="640" cy="115" r="16" fill="var(--lum-bg)"/>
+</g>
+<g font-size="12" font-weight="800"><text x="10" y="25">F</text><text x="10" y="215">N</text><text x="190" y="62" style="fill:var(--mot)">BALASTO (serie)</text><text x="62" y="105" style="fill:var(--elec)">Capacitor (paralelo)</text><text x="62" y="120" style="fill:var(--elec)">corrige FP</text><text x="530" y="120">TUBO</text><text x="600" y="150" font-size="11">cebador</text></g></svg></figure>
+<ol><li>Al cerrar el interruptor, la tensión aparece sobre el <b>cebador</b> (ampolla con neón y lámina bimetálica).</li>
+<li>Se forma un arco en el neón que calienta y curva el bimetal hasta cerrar el contacto.</li>
+<li>Circula corriente por los <b>electrodos</b> (filamentos) que se calientan y emiten electrones.</li>
+<li>El bimetal se enfría y abre → el <b>balasto</b> genera una <b>sobretensión</b> (L·di/dt) que enciende el arco en el tubo.</li>
+<li>Ya encendido, el balasto <b>limita la corriente</b> y estabiliza la descarga.</li></ol>
+<ul><li><span class="k">Balasto:</span> bobina en serie con núcleo de chapas; genera el pico de arranque y luego limita/estabiliza la corriente (la descarga tiene resistencia negativa).</li>
+<li><span class="k">Cebador:</span> arrancador bimetálico en cápsula de neón, en paralelo con el tubo.</li>
+<li><span class="k">Capacitor:</span> en paralelo con la red para corregir el FP (el balasto es inductivo).</li></ul>
+<div class="grid2"><div class="box tip"><b>✅</b>Alta eficacia · larga vida · poco calor · buen IRC (≈85).</div><div class="box warn"><b>❌</b>Equipo auxiliar · regulación cara · voluminosa · le afectan los encendidos frecuentes · contiene Hg.</div></div>
+<p><b>Uso:</b> comercial e industrial, oficinas, donde no haya muchos encendidos. La <b>CFL</b> (compacta) integra el equipo electrónico (rectificador + oscilador) en la base: CFL 20 W ≈ incandescente 100 W.</p>
+</div></details>
+
+<details class="q"><summary><span class="num">9</span><span class="qt">Lámpara de sodio de baja presión (SBP): esquema, funcionamiento, ventajas, desventajas, aplicaciones y circuito.</span><span class="chev">▶</span></summary><div class="ans">
+<p>Tubo de descarga en <b>forma de U</b> con vapor de sodio a baja presión, gases <b>Ne y Ar</b> como iniciadores, dentro de una ampolla exterior transparente (al vacío para conservar calor). Casquillo de bayoneta. Emite casi solo en <b>589 – 589,6 nm (amarillo)</b>, donde el ojo es más sensible → <b>la de mayor eficacia</b> (100–200 lm/W).</p>
+<ol><li>Al cerrar el circuito la descarga comienza a través del <b>neón</b> (luz rojiza).</li><li>Con la temperatura se vaporiza el sodio y la descarga pasa a través del vapor de Na.</li><li>La luz se vuelve <b>amarilla</b> hasta estabilizarse con flujo máximo (~15 min).</li></ol>
+<p><b>Equipo:</b> balasto/autotransformador de dispersión (serie) + arrancador (paralelo) + capacitor de corrección de FP (paralelo).</p>
+<div class="grid2"><div class="box tip"><b>✅</b>Eficacia altísima · vida media elevada · buena visión en niebla.</div><div class="box warn"><b>❌</b>IRC prácticamente <b>nulo</b> (todo se ve amarillo/monocromático) · equipo auxiliar · tiempo de encendido · voluminosa.</div></div>
+<p><b>Uso:</b> alumbrado exterior donde no importa el color: autopistas, túneles, puertos.</p>
+</div></details>
+
+<details class="q"><summary><span class="num">10</span><span class="qt">Lámpara de sodio de alta presión (SAP): esquema, funcionamiento, ventajas, desventajas, aplicaciones y circuito.</span><span class="chev">▶</span></summary><div class="ans">
+<p>Tubo de descarga de <b>cerámica translúcida</b> (alúmina) con vapor de sodio a alta presión dentro de una ampolla (tubular u ovoide), casquillo a rosca. Emite en <b>casi todo el espectro</b> → luz blanco-dorada más agradable que la SBP.</p>
+<ol><li>La luz se obtiene por el choque de electrones libres con los átomos del gas en el tubo.</li><li>Los choques excitan electrones a órbitas de mayor energía.</li><li>Al volver a su órbita emiten fotones (luz).</li></ol>
+<p><b>Equipo:</b> <b>balasto</b> + <b>arrancador/ignitor</b> que da un pulso de <b>alta tensión</b> (kV) — externo o incorporado, en serie o semiparalelo — + capacitor en paralelo para el FP. Tensión de arranque muy alta pero transitorio breve.</p>
+<div class="grid2"><div class="box tip"><b>✅</b>Eficacia elevada (80–140 lm/W) · vida larga (12–24 mil h) · IRC aceptable (20–65; mayor en muy alta presión).</div><div class="box warn"><b>❌</b>Equipo auxiliar · tiempo de encendido y reencendido (~10 min) · tamaño.</div></div>
+<p><b>Uso:</b> alumbrado vial y público, estadios, naves industriales, donde no se exige alto rendimiento cromático.</p>
+</div></details>
+
+<details class="q"><summary><span class="num">11</span><span class="qt">Lámpara de mercurio de alta presión (MAP): esquema, funcionamiento, ventajas, desventajas, aplicaciones y circuito.</span><span class="chev">▶</span></summary><div class="ans">
+<p>Tubo de descarga de <b>cuarzo</b> con vapor de mercurio, <b>dos electrodos principales y uno auxiliar</b> de arranque (con resistencia en serie), dentro de una ampolla ovoide recubierta de <b>sustancia fluorescente</b> (agrega el rojo que el Hg a alta presión no emite).</p>
+<ol><li>Al cerrar, salta un pequeño arco entre electrodo principal y auxiliar que ioniza el gas de relleno (argón).</li><li>La descarga primero va por el gas (el Hg está frío y a baja presión).</li><li>El Hg se calienta, se vaporiza, sube la presión y la tensión en bornes.</li><li>A los ~4 min el Hg está totalmente vaporizado: sube el flujo y cambia el color.</li><li>En equilibrio el balasto regula la corriente.</li></ol>
+<p><b>Equipo:</b> solo <b>balasto (reactancia) en serie</b> + capacitor de corrección de FP en <b>paralelo</b>. <b>No necesita arrancador</b> (por el electrodo auxiliar).</p>
+<div class="grid2"><div class="box tip"><b>✅</b>IRC normal y constante · vida alta · sin arrancador.</div><div class="box warn"><b>❌</b>Baja eficacia (40–60 lm/W) · ~4 min de encendido y debe enfriarse para reencender · contiene Hg (residuo) · <b>prohibidas desde 2015</b>.</div></div>
+<div class="box warn"><b>⚠️ Corrección</b>En el resumen dice “condensador en serie”. El capacitor de corrección de FP va en <b>paralelo</b> con la red.</div>
+</div></details>
+
+<details class="q"><summary><span class="num">12</span><span class="qt">Lámpara de halogenuros metálicos: esquema, funcionamiento, ventajas, desventajas, aplicaciones y circuito.</span><span class="chev">▶</span></summary><div class="ans">
+<p>Variedad de la de <b>vapor de mercurio</b> a la que se le agregan <b>aditivos metálicos (yoduros)</b> en el tubo de cuarzo para potenciar zonas del espectro → mejor rendimiento luminoso <b>y</b> de color. El espectro se puede “diseñar” según los metales agregados.</p>
+<ol><li>La descarga se produce por la diferencia de potencial entre electrodos.</li><li>Un flujo de electrones atraviesa el gas y excita los átomos.</li><li>Según el yoduro usado se obtienen distintos colores.</li></ol>
+<p><b>Equipo:</b> <b>arrancador con tiristor</b> (pulso de muy alta tensión por los halogenuros) + balasto en serie + capacitor para el FP.</p>
+<div class="grid2"><div class="box tip"><b>✅</b>Eficacia elevada (~80–100 lm/W) · <b>muy buen IRC</b> (60–93) · tamaño medio.</div><div class="box warn"><b>❌</b>Equipo auxiliar · costo elevado · tiempo de encendido/reencendido · estabilización del color.</div></div>
+<p><b>Uso:</b> donde importa el color: estadios, centros comerciales, fachadas, monumentos, TV.</p>
+</div></details>
+
+<details class="q"><summary><span class="num">13</span><span class="qt">Lámpara LED: esquema, funcionamiento, ventajas, desventajas y aplicaciones.</span><span class="chev">▶</span></summary><div class="ans">
+<p>Fuente de <b>estado sólido</b>: diodos semiconductores que emiten luz por <span class="k">electroluminiscencia</span>. Los electrones de la capa N se recombinan con los huecos de la capa P y liberan energía como <b>fotones</b>; el tamaño del salto de banda define el color. Luz blanca = LED azul + capa de <b>fósforo</b>.</p>
+<figure><svg viewBox="0 0 640 180" role="img" aria-label="Unión PN del LED">
+<rect x="80" y="70" width="160" height="70" fill="var(--elec-bg)" stroke="var(--elec)" stroke-width="2"/><rect x="240" y="70" width="160" height="70" fill="var(--comb-bg)" stroke="var(--comb)" stroke-width="2"/>
+<g fill="var(--elec)"><circle cx="120" cy="95" r="6"/><circle cx="160" cy="115" r="6"/><circle cx="200" cy="95" r="6"/></g>
+<g fill="none" stroke="var(--comb)" stroke-width="2"><circle cx="280" cy="95" r="6"/><circle cx="320" cy="115" r="6"/><circle cx="360" cy="95" r="6"/></g>
+<g stroke="var(--lum)" stroke-width="3"><path d="M240 60L225 30M240 60L255 25M240 60L270 40"/></g>
+<g font-size="12.5" font-weight="800"><text x="135" y="160">Capa N (e⁻)</text><text x="290" y="160">Capa P (huecos)</text><text x="275" y="25" style="fill:var(--lum)">fotón (luz)</text>
+<text x="420" y="85">Partes: chip LED, lente,</text><text x="420" y="102">encapsulante, junta de cable,</text><text x="420" y="119">plomos (ánodo/cátodo),</text><text x="420" y="136">disipador de calor, carcasa</text></g></svg></figure>
+<ul><li>Trabajan con una <b>corriente</b> concreta (no una tensión): se alimentan en CC mediante <b>driver/fuente</b> o resistencia en serie que limita la corriente.</li><li>Un aumento de tensión puede destruirlos; bajar la potencia sirve para regular (dimerizar).</li></ul>
+<div class="grid2"><div class="box tip"><b>✅</b>Alta eficacia (80–150+ lm/W) · vida 25.000–50.000 h · bajo consumo · muy compactos · buen IRC · control del haz · encendido instantáneo · resistentes.</div><div class="box warn"><b>❌</b>Necesitan driver (equipo auxiliar) · costo inicial · sensibles al calor (requieren disipador) · generan armónicos.</div></div>
+<p><b>Uso:</b> prácticamente todo: residencial, comercial, industrial, vial, exterior.</p>
+</div></details>
+
+<details class="q"><summary><span class="num">14</span><span class="qt">Temperatura de color e IRC.</span><span class="chev">▶</span></summary><div class="ans">
+<figure><svg viewBox="0 0 680 80" role="img" aria-label="Escala de temperatura de color"><defs><linearGradient id="tc" x1="0" x2="1"><stop offset="0" stop-color="#ff8a2a"/><stop offset=".45" stop-color="#ffe3b0"/><stop offset=".7" stop-color="#ffffff"/><stop offset="1" stop-color="#a9c8ff"/></linearGradient></defs>
+<rect x="20" y="15" width="640" height="30" rx="8" fill="url(#tc)" stroke="var(--svg-soft)"/>
+<g font-size="12" font-weight="800" text-anchor="middle"><text x="120" y="66">CÁLIDA &lt; 3300 K</text><text x="360" y="66">INTERMEDIA 3300–5000 K</text><text x="580" y="66">FRÍA &gt; 5000 K</text></g></svg></figure>
+<p><span class="k">Temperatura de color:</span> medida objetiva [K] de la sensación “cálida” o “fría” de la luz (temperatura a la que un cuerpo negro emite ese color). Sodio ~1800–2100 K, incandescente ~2700 K, LED/fluorescente 2700–6500 K.</p>
+<p><span class="k">IRC (índice de reproducción cromática):</span> capacidad de mostrar los colores reales comparada con la luz natural, escala <b>0–100</b>. Cerca de 100 = excelente (galerías, tiendas de ropa, pintura); &lt; 50 = calidad baja. SBP ≈ 0, SAP 20–65, MAP ≈ 50, fluorescente ≈ 85, halogenuros 60–93, incandescente ≈ 100.</p>
+</div></details>
+
+<details class="q"><summary><span class="num">15</span><span class="qt">Pasos de un cálculo luminotécnico de una instalación industrial. Datos de partida. Método del flujo total (de los lúmenes).</span><span class="chev">▶</span></summary><div class="ans">
+<figure><svg viewBox="0 0 700 130" role="img" aria-label="Pasos del método de los lúmenes"><defs><marker id="arL" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0L10,5L0,10z" fill="currentColor"/></marker></defs>
+<g style="color:var(--svg-ink)" stroke="currentColor" stroke-width="2" fill="none"><rect x="5" y="30" width="120" height="50" rx="8" fill="var(--ref-bg)"/><rect x="150" y="30" width="120" height="50" rx="8" fill="var(--lum-bg)"/><rect x="295" y="30" width="120" height="50" rx="8" fill="var(--mot-bg)"/><rect x="440" y="30" width="120" height="50" rx="8" fill="var(--comb-bg)"/><rect x="585" y="30" width="110" height="50" rx="25" fill="var(--tip-bg)"/>
+<path d="M125 55H150M270 55H295M415 55H440M560 55H585" marker-end="url(#arL)"/><path d="M640 80V110H355V80" marker-end="url(#arL)" stroke-dasharray="5 4"/></g>
+<g font-size="11.5" font-weight="800" text-anchor="middle"><text x="65" y="52">1. Datos</text><text x="65" y="68" font-size="10.5">local, Em, lámpara</text><text x="210" y="52">2. k, ρ → η</text><text x="210" y="68" font-size="10.5">y fm</text><text x="355" y="52">3. ΦT y N</text><text x="355" y="68" font-size="10.5">luminarias</text><text x="500" y="52">4. Distribuir</text><text x="500" y="68" font-size="10.5">e ≤ e máx</text><text x="640" y="52">5. Verificar</text><text x="640" y="68" font-size="10.5">Em ≥ tabla</text><text x="500" y="125" font-size="10.5">si no cumple: lámparas más potentes / otra luminaria</text></g></svg></figure>
+<p><span class="k">Datos de entrada:</span></p>
+<ul><li>Dimensiones del local: largo a, ancho b, altura h′; plano de trabajo a 0,80–0,85 m. Alturas: <b>h</b> = plano de trabajo → luminarias (altura útil); d = plano → techo; d′ = luminarias → techo.</li>
+<li><b>Iluminancia media E<sub>m</sub></b> requerida según la tarea (tablas IRAM-AADL J 20-06 / Ley 19.587).</li>
+<li>Tipo de lámpara, sistema de alumbrado y luminaria; altura de suspensión.</li></ul>
+<p><span class="k">Altura de luminarias</span> (directa/semidirecta/difusa): mínimo h = ⅔(h′ − 0,85), óptimo h = ⅘(h′ − 0,85). Indirecta: d′ ≈ ¼(h′ − 0,85), h = ¾(h′ − 0,85).</p>
+<p><span class="k">Cálculos:</span></p>
+<span class="formula">k = a·b / [h·(a + b)]   (directa)      k = 3·a·b / [2·(h + 0,85)·(a + b)]   (indirecta)</span><br>
+<span class="formula">Φ<sub>T</sub> = E<sub>m</sub> · S / (η · f<sub>m</sub>)</span><br>
+<span class="formula">N = Φ<sub>T</sub> / (n · Φ<sub>L</sub>)   (redondear hacia arriba)</span><br>
+<span class="formula">N<sub>ancho</sub> = √(N<sub>T</sub>·a/b)   N<sub>largo</sub> = N<sub>ancho</sub>·b/a</span><br>
+<span class="formula">Verificación: E<sub>m</sub> = N·n·Φ<sub>L</sub>·η·f<sub>m</sub> / S ≥ E<sub>m tabla</sub></span><br>
+<span class="formula">VEEI = P·100 / (E<sub>m</sub>·S)   [W/m² por cada 100 lux]</span>
+<p>Separación máxima entre luminarias: intensiva (h′ &gt; 10 m) e ≤ 1,2h; extensiva/semiextensiva (4–10 m) e ≤ 1,5h; locales ≤ 4 m e ≤ 1,6h. A la pared: <b>e/2</b>. Uniformidad: <b>E<sub>mín</sub> ≥ E<sub>m</sub>/2</b>.</p>
+<div class="box tip"><b>✏️ Ejemplo de la filmina (aula)</b>a = 6 m, b = 4 m, H = 2,6 m, plano 0,85 m → h = 1,75 m. k = 24/(1,75·10) = 1,37. E<sub>m</sub> = 300 lx, η = 0,6, f<sub>m</sub> = 0,8, S = 24 m².<br>Φ<sub>T</sub> = 300·24/(0,6·0,8) = <b>15.000 lm</b>. Luminarias de 2 tubos T8 × 3200 lm = 6400 lm → N = 2,34 → <b>3 luminarias</b>, en línea paralela al lado largo.</div>
+</div></details>
+
+<details class="q"><summary><span class="num">16</span><span class="qt">Índice del local, coeficiente de reflexión, factor de utilización y factor de mantenimiento.</span><span class="chev">▶</span></summary><div class="ans">
+<ul><li><span class="k">Índice del local (k):</span> sale de la geometría (a, b, h) y del sistema de iluminación; estima qué parte de la luz llega al plano de trabajo considerando forma y reflexiones. Valor entre 1 y 10 (se normaliza con tabla: 0,6 · 0,8 · 1 · 1,25 · 1,5 · 2 · 2,5 · 3 · 4 · 5).</li>
+<li><span class="k">Factor de reflexión (ρ):</span> de techo, paredes y suelo según color/material. Si no hay datos: techo 0,5, paredes 0,3, suelo 0,1 (techo blanco 0,7; pared oscura 0,1).</li>
+<li><span class="k">Factor de utilización (η, CU):</span> fracción del flujo de las lámparas que llega al plano de trabajo. Se lee en <b>tablas del fabricante</b> entrando con k y ρ (ej.: k = 4, ρ techo 0,5, paredes 0,1 → η = 0,52).</li>
+<li><span class="k">Factor de mantenimiento (f<sub>m</sub>):</span> pérdida por suciedad y envejecimiento según ambiente y frecuencia de limpieza (≈ 0,7 sucio · 0,75 · 0,8 limpio). Aparece en las mismas tablas.</li></ul>
+</div></details>
+
+<div class="extra">
+<h3>📌 Extra de las filminas (U2 Luminotecnia) que no está en las preguntas</h3>
+<h4>Comparativa de lámparas (cuadro de la cátedra)</h4>
+<div class="tw"><table><tr><th>Lámpara</th><th>lm/W</th><th>T color [K]</th><th>Vida [h]</th><th>Uso</th></tr>
+<tr><td>Incandescente</td><td>10–15</td><td>2700–3000</td><td>750–1000</td><td>residencial, decorativa</td></tr>
+<tr><td>Halógena</td><td>15–25</td><td>2800–3200</td><td>2000–4000</td><td>comercial, reflectores</td></tr>
+<tr><td>Fluorescente tubo</td><td>50–70</td><td>2700–6500</td><td>7000–15000</td><td>oficinas, locales</td></tr>
+<tr><td>CFL</td><td>50–70</td><td>2700–6500</td><td>6000–15000</td><td>reemplazo de incandescentes</td></tr>
+<tr><td>SBP</td><td>80–120 (hasta ~200)</td><td>1800–2200</td><td>16000–24000</td><td>calles, áreas industriales</td></tr>
+<tr><td>SAP</td><td>90–140</td><td>2000–2200</td><td>12000–24000</td><td>vial, estadios, industria</td></tr>
+<tr><td>MAP</td><td>40–60</td><td>3500–4200</td><td>8000–24000</td><td>alumbrado público (prohibida)</td></tr>
+<tr><td>LED</td><td>80–150+</td><td>2700–6500+</td><td>25000–50000</td><td>todo</td></tr></table></div>
+<figure><svg viewBox="0 0 680 220" role="img" aria-label="Eficacia luminosa por tipo de lámpara"><g font-size="12" font-weight="700">
+<text x="10" y="30">Incandescente</text><rect x="160" y="16" width="25" height="18" rx="4" fill="var(--comb)"/>
+<text x="10" y="62">Vapor de mercurio</text><rect x="215" y="48" width="35" height="18" rx="4" fill="var(--mot)"/>
+<text x="10" y="94">Fluorescente</text><rect x="250" y="80" width="90" height="18" rx="4" fill="var(--elec)"/>
+<text x="10" y="126">Halogenuros</text><rect x="310" y="112" width="30" height="18" rx="4" fill="var(--ref)"/>
+<text x="10" y="158">Sodio alta presión</text><rect x="295" y="144" width="130" height="18" rx="4" fill="var(--lum)"/>
+<text x="10" y="190">Sodio baja presión</text><rect x="340" y="176" width="200" height="18" rx="4" fill="#e79b00"/>
+<g font-size="11" fill="var(--muted)"><text x="160" y="212">0</text><text x="260" y="212">50</text><text x="360" y="212">100</text><text x="460" y="212">150</text><text x="555" y="212">200 lm/W</text></g></g></svg><figcaption>Eficacia luminosa (lm/W) — filmina de la cátedra. Hoy el LED compite con los de sodio.</figcaption></figure>
+<h4>Normativa de iluminación en Argentina</h4>
+<ul><li>Niveles exigidos: <b>Ley 19.587 (Higiene y Seguridad) Anexo IV, Decreto 351/79</b>; valores de la norma <b>IRAM-AADL J 20-06</b>.</li><li>Medición obligatoria: <b>Protocolo SRT Res. 84/2012</b>.</li><li>Uniformidad: E<sub>mín</sub> ≥ E<sub>media</sub>/2. E<sub>mín</sub> se mide en el plano de trabajo o a 0,80 m del suelo (no aplica a circulaciones ni emergencia).</li></ul>
+<div class="tw"><table><tr><th>Tarea visual</th><th>lux</th><th>Ejemplo</th></tr>
+<tr><td>Visión ocasional</td><td>100</td><td>sala de calderas, depósitos</td></tr><tr><td>Intermitentes fáciles, alto contraste</td><td>100–300</td><td>inspección general, maquinaria pesada</td></tr>
+<tr><td>Moderadamente críticas</td><td>300–750</td><td>oficina, lectura, montaje medio</td></tr><tr><td>Severas, poco contraste</td><td>750–1500</td><td>trabajos finos, pintura extrafina</td></tr>
+<tr><td>Muy severas</td><td>1500–3000</td><td>matricería, relojería (3000)</td></tr><tr><td>Excepcionales</td><td>5000–10000</td><td>campo operatorio (cirugía)</td></tr></table></div>
+<h4>Métodos de alumbrado</h4>
+<ul><li><b>General:</b> uniforme, luminarias regulares en el techo.</li><li><b>General localizado:</b> no uniforme, ahorro energético, puede deslumbrar.</li><li><b>Local:</b> luz suplementaria cerca de la tarea (fondo + tarea).</li></ul>
+<h4>Deslumbramiento (G)</h4>
+<p>Ocurre cuando la luminancia del objeto es mucho mayor que la del fondo. <b>Incapacitante/perturbador</b> (pérdida de visión, ej. luces largas) o <b>molesto/disconfortante</b> (fatiga). Prevención: filtros/difusores, alejar la lámpara, aumentar la luminancia del fondo (paredes claras), sacar la fuente de la línea de visión. Relación tarea/alrededores ≥ 1:3 (oficina 3:1; lejanas 5:1; industria hasta 10:1, ventanas 20:1, campo visual 40:1). Luminancia de paredes 50–150 cd/m², techos 100–300 cd/m².</p>
+<h4>Alumbrado de exteriores (vías)</h4>
+<ul><li>Criterios de calidad: <b>luminancia media de la calzada</b>, uniformidad global <b>U₀ = L<sub>mín</sub>/L<sub>media</sub></b> (rendimiento visual) y longitudinal <b>U<sub>L</sub> = L<sub>mín</sub>/L<sub>máx</sub></b> (comodidad), deslumbramiento (G &lt; 3).</li>
+<li><b>SR</b> (coef. de iluminación de alrededores): E media de una franja de 5 m a cada lado de la calzada / la de la calzada; asegura ver peatones y objetos al costado.</li></ul>
+</div>
+</section>
+
+<!-- ============================================================ -->
+<section class="unit u-comb" id="comb">
+<div class="unit-head"><h2>🔥 U6 · Combustibles</h2>
+<p>Magnitudes, poder calorífico, destilación y refinación, GN, GLP, biocombustibles, tanques, NFPA, seguridad</p>
+<div class="progress"><i></i></div></div>
+
+<details class="q"><summary><span class="num">1</span><span class="qt">Energía primaria y secundaria.</span><span class="chev">▶</span></summary><div class="ans">
+<ul><li><span class="k">Primaria:</span> la que está en la naturaleza antes de transformarse para uso final: carbón, petróleo crudo, uranio, hidráulica, solar, eólica.</li>
+<li><span class="k">Secundaria:</span> la que resulta de transformar una primaria: combustibles sólidos y líquidos refinados (nafta, gasoil), gas natural tratado, <b>electricidad</b>.</li></ul>
+</div></details>
+
+<details class="q"><summary><span class="num">2</span><span class="qt">Definir TEP, TEC, BEP y BTU con sus equivalencias.</span><span class="chev">▶</span></summary><div class="ans">
+<div class="tw"><table><tr><th>Unidad</th><th>Qué es</th><th>Equivalencia</th></tr>
+<tr><td><b>TEP</b> (tonelada equivalente de petróleo)</td><td>Energía de quemar 1 t de crudo estándar. También compara emisiones de CO₂.</td><td>41.868 MJ = <b>11.630 kWh</b> = 1,435 t de carbón</td></tr>
+<tr><td><b>TEC</b> (tonelada equivalente de carbón)</td><td>Energía de quemar 1 t de carbón estándar.</td><td>29.300 MJ = <b>8,14 MWh</b></td></tr>
+<tr><td><b>BEP</b> (barril equivalente de petróleo)</td><td>Energía de quemar 1 barril (159 L) de crudo; permite sumar reservas de petróleo y gas.</td><td>6.117,9 MJ ≈ <b>1.700 kWh</b> = 5,8·10⁶ BTU = 5800 ft³ de GN</td></tr>
+<tr><td><b>BTU</b> (British Thermal Unit)</td><td>Calor para elevar <b>1 libra</b> de agua <b>1 °F</b> a presión atmosférica. Muy usada en HVAC.</td><td>1 BTU = 252 cal = 1055,56 J = 0,293 Wh · 12.000 BTU/h = 3000 frig/h = 1 TR</td></tr></table></div>
+<p><b>Emisiones por TEP:</b> gas natural 2,1 t CO₂ · gasoil 2,9 t CO₂ · carbón 3,8 t CO₂ → el GN es el que menos emite (un solo C por molécula).</p>
+</div></details>
+
+<details class="q"><summary><span class="num">3</span><span class="qt">Poder calorífico superior e inferior. ¿Cuál se usa en la industria y por qué?</span><span class="chev">▶</span></summary><div class="ans">
+<p><span class="k">Poder calorífico:</span> energía que libera un combustible por unidad de masa o volumen en su <b>combustión completa</b> (kcal/kg, kcal/m³, kcal/L).</p>
+<figure><svg viewBox="0 0 640 140" role="img" aria-label="PCS vs PCI">
+<rect x="40" y="30" width="420" height="40" rx="6" fill="var(--comb)" opacity=".75"/><rect x="460" y="30" width="110" height="40" rx="6" fill="var(--ref)" opacity=".75"/>
+<g font-size="12.5" font-weight="800" text-anchor="middle"><text x="250" y="55" style="fill:#fff">PCI · calor de oxidación (agua sale como vapor)</text><text x="515" y="49" style="fill:#fff">+ calor latente</text><text x="515" y="63" style="fill:#fff">597 kcal/kg H₂O</text></g>
+<path d="M40 85H570" stroke="var(--svg-ink)" stroke-width="2"/><path d="M40 80V90M570 80V90" stroke="var(--svg-ink)" stroke-width="2"/>
+<g font-size="13" font-weight="800" text-anchor="middle"><text x="305" y="110">PCS = PCI + calor de condensación del agua</text></g></svg></figure>
+<ul><li><span class="k">PCS:</span> calor total cuando el vapor de agua de los humos <b>se condensa</b> y se recupera su calor latente.</li>
+<li><span class="k">PCI:</span> el agua sale como <b>vapor</b> y se pierde el calor latente.</li>
+<li>Si el combustible <b>no tiene hidrógeno</b> no forma agua → PCS = PCI.</li></ul>
+<div class="box tip"><b>¿Cuál se usa en la industria?</b>El <b>PCI</b>, porque en hornos y calderas los gases salen por la chimenea a alta temperatura y el agua no condensa (además, condensar formaría ácidos corrosivos). Las calderas de condensación sí aprovechan parte del PCS.</div>
+</div></details>
+
+<details class="q"><summary><span class="num">4</span><span class="qt">Temperatura de combustión y productos totales de la combustión.</span><span class="chev">▶</span></summary><div class="ans">
+<p><span class="k">Temperatura de combustión:</span> la mínima para que la materia empiece a arder y la llama se mantenga sola, sin aporte de calor exterior. Aumenta con el poder calorífico y con la cantidad de residuos/productos formados.</p>
+<ul><li><b>Cenizas:</b> restos sólidos inorgánicos (minerales) que no se queman.</li><li><b>Depósitos o escorias:</b> sólidos que se acumulan en las superficies de los equipos.</li><li><b>Gases de combustión:</b> CO₂, H₂O, CO (combustión incompleta), NOx, SO₂, partículas, según calidad de combustión y combustible.</li></ul>
+<span class="formula">CH₄ + 2 O₂ (+ N₂ del aire) → CO₂ + 2 H₂O (+ N₂/NOx) + calor</span>
+</div></details>
+
+<details class="q"><summary><span class="num">5</span><span class="qt">Destilación fraccionada del petróleo: esquema y explicación.</span><span class="chev">▶</span></summary><div class="ans">
+<figure><svg viewBox="0 0 680 330" role="img" aria-label="Torre de destilación fraccionada">
+<defs><linearGradient id="torre" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffd27a"/><stop offset="1" stop-color="#c0392b"/></linearGradient></defs>
+<rect x="40" y="220" width="70" height="80" rx="10" fill="#3a2a22"/><rect x="130" y="230" width="80" height="60" rx="6" fill="var(--comb-bg)" stroke="var(--comb)" stroke-width="2"/>
+<path d="M110 260H130M210 260H240" stroke="var(--svg-ink)" stroke-width="3"/>
+<rect x="240" y="20" width="80" height="295" rx="38" fill="url(#torre)" opacity=".85" stroke="var(--svg-ink)" stroke-width="2"/>
+<g stroke="var(--svg-ink)" stroke-width="2"><path d="M320 40H360M320 75H360M320 110H360M320 145H360M320 180H360M320 215H360M320 250H360M320 290H360"/></g>
+<g font-size="12" font-weight="800"><text x="44" y="215">CRUDO</text><text x="140" y="225">HORNO</text><text x="134" y="305" font-size="11">200–400 °C</text>
+<text x="365" y="44">Gases (GLP)          &lt; 25 °C</text><text x="365" y="79">Gasolina              25–60 °C</text><text x="365" y="114">Nafta                 60–180 °C</text><text x="365" y="149">Querosene / jet     180–220 °C</text><text x="365" y="184">Diésel (gasoil)     220–250 °C</text><text x="365" y="219">Fuel oil              250–300 °C</text><text x="365" y="254">Lubricantes        300–350 °C</text><text x="365" y="294">Bitumen / asfalto  &gt; 350 °C</text></g>
+<g font-size="11" font-weight="800"><text x="250" y="14">más livianos ↑ (arriba, más frío)</text><text x="240" y="328">más pesados ↓ (abajo, más caliente)</text></g></svg><figcaption>Cada fracción condensa en el plato cuya temperatura coincide con su punto de ebullición</figcaption></figure>
+<ol><li>Se calienta el crudo en un <b>horno</b> a 200–400 °C → se evapora parcialmente.</li>
+<li>El vapor entra a la <b>torre de destilación</b> (columna fraccionadora), sube y se va enfriando.</li>
+<li>Cada hidrocarburo <b>condensa</b> en el nivel donde la temperatura es igual a su punto de ebullición: livianos (gases, naftas) arriba; pesados (gasoil, fuel oil, residuos) abajo.</li>
+<li>Cada fracción se extrae por separado para seguir procesándola.</li></ol>
+</div></details>
+
+<details class="q"><summary><span class="num">6</span><span class="qt">Etapas de la refinación del petróleo.</span><span class="chev">▶</span></summary><div class="ans">
+<ol><li><span class="k">Destilación</span> (fraccionamiento) por puntos de ebullición.</li>
+<li><span class="k">Craqueo</span> (térmico o catalítico): rompe moléculas largas de fracciones pesadas en otras más chicas y valiosas (gasolina, GLP).</li>
+<li><span class="k">Reformado y combinación:</span> cambia la estructura molecular para mejorar propiedades (sobre todo el <b>octanaje</b>): reformado catalítico y <b>alquilación</b> (une moléculas chicas en otras más grandes y estables).</li>
+<li><span class="k">Tratamientos y purificación:</span> elimina azufre, nitrógeno, metales (<b>hidrodesulfuración</b>, extracción) para cumplir normas ambientales.</li>
+<li><span class="k">Mezcla y almacenamiento:</span> se combinan fracciones para obtener productos con especificación (nafta, gasoil, lubricantes) y se almacenan para distribuir.</li></ol>
+<div class="box tip"><b>🧠 Truco para recordar</b><b>D-C-R-T-M</b>: “<b>D</b>estilo, <b>C</b>raqueo, <b>R</b>eformo, <b>T</b>rato y <b>M</b>ezclo”.</div>
+</div></details>
+
+<details class="q"><summary><span class="num">7</span><span class="qt">Gas natural: qué es, composición y propiedades.</span><span class="chev">▶</span></summary><div class="ans">
+<p>Mezcla de gases livianos que se encuentra en yacimientos de petróleo (suele estar <b>encima</b> del petróleo) o en depósitos de carbón. Es mayormente <b>metano (CH₄)</b>. También se obtiene por descomposición orgánica (<b>biogás</b>). Es el combustible con carbono que menos CO₂ genera por mol.</p>
+<div class="grid2"><div class="tw"><table><tr><th>Componente</th><th>%</th></tr><tr><td>Metano</td><td><b>95,08</b></td></tr><tr><td>Etano</td><td>2,14</td></tr><tr><td>Nitrógeno</td><td>1,94</td></tr><tr><td>CO₂</td><td>0,39</td></tr><tr><td>Propano / Butano</td><td>0,29 / 0,11</td></tr><tr><td>Pentano / Hexano</td><td>0,04 / 0,01</td></tr></table></div>
+<ul><li>Densidad relativa al aire: <b>0,65</b> (más liviano → sube y se dispersa).</li><li>PCI ≈ <b>9032 kcal/m³</b>.</li><li>Cp = 8,57 kcal/mol·°C · Cv = 6,56 kcal/mol·°C.</li></ul></div>
+</div></details>
+
+<details class="q"><summary><span class="num">8</span><span class="qt">GLP: qué es, de dónde se obtiene y cómo se licúa. Diferencias con el GN.</span><span class="chev">▶</span></summary><div class="ans">
+<p><span class="k">Gas licuado de petróleo:</span> <b>propano (C₃H₈)</b>, <b>butano (C₄H₁₀)</b> o mezcla. Se obtiene de la <b>refinación del petróleo</b> y de plantas recuperadoras de GN. A 1 atm y 20 °C es gas.</p>
+<div class="tw"><table><tr><th>Para licuarlo…</th><th>Butano</th><th>Propano</th></tr><tr><td>…a presión atmosférica, enfriar a</td><td>&lt; −0,5 °C</td><td>&lt; −42,2 °C</td></tr><tr><td>…a temperatura ambiente, comprimir a</td><td>&gt; 2 bar</td><td>&gt; 8 bar</td></tr></table></div>
+<div class="tw"><table><tr><th></th><th>Gas natural</th><th>GLP</th></tr>
+<tr><td>Composición</td><td>Metano (CH₄)</td><td>Propano / butano</td></tr><tr><td>Densidad vs aire</td><td>Más liviano (0,65): sube</td><td>Más pesado: se acumula en zonas bajas (peligro)</td></tr>
+<tr><td>Distribución</td><td>Por redes (gasoductos)</td><td>Garrafas, tubos, tanques (zonas sin red)</td></tr><tr><td>Poder calorífico</td><td>~9000 kcal/m³</td><td>Mayor por m³ (~22.000–28.000 kcal/m³)</td></tr></table></div>
+</div></details>
+
+<details class="q"><summary><span class="num">9</span><span class="qt">Biocombustibles: qué son, procesos de obtención y el índice FVI.</span><span class="chev">▶</span></summary><div class="ans">
+<p>Combustibles <b>renovables</b> obtenidos de <b>biomasa</b> o desechos orgánicos vegetales/animales (maíz, caña, soja, girasol…) por fermentación o tratamiento químico.</p>
+<figure><svg viewBox="0 0 700 200" role="img" aria-label="Procesos de obtención de biocombustibles">
+<g stroke="var(--svg-soft)" stroke-width="2" fill="none"><path d="M350 40V60H175V80M350 60H525V80M175 110V130H95V150M175 130H255V150M525 110V130H420V150M525 130H560V150M525 130H650V150"/></g>
+<g font-size="12" font-weight="800" text-anchor="middle">
+<rect x="290" y="10" width="120" height="30" rx="8" fill="var(--ok)" opacity=".3"/><text x="350" y="30">BIOMASA</text>
+<rect x="100" y="80" width="150" height="30" rx="8" fill="var(--tip-bg)"/><text x="175" y="100">Húmedo / biológico</text>
+<rect x="450" y="80" width="150" height="30" rx="8" fill="var(--comb-bg)"/><text x="525" y="100">Seco / no biológico</text>
+<text x="95" y="168" font-size="11">Fermentación</text><text x="95" y="188" style="fill:var(--ok)">ETANOL</text>
+<text x="255" y="168" font-size="11">Digestión anaeróbica</text><text x="255" y="188" style="fill:var(--ok)">BIOGÁS</text>
+<text x="420" y="168" font-size="11">Extracción aceites</text><text x="420" y="188" style="fill:var(--comb)">BIODIESEL</text>
+<text x="560" y="168" font-size="11">Pirólisis/gasif.</text><text x="560" y="188" style="fill:var(--comb)">bio-oil, gas pobre</text>
+<text x="650" y="168" font-size="11">Combustión</text><text x="650" y="188" style="fill:var(--comb)">briquetas</text></g></svg></figure>
+<p><span class="k">FVI (Fuel wood Value Index):</span> evalúa la aptitud de una madera como combustible combinando poder calorífico, densidad, humedad y cenizas:</p>
+<span class="formula">FVI = PCI [kJ/g] · densidad [g/cm³] / (cenizas [g/g] · humedad %)</span>
+<p>Mayor FVI = mejor leña (ej. de la filmina: eucalipto 5948 &gt; cañafístola 3850 &gt; loro negro 1269). Sirve para clasificar especies, elegir maderas para leña o biocombustible y optimizar recursos forestales.</p>
+</div></details>
+
+<details class="q"><summary><span class="num">10</span><span class="qt">Clasificación de tanques de almacenamiento de combustibles.</span><span class="chev">▶</span></summary><div class="ans">
+<div class="grid2"><div><p><span class="k">Según producto</span> (temperatura de inflamación):</p><ul><li><b>Categoría A:</b> &lt; 21 °C (naftas)</li><li><b>Categoría B:</b> 21 – 65 °C (querosene, gasoil)</li><li><b>Categoría C:</b> &gt; 65 °C (fuel oil)</li></ul><p><span class="k">Según uso:</span> de crudo, intermedios, de mezcla, de producto terminado.</p></div>
+<div><p><span class="k">Según construcción:</span></p><ul><li>Verticales de <b>techo fijo</b></li><li>Verticales de <b>techo flotante</b></li><li>Horizontales cilíndricos</li><li><b>Esféricos</b></li></ul><p><span class="k">Según emplazamiento:</span> enterrados · a nivel o elevados.</p></div></div>
+</div></details>
+
+<details class="q"><summary><span class="num">11</span><span class="qt">Tanque vertical de techo fijo vs techo flotante. ¿Cuándo se usa cada uno?</span><span class="chev">▶</span></summary><div class="ans">
+<div class="grid2">
+<figure><svg viewBox="0 0 260 220" role="img" aria-label="Tanque de techo fijo"><path d="M40 70L130 30L220 70" fill="var(--svg-soft)" stroke="var(--svg-ink)" stroke-width="2"/><rect x="40" y="70" width="180" height="120" fill="var(--bg)" stroke="var(--svg-ink)" stroke-width="2"/><rect x="40" y="110" width="180" height="80" fill="var(--comb-bg)"/><rect x="40" y="70" width="180" height="40" fill="var(--lum-bg)" opacity=".7"/><rect x="120" y="18" width="20" height="14" fill="var(--mot)"/>
+<g font-size="11.5" font-weight="800"><text x="62" y="95">fase vapor</text><text x="80" y="155">líquido (B / C)</text><text x="145" y="15">válv. presión-vacío</text></g><path d="M40 190V205M45 205H35" stroke="var(--ok)" stroke-width="2"/><text x="10" y="215" font-size="10" font-weight="800">tierra</text></svg><figcaption>Techo fijo: queda cámara de vapor</figcaption></figure>
+<figure><svg viewBox="0 0 260 220" role="img" aria-label="Tanque de techo flotante"><rect x="40" y="40" width="180" height="150" fill="var(--bg)" stroke="var(--svg-ink)" stroke-width="2"/><rect x="40" y="100" width="180" height="90" fill="var(--comb-bg)"/><rect x="44" y="88" width="172" height="12" fill="var(--mot)" opacity=".75"/><path d="M44 88V100M216 88V100" stroke="var(--ok)" stroke-width="4"/>
+<g font-size="11.5" font-weight="800"><text x="70" y="80">techo flota sobre el líquido</text><text x="85" y="150">líquido (A)</text><text x="150" y="205" font-size="10">sellos perimetrales</text></g></svg><figcaption>Techo flotante: sin fase vapor</figcaption></figure></div>
+<ul><li><span class="k">Techo fijo:</span> para combustibles <b>B o C</b> (poco volátiles). Se mantiene a presión atmosférica con <b>válvulas de venteo / presión-vacío</b>. Es el más barato. Accesorios: indicador de nivel, boca de sondeo/muestra, entrada y salida, tapa de registro (boca de hombre), drenaje, termómetro, <b>conexión a tierra</b>.</li>
+<li><span class="k">Techo flotante:</span> <b>obligatorio para categoría A</b> (y usado en B). El techo flota sobre el líquido y <b>elimina la fase vapor</b> → menos pérdidas por evaporación, emisiones y riesgo de incendio. Puede ser <b>interno o externo</b>, tipo <b>pontón</b> o <b>simple</b> (con flotador anular); tiene sellos primarios/secundarios, drenaje pluvial y succión flotante.</li></ul>
+</div></details>
+
+<details class="q"><summary><span class="num">12</span><span class="qt">Tanques esféricos: uso y ventajas.</span><span class="chev">▶</span></summary><div class="ans">
+<p>Se usan para <b>gases licuados a presión</b> (GLP, butano, propano), porque la esfera reparte la presión uniformemente.</p>
+<ul><li>Uso eficiente del espacio y menos conexiones para el mismo volumen.</li><li>Hasta <b>45 % menos material</b> (menor superficie para un volumen dado).</li><li>Resisten presiones internas, sismos y viento; menos fugas.</li><li>Centro de gravedad en el centro → muy estables.</li><li>Fabricación y mantenimiento relativamente económicos; se pueden aislar térmicamente.</li></ul>
+</div></details>
+
+<details class="q"><summary><span class="num">13</span><span class="qt">Identificación de tanques y sistema NFPA 704 (rombo).</span><span class="chev">▶</span></summary><div class="ans">
+<p>Todo tanque debe indicar: <b>nombre químico</b>, <b>nombre comercial</b>, <b>número ONU</b> de la clase de material y el <b>riesgo</b> asociado.</p>
+<div class="grid2">
+<figure><svg viewBox="0 0 240 240" role="img" aria-label="Rombo NFPA">
+<g transform="translate(120,120) rotate(45)"><rect x="-80" y="-80" width="80" height="80" fill="#e3242b"/><rect x="0" y="-80" width="80" height="80" fill="#f5d000"/><rect x="-80" y="0" width="80" height="80" fill="#1f5fd6"/><rect x="0" y="0" width="80" height="80" fill="#fff"/><rect x="-80" y="-80" width="160" height="160" fill="none" stroke="#222" stroke-width="3"/></g>
+<g font-size="34" font-weight="800" text-anchor="middle"><text x="120" y="78" style="fill:#fff">3</text><text x="65" y="133" style="fill:#fff">1</text><text x="175" y="133" style="fill:#222">0</text><text x="120" y="190" font-size="18" style="fill:#222">—</text></g></svg><figcaption>Ej.: gasolina 1-3-0</figcaption></figure>
+<div class="tw"><table><tr><th>Color</th><th>Indica</th><th>4 = …</th></tr>
+<tr><td style="background:#1f5fd6;color:#fff"><b>Azul</b></td><td>Salud</td><td>mortal con corta exposición</td></tr>
+<tr><td style="background:#e3242b;color:#fff"><b>Rojo</b></td><td>Inflamabilidad</td><td>punto de inflamación &lt; 23 °C</td></tr>
+<tr><td style="background:#f5d000;color:#222"><b>Amarillo</b></td><td>Reactividad / inestabilidad</td><td>detona en condiciones normales</td></tr>
+<tr><td style="background:#fff;color:#222"><b>Blanco</b></td><td>Riesgo especial</td><td>W, OX (oficiales); COR, ACID, ALK, BIO, CRYO, ☢</td></tr></table></div></div>
+<p>Escala <b>0 (sin riesgo) a 4 (máximo)</b>.</p>
+<div class="tw"><table><tr><th>Rojo – inflamabilidad</th><th>Punto de inflamación</th><th>Ejemplo</th></tr><tr><td>4</td><td>&lt; 23 °C, se vaporiza fácil</td><td>propano</td></tr><tr><td>3</td><td>23 – 38 °C</td><td>gasolina</td></tr><tr><td>2</td><td>38 – 93 °C</td><td>gasoil</td></tr><tr><td>1</td><td>&gt; 93 °C (precalentar)</td><td>—</td></tr><tr><td>0</td><td>no arde (815 °C, 5 min)</td><td>agua</td></tr></table></div>
+<div class="tw"><table><tr><th>Ejemplos de filmina</th><th>Salud</th><th>Inflam.</th><th>Reac.</th></tr>
+<tr><td>Amoníaco</td><td>3</td><td>1</td><td>0</td></tr><tr><td>Gasolina</td><td>1</td><td>3</td><td>0</td></tr><tr><td>Alcohol etílico</td><td>0</td><td>3</td><td>0</td></tr><tr><td>Ácido sulfúrico</td><td>3</td><td>0</td><td>2</td></tr><tr><td>Nitroglicerina</td><td>2</td><td>2</td><td>4</td></tr><tr><td>Acetileno</td><td>1</td><td>4</td><td>3</td></tr></table></div>
+</div></details>
+
+<details class="q"><summary><span class="num">14</span><span class="qt">Dispositivos de seguridad en plantas de combustibles: enumerar y explicar.</span><span class="chev">▶</span></summary><div class="ans">
+<div class="tw"><table><tr><th>Dispositivo</th><th>Función</th></tr>
+<tr><td><b>Arresta-llamas</b></td><td>Deja pasar gases/vapores pero <b>detiene la llama</b>: una malla o elemento metálico (cinta corrugada) absorbe el calor y la enfría por debajo del punto de inflamación. En venteos de tanques y líneas.</td></tr>
+<tr><td><b>Venteos contra explosión</b></td><td>Pasivos: membrana o panel que <b>se abre a una presión prefijada</b> y libera los gases, limitando la presión máxima que soporta el recipiente.</td></tr>
+<tr><td><b>Paneles supresores de explosión</b></td><td>Activos: <b>detectan</b> la explosión en su inicio y descargan un <b>agente extintor</b> para suprimir la deflagración antes de que la presión sea peligrosa.</td></tr>
+<tr><td><b>Limpiadores de gases tóxicos (scrubbers)</b></td><td>Ponen en contacto el gas contaminado con un <b>líquido absorbente</b> (agua o solución química) que captura y neutraliza contaminantes antes de liberar a la atmósfera.</td></tr>
+<tr><td><b>Antorchas (flares)</b></td><td>Queman en forma <b>controlada</b> gases residuales, excedentes o de emergencia, mezclándolos con aire con llama piloto estable, para no liberar gases tóxicos/inflamables.</td></tr>
+<tr><td><b>Válvula de seguridad</b></td><td>Abre <b>de golpe (total)</b> al superar la presión de tarado y alivia todo el exceso.</td></tr>
+<tr><td><b>Válvula de alivio</b></td><td>Abre <b>en forma gradual/proporcional</b> al aumento de presión (líquidos) y cierra sola al bajar.</td></tr>
+<tr><td><b>Discos de ruptura</b></td><td>Membrana estanca que <b>se rompe</b> a una presión o vacío predeterminado. Un solo uso, simple, muy rápido; puede tener indicador de ruptura.</td></tr></table></div>
+<figure><svg viewBox="0 0 640 210" role="img" aria-label="Efecto del venteo en la presión de explosión">
+<g stroke="var(--svg-ink)" stroke-width="2" fill="none"><path d="M50 15V185H620"/></g>
+<path d="M50 185C120 120 160 20 220 25C300 30 400 35 600 40" fill="none" stroke="var(--comb)" stroke-width="3"/>
+<path d="M50 185C100 150 130 70 160 70C190 70 200 110 240 100C300 90 330 140 600 170" fill="none" stroke="var(--lum)" stroke-width="3"/>
+<path d="M50 185C90 160 110 125 130 125C160 125 180 160 260 180" fill="none" stroke="var(--ok)" stroke-width="3"/>
+<path d="M50 95H620" stroke="var(--svg-soft)" stroke-dasharray="6 4"/><path d="M50 145H620" stroke="var(--svg-soft)" stroke-dasharray="6 4"/>
+<g font-size="11.5" font-weight="800"><text x="400" y="30" style="fill:var(--comb)">A: sin venteo (P máx)</text><text x="400" y="88">resistencia del recipiente</text><text x="400" y="140">presión de apertura del venteo</text><text x="250" y="120" style="fill:var(--lum)">B: venteo chico</text><text x="270" y="175" style="fill:var(--ok)">C: venteo grande</text><text x="15" y="20">P</text><text x="600" y="203">t</text></g></svg><figcaption>Con un venteo bien dimensionado (C) la presión reducida no supera la resistencia del recipiente</figcaption></figure>
+</div></details>
+
+<div class="extra">
+<h3>📌 Extra de las filminas (U6) para sumar</h3>
+<h4>Ecuaciones de combustión de la filmina</h4>
+<span class="formula">PCS: CH₄ + O₂ + N₂ → CO₂ + NOx + H₂O (condensada) + calor de oxidación + calor de condensación</span><br>
+<span class="formula">PCI: CHₓ + O₂ + N₂ → CO₂ + H₂O (vapor) + N₂ + calor de oxidación</span>
+<h4>Datos sueltos que suelen preguntar</h4>
+<ul><li>1 barril = <b>159 litros</b>.</li><li>Calor latente de condensación del agua ≈ <b>597 kcal/kg</b>.</li><li>Los tanques de techo fijo son los más baratos de construir.</li><li>Todos los tanques llevan <b>puesta a tierra</b> (descarga de electricidad estática).</li><li>En NFPA solo <b>W</b> (no usar agua) y <b>OX</b> son oficiales en el cuadrante blanco.</li><li>NFPA azul: 4 cianuro de hidrógeno · 3 hidróxido de potasio · 2 cloroformo · 1 glicerina · 0 cloruro de sodio. Amarillo: 4 nitroglicerina · 3 flúor · 2 fósforo/sodio · 1 acetileno · 0 helio.</li></ul>
+<h4>Refinería: productos y destinos</h4>
+<p>Gases → GLP/petroquímica · gasolina (alquilación) → autos · querosene → aviación · gasoil → transporte · fuel oil → combustibles industriales · lubricantes, ceras y grasas (extracción con disolventes y cristalización) · bitumen → asfalto.</p>
+</div>
+</section>
+
+<!-- ============================================================ -->
+<section class="unit u-ref" id="ref">
+<div class="unit-head"><h2>❄️ U8 · Refrigeración industrial</h2>
+<p>Calor y temperatura, ciclo frigorífico, componentes, refrigerantes, torres, 3 fluidos, HVAC</p>
+<div class="progress"><i></i></div></div>
+
+<details class="q"><summary><span class="num">1</span><span class="qt">Diferencia entre calor y temperatura. Equivalencias °F, °R, °C y K.</span><span class="chev">▶</span></summary><div class="ans">
+<p><span class="k">Calor:</span> forma de <b>energía</b> que fluye entre dos cuerpos a distinta temperatura (cal, J). <span class="k">Temperatura:</span> propiedad intrínseca que depende de la energía cinética de las moléculas (“intensidad” del calor).</p>
+<figure><svg viewBox="0 0 640 230" role="img" aria-label="Escalas de temperatura"><g font-size="12.5" font-weight="700" text-anchor="middle">
+<g stroke="var(--svg-soft)" stroke-width="10" stroke-linecap="round"><path d="M100 30V200M250 30V200M400 30V200M550 30V200"/></g>
+<text x="100" y="20">°F</text><text x="250" y="20">°R</text><text x="400" y="20">K</text><text x="550" y="20">°C</text>
+<g style="fill:var(--comb)"><text x="100" y="45">212</text><text x="250" y="45">671,67</text><text x="400" y="45">373,15</text><text x="550" y="45">100</text></g>
+<g style="fill:var(--ref)"><text x="100" y="120">32</text><text x="250" y="120">491,67</text><text x="400" y="120">273,15</text><text x="550" y="120">0</text></g>
+<g style="fill:var(--mot)"><text x="100" y="205">−459,67</text><text x="250" y="205">0</text><text x="400" y="205">0</text><text x="550" y="205">−273,15</text></g>
+<text x="620" y="45" font-size="11">ebullición</text><text x="620" y="120" font-size="11">congelación</text><text x="620" y="205" font-size="11">cero abs.</text></g></svg></figure>
+<span class="formula">K = °C + 273,15   °F = 9/5·°C + 32   °R = °F + 459,67   °R = 1,8·K</span>
+<div class="box warn"><b>⚠️ Corrección</b>En un resumen dice “−160 °F = cero absoluto”. Es <b>−459,67 °F</b>.</div>
+</div></details>
+
+<details class="q"><summary><span class="num">2</span><span class="qt">Calor específico y calor latente.</span><span class="chev">▶</span></summary><div class="ans">
+<ul><li><span class="k">Calor específico (Cp):</span> calor para elevar 1 °C una unidad de masa <b>sin cambiar de estado</b> [kcal/kg·°C]. Agua: 1 kcal/kg°C = 4,18 kJ/kg·K. → <b>calor sensible</b>: <span class="formula">Q = m · Cp · ΔT</span></li>
+<li><span class="k">Calor latente:</span> calor necesario para <b>cambiar de estado</b> (fusión, vaporización, condensación) <b>sin cambiar la temperatura</b>: <span class="formula">Q = m · L</span></li></ul>
+<p>1 caloría: calor para llevar 1 g de agua de 14,5 a 15,5 °C a 1 atm. 1 BTU = 1,055 kJ = 0,252 kcal.</p>
+</div></details>
+
+<details class="q"><summary><span class="num">3</span><span class="qt">Definir tonelada de refrigeración.</span><span class="chev">▶</span></summary><div class="ans">
+<p>Unidad de <b>potencia frigorífica</b> para equipos grandes: calor necesario para <span class="k">fundir una tonelada corta (907,2 kg) de hielo en 24 h</span>.</p>
+<span class="formula">1 TR = 3024 kcal/h (≈ 3,52 kW ≈ 12.000 BTU/h)</span>
+<p>Equipos chicos se expresan en kcal/h (frigorías/h) extraídas. Ej.: 2 TR = extrae el calor de fundir 2 t de hielo por día.</p>
+</div></details>
+
+<details class="q"><summary><span class="num">4</span><span class="qt">Ciclo de compresión, de presión, de temperatura y de líquido; puntos en diagrama T–s o P–h.</span><span class="chev">▶</span></summary><div class="ans">
+<figure><svg viewBox="0 0 700 290" role="img" aria-label="Ciclo frigorífico y diagrama P-h">
+<defs><marker id="ar8" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0L10,5L0,10z" fill="currentColor"/></marker></defs>
+<g stroke-width="4" fill="none"><path d="M60 60H300" stroke="var(--comb)"/><path d="M300 60V230" stroke="var(--comb)"/><path d="M300 230H60" stroke="var(--ref)"/><path d="M60 230V60" stroke="var(--comb)"/></g>
+<rect x="120" y="40" width="120" height="40" rx="8" fill="var(--comb-bg)" stroke="var(--comb)" stroke-width="2"/>
+<rect x="120" y="210" width="120" height="40" rx="8" fill="var(--ref-bg)" stroke="var(--ref)" stroke-width="2"/>
+<circle cx="300" cy="145" r="26" fill="var(--mot-bg)" stroke="var(--mot)" stroke-width="2"/>
+<path d="M45 135L75 155M45 155L75 135" stroke="var(--svg-ink)" stroke-width="3"/>
+<g font-size="12.5" font-weight="800" text-anchor="middle"><text x="180" y="65">CONDENSADOR</text><text x="180" y="235">EVAPORADOR</text><text x="300" y="149">COMP.</text><text x="60" y="180" font-size="11">VÁLV.</text><text x="60" y="194" font-size="11">EXP.</text>
+<text x="180" y="25" style="fill:var(--comb)">Q1 → fuente caliente</text><text x="180" y="275" style="fill:var(--ref)">Q2 ← fuente fría</text><text x="345" y="150">W</text>
+<text x="314" y="230">1</text><text x="314" y="60">2</text><text x="46" y="55">3</text><text x="46" y="245">4</text></g>
+<g transform="translate(390,20)">
+<path d="M20 250 C40 60 160 -10 250 250" fill="none" stroke="var(--svg-soft)" stroke-width="2.5"/>
+<g stroke="var(--svg-ink)" stroke-width="2" fill="none"><path d="M10 0V260H300"/></g>
+<path d="M60 70H260" stroke="var(--comb)" stroke-width="3" marker-end="url(#ar8)" style="color:var(--comb)"/>
+<path d="M60 70V200" stroke="var(--svg-ink)" stroke-width="3"/>
+<path d="M60 200H210" stroke="var(--ref)" stroke-width="3"/>
+<path d="M210 200L270 70" stroke="var(--mot)" stroke-width="3"/>
+<g font-size="12" font-weight="800"><text x="0" y="-4">P</text><text x="290" y="278">h</text><text x="275" y="68">2</text><text x="40" y="66">3</text><text x="40" y="215">4</text><text x="215" y="215">1</text>
+<text x="110" y="62" style="fill:var(--comb)">condensación (AP)</text><text x="90" y="192" style="fill:var(--ref)">evaporación (BP)</text><text x="245" y="140" style="fill:var(--mot)">compresión</text><text x="66" y="140" font-size="11">expansión</text><text x="66" y="153" font-size="11">h = cte</text></g></g>
+</svg><figcaption>1→2 compresión · 2→3 condensación · 3→4 expansión (isoentálpica) · 4→1 evaporación</figcaption></figure>
+<ol><li><span class="k">1→2 Compresión</span> (adiabática ≈ isoentrópica): vapor frío de baja presión → vapor <b>sobrecalentado</b> de alta P y T.</li>
+<li><span class="k">2→3 Condensación</span> (P cte): cede Q1 al ambiente, pasa a líquido.</li>
+<li><span class="k">3→4 Expansión</span> en válvula (<b>isoentálpica</b>, sin Q ni W): cae P y T bruscamente → mezcla líquido+vapor fría.</li>
+<li><span class="k">4→1 Evaporación</span> (P cte): absorbe Q2 de la cámara → vapor saturado.</li></ol>
+<p>Balance (ciclo cerrado, ΔU = 0): <span class="formula">Q1 = W + Q2</span></p>
+<p><span class="k">Ciclo de presión:</span> solo dos niveles. <b>BP ≈ 200 kPa</b> (válvula → evaporador → aspiración) y <b>AP ≈ 1000–1050 kPa</b> (compresor → descarga → condensador → línea de líquido). Ej.: NH₃ a Patm hierve a −33 °C; para que evapore a −10 °C se lo mantiene a ~196 kPa.</p>
+<figure><svg viewBox="0 0 700 170" role="img" aria-label="Ciclo de temperatura"><g font-size="11" font-weight="700" text-anchor="middle">
+<g stroke="var(--svg-soft)"><path d="M40 20V150H680"/><path d="M40 110H680" stroke-dasharray="3 4"/></g>
+<path d="M40 70H150L150 130H340L380 120L380 25L520 40L560 70H680" fill="none" stroke="var(--comb)" stroke-width="3.5"/>
+<text x="95" y="60">línea líquido 26→24°</text><text x="245" y="145">evaporador −10°C</text><text x="360" y="105">aspir. −7→−3°</text><text x="450" y="20">descarga 93→80°C</text><text x="620" y="60">condensador ~29°C</text>
+<text x="25" y="113">0°</text></g></svg><figcaption>Ciclo de temperatura a lo largo del circuito (valores de la filmina)</figcaption></figure>
+</div></details>
+
+<details class="q"><summary><span class="num">5</span><span class="qt">Zonas de líquido, vapor y líquido+vapor; valores aproximados de P y T; dónde hay cambio de estado.</span><span class="chev">▶</span></summary><div class="ans">
+<div class="tw"><table><tr><th>Tramo</th><th>Estado</th><th>P</th><th>T aprox.</th></tr>
+<tr><td>Condensador → válvula (3)</td><td><b>Líquido</b> (subenfriado)</td><td>AP ~1047 kPa</td><td>~26–30 °C</td></tr>
+<tr><td>Evaporador (4→1)</td><td><b>Líquido + vapor</b> (cambio de estado)</td><td>BP ~196 kPa</td><td>−10 °C</td></tr>
+<tr><td>Aspiración → compresor (1)</td><td><b>Vapor</b> saturado/sobrecalentado</td><td>BP</td><td>−7 a −3 °C</td></tr>
+<tr><td>Descarga (2)</td><td><b>Vapor sobrecalentado</b></td><td>AP</td><td>93 → 80 °C</td></tr>
+<tr><td>Condensador (2→3)</td><td><b>Vapor + líquido</b> (cambio de estado)</td><td>AP</td><td>~29 °C</td></tr></table></div>
+<p><b>Cambios de estado:</b> en el evaporador (líq → vapor) y en el condensador (vapor → líq). Ahí hay vapor en <b>equilibrio con su líquido</b>.</p>
+</div></details>
+
+<details class="q"><summary><span class="num">6</span><span class="qt">Identificar fuente caliente, fuente fría, Q1, Q2 y dónde hay vapor en equilibrio con su líquido.</span><span class="chev">▶</span></summary><div class="ans">
+<ul><li><span class="k">Fuente fría (T2):</span> de donde se extrae <b>Q2</b> → interior de la cámara/heladera (evaporador).</li>
+<li><span class="k">Fuente caliente (T1):</span> a donde se entrega <b>Q1</b> → ambiente/parte trasera (condensador).</li>
+<li><span class="k">Vapor en equilibrio con su líquido:</span> en el <b>evaporador</b> y el <b>condensador</b>.</li></ul>
+<p>Es una máquina térmica inversa: con trabajo W lleva calor de la fuente fría a la caliente (Q1 = Q2 + W).</p>
+</div></details>
+
+<details class="q"><summary><span class="num">7</span><span class="qt">Circuitos de fluidos en refrigeración industrial (instalación de 3 fluidos).</span><span class="chev">▶</span></summary><div class="ans">
+<figure><svg viewBox="0 0 700 250" role="img" aria-label="Instalación de tres fluidos">
+<g stroke-width="4" fill="none">
+<path d="M560 40H660V200H560" stroke="var(--ok)"/><path d="M560 40H120V200H200" stroke="var(--ok)"/>
+<path d="M200 110H520" stroke="var(--elec)"/><path d="M200 170H520" stroke="var(--elec)"/>
+<path d="M520 110V170" stroke="var(--elec)"/><path d="M200 110V170" stroke="var(--elec)"/>
+<path d="M440 170C440 230 600 230 600 170" stroke="var(--comb)"/></g>
+<rect x="160" y="120" width="80" height="40" rx="8" fill="var(--card)" stroke="var(--ok)" stroke-width="2"/>
+<rect x="420" y="150" width="90" height="40" rx="8" fill="var(--card)" stroke="var(--comb)" stroke-width="2"/>
+<circle cx="300" cy="110" r="18" fill="var(--card)" stroke="var(--mot)" stroke-width="2"/><circle cx="380" cy="110" r="18" fill="var(--card)" stroke="var(--mot)" stroke-width="2"/>
+<rect x="600" y="20" width="90" height="40" rx="8" fill="var(--card)" stroke="var(--ok)" stroke-width="2"/>
+<rect x="560" y="160" width="80" height="34" rx="8" fill="var(--card)" stroke="var(--comb)" stroke-width="2"/>
+<g font-size="11.5" font-weight="800" text-anchor="middle"><text x="200" y="145">Condensador</text><text x="465" y="174">Evaporador</text><text x="300" y="114" font-size="10">CAP</text><text x="380" y="114" font-size="10">CBP</text><text x="645" y="45">TORRE</text><text x="600" y="182">Matriz</text>
+<text x="340" y="30" style="fill:var(--ok)">VERDE: agua de torre (condensador + motores de compresores)</text>
+<text x="340" y="100" style="fill:var(--elec)">AZUL: refrigerante</text>
+<text x="520" y="242" style="fill:var(--comb)">ROJO: agua de proceso (molde/matriz)</text></g></svg></figure>
+<ul><li><b style="color:var(--comb)">Rojo:</b> agua que enfría el <b>molde o matriz</b> (proceso). Se enfría en el evaporador cediendo calor al refrigerante.</li>
+<li><b style="color:var(--elec)">Azul:</b> <b>refrigerante</b> que evoluciona en el ciclo (con compresor de baja y de alta, presión intermedia y subenfriador/separador).</li>
+<li><b style="color:var(--ok)">Verde:</b> <b>agua de torre</b> que extrae calor del condensador y de los motores de los compresores.</li></ul>
+</div></details>
+
+<details class="q"><summary><span class="num">8</span><span class="qt">Rendimiento de una planta de 3 fluidos, trabajo de los compresores y cuál es el sistema termodinámico.</span><span class="chev">▶</span></summary><div class="ans">
+<span class="formula">η = Q2 / W_total = Q2 / (W_CBP + W_CAP + W_torre + bombas…)</span><br>
+<span class="formula">COP (coef. efecto frigorífico) = Q2 / W = Q2 / (Q1 − Q2) = (h2 − h1) / [(h5 − h4) + (h3 − h2)]</span>
+<p><span class="k">Sistema:</span> el <b>fluido refrigerante</b> (sistema cerrado que recorre el ciclo; abierto en cada equipo).</p>
+<p><span class="k">Trabajo del compresor:</span> 1° principio para sistema abierto, Q = Δh + W; la compresión es rápida → <b>adiabática (Q = 0)</b> → <b>W = Δh = h<sub>salida</sub> − h<sub>entrada</sub></b> (en valor absoluto). Con dos etapas: W = (h3 − h2) + (h5 − h4).</p>
+</div></details>
+
+<details class="q"><summary><span class="num">9</span><span class="qt">Fluidos refrigerantes: tipos y características. ¿Qué es CFC, HCFC y halógeno?</span><span class="chev">▶</span></summary><div class="ans">
+<div class="grid2"><div><p><span class="k">Inorgánicos:</span> agua y <b>amoníaco (NH₃, R-717)</b>.</p>
+<p><span class="k">Orgánicos</span> (hidrocarburos y derivados):</p><ul><li><b>CFC</b> clorofluorocarbonos (Cl, F, C)</li><li><b>HCFC</b> hidroclorofluorocarbonos (H, Cl, F, C)</li><li><b>HBFC</b> (H, Br, F, C)</li><li><b>HFC</b> hidrofluorocarbonos (H, F, C)</li><li><b>HC</b> hidrocarburos (H, C)</li><li><b>PFC</b> perfluorocarbonos (F, C)</li></ul></div>
+<div><p><span class="k">Características deseables:</span></p><ul><li>Máxima refrigeración por m³ de vapor</li><li>Presiones de evaporación y condensación adecuadas al compresor</li><li>Estable; no ataca metales ni aceites</li><li>T crítica muy por encima de la de condensación</li><li>T de congelación muy por debajo de la de evaporación</li><li>No tóxico, irritante ni inflamable</li><li>Económico (y hoy: bajo impacto en ozono y efecto invernadero)</li></ul></div></div>
+<div class="box warn"><b>⚠️ Corrección</b>Un resumen pone agua y amoníaco como “orgánicos”. Según la filmina son <b>inorgánicos</b>; los orgánicos son los hidrocarburos y derivados.</div>
+<p><span class="k">Halógeno:</span> elementos del <b>grupo 17</b> (F, Cl, Br, I). Muy electronegativos y oxidantes (el F el que más), no metálicos, tóxicos, de olor característico; F y Cl son gases, Br líquido, I sólido. Los CFC/HCFC con cloro destruyen la capa de ozono.</p>
+</div></details>
+
+<details class="q"><summary><span class="num">10</span><span class="qt">Válvula de expansión termostática: esquema y funcionamiento. Función del resorte bajo la membrana y del bulbo con capilar.</span><span class="chev">▶</span></summary><div class="ans">
+<p><span class="k">Válvula de expansión:</span> introduce el refrigerante al evaporador y <b>reduce la presión hasta que empiece a evaporar</b>. Tipos: <b>tubo capilar</b> (expansión fija, sin partes móviles), <b>manual</b> (de aguja) y <b>termostática</b>.</p>
+<figure><svg viewBox="0 0 640 260" role="img" aria-label="Válvula de expansión termostática">
+<g stroke="var(--svg-ink)" stroke-width="2" fill="none">
+<path d="M200 60H360" stroke-width="5"/><path d="M200 60C200 40 360 40 360 60" fill="var(--comb-bg)"/>
+<path d="M280 60V150"/><path d="M265 90L295 100L265 110L295 120L265 130L295 140" stroke="var(--mot)" stroke-width="3"/>
+<path d="M250 150H310L280 175Z" fill="var(--svg-soft)"/>
+<path d="M120 190H250M310 190H520" stroke-width="10" stroke="var(--svg-soft)"/>
+<path d="M330 45C400 20 480 20 560 60V200" stroke="var(--comb)" stroke-width="2.5"/>
+<rect x="540" y="200" width="40" height="40" rx="10" fill="var(--comb-bg)" stroke="var(--comb)"/></g>
+<g font-size="12" font-weight="800"><text x="200" y="30">Diafragma / membrana</text><text x="305" y="120" style="fill:var(--mot)">resorte (empuja a cerrar)</text>
+<text x="110" y="215">líquido AP →</text><text x="400" y="215">→ al evaporador (BP)</text><text x="430" y="18" style="fill:var(--comb)">tubo capilar</text><text x="360" y="255">bulbo a la salida del EVAPORADOR</text></g>
+<g font-size="11.5"><text x="20" y="80">Arriba: presión del bulbo (abre)</text><text x="20" y="96">Abajo: P evaporador + resorte (cierran)</text></g>
+</svg></figure>
+<ul><li>El <span class="k">bulbo</span> va pegado a la <b>salida del evaporador</b> y siente la temperatura del vapor (sobrecalentamiento). Su presión se transmite por el <b>capilar</b> a la cara superior del diafragma → tiende a <b>abrir</b>.</li>
+<li>El <span class="k">resorte</span> (y la presión del evaporador) empujan del otro lado → tienden a <b>cerrar</b>. Ajustando el resorte se fija el <b>sobrecalentamiento</b> deseado (más tensión = más sobrecalentamiento).</li>
+<li><b>Carga térmica sube</b> → el refrigerante se evapora antes → vapor más caliente en el bulbo → sube su presión → <b>abre más</b> → entra más refrigerante. Si la carga baja, ocurre lo contrario.</li>
+<li>Se regula para <b>5–6 °C de sobrecalentamiento</b> → se usa ~95 % de la superficie del evaporador y se garantiza que <b>no entre líquido al compresor</b>.</li></ul>
+<div class="box warn"><b>⚠️ Corrección</b>El resumen dice que el bulbo está “a la salida del condensador”. Va a la <b>salida del evaporador</b>.</div>
+</div></details>
+
+<details class="q"><summary><span class="num">11</span><span class="qt">Evaporador seco: funcionamiento, ubicación de válvula y bulbo. Clasificación de evaporadores.</span><span class="chev">▶</span></summary><div class="ans">
+<p><span class="k">Evaporador:</span> donde se absorbe el calor de la fuente fría y se evapora el refrigerante (“lado de baja”). Requisitos: gran superficie respecto al refrigerante que contiene, separar líquido de vapor, mínima caída de presión.</p>
+<figure><svg viewBox="0 0 640 200" role="img" aria-label="Evaporador seco"><g fill="none" stroke-width="10" stroke-linecap="round">
+<path d="M90 170H520C560 170 560 130 520 130H140C100 130 100 90 140 90H520C560 90 560 50 520 50H60" stroke="var(--ref-bg)"/></g>
+<g fill="none" stroke-width="3"><path d="M90 170H520C560 170 560 130 520 130H140C100 130 100 90 140 90H520C560 90 560 50 520 50H60" stroke="var(--ref)"/></g>
+<circle cx="90" cy="170" r="10" fill="var(--card)" stroke="var(--svg-ink)" stroke-width="2"/><rect x="110" y="42" width="34" height="14" rx="4" fill="var(--comb)"/>
+<path d="M127 56C127 110 90 120 90 160" stroke="var(--comb)" fill="none" stroke-dasharray="4 3" stroke-width="2"/>
+<g font-size="12" font-weight="800"><text x="20" y="195">líquido → válvula</text><text x="300" y="190">mezcla líquido-vapor</text><text x="300" y="120">refrigerante completamente vaporizado</text><text x="250" y="40">vapor sobrecalentado → succión compresor</text><text x="150" y="30" style="fill:var(--comb)">bulbo</text></g></svg></figure>
+<p>Entra líquido por la válvula, recorre el serpentín absorbiendo calor: líquido → mezcla → vapor → <b>vapor sobrecalentado</b> al final, donde está el <b>bulbo</b> que comanda la válvula.</p>
+<div class="grid2"><div><p><b>Según refrigerante interior:</b></p><ul><li><b>Inundado:</b> colector que mantiene todo el serpentín lleno de líquido.</li><li><b>Seco:</b> menos líquido (¼–⅓ del volumen), se evapora a lo largo del tubo.</li></ul></div>
+<div><p><b>Según circulación de aire:</b></p><ul><li><b>Convección natural:</b> sin ventilador, aire baja al enfriarse; menor intercambio, más grande, seca menos el producto → cámaras chicas con productos delicados.</li><li><b>Tiro forzado:</b> ventilador de gran caudal → más rendimiento y compacto.</li></ul></div></div>
+</div></details>
+
+<details class="q"><summary><span class="num">12</span><span class="qt">Condensador: función, estado del refrigerante a la entrada y salida; qué otro fluido interviene en el sistema de 3 fluidos.</span><span class="chev">▶</span></summary><div class="ans">
+<p>Libera a la fuente caliente el calor absorbido en el evaporador + el calor de compresión. Entra <b>vapor sobrecalentado</b>, se desrecalienta, <b>condensa a P constante</b> y sale <b>líquido (subenfriado)</b>.</p>
+<p>A menor temperatura de condensación → menor presión → <b>menos trabajo del compresor</b>. Puede enfriarse por <b>aire</b> (simple, menos eficiente, con ventilador) o por <b>agua</b> (tubo en tubo, casco y tubo).</p>
+<p>En el sistema de 3 fluidos el otro fluido del condensador es el <b>agua de la torre de enfriamiento</b>. Conviene <b>sobredimensionarlo</b> para condiciones extremas.</p>
+</div></details>
+
+<details class="q"><summary><span class="num">13</span><span class="qt">Compresor Scroll: funcionamiento.</span><span class="chev">▶</span></summary><div class="ans">
+<p>El compresor aspira vapor del evaporador, eleva su presión y lo entrega al condensador (los más usados: pistón y scroll).</p>
+<figure><svg viewBox="0 0 400 180" role="img" aria-label="Espirales del scroll"><g fill="none" stroke-width="5">
+<path d="M100 90 m0 0 a8 8 0 0 1 16 0 a16 16 0 0 1 -32 0 a24 24 0 0 1 48 0 a32 32 0 0 1 -64 0 a40 40 0 0 1 80 0 a48 48 0 0 1 -96 0" stroke="var(--mot)"/>
+<path d="M300 90 m0 0 a8 8 0 0 0 -16 0 a16 16 0 0 0 32 0 a24 24 0 0 0 -48 0 a32 32 0 0 0 64 0 a40 40 0 0 0 -80 0 a48 48 0 0 0 96 0" stroke="var(--ok)"/></g>
+<g font-size="12" font-weight="800" text-anchor="middle"><text x="100" y="170" style="fill:var(--mot)">espiral fija</text><text x="300" y="170" style="fill:var(--ok)">espiral orbitante</text></g></svg></figure>
+<p>Dos <b>espirales idénticas</b>: una <b>fija</b> y otra que <b>orbita</b> (movida por una biela/excéntrica). El gas entra por la periferia y queda atrapado en bolsas que se achican hacia el <b>centro</b> → baja el volumen, sube la presión → sale por el orificio central.</p>
+<p>Las espirales son flexibles: ante sobrepresión o líquido (incompresible) se separan sin romperse → <b>gran vida útil</b> y alto rendimiento volumétrico, silencioso.</p>
+</div></details>
+
+<details class="q"><summary><span class="num">14</span><span class="qt">Torre de enfriamiento: esquema, función en el sistema de 3 fluidos, tipos y diferencias.</span><span class="chev">▶</span></summary><div class="ans">
+<p>Enfría grandes volúmenes de agua por <span class="k">refrigeración evaporativa</span>: el agua caliente del condensador se pulveriza; al contacto con el aire una pequeña parte se evapora y el resto se enfría; se recircula (circuito cerrado + agua de reposición con flotador).</p>
+<figure><svg viewBox="0 0 640 260" role="img" aria-label="Torre de tiro inducido">
+<defs><marker id="ar9" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0L10,5L0,10z" fill="currentColor"/></marker></defs>
+<g stroke="var(--svg-ink)" stroke-width="2" fill="none"><path d="M220 40V230H420V40"/><path d="M240 40H400" stroke-width="4"/><path d="M290 30H350"/></g>
+<path d="M300 20H340" stroke="var(--mot)" stroke-width="6"/>
+<path d="M150 90H330" stroke="var(--comb)" stroke-width="4"/>
+<g stroke="var(--ref)" stroke-width="2"><path d="M260 100V130M290 100V140M320 100V125M350 100V135M380 100V128"/></g>
+<rect x="222" y="190" width="196" height="38" fill="var(--ref-bg)"/>
+<path d="M418 215H520" stroke="var(--ref)" stroke-width="4"/>
+<g style="color:var(--ok)" stroke="currentColor" stroke-width="2.5"><path d="M170 170H220" marker-end="url(#ar9)"/><path d="M470 170H420" marker-end="url(#ar9)"/><path d="M320 80V45" marker-end="url(#ar9)"/></g>
+<g font-size="12" font-weight="800"><text x="355" y="22">extractor (tiro inducido)</text><text x="250" y="60">eliminadores de gotas</text><text x="80" y="85" style="fill:var(--comb)">agua caliente del cond.</text><text x="120" y="190" style="fill:var(--ok)">aire</text><text x="480" y="190" style="fill:var(--ok)">aire</text><text x="450" y="210" style="fill:var(--ref)">agua fría → bomba</text><text x="270" y="218">pileta + flotador</text></g></svg></figure>
+<div class="tw"><table><tr><th>Tipo</th><th>Cómo</th><th>Depende del viento</th></tr>
+<tr><td>Tiro natural de pulverización</td><td>Toberas pulverizan; el viento atraviesa rejillas a los 4 vientos</td><td>Sí</td></tr>
+<tr><td>Tiro natural de paneles</td><td>El agua cae por bandejas perforadas que la rompen en gotas; mínima potencia de bombeo (no necesita presión de toberas)</td><td>Sí</td></tr>
+<tr><td>Tiro inducido</td><td>Extractor arriba aspira aire hacia arriba; eliminadores evitan arrastre</td><td>No (igual a la intemperie)</td></tr>
+<tr><td>Tiro forzado</td><td>Ventilador abajo sopla en contracorriente; las de <b>mayor eficiencia y menor tamaño</b></td><td>No</td></tr></table></div>
+<p>En 3 fluidos: enfría el agua que extrae calor del <b>condensador</b> y de los <b>motores de los compresores</b>.</p>
+</div></details>
+
+<details class="q"><summary><span class="num">15</span><span class="qt">Parámetros para seleccionar una torre de enfriamiento.</span><span class="chev">▶</span></summary><div class="ans">
+<ul><li>Caudal de agua a enfriar.</li><li>ΔT requerido (salto térmico, “rango”).</li><li>Temperatura del agua caliente que sale del condensador.</li><li>Temperatura de <b>bulbo húmedo</b> y de bulbo seco del aire (el bulbo húmedo es el límite teórico de enfriamiento).</li><li>Humedad relativa ambiente y temperatura del aire.</li><li>Torre abierta o cerrada.</li></ul>
+</div></details>
+
+<div class="extra">
+<h3>📌 Extra de las filminas (U8) que no está en las preguntas</h3>
+<h4>Ciclo de Carnot ideal (T–s)</h4>
+<p>1-2 compresión <b>isoentrópica</b> (en el real hay pérdidas: S = Q/T) · 2-3 condensación a P cte · 3-4 expansión · 4-1 evaporación. Q<sub>H</sub> sale en el condensador, Q<sub>L</sub> entra en el evaporador, W<sub>c</sub> en el compresor.</p>
+<h4>Cámaras frigoríficas</h4>
+<p>No “generan frío”: <b>extraen calor</b> de productos y ambiente para frenar degradación, reacciones químicas y bacterias.</p>
+<ul><li><b>Alimenticia:</b> cárnica/avícola (túneles de congelado, conservación a −18 °C o menos), láctea (enfriado post-pasteurización, maduración de quesos), hortofrutícola (<b>atmósfera controlada</b>: menos O₂ y control de CO₂ — “hibernación” de manzanas y peras), pesquera.</li>
+<li><b>Farmacéutica:</b> vacunas y medicamentos, cadena de frío 2–8 °C.</li>
+<li><b>Petroquímica:</b> polímeros, resinas y volátiles (0–8 °C), estabilización de GLP.</li></ul>
+<h4>Dimensionamiento de un sistema de refrigeración</h4>
+<ol><li>Relevamiento de datos (T ambiente todo el año, etapas críticas, producto, normas).</li><li>Carga térmica total: cerramientos + infiltraciones + equipos/personas + producto.</li><li>Selección del evaporador (sin evaporadores enfrentados).</li><li>Tuberías y ventiladores (sin caídas de presión excesivas).</li><li>Condensador (sobredimensionado).</li></ol>
+<span class="formula">Q_paredes = S · K · (T − t) · 24   [frigorías/día]</span>
+<div class="box tip"><b>Ejemplo de la filmina</b>Cámara 3 × 2 × 2,7 m, corcho 10 cm, interior +3 °C, exterior +30 °C, S ≈ 39 m², K = 0,5 → Q = 39 · 0,5 · 27 · 24 = <b>12.636 frigorías/día</b>. A eso se suma el producto (Q = m·Cp·ΔT) y aperturas de puerta.</div>
+<h4>HVAC (Heating, Ventilation and Air Conditioning)</h4>
+<p>Controla calefacción, ventilación (recambio de aire) y refrigeración para mantener temperatura, humedad y calidad de aire (confort, seguridad, procesos). <b>Centralizado</b> (toda la planta) o <b>descentralizado</b> (una oficina/etapa).</p>
+<p>Componentes: unidad de AA, <b>bomba de calor</b> (invierte el ciclo), caldera, <b>manejadora de aire (AHU)</b> que filtra/acondiciona/distribuye, ductos, válvula de expansión, condensador y evaporador, torre, termostatos y controles, filtros (<b>HEPA</b> en hospitales y farmacéutica). Se comandan con <b>variadores de velocidad</b>.</p>
+</div>
+</section>
+
+<!-- ============================================================ -->
+<section class="unit u-acc" id="quiz">
+<div class="unit-head"><h2>🎲 Práctica con preguntas aleatorias</h2>
+<p>Elegí los temas, respondé en voz alta o en papel y después mirá la respuesta</p></div>
+<div class="chips" id="quizUnits"></div>
+<div class="row"><button class="btn" id="qAll">Todos los temas</button><button class="btn" id="qNone">Ninguno</button><span class="score" id="qPool"></span></div>
+<div class="qcard">
+  <div class="qmeta" id="qMeta"></div>
+  <div class="qtext" id="qText"></div>
+  <div class="row"><button class="btn pri" id="qShow">Ver respuesta</button><button class="btn" id="qNext">Siguiente 🎲</button></div>
+  <div class="qans hidden" id="qAns"></div>
+  <div class="row hidden" id="qGrade" style="margin-top:12px"><button class="btn good" id="qOk">✅ La sabía</button><button class="btn bad" id="qBad">❌ No la sabía</button></div>
+  <div class="row" style="margin-top:10px"><span class="score" id="qScore">Sabidas 0 de 0</span><button class="btn" id="qReset">Reiniciar</button></div>
+</div>
+</section>
+
+<!-- ============================================================ -->
+<section class="unit u-acc" id="sim">
+<div class="unit-head"><h2>📝 Simulacros de parcial</h2>
+<p>5 parciales de 10 preguntas que mezclan las 5 unidades. Resolvelos con el reloj y después autocorregite.</p></div>
+<div class="row" id="simTabs"></div>
+<div class="qcard"><div class="row"><span class="nota" id="simClock">⏱ 00:00</span><button class="btn pri" id="simStart">Empezar reloj</button><button class="btn" id="simShowAll">Mostrar todas las respuestas</button><span class="score" id="simScore"></span></div></div>
+<div id="simBody"></div>
+<div class="box tip"><b>Cómo corregirte</b>Para cada pregunta marcá <b>Bien</b> (1 punto), <b>Regular</b> (0,5) o <b>Mal</b> (0). Tomá como “Bien” solo si dijiste los conceptos clave y, cuando lo pide, hiciste el esquema. La nota sale sobre 10.</div>
+</section>
+
+</main>
+<footer>Hecho para estudiar el 2° parcial de Instalaciones Industriales (UTN.BA) a partir de las filminas de la cátedra y los resúmenes de preguntas. ¡Éxitos! 🍀</footer>
+
+<script>
+(function(){
+  const KEY='ii-parcial-sabidas';
+  let saved={};
+  try{saved=JSON.parse(localStorage.getItem(KEY)||'{}')}catch(e){saved={}}
+  const qs=[...document.querySelectorAll('details.q')];
+  qs.forEach((d,i)=>{
+    const unit=d.closest('section.unit');
+    const id=(unit?unit.id:'x')+'-'+i;
+    d.dataset.id=id;
+    const lab=document.createElement('label');lab.className='know';
+    lab.innerHTML='<input type="checkbox"> la sé';
+    const cb=lab.querySelector('input');
+    lab.addEventListener('click',e=>e.stopPropagation());
+    cb.checked=!!saved[id];
+    if(cb.checked)d.classList.add('done');
+    cb.addEventListener('change',()=>{
+      saved[id]=cb.checked; d.classList.toggle('done',cb.checked);
+      try{localStorage.setItem(KEY,JSON.stringify(saved))}catch(e){}
+      updateProgress();
+    });
+    d.querySelector('summary').insertBefore(lab,d.querySelector('.chev'));
+  });
+  function updateProgress(){
+    document.querySelectorAll('section.unit').forEach(u=>{
+      const all=u.querySelectorAll('details.q'),done=u.querySelectorAll('details.q.done');
+      const bar=u.querySelector('.progress>i');
+      if(bar)bar.style.width=(all.length?100*done.length/all.length:0)+'%';
+    });
+  }
+  updateProgress();
+  document.getElementById('openAll').onclick=()=>qs.forEach(d=>d.open=true);
+  document.getElementById('closeAll').onclick=()=>qs.forEach(d=>d.open=false);
+  const root=document.documentElement;
+  try{const t=localStorage.getItem('ii-theme');if(t)root.dataset.theme=t}catch(e){}
+  document.getElementById('theme').onclick=()=>{
+    const dark=root.dataset.theme?root.dataset.theme==='dark':matchMedia('(prefers-color-scheme: dark)').matches;
+    root.dataset.theme=dark?'light':'dark';
+    try{localStorage.setItem('ii-theme',root.dataset.theme)}catch(e){}
+  };
+  const s=document.getElementById('search');
+  s.addEventListener('input',()=>{
+    const v=s.value.trim().toLowerCase();
+    qs.forEach(d=>{
+      const hit=!v||d.textContent.toLowerCase().includes(v);
+      d.classList.toggle('hidden',!hit);
+      if(v&&hit)d.open=true;
+    });
+    document.querySelectorAll('.extra').forEach(x=>x.classList.toggle('hidden',!!v&&!x.textContent.toLowerCase().includes(v)));
+  });
+})();
+</script>
+<script>
+(function(){
+  const UNITS=[['elec','⚡ Eléctricas'],['mot','⚙️ Motores'],['lum','💡 Luminotecnia'],['comb','🔥 Combustibles'],['ref','❄️ Refrigeración']];
+  const NAME=Object.fromEntries(UNITS);
+  const bank=[];
+  UNITS.forEach(([u])=>document.querySelectorAll('#'+u+' details.q').forEach((d,i)=>bank.push({
+    key:u+'-'+(i+1),u,n:i+1,q:d.querySelector('.qt').textContent.trim(),a:d.querySelector('.ans').innerHTML})));
+  const get=k=>bank.find(b=>b.key===k);
+  const ansHTML=b=>'<div class="u-'+b.u+'">'+b.a+'</div>';
+  const $=id=>document.getElementById(id);
+  const store={get(k,d){try{const v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(e){return d}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
+
+  /* ---------- Práctica aleatoria ---------- */
+  let sel=store.get('ii-quiz-units',UNITS.map(u=>u[0])), pool=[], cur=null, ok=0, tot=0;
+  const chips=$('quizUnits');
+  UNITS.forEach(([u,name])=>{
+    const n=bank.filter(b=>b.u===u).length;
+    const l=document.createElement('label');l.className='chip';
+    l.innerHTML='<input type="checkbox" value="'+u+'"> '+name+' <span style="color:var(--muted)">('+n+')</span>';
+    const cb=l.querySelector('input');cb.checked=sel.includes(u);
+    cb.addEventListener('change',()=>{sel=[...chips.querySelectorAll('input:checked')].map(c=>c.value);store.set('ii-quiz-units',sel);refill();next();});
+    chips.appendChild(l);
+  });
+  function setAll(v){chips.querySelectorAll('input').forEach(c=>c.checked=v);sel=v?UNITS.map(u=>u[0]):[];store.set('ii-quiz-units',sel);refill();next();}
+  $('qAll').onclick=()=>setAll(true);$('qNone').onclick=()=>setAll(false);
+  function refill(){
+    pool=bank.filter(b=>sel.includes(b.u));
+    for(let i=pool.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[pool[i],pool[j]]=[pool[j],pool[i]];}
+    $('qPool').textContent=bank.filter(b=>sel.includes(b.u)).length+' preguntas en juego';
+  }
+  function next(){
+    $('qAns').classList.add('hidden');$('qGrade').classList.add('hidden');$('qShow').classList.remove('hidden');
+    if(!sel.length){cur=null;$('qMeta').textContent='';$('qText').textContent='Elegí al menos un tema 👆';$('qShow').classList.add('hidden');return;}
+    if(!pool.length)refill();
+    cur=pool.pop();
+    $('qMeta').textContent=NAME[cur.u]+' · pregunta '+cur.n;
+    $('qText').textContent=cur.q;
+    $('qAns').innerHTML=ansHTML(cur);
+  }
+  $('qShow').onclick=()=>{if(!cur)return;$('qAns').classList.remove('hidden');$('qGrade').classList.remove('hidden');$('qShow').classList.add('hidden');};
+  function grade(g){tot++;if(g)ok++;$('qScore').textContent='Sabidas '+ok+' de '+tot+(tot?' ('+Math.round(100*ok/tot)+' %)':'');next();}
+  $('qOk').onclick=()=>grade(true);$('qBad').onclick=()=>grade(false);
+  $('qNext').onclick=next;
+  $('qReset').onclick=()=>{ok=0;tot=0;$('qScore').textContent='Sabidas 0 de 0';refill();next();};
+  refill();next();
+
+  /* ---------- Simulacros ---------- */
+  const SIMS=[
+    ['elec-1','elec-16','mot-3','mot-4','lum-3','lum-8','comb-3','comb-13','ref-4','ref-10'],
+    ['elec-2','elec-19','mot-2','mot-7','lum-15','lum-4','comb-5','comb-11','ref-7','ref-14'],
+    ['elec-4','elec-18','mot-8','mot-9','lum-10','lum-14','comb-2','comb-14','ref-1','ref-13'],
+    ['elec-7','elec-22','mot-5','mot-10','lum-12','lum-16','comb-6','comb-8','ref-8','ref-11'],
+    ['elec-3','elec-21','elec-20','mot-6','mot-11','lum-13','comb-9','ref-3','ref-9','ref-12']
+  ];
+  let simIdx=0,grades={},timer=null,secs=0;
+  const tabs=$('simTabs');
+  SIMS.forEach((_,i)=>{const b=document.createElement('button');b.className='btn';b.textContent='Simulacro '+(i+1);b.onclick=()=>openSim(i);tabs.appendChild(b);});
+  function fmt(s){return String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0');}
+  function stopClock(){clearInterval(timer);timer=null;$('simStart').textContent='Empezar reloj';}
+  $('simStart').onclick=()=>{if(timer){stopClock();return;}$('simStart').textContent='Pausar reloj';timer=setInterval(()=>{secs++;$('simClock').textContent='⏱ '+fmt(secs);},1000);};
+  function score(){
+    const v=Object.values(grades);const s=v.reduce((a,b)=>a+b,0);
+    $('simScore').textContent=v.length?('Corregidas '+v.length+'/10 · Nota: '+(s).toLocaleString('es-AR')+' / 10'):'Sin corregir todavía';
+  }
+  function openSim(i){
+    simIdx=i;grades={};secs=0;stopClock();$('simClock').textContent='⏱ 00:00';
+    [...tabs.children].forEach((b,j)=>b.classList.toggle('sel',j===i));
+    const body=$('simBody');body.innerHTML='';
+    SIMS[i].forEach((k,n)=>{
+      const b=get(k);if(!b)return;
+      const c=document.createElement('div');c.className='qcard';
+      c.innerHTML='<div class="simitem"><div class="simnum">'+(n+1)+'</div><div><div class="qmeta">'+NAME[b.u]+'</div><div class="qtext" style="font-size:16.5px">'+b.q+'</div>'+
+        '<div class="row"><button class="btn sa">Ver respuesta</button><span style="flex:1"></span><button class="btn good g" data-v="1">Bien</button><button class="btn mid g" data-v="0.5">Regular</button><button class="btn bad g" data-v="0">Mal</button></div>'+
+        '<div class="qans hidden">'+ansHTML(b)+'</div></div></div>';
+      const ans=c.querySelector('.qans'),sa=c.querySelector('.sa');
+      sa.onclick=()=>{ans.classList.toggle('hidden');sa.textContent=ans.classList.contains('hidden')?'Ver respuesta':'Ocultar respuesta';};
+      c.querySelectorAll('.g').forEach(g=>g.onclick=()=>{c.querySelectorAll('.g').forEach(x=>x.classList.remove('on'));g.classList.add('on');grades[n]=parseFloat(g.dataset.v);score();});
+      body.appendChild(c);
+    });
+    score();
+  }
+  $('simShowAll').onclick=()=>document.querySelectorAll('#simBody .qcard').forEach(c=>{c.querySelector('.qans').classList.remove('hidden');c.querySelector('.sa').textContent='Ocultar respuesta';});
+  openSim(0);
+})();
+</script>
+</body>
+</html>

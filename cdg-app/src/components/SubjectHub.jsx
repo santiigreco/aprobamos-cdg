@@ -1,9 +1,9 @@
 import React from 'react';
-import { BookOpen, Brain, FileText, Globe, Wrench, Package, Cpu, ArrowRight } from 'lucide-react';
+import { BookOpen, Brain, FileText, Globe, Wrench, Package, Cpu, ArrowRight, Zap } from 'lucide-react';
 import AuthorBadge from './AuthorBadge';
 
 const ICON_MAP = {
-  BookOpen, Brain, Globe, Wrench, Package, FileText, Cpu
+  BookOpen, Brain, Globe, Wrench, Package, FileText, Cpu, Zap
 };
 
 export default function SubjectHub({ subject }) {

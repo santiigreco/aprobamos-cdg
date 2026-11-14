@@ -1,8 +1,8 @@
 import React from 'react';
-import { BookOpen, Brain, Globe, Wrench, FlaskConical, Cpu, BarChart3, Package } from 'lucide-react';
+import { BookOpen, Brain, Globe, Wrench, FlaskConical, Cpu, BarChart3, Package, Zap } from 'lucide-react';
 
 const ICON_MAP = {
-  BookOpen, Brain, Globe, Wrench, FlaskConical, Cpu, BarChart3, Package,
+  BookOpen, Brain, Globe, Wrench, FlaskConical, Cpu, BarChart3, Package, Zap,
 };
 
 const CARD_PALETTE = [
@@ -11,6 +11,7 @@ const CARD_PALETTE = [
   { border: 'rgba(139,92,246,0.35)',  bg: 'rgba(139,92,246,0.06)'  },
   { border: 'rgba(16,185,129,0.35)',  bg: 'rgba(16,185,129,0.06)'  },
   { border: 'rgba(239,68,68,0.35)',   bg: 'rgba(239,68,68,0.06)'   },
+  { border: 'rgba(234,179,8,0.35)',   bg: 'rgba(234,179,8,0.06)'   },
 ];
 
 export default function Dashboard({ subjects }) {
