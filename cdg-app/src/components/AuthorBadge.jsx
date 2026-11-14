@@ -40,7 +40,7 @@ const AUTHOR_PRESETS = {
   },
 };
 
-export default function AuthorBadge({ author, style: customStyle = {} }) {
+export default function AuthorBadge({ author, label, style: customStyle = {} }) {
   if (!author) return null;
 
   const key = author.replace(/[\s.]/g, '').toUpperCase();
@@ -78,7 +78,7 @@ export default function AuthorBadge({ author, style: customStyle = {} }) {
           flexShrink: 0,
         }}
       />
-      <span>Por {author}</span>
+      <span>{label ?? `Por ${author}`}</span>
     </span>
   );
 }

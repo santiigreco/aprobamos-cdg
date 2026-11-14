@@ -100,9 +100,9 @@ function App() {
             )}
             <h2 className="title" style={{ fontSize: '1.5rem', marginBottom: 0 }}>
               {currentSubject ? (
-                <>{currentSubject.shortName} — Aprobamos <span className="emoji">🎯</span></>
+                <>{currentSubject.shortName} — Aprobamos UTN <span className="emoji">🎯</span></>
               ) : (
-                <>Aprobamos <span className="emoji">🎯</span></>
+                <>Aprobamos UTN <span className="emoji">🎯</span></>
               )}
             </h2>
           </div>
