@@ -309,6 +309,7 @@
 
     .nav-actions {
       display: flex;
+      flex-wrap: wrap;
       align-items: center;
       gap: 10px;
     }
@@ -1734,6 +1735,8 @@
       display: none;
       border-top: 1px solid var(--border-color);
       background: var(--bg-card-subtle);
+      max-width: 100%;
+      overflow-x: hidden;
     }
 
     .esq-question.is-open > .esq-q-answer {
@@ -1744,6 +1747,14 @@
       padding: 14px 16px;
       border-top: none;
       font-size: 0.9rem;
+      overflow-wrap: anywhere;
+    }
+
+    .esq-q-answer .math-block,
+    .esq-q-answer mjx-container[display="true"] {
+      max-width: 100%;
+      overflow-x: auto;
+      overflow-y: hidden;
     }
 
     .esq-q-answer .faq-body img {
@@ -1771,22 +1782,65 @@
     }
 
     @media (max-width: 768px) {
-      .super-esquema-section { padding: 20px 14px; }
+      .sticky-nav { padding: 10px 12px; }
+      .nav-container { gap: 8px; }
+      .nav-top-row { gap: 8px; }
+      .search-wrapper { min-width: 0; width: 100%; max-width: none; flex: 1 1 100%; }
+      .search-input { padding: 8px 14px 8px 36px; font-size: 0.85rem; }
+      .nav-actions { width: 100%; flex-wrap: wrap; gap: 6px; }
+      .btn-action { padding: 6px 10px; font-size: 0.76rem; flex: 1 1 auto; justify-content: center; white-space: nowrap; }
+      .main-content { padding: 0 10px; margin: 20px auto; }
+
+      .super-esquema-section { padding: 18px 12px; margin-bottom: 28px; }
+      .super-esquema-section::before { left: 16px; right: 16px; }
       .super-esquema-section.is-overlay {
-        top: 8px;
+        top: 56px;
         width: calc(100vw - 14px);
-        height: calc(100vh - 16px);
-        padding: 58px 14px 24px;
+        height: calc(100vh - 64px);
+        height: calc(100dvh - 64px);
+        padding: 14px 12px 24px;
       }
-      .esq-unit-row { padding: 12px; flex-wrap: wrap; }
-      .esq-unit-right { width: 100%; justify-content: flex-end; }
-      .esq-topics-wrap { padding: 8px 10px 12px 14px; }
+      .esq-header { margin-bottom: 12px; padding-bottom: 12px; gap: 8px; }
+      .esq-title-wrap h2 { font-size: 1.2rem; margin-bottom: 0; }
+      .esq-subtitle { display: none; }
+      .esq-header-right { width: 100%; gap: 6px; justify-content: space-between; }
+      .esq-stats-chip, .esq-progress-chip { font-size: 0.72rem; padding: 4px 9px; }
+
+      .esq-toolbar { padding: 10px; gap: 8px; margin-bottom: 12px; }
+      .esq-search-box { flex: 1 1 100%; min-width: 0; }
+      .esq-search-input { font-size: 0.84rem; padding: 8px 32px 8px 34px; }
+      .esq-filters-group,
+      .esq-actions-group {
+        width: 100%;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        scrollbar-width: none;
+        padding-bottom: 2px;
+      }
+      .esq-filters-group::-webkit-scrollbar,
+      .esq-actions-group::-webkit-scrollbar { display: none; }
+      .esq-chip-btn, .esq-btn-sm { white-space: nowrap; flex-shrink: 0; font-size: 0.75rem; padding: 6px 10px; }
+
+      .esq-unit-row { padding: 11px 12px; flex-wrap: wrap; gap: 8px; }
+      .esq-unit-title { font-size: 0.94rem; }
+      .esq-unit-sub { display: none; }
+      .esq-unit-right { width: 100%; justify-content: flex-end; gap: 6px; }
+
+      .esq-topics-wrap { padding: 8px 10px 12px 12px; }
       .esq-topics-list { padding-left: 12px; }
-      .esq-topic-row { flex-wrap: wrap; padding: 10px; }
+      .esq-topic-row { flex-wrap: wrap; padding: 10px; gap: 8px; }
+      .esq-topic-title { font-size: 0.88rem; }
+      .esq-topic-right { width: 100%; justify-content: flex-end; gap: 6px; }
       .esq-topic-body { padding: 8px 10px 12px 10px; }
+      .esq-diag-pill { max-width: 100%; }
+
       .esq-questions-list { padding-left: 10px; }
-      .esq-q-row { flex-wrap: wrap; padding: 8px 10px; }
-      .esq-q-right { width: 100%; justify-content: flex-end; }
+      .esq-q-row { flex-wrap: wrap; padding: 9px 10px; gap: 8px; }
+      .esq-q-title { font-size: 0.85rem; }
+      .esq-q-right { width: 100%; justify-content: flex-end; gap: 8px; }
+      .esq-check-btn { width: 30px; height: 30px; font-size: 0.85rem; }
+      .esq-jump-btn { padding: 5px 10px; font-size: 0.74rem; }
+      .esq-q-answer .faq-body { padding: 12px; font-size: 0.88rem; }
     }
   </style>
 </head>
