@@ -962,6 +962,832 @@
   
     details.faq-card, .topic-card { content-visibility: auto; contain-intrinsic-size: auto 90px; }
     @media print { details.faq-card, .topic-card { content-visibility: visible !important; } }
+
+    /* ============================================================
+       SÚPER ESQUEMA INTERACTIVO (Árbol Unidades -> Temas -> Preguntas)
+       ============================================================ */
+    .btn-action.btn-esquema {
+      background: linear-gradient(135deg, rgba(99, 102, 241, 0.22), rgba(6, 182, 212, 0.18));
+      border-color: rgba(99, 102, 241, 0.55);
+      color: #c7d2fe;
+      box-shadow: 0 2px 12px rgba(99, 102, 241, 0.2);
+    }
+
+    [data-theme="light"] .btn-action.btn-esquema {
+      background: linear-gradient(135deg, rgba(99, 102, 241, 0.12), rgba(6, 182, 212, 0.12));
+      color: #4338ca;
+      border-color: rgba(99, 102, 241, 0.45);
+    }
+
+    .btn-action.btn-esquema:hover {
+      background: linear-gradient(135deg, var(--accent-violet), var(--accent-cyan));
+      color: #ffffff;
+      border-color: transparent;
+      box-shadow: 0 4px 16px rgba(99, 102, 241, 0.4);
+    }
+
+    .unit-pill.unit-pill-esquema {
+      background: rgba(99, 102, 241, 0.14);
+      border-color: rgba(99, 102, 241, 0.4);
+      color: #c7d2fe;
+    }
+
+    [data-theme="light"] .unit-pill.unit-pill-esquema {
+      color: #4338ca;
+      background: rgba(99, 102, 241, 0.08);
+    }
+
+    .esq-overlay-backdrop {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 4990;
+      background: rgba(2, 6, 23, 0.78);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+    }
+
+    .esq-overlay-backdrop.active {
+      display: block;
+    }
+
+    .super-esquema-section {
+      scroll-margin-top: 130px;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      padding: 32px;
+      margin-bottom: 48px;
+      box-shadow: var(--shadow-md);
+      position: relative;
+    }
+
+    .super-esquema-section::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 32px;
+      right: 32px;
+      height: 3px;
+      background: linear-gradient(90deg, var(--accent-cyan), var(--accent-violet), var(--accent-emerald));
+      border-radius: 3px;
+    }
+
+    .super-esquema-section.is-overlay {
+      position: fixed;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: min(1220px, calc(100vw - 28px));
+      height: calc(100vh - 40px);
+      margin: 0;
+      z-index: 5000;
+      overflow-y: auto;
+      padding: 28px 28px 36px;
+      box-shadow: 0 24px 70px rgba(0, 0, 0, 0.75);
+      border-color: rgba(99, 102, 241, 0.55);
+    }
+
+    .super-esquema-section.is-overlay::before {
+      left: 24px;
+      right: 24px;
+    }
+
+    .esq-header {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 16px;
+      margin-bottom: 20px;
+      padding-bottom: 18px;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .esq-title-wrap h2 {
+      font-size: 1.7rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 6px;
+    }
+
+    .esq-subtitle {
+      color: var(--text-muted);
+      font-size: 0.94rem;
+    }
+
+    .esq-header-right {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .esq-stats-chip {
+      background: rgba(6, 182, 212, 0.12);
+      border: 1px solid rgba(6, 182, 212, 0.3);
+      color: var(--accent-cyan);
+      padding: 6px 14px;
+      border-radius: var(--radius-full);
+      font-size: 0.82rem;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .esq-progress-chip {
+      background: rgba(16, 185, 129, 0.12);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      color: #6ee7b7;
+      padding: 6px 14px;
+      border-radius: var(--radius-full);
+      font-size: 0.82rem;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    [data-theme="light"] .esq-progress-chip {
+      color: #047857;
+    }
+
+    .esq-toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 20px;
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 12px 14px;
+    }
+
+    .esq-search-box {
+      position: relative;
+      flex: 1 1 260px;
+      min-width: 220px;
+    }
+
+    .esq-search-box svg {
+      position: absolute;
+      left: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-dim);
+      pointer-events: none;
+    }
+
+    .esq-search-input {
+      width: 100%;
+      background: var(--bg-card-subtle);
+      border: 1px solid var(--border-color);
+      color: var(--text-main);
+      padding: 8px 34px 8px 36px;
+      border-radius: var(--radius-full);
+      font-size: 0.88rem;
+      font-family: inherit;
+      outline: none;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .esq-search-input:focus {
+      border-color: var(--accent-violet);
+      box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+    }
+
+    .esq-search-clear {
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      color: var(--text-dim);
+      cursor: pointer;
+      font-size: 1rem;
+      line-height: 1;
+      display: none;
+      padding: 2px 4px;
+    }
+
+    .esq-search-clear.visible {
+      display: block;
+    }
+
+    .esq-filters-group {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .esq-chip-btn {
+      background: var(--bg-card-subtle);
+      border: 1px solid var(--border-color);
+      color: var(--text-muted);
+      padding: 6px 12px;
+      border-radius: var(--radius-full);
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.18s ease;
+      font-family: inherit;
+    }
+
+    .esq-chip-btn:hover {
+      border-color: var(--border-highlight);
+      color: var(--text-main);
+    }
+
+    .esq-chip-btn.active {
+      background: var(--accent-violet);
+      border-color: var(--accent-violet);
+      color: #ffffff;
+    }
+
+    .esq-actions-group {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .esq-btn-sm {
+      background: var(--bg-card-subtle);
+      border: 1px solid var(--border-color);
+      color: var(--text-main);
+      padding: 6px 11px;
+      border-radius: var(--radius-sm);
+      font-size: 0.79rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.18s ease;
+      font-family: inherit;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .esq-btn-sm:hover {
+      background: var(--bg-card-hover);
+      border-color: var(--border-highlight);
+    }
+
+    .esq-btn-close-modal {
+      display: none;
+      background: rgba(244, 63, 94, 0.15);
+      border: 1px solid rgba(244, 63, 94, 0.4);
+      color: #fda4af;
+    }
+
+    [data-theme="light"] .esq-btn-close-modal {
+      color: #be123c;
+    }
+
+    .super-esquema-section.is-overlay .esq-btn-close-modal {
+      display: inline-flex;
+    }
+
+    .super-esquema-section.is-overlay .esq-btn-open-modal {
+      display: none;
+    }
+
+    .esq-match-status {
+      font-size: 0.83rem;
+      color: var(--text-muted);
+      margin-bottom: 14px;
+      display: none;
+      padding: 8px 12px;
+      border-radius: var(--radius-sm);
+      background: rgba(99, 102, 241, 0.08);
+      border: 1px solid rgba(99, 102, 241, 0.22);
+    }
+
+    .esq-match-status.visible {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+    }
+
+    /* Tree Nodes */
+    .esq-tree {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .esq-unit {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-left: 4px solid var(--unit-accent, var(--accent-violet));
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      transition: border-color 0.2s ease;
+    }
+
+    .esq-unit.is-open {
+      border-color: var(--border-highlight);
+      border-left-color: var(--unit-accent, var(--accent-violet));
+    }
+
+    .esq-unit-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 14px 18px;
+      cursor: pointer;
+      user-select: none;
+      background: var(--bg-card);
+      transition: background 0.18s ease;
+    }
+
+    .esq-unit-row:hover {
+      background: var(--bg-card-hover);
+    }
+
+    .esq-unit-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 0;
+      flex: 1;
+    }
+
+    .esq-caret {
+      width: 24px;
+      height: 24px;
+      border-radius: 6px;
+      background: var(--bg-card-subtle);
+      border: 1px solid var(--border-color);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      flex-shrink: 0;
+      transition: transform 0.2s ease, background 0.2s ease, color 0.2s ease;
+    }
+
+    .is-open > .esq-unit-row .esq-caret,
+    .is-open > .esq-topic-row .esq-caret,
+    .is-open > .esq-q-row .esq-caret {
+      transform: rotate(90deg);
+      background: var(--accent-violet);
+      border-color: var(--accent-violet);
+      color: #ffffff;
+    }
+
+    .esq-unit-code {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.76rem;
+      font-weight: 800;
+      padding: 3px 9px;
+      border-radius: 6px;
+      background: rgba(99, 102, 241, 0.16);
+      color: #c7d2fe;
+      border: 1px solid rgba(99, 102, 241, 0.3);
+      flex-shrink: 0;
+    }
+
+    [data-theme="light"] .esq-unit-code {
+      color: #4338ca;
+      background: rgba(99, 102, 241, 0.1);
+    }
+
+    .esq-unit-titles {
+      min-width: 0;
+      flex: 1;
+    }
+
+    .esq-unit-title {
+      font-weight: 700;
+      font-size: 1.03rem;
+      color: var(--text-main);
+      line-height: 1.35;
+    }
+
+    .esq-unit-sub {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      margin-top: 2px;
+    }
+
+    .esq-unit-right {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+
+    .esq-count-pill {
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 3px 10px;
+      border-radius: var(--radius-full);
+      background: var(--bg-card-subtle);
+      border: 1px solid var(--border-color);
+      color: var(--text-muted);
+      white-space: nowrap;
+    }
+
+    .esq-unit-prog {
+      font-size: 0.72rem;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: var(--radius-full);
+      background: rgba(16, 185, 129, 0.12);
+      border: 1px solid rgba(16, 185, 129, 0.25);
+      color: #6ee7b7;
+      display: none;
+    }
+
+    [data-theme="light"] .esq-unit-prog {
+      color: #047857;
+    }
+
+    .esq-unit-prog.has-done {
+      display: inline-flex;
+    }
+
+    .esq-jump-btn {
+      background: transparent;
+      border: 1px solid var(--border-color);
+      color: var(--accent-cyan);
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.18s ease;
+      font-family: inherit;
+      white-space: nowrap;
+    }
+
+    .esq-jump-btn:hover {
+      background: rgba(6, 182, 212, 0.15);
+      border-color: var(--accent-cyan);
+    }
+
+    /* Topics Branch */
+    .esq-topics-wrap {
+      display: none;
+      padding: 8px 18px 16px 28px;
+      border-top: 1px solid var(--border-color);
+      background: var(--bg-card-subtle);
+    }
+
+    .esq-unit.is-open > .esq-topics-wrap {
+      display: block;
+    }
+
+    .esq-topics-list {
+      list-style: none;
+      border-left: 2px solid var(--border-highlight);
+      padding-left: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .esq-topic {
+      position: relative;
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-sm);
+      overflow: hidden;
+    }
+
+    .esq-topic::before {
+      content: "";
+      position: absolute;
+      left: -18px;
+      top: 20px;
+      width: 16px;
+      height: 2px;
+      background: var(--border-highlight);
+    }
+
+    .esq-topic-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 11px 14px;
+      cursor: pointer;
+      user-select: none;
+      transition: background 0.18s ease;
+    }
+
+    .esq-topic-row:hover {
+      background: var(--bg-card-hover);
+    }
+
+    .esq-topic-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 0;
+      flex: 1;
+    }
+
+    .esq-topic-title {
+      font-weight: 700;
+      font-size: 0.93rem;
+      color: var(--text-main);
+      line-height: 1.35;
+    }
+
+    .esq-topic-right {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+
+    .esq-topic-badge {
+      font-size: 0.72rem;
+      font-weight: 700;
+      padding: 2px 9px;
+      border-radius: var(--radius-full);
+      background: rgba(6, 182, 212, 0.12);
+      color: var(--accent-cyan);
+      border: 1px solid rgba(6, 182, 212, 0.25);
+      white-space: nowrap;
+    }
+
+    /* Topic Expanded Content (Theory quick-toggle + Diagrams + Questions) */
+    .esq-topic-body {
+      display: none;
+      padding: 10px 14px 14px 20px;
+      border-top: 1px solid var(--border-color);
+      background: var(--bg-card-subtle);
+    }
+
+    .esq-topic.is-open > .esq-topic-body {
+      display: block;
+    }
+
+    .esq-topic-extras {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+
+    .esq-theory-toggle {
+      background: rgba(99, 102, 241, 0.12);
+      border: 1px solid rgba(99, 102, 241, 0.3);
+      color: #a5b4fc;
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 0.76rem;
+      font-weight: 700;
+      cursor: pointer;
+      font-family: inherit;
+      transition: all 0.18s ease;
+    }
+
+    [data-theme="light"] .esq-theory-toggle {
+      color: #4338ca;
+    }
+
+    .esq-theory-toggle:hover,
+    .esq-theory-toggle.active {
+      background: var(--accent-violet);
+      color: #ffffff;
+      border-color: var(--accent-violet);
+    }
+
+    .esq-diag-pill {
+      background: rgba(6, 182, 212, 0.1);
+      border: 1px solid rgba(6, 182, 212, 0.28);
+      color: var(--accent-cyan);
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: inherit;
+      transition: all 0.18s ease;
+      max-width: 280px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .esq-diag-pill:hover {
+      background: rgba(6, 182, 212, 0.22);
+    }
+
+    .esq-theory-panel {
+      display: none;
+      margin-bottom: 12px;
+      padding: 12px 14px;
+      background: var(--bg-card);
+      border: 1px solid rgba(99, 102, 241, 0.3);
+      border-radius: var(--radius-sm);
+      font-size: 0.88rem;
+      line-height: 1.65;
+      color: var(--text-main);
+    }
+
+    .esq-theory-panel.visible {
+      display: block;
+    }
+
+    .esq-theory-panel p + p {
+      margin-top: 8px;
+    }
+
+    /* Questions Branch */
+    .esq-questions-list {
+      list-style: none;
+      border-left: 2px dashed var(--border-highlight);
+      padding-left: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .esq-question {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      overflow: hidden;
+      transition: border-color 0.18s ease;
+    }
+
+    .esq-question.is-open {
+      border-color: rgba(99, 102, 241, 0.5);
+    }
+
+    .esq-question.is-studied {
+      border-left: 3px solid var(--accent-emerald);
+    }
+
+    .esq-q-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 9px 12px;
+      cursor: pointer;
+      user-select: none;
+      transition: background 0.16s ease;
+    }
+
+    .esq-q-row:hover {
+      background: var(--bg-card-hover);
+    }
+
+    .esq-q-left {
+      display: flex;
+      align-items: flex-start;
+      gap: 9px;
+      min-width: 0;
+      flex: 1;
+    }
+
+    .esq-q-badge {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem;
+      font-weight: 800;
+      padding: 2px 7px;
+      border-radius: 5px;
+      background: rgba(99, 102, 241, 0.15);
+      color: #a5b4fc;
+      border: 1px solid rgba(99, 102, 241, 0.28);
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    [data-theme="light"] .esq-q-badge {
+      color: #4338ca;
+    }
+
+    .esq-q-text-wrap {
+      min-width: 0;
+      flex: 1;
+    }
+
+    .esq-q-title {
+      font-size: 0.89rem;
+      font-weight: 600;
+      color: var(--text-main);
+      line-height: 1.4;
+    }
+
+    .esq-q-meta {
+      font-size: 0.72rem;
+      color: #fda4af;
+      margin-top: 2px;
+    }
+
+    [data-theme="light"] .esq-q-meta {
+      color: #be123c;
+    }
+
+    .esq-q-right {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-shrink: 0;
+    }
+
+    .esq-check-btn {
+      width: 24px;
+      height: 24px;
+      border-radius: 6px;
+      border: 1px solid var(--border-highlight);
+      background: var(--bg-card-subtle);
+      color: var(--text-dim);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.78rem;
+      font-weight: 800;
+      transition: all 0.16s ease;
+    }
+
+    .esq-check-btn:hover {
+      border-color: var(--accent-emerald);
+      color: var(--accent-emerald);
+    }
+
+    .esq-question.is-studied .esq-check-btn {
+      background: var(--accent-emerald);
+      border-color: var(--accent-emerald);
+      color: #ffffff;
+    }
+
+    .esq-q-answer {
+      display: none;
+      border-top: 1px solid var(--border-color);
+      background: var(--bg-card-subtle);
+    }
+
+    .esq-question.is-open > .esq-q-answer {
+      display: block;
+    }
+
+    .esq-q-answer .faq-body {
+      padding: 14px 16px;
+      border-top: none;
+      font-size: 0.9rem;
+    }
+
+    .esq-q-answer .faq-body img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 8px;
+      cursor: zoom-in;
+    }
+
+    mark.esq-hl {
+      background: rgba(245, 158, 11, 0.32);
+      color: inherit;
+      padding: 0 2px;
+      border-radius: 3px;
+    }
+
+    @keyframes esqTargetFlash {
+      0% { box-shadow: 0 0 0 0 rgba(6, 182, 212, 0.75); border-color: var(--accent-cyan); }
+      70% { box-shadow: 0 0 0 10px rgba(6, 182, 212, 0); border-color: var(--accent-cyan); }
+      100% { box-shadow: none; }
+    }
+
+    .esq-flash-target {
+      animation: esqTargetFlash 1.6s ease-out;
+    }
+
+    @media (max-width: 768px) {
+      .super-esquema-section { padding: 20px 14px; }
+      .super-esquema-section.is-overlay {
+        top: 8px;
+        width: calc(100vw - 14px);
+        height: calc(100vh - 16px);
+        padding: 58px 14px 24px;
+      }
+      .esq-unit-row { padding: 12px; flex-wrap: wrap; }
+      .esq-unit-right { width: 100%; justify-content: flex-end; }
+      .esq-topics-wrap { padding: 8px 10px 12px 14px; }
+      .esq-topics-list { padding-left: 12px; }
+      .esq-topic-row { flex-wrap: wrap; padding: 10px; }
+      .esq-topic-body { padding: 8px 10px 12px 10px; }
+      .esq-questions-list { padding-left: 10px; }
+      .esq-q-row { flex-wrap: wrap; padding: 8px 10px; }
+      .esq-q-right { width: 100%; justify-content: flex-end; }
+    }
   </style>
 </head>
 <body>
@@ -989,12 +1815,14 @@
           <input type="text" id="guideSearch" class="search-input" placeholder="Buscar temas, fórmulas, preguntas (ej: mesh, cavitación, schedule, bitrén)..." oninput="handleSearch()" />
         </div>
         <div class="nav-actions">
+          <button class="btn-action btn-esquema" onclick="toggleEsquemaOverlay()" title="Abrir Súper Esquema interactivo de Unidades, Temas y Preguntas">🌳 Súper Esquema</button>
           <button class="btn-action" onclick="expandAll()"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg> Expandir Todo</button>
           <button class="btn-action" onclick="collapseAll()"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 14h6v6M20 10h-6V4M14 10l7-7M10 14l-7 7"/></svg> Colapsar Todo</button>
           <button class="btn-action" onclick="toggleTheme()"><span id="themeIcon">☀️</span> Modo</button>
         </div>
       </div>
       <div class="unit-pills-bar">
+        <a href="#super-esquema" class="unit-pill unit-pill-esquema" onclick="closeEsquemaOverlay()">🌳 Súper Esquema</a>
         <a href="#U3" class="unit-pill">📦 U3: Manejo de Graneles y Granulometría</a>
         <a href="#U4" class="unit-pill">⚙️ U4: Manejo en Unidades e Intralogística</a>
         <a href="#U5" class="unit-pill">🚰 U5: Manejo y Transporte de Fluidos</a>
@@ -1006,7 +1834,47 @@
     </div>
   </nav>
   
+  <div class="esq-overlay-backdrop" id="esqBackdrop" onclick="closeEsquemaOverlay()"></div>
+
   <main class="main-content">
+
+    <!-- SÚPER ESQUEMA INTERACTIVO -->
+    <div id="esqSpacer" style="display:none"></div>
+    <section class="super-esquema-section" id="super-esquema" aria-label="Súper Esquema Temático">
+      <div class="esq-header">
+        <div class="esq-title-wrap">
+          <h2><span>🌳</span> Súper Esquema Temático</h2>
+          <p class="esq-subtitle">Navegá como un árbol interactivo: abrí cada <strong>Unidad</strong> → desplegá cada <strong>Tema</strong> → consultá la síntesis teórica, diagramas y todas las <strong>Preguntas y Respuestas</strong> adentro.</p>
+        </div>
+        <div class="esq-header-right">
+          <span class="esq-stats-chip" id="esqStatsChip">7 Unidades · 49 Temas · 207 Preguntas</span>
+          <span class="esq-progress-chip" id="esqProgressChip">✓ 0 / 207 repasadas</span>
+          <button class="esq-btn-sm esq-btn-open-modal" onclick="openEsquemaOverlay()" title="Abrir en pantalla flotante">⛶ Vista Flotante</button>
+          <button class="esq-btn-sm esq-btn-close-modal" onclick="closeEsquemaOverlay()" title="Cerrar vista flotante (Esc)">✕ Cerrar</button>
+        </div>
+      </div>
+
+      <div class="esq-toolbar">
+        <div class="esq-search-box">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+          <input type="text" id="esqSearch" class="esq-search-input" placeholder="Filtrar unidades, temas o preguntas (ej: cangilones, schedule, bitrén, rsu)..." oninput="filterEsquema()" />
+          <button type="button" class="esq-search-clear" id="esqSearchClear" onclick="clearEsquemaSearch()" title="Limpiar filtro">&times;</button>
+        </div>
+        <div class="esq-filters-group">
+          <button type="button" class="esq-chip-btn active" data-esq-filter="all" onclick="setEsquemaFilter('all', this)">Todos</button>
+          <button type="button" class="esq-chip-btn" data-esq-filter="final" onclick="setEsquemaFilter('final', this)">🔥 Solo Final / Parcial</button>
+          <button type="button" class="esq-chip-btn" data-esq-filter="pending" onclick="setEsquemaFilter('pending', this)">○ Sin repasar</button>
+        </div>
+        <div class="esq-actions-group">
+          <button type="button" class="esq-btn-sm" onclick="esqExpandUnits()">📂 Abrir Unidades</button>
+          <button type="button" class="esq-btn-sm" onclick="esqExpandAll()">🌳 Abrir Temas y Preguntas</button>
+          <button type="button" class="esq-btn-sm" onclick="esqCollapseAll()">📁 Colapsar Todo</button>
+        </div>
+      </div>
+
+      <div class="esq-match-status" id="esqMatchStatus"></div>
+      <div class="esq-tree" id="esqTree"></div>
+    </section>
 
     <!-- UNIT U3 -->
     <section class="unit-section" id="U3" data-lazy-sec="1" style="min-height:360px"><template class="lazy-sec-tpl">
@@ -7746,7 +8614,7 @@
         <div class="unit-badge-count">15 Preguntas Mapeadas</div>
       </div>
 
-      <div class="topic-card">
+      <div class="topic-card" id="U7-sec-1">
         <div class="topic-header">
           <h3>📌 Módulo de Almacenaje de Alta Densidad y Selectivo</h3>
           <span class="topic-tag">15 Preguntas Críticas</span>
@@ -8207,8 +9075,521 @@
     }
 
     document.addEventListener('keydown', e => {
-      if (e.key === 'Escape') closeLightbox();
+      if (e.key === 'Escape') {
+        const lb = document.getElementById('lightboxModal');
+        if (lb && lb.classList.contains('active')) {
+          closeLightbox();
+        } else {
+          closeEsquemaOverlay();
+        }
+      }
     });
+
+    // ============================================================
+    // SÚPER ESQUEMA INTERACTIVO (Unidades -> Temas -> Preguntas)
+    // ============================================================
+    const ESQ_STORAGE_KEY = 'manmat_2p_esquema_studied_v1';
+    const ESQ_UNIT_COLORS = {
+      U3: '#f59e0b',
+      U4: '#6366f1',
+      U5: '#06b6d4',
+      U6: '#10b981',
+      U11: '#3b82f6',
+      U12: '#8b5cf6',
+      U7: '#f43f5e'
+    };
+
+    let esqData = [];
+    let esqFilterMode = 'all';
+    let esqStudiedSet = new Set();
+
+    try {
+      const savedStudied = JSON.parse(localStorage.getItem(ESQ_STORAGE_KEY) || '[]');
+      if (Array.isArray(savedStudied)) esqStudiedSet = new Set(savedStudied);
+    } catch (_) {}
+
+    function saveEsqStudied() {
+      try {
+        localStorage.setItem(ESQ_STORAGE_KEY, JSON.stringify(Array.from(esqStudiedSet)));
+      } catch (_) {}
+    }
+
+    function normalizeEsqText(str) {
+      return (str || '')
+        .toLowerCase()
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '')
+        .replace(/\s+/g, ' ')
+        .trim();
+    }
+
+    function escapeEsqHtml(str) {
+      return (str || '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;');
+    }
+
+    function highlightEsqText(text, query) {
+      if (!query || !text || text.includes('$')) return escapeEsqHtml(text);
+      const qLower = query.toLowerCase();
+      const idx = text.toLowerCase().indexOf(qLower);
+      if (idx === -1) return escapeEsqHtml(text);
+      const before = text.slice(0, idx);
+      const match = text.slice(idx, idx + query.length);
+      const after = text.slice(idx + query.length);
+      return escapeEsqHtml(before) + '<mark class="esq-hl">' + escapeEsqHtml(match) + '</mark>' + escapeEsqHtml(after);
+    }
+
+    function getUnitRoot(unitId) {
+      const sec = document.getElementById(unitId);
+      if (!sec) return null;
+      const tpl = sec.querySelector(':scope > template.lazy-sec-tpl');
+      return tpl ? tpl.content : sec;
+    }
+
+    function collectEsquemaData() {
+      const sections = document.querySelectorAll('section.unit-section');
+      const units = [];
+
+      sections.forEach(sec => {
+        const unitId = sec.id;
+        const root = getUnitRoot(unitId);
+        if (!root) return;
+
+        const h2 = root.querySelector('.unit-title-group h2');
+        const fullTitle = (h2 ? h2.textContent : unitId).replace(/\s+/g, ' ').trim();
+        const desc = (root.querySelector('.unit-title-group .unit-desc')?.textContent || '').replace(/\s+/g, ' ').trim();
+        const code = unitId === 'U7' ? 'U7.5' : unitId;
+
+        const topics = [];
+        root.querySelectorAll('.topic-card:not(.matrix-card)').forEach((topicEl, tIdx) => {
+          const topicId = topicEl.id || `${unitId}-topic-${tIdx + 1}`;
+          const topicTitle = (topicEl.querySelector('.topic-header h3')?.textContent || `Tema ${tIdx + 1}`).replace(/\s+/g, ' ').trim();
+          const hasTheory = Boolean(topicEl.querySelector('.theory-content'));
+
+          const diagrams = Array.from(topicEl.querySelectorAll('.diagram-item')).map(d => ({
+            src: d.querySelector('img')?.getAttribute('src') || '',
+            caption: (d.querySelector('.diagram-caption')?.textContent || 'Diagrama técnico').replace(/\s+/g, ' ').trim()
+          })).filter(d => d.src);
+
+          const questions = Array.from(topicEl.querySelectorAll('details.faq-card')).map(faq => {
+            const qId = faq.id;
+            const qNum = (faq.querySelector('.q-number-badge')?.textContent || '').trim();
+            const qTitle = (faq.querySelector('.q-title-text')?.textContent || '').replace(/\s*▼\s*$/, '').replace(/\s+/g, ' ').trim();
+            const metaTags = Array.from(faq.querySelectorAll('.q-meta-tags .meta-tag')).map(m => m.textContent.replace(/\s+/g, ' ').trim()).filter(Boolean);
+            const isFinal = metaTags.some(m => /final|parcial/i.test(m));
+            const bodyPreview = (faq.querySelector('.faq-body')?.textContent || '').replace(/\s+/g, ' ').trim();
+
+            return {
+              id: qId,
+              num: qNum,
+              title: qTitle,
+              meta: metaTags.join(' · '),
+              isFinal,
+              searchBlob: normalizeEsqText(`${qNum} ${qTitle} ${metaTags.join(' ')} ${bodyPreview}`)
+            };
+          });
+
+          topics.push({
+            id: topicId,
+            domIndex: tIdx,
+            title: topicTitle,
+            hasTheory,
+            diagrams,
+            questions,
+            searchBlob: normalizeEsqText(`${topicTitle}`),
+            titleBlob: normalizeEsqText(topicTitle)
+          });
+        });
+
+        const totalQ = topics.reduce((acc, t) => acc + t.questions.length, 0);
+        units.push({
+          id: unitId,
+          code,
+          color: ESQ_UNIT_COLORS[unitId] || '#6366f1',
+          title: fullTitle,
+          desc,
+          topics,
+          totalQ,
+          searchBlob: normalizeEsqText(`${code} ${fullTitle} ${desc}`)
+        });
+      });
+
+      return units;
+    }
+
+    function typesetEsqNode(el) {
+      if (!el || !window.MathJax || !MathJax.typesetPromise) return;
+      MathJax.typesetPromise([el]).catch(() => {});
+    }
+
+    function renderEsquemaTree() {
+      const tree = document.getElementById('esqTree');
+      if (!tree) return;
+
+      const rawQuery = (document.getElementById('esqSearch')?.value || '').trim();
+      const normQuery = normalizeEsqText(rawQuery);
+      const clearBtn = document.getElementById('esqSearchClear');
+      if (clearBtn) clearBtn.classList.toggle('visible', rawQuery.length > 0);
+
+      let matchedUnits = 0;
+      let matchedTopics = 0;
+      let matchedQuestions = 0;
+      let totalTopics = 0;
+      let totalQuestions = 0;
+
+      const htmlParts = [];
+
+      esqData.forEach(unit => {
+        totalTopics += unit.topics.length;
+        totalQuestions += unit.totalQ;
+
+        const unitMatches = normQuery ? unit.searchBlob.includes(normQuery) : false;
+        const topicHtmlParts = [];
+        let unitDoneCount = 0;
+        let unitFilteredQCount = 0;
+
+        unit.topics.forEach(topic => {
+          const topicMatches = normQuery ? topic.searchBlob.includes(normQuery) : false;
+          const qHtmlParts = [];
+
+          topic.questions.forEach(q => {
+            const studied = esqStudiedSet.has(q.id);
+            if (studied) unitDoneCount++;
+
+            if (esqFilterMode === 'final' && !q.isFinal) return;
+            if (esqFilterMode === 'pending' && studied) return;
+
+            const qMatches = !normQuery || topicMatches || q.searchBlob.includes(normQuery);
+            if (!qMatches) return;
+
+            matchedQuestions++;
+            unitFilteredQCount++;
+
+            qHtmlParts.push(`
+              <li class="esq-question ${studied ? 'is-studied' : ''}" data-unit-id="${unit.id}" data-q-id="${q.id}">
+                <div class="esq-q-row" onclick="toggleEsqQuestion(this)">
+                  <div class="esq-q-left">
+                    <span class="esq-caret">▶</span>
+                    <span class="esq-q-badge">${escapeEsqHtml(q.num)}</span>
+                    <div class="esq-q-text-wrap">
+                      <div class="esq-q-title">${highlightEsqText(q.title, rawQuery)}</div>
+                      ${q.meta ? `<div class="esq-q-meta">${highlightEsqText(q.meta, rawQuery)}</div>` : ''}
+                    </div>
+                  </div>
+                  <div class="esq-q-right" onclick="event.stopPropagation()">
+                    <button type="button" class="esq-check-btn" onclick="toggleEsqStudied('${q.id}', this)" title="${studied ? 'Desmarcar repasada' : 'Marcar como repasada'}">${studied ? '✓' : '○'}</button>
+                    <button type="button" class="esq-jump-btn" onclick="esqJumpTo('${unit.id}', '${q.id}')" title="Abrir esta pregunta en la guía">Ver ↗</button>
+                  </div>
+                </div>
+                <div class="esq-q-answer" data-loaded="0"></div>
+              </li>
+            `);
+          });
+
+          if (qHtmlParts.length === 0) return;
+          matchedTopics++;
+
+          const diagButtons = topic.diagrams.map((d) =>
+            `<button type="button" class="esq-diag-pill" data-diag-src="${escapeEsqHtml(d.src)}" data-diag-cap="${escapeEsqHtml(d.caption)}" onclick="openEsqDiagram(this)" title="${escapeEsqHtml(d.caption)}">🖼️ ${escapeEsqHtml(d.caption)}</button>`
+          ).join('');
+
+          const openTopicClass = (normQuery || esqFilterMode !== 'all') ? 'is-open' : '';
+
+          topicHtmlParts.push(`
+            <li class="esq-topic ${openTopicClass}" data-unit-id="${unit.id}" data-topic-idx="${topic.domIndex}" data-topic-id="${escapeEsqHtml(topic.id)}">
+              <div class="esq-topic-row" onclick="toggleEsqTopic(this)">
+                <div class="esq-topic-left">
+                  <span class="esq-caret">▶</span>
+                  <div class="esq-topic-title">${highlightEsqText(topic.title, rawQuery)}</div>
+                </div>
+                <div class="esq-topic-right" onclick="event.stopPropagation()">
+                  <span class="esq-topic-badge">${qHtmlParts.length} ${qHtmlParts.length === 1 ? 'pregunta' : 'preguntas'}</span>
+                  ${topic.diagrams.length ? `<span class="esq-topic-badge">🖼️ ${topic.diagrams.length}</span>` : ''}
+                  <button type="button" class="esq-jump-btn" onclick="esqJumpTo('${unit.id}', '${escapeEsqHtml(topic.id)}')" title="Ir a este tema en la guía">Ir ↗</button>
+                </div>
+              </div>
+              <div class="esq-topic-body">
+                ${(topic.hasTheory || topic.diagrams.length) ? `
+                  <div class="esq-topic-extras">
+                    ${topic.hasTheory ? `<button type="button" class="esq-theory-toggle" onclick="toggleEsqTopicTheory(this)">📖 Ver síntesis teórica</button>` : ''}
+                    ${diagButtons}
+                  </div>
+                  ${topic.hasTheory ? `<div class="esq-theory-panel" data-loaded="0"></div>` : ''}
+                ` : ''}
+                <ul class="esq-questions-list">
+                  ${qHtmlParts.join('')}
+                </ul>
+              </div>
+            </li>
+          `);
+        });
+
+        if (topicHtmlParts.length === 0) return;
+        matchedUnits++;
+
+        const openUnitClass = (normQuery || esqFilterMode !== 'all') ? 'is-open' : '';
+
+        htmlParts.push(`
+          <div class="esq-unit ${openUnitClass}" style="--unit-accent:${unit.color}" data-unit-id="${unit.id}">
+            <div class="esq-unit-row" onclick="toggleEsqUnit(this)">
+              <div class="esq-unit-left">
+                <span class="esq-caret">▶</span>
+                <span class="esq-unit-code">${escapeEsqHtml(unit.code)}</span>
+                <div class="esq-unit-titles">
+                  <div class="esq-unit-title">${highlightEsqText(unit.title, rawQuery)}</div>
+                  ${unit.desc ? `<div class="esq-unit-sub">${highlightEsqText(unit.desc, rawQuery)}</div>` : ''}
+                </div>
+              </div>
+              <div class="esq-unit-right" onclick="event.stopPropagation()">
+                <span class="esq-unit-prog ${unitDoneCount > 0 ? 'has-done' : ''}" data-unit-prog="${unit.id}">✓ ${unitDoneCount}/${unit.totalQ}</span>
+                <span class="esq-count-pill">${topicHtmlParts.length} ${topicHtmlParts.length === 1 ? 'tema' : 'temas'} · ${unitFilteredQCount} preg.</span>
+                <button type="button" class="esq-jump-btn" onclick="esqJumpTo('${unit.id}', '${unit.id}')" title="Ir a la unidad en la guía">Ir ↗</button>
+              </div>
+            </div>
+            <div class="esq-topics-wrap">
+              <ul class="esq-topics-list">
+                ${topicHtmlParts.join('')}
+              </ul>
+            </div>
+          </div>
+        `);
+      });
+
+      if (htmlParts.length === 0) {
+        tree.innerHTML = `<div style="text-align:center; padding: 32px 16px; color: var(--text-muted); background: var(--bg-card); border: 1px dashed var(--border-highlight); border-radius: var(--radius-md);">No se encontraron temas ni preguntas con ese criterio. Probá limpiar el filtro.</div>`;
+      } else {
+        tree.innerHTML = htmlParts.join('');
+      }
+
+      const statsChip = document.getElementById('esqStatsChip');
+      if (statsChip) {
+        statsChip.textContent = `${esqData.length} Unidades · ${totalTopics} Temas · ${totalQuestions} Preguntas`;
+      }
+      updateEsqGlobalProgress();
+
+      const statusEl = document.getElementById('esqMatchStatus');
+      if (statusEl) {
+        if (normQuery || esqFilterMode !== 'all') {
+          statusEl.innerHTML = `<span>Mostrando <strong>${matchedQuestions}</strong> preguntas en <strong>${matchedTopics}</strong> temas (${matchedUnits} unidades)</span><button type="button" class="esq-btn-sm" onclick="resetEsquemaFilters()">Limpiar filtros</button>`;
+          statusEl.classList.add('visible');
+        } else {
+          statusEl.classList.remove('visible');
+        }
+      }
+
+      if (normQuery || esqFilterMode !== 'all') {
+        typesetEsqNode(tree);
+      }
+    }
+
+    function updateEsqGlobalProgress() {
+      const total = esqData.reduce((acc, u) => acc + u.totalQ, 0);
+      const chip = document.getElementById('esqProgressChip');
+      if (chip) chip.textContent = `✓ ${esqStudiedSet.size} / ${total} repasadas`;
+
+      esqData.forEach(u => {
+        const el = document.querySelector(`[data-unit-prog="${u.id}"]`);
+        if (!el) return;
+        const done = u.topics.reduce((acc, t) => acc + t.questions.filter(q => esqStudiedSet.has(q.id)).length, 0);
+        el.textContent = `✓ ${done}/${u.totalQ}`;
+        el.classList.toggle('has-done', done > 0);
+      });
+    }
+
+    function toggleEsqUnit(rowEl) {
+      const unitEl = rowEl.closest('.esq-unit');
+      if (!unitEl) return;
+      unitEl.classList.toggle('is-open');
+    }
+
+    function toggleEsqTopic(rowEl) {
+      const topicEl = rowEl.closest('.esq-topic');
+      if (!topicEl) return;
+      const willOpen = !topicEl.classList.contains('is-open');
+      topicEl.classList.toggle('is-open', willOpen);
+      if (willOpen) typesetEsqNode(topicEl);
+    }
+
+    function openEsqDiagram(btn) {
+      const src = btn.getAttribute('data-diag-src');
+      const cap = btn.getAttribute('data-diag-cap') || 'Diagrama técnico';
+      if (src) openLightbox(src, cap);
+    }
+
+    function toggleEsqTopicTheory(btn) {
+      const topicEl = btn.closest('.esq-topic');
+      if (!topicEl) return;
+      const panel = topicEl.querySelector('.esq-theory-panel');
+      if (!panel) return;
+
+      if (panel.dataset.loaded === '0') {
+        const unitId = topicEl.dataset.unitId;
+        const topicIdx = parseInt(topicEl.dataset.topicIdx, 10);
+        const root = getUnitRoot(unitId);
+        const topicCard = root ? root.querySelectorAll('.topic-card:not(.matrix-card)')[topicIdx] : null;
+        const theoryContent = topicCard ? topicCard.querySelector('.theory-content') : null;
+        if (theoryContent) {
+          panel.innerHTML = theoryContent.innerHTML;
+          panel.dataset.loaded = '1';
+        }
+      }
+
+      const willShow = !panel.classList.contains('visible');
+      panel.classList.toggle('visible', willShow);
+      btn.classList.toggle('active', willShow);
+      btn.textContent = willShow ? '📖 Ocultar síntesis teórica' : '📖 Ver síntesis teórica';
+      if (willShow) typesetEsqNode(panel);
+    }
+
+    function toggleEsqQuestion(rowEl) {
+      const qEl = rowEl.closest('.esq-question');
+      if (!qEl) return;
+      const ansEl = qEl.querySelector('.esq-q-answer');
+      if (!ansEl) return;
+
+      if (ansEl.dataset.loaded === '0') {
+        const unitId = qEl.dataset.unitId;
+        const qId = qEl.dataset.qId;
+        const root = getUnitRoot(unitId);
+        const faqEl = root ? root.querySelector('#' + CSS.escape(qId)) : null;
+        const bodyEl = faqEl ? faqEl.querySelector('.faq-body') : null;
+        if (bodyEl) {
+          const clone = bodyEl.cloneNode(true);
+          clone.removeAttribute('data-mj-done');
+          clone.removeAttribute('data-mj-obs');
+          clone.querySelectorAll('[data-mj-done],[data-mj-obs]').forEach(n => {
+            n.removeAttribute('data-mj-done');
+            n.removeAttribute('data-mj-obs');
+          });
+          clone.querySelectorAll('img').forEach(img => {
+            img.addEventListener('click', () => openLightbox(img.getAttribute('src'), img.getAttribute('alt') || 'Diagrama'));
+          });
+          ansEl.innerHTML = '';
+          ansEl.appendChild(clone);
+          ansEl.dataset.loaded = '1';
+        }
+      }
+
+      const willOpen = !qEl.classList.contains('is-open');
+      qEl.classList.toggle('is-open', willOpen);
+      if (willOpen) typesetEsqNode(ansEl);
+    }
+
+    function toggleEsqStudied(qId, btn) {
+      const qEl = btn.closest('.esq-question');
+      if (esqStudiedSet.has(qId)) {
+        esqStudiedSet.delete(qId);
+        btn.textContent = '○';
+        btn.title = 'Marcar como repasada';
+        if (qEl) qEl.classList.remove('is-studied');
+      } else {
+        esqStudiedSet.add(qId);
+        btn.textContent = '✓';
+        btn.title = 'Desmarcar repasada';
+        if (qEl) qEl.classList.add('is-studied');
+      }
+      saveEsqStudied();
+      updateEsqGlobalProgress();
+    }
+
+    function filterEsquema() {
+      renderEsquemaTree();
+    }
+
+    function clearEsquemaSearch() {
+      const input = document.getElementById('esqSearch');
+      if (input) input.value = '';
+      renderEsquemaTree();
+    }
+
+    function setEsquemaFilter(mode, btn) {
+      esqFilterMode = mode;
+      document.querySelectorAll('[data-esq-filter]').forEach(b => b.classList.toggle('active', b === btn));
+      renderEsquemaTree();
+    }
+
+    function resetEsquemaFilters() {
+      const input = document.getElementById('esqSearch');
+      if (input) input.value = '';
+      esqFilterMode = 'all';
+      document.querySelectorAll('[data-esq-filter]').forEach(b => b.classList.toggle('active', b.dataset.esqFilter === 'all'));
+      renderEsquemaTree();
+    }
+
+    function esqExpandUnits() {
+      document.querySelectorAll('#esqTree .esq-unit').forEach(u => u.classList.add('is-open'));
+    }
+
+    function esqExpandAll() {
+      document.querySelectorAll('#esqTree .esq-unit').forEach(u => u.classList.add('is-open'));
+      document.querySelectorAll('#esqTree .esq-topic').forEach(t => t.classList.add('is-open'));
+      typesetEsqNode(document.getElementById('esqTree'));
+    }
+
+    function esqCollapseAll() {
+      document.querySelectorAll('#esqTree .esq-unit, #esqTree .esq-topic, #esqTree .esq-question').forEach(el => el.classList.remove('is-open'));
+    }
+
+    function openEsquemaOverlay() {
+      const sec = document.getElementById('super-esquema');
+      const spacer = document.getElementById('esqSpacer');
+      const backdrop = document.getElementById('esqBackdrop');
+      if (!sec || sec.classList.contains('is-overlay')) return;
+      const cs = getComputedStyle(sec);
+      if (spacer) {
+        spacer.style.height = (sec.offsetHeight + parseFloat(cs.marginBottom || 0)) + 'px';
+        spacer.style.display = 'block';
+      }
+      sec.classList.add('is-overlay');
+      if (backdrop) backdrop.classList.add('active');
+      document.body.style.overflow = 'hidden';
+      sec.scrollTop = 0;
+    }
+
+    function closeEsquemaOverlay() {
+      const sec = document.getElementById('super-esquema');
+      const spacer = document.getElementById('esqSpacer');
+      const backdrop = document.getElementById('esqBackdrop');
+      if (!sec || !sec.classList.contains('is-overlay')) return;
+      sec.classList.remove('is-overlay');
+      if (backdrop) backdrop.classList.remove('active');
+      if (spacer) spacer.style.display = 'none';
+      document.body.style.overflow = '';
+    }
+
+    function toggleEsquemaOverlay() {
+      const sec = document.getElementById('super-esquema');
+      if (sec && sec.classList.contains('is-overlay')) {
+        closeEsquemaOverlay();
+      } else {
+        openEsquemaOverlay();
+      }
+    }
+
+    function esqJumpTo(unitId, targetId) {
+      closeEsquemaOverlay();
+      const unitSec = document.getElementById(unitId);
+      if (unitSec) mountUnitSection(unitSec);
+      const target = document.getElementById(targetId || unitId) || unitSec;
+      if (!target) return;
+      if (target.tagName === 'DETAILS') {
+        target.setAttribute('open', '');
+      }
+      const navH = document.querySelector('.sticky-nav')?.offsetHeight || 110;
+      const y = target.getBoundingClientRect().top + window.scrollY - navH - 16;
+      window.scrollTo({ top: Math.max(0, y), behavior: 'smooth' });
+      target.classList.remove('esq-flash-target');
+      void target.offsetWidth;
+      target.classList.add('esq-flash-target');
+      setTimeout(() => target.classList.remove('esq-flash-target'), 1700);
+    }
+
+    // Initialize Súper Esquema immediately
+    esqData = collectEsquemaData();
+    renderEsquemaTree();
 
     // Back to top button
     window.addEventListener('scroll', () => {
